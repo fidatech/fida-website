@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 
 class Lead extends Model
@@ -20,5 +21,19 @@ class Lead extends Model
         'utm_medium',
         'utm_campaign',
         'status',
+        'assigned_to',
+        'contacted_at',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'contacted_at' => 'datetime',
+        ];
+    }
+
+    public function assignee(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'assigned_to');
+    }
 }

@@ -11,6 +11,7 @@ Official multilingual website and lead-generation platform for [Fida Technologie
 - Search metadata, canonical URLs, hreflang, XML sitemap and Organization schema
 - Lead capture with campaign attribution and spam protection
 - Automated PHP tests and frontend build verification
+- Separate authenticated website console for content, leads and team access
 
 ## Local setup
 
@@ -24,6 +25,18 @@ npm install
 npm run build
 php artisan serve
 ```
+
+Create the first administrator interactively (no default credentials are seeded):
+
+```bash
+php artisan website:make-admin
+```
+
+The secure console is available at `/admin`. Available roles are:
+
+- `super_admin`: all console areas, including team access
+- `editor`: multilingual content and search metadata
+- `sales`: customer leads and opportunity pipeline
 
 Run the verification suite:
 

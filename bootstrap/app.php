@@ -1,5 +1,8 @@
 <?php
 
+use App\Console\Commands\CreateAdminUser;
+use App\Http\Middleware\EnsureAdminAccess;
+use App\Http\Middleware\EnsureCapability;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -12,8 +15,16 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
+    ->withCommands([
+        CreateAdminUser::class,
+    ])
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->redirectGuestsTo(fn (Request $request) => route('admin.login'));
+        $middleware->redirectUsersTo(fn (Request $request) => route('admin.dashboard'));
+
         $middleware->alias([
+            'admin' => EnsureAdminAccess::class,
+            'capability' => EnsureCapability::class,
             'locale' => SetLocale::class,
         ]);
     })

@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\ContentPageController as AdminContentPageController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\LeadController as AdminLeadController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\MarketingPageController;
@@ -15,6 +20,33 @@ Route::get('/robots.txt', RobotsController::class)->name('robots');
 Route::post('/contact/lead', LeadController::class)
     ->middleware('throttle:5,1')
     ->name('leads.store');
+
+Route::prefix('admin')->name('admin.')->group(function (): void {
+    Route::middleware('guest')->group(function (): void {
+        Route::get('/login', [AdminAuthController::class, 'create'])->name('login');
+        Route::post('/login', [AdminAuthController::class, 'store'])
+            ->middleware('throttle:5,1')
+            ->name('login.store');
+    });
+
+    Route::middleware(['auth', 'admin'])->group(function (): void {
+        Route::get('/', AdminDashboardController::class)->name('dashboard');
+        Route::post('/logout', [AdminAuthController::class, 'destroy'])->name('logout');
+
+        Route::resource('content-pages', AdminContentPageController::class)
+            ->except('show')
+            ->parameters(['content-pages' => 'contentPage'])
+            ->middleware('capability:content.manage');
+
+        Route::resource('leads', AdminLeadController::class)
+            ->only(['index', 'show', 'update'])
+            ->middleware('capability:leads.manage');
+
+        Route::resource('users', AdminUserController::class)
+            ->except(['show', 'destroy'])
+            ->middleware('capability:users.manage');
+    });
+});
 
 Route::prefix('{locale}')
     ->where(['locale' => implode('|', array_keys(config('website.locales')))])

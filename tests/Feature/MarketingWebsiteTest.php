@@ -11,6 +11,13 @@ class MarketingWebsiteTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->withoutVite();
+    }
+
     public function test_homepage_targets_the_primary_software_company_keyword(): void
     {
         $this->get('/')

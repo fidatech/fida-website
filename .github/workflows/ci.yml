@@ -46,14 +46,5 @@ jobs:
 
       - name: Build frontend assets
         run: |
-          npm install --ignore-scripts
+          npm ci --ignore-scripts
           npm run build
-
-      - name: Export dependency lockfiles
-        uses: actions/upload-artifact@v4
-        with:
-          name: dependency-lockfiles
-          path: |
-            composer.lock
-            package-lock.json
-          if-no-files-found: error

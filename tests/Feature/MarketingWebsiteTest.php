@@ -39,9 +39,11 @@ class MarketingWebsiteTest extends TestCase
     {
         $this->seed(WebsiteSeeder::class);
 
+        $canonical = url('/erp-systems-afghanistan');
+
         $this->get('/erp-systems-afghanistan')
             ->assertOk()
-            ->assertSee('<link rel="canonical" href="http://localhost/erp-systems-afghanistan">', false)
+            ->assertSee('<link rel="canonical" href="'.$canonical.'">', false)
             ->assertSee('<h1>ERP Systems in Afghanistan</h1>', false);
     }
 

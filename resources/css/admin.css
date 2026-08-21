@@ -258,3 +258,80 @@ svg { display: block; fill: none; stroke: currentColor; stroke-linecap: round; s
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+/* Readability refinement */
+.console-brand small { font-size: 9px; }
+.console-nav > small { font-size: 10px; }
+.console-nav a { font-size: 14px; }
+.nav-count { font-size: 10px; }
+.console-sidebar-foot small { font-size: 9px; }
+.system-live { font-size: 11px; }
+.console-heading small { font-size: 9px; }
+.console-heading strong { font-size: 16px; }
+.visit-site { font-size: 12px; }
+.profile-menu > button b { font-size: 12px; }
+.profile-dropdown small { font-size: 10px; }
+.profile-dropdown button { font-size: 13px; }
+.flash { font-size: 13px; }
+.section-code { font-size: 10px; }
+.console-button { font-size: 12px; }
+.console-button span { font-size: 11px; }
+.status { font-size: 10px; }
+.status-large { font-size: 11px; }
+.dashboard-intro p, .page-heading p, .editor-heading p { font-size: 14px; }
+.dashboard-date { font-size: 10px; }
+.metric-card small { font-size: 10px; }
+.metric-card p { font-size: 11px; }
+.console-card > header small { font-size: 9px; }
+.console-card > header > a { font-size: 11px; }
+.lead-avatar { font-size: 12px; }
+.activity-list strong, .lead-cell strong, .contact-cell strong { font-size: 12px; }
+.activity-list small, .lead-cell small, .contact-cell small { font-size: 10px; }
+.activity-list time { font-size: 10px; }
+.quick-grid strong { font-size: 12px; }
+.quick-grid small { font-size: 10px; }
+.empty-state strong { font-size: 13px; }
+.empty-state p { font-size: 11px; }
+.heading-stat small { font-size: 9px; }
+.filter-bar select, .filter-bar input { font-size: 12px; }
+.console-table th { font-size: 9px; }
+.console-table td { font-size: 11px; }
+.table-title strong { font-size: 12px; }
+.table-title small { font-size: 10px; }
+.type-label { font-size: 10px; }
+.language-pills i { font-size: 9px; }
+.permission-copy { font-size: 11px; }
+.console-pagination { font-size: 10px; }
+.console-pagination b { font-size: 9px; }
+.editor-heading a { font-size: 10px; }
+.language-tabs button { font-size: 11px; }
+.language-tabs button b { font-size: 9px; }
+.language-tabs button i { font-size: 8px; }
+.form-section-head > span { font-size: 10px; }
+.form-section-head p { font-size: 11px; }
+.console-form label > span:first-child { font-size: 11px; }
+.console-form label > span:first-child b { font-size: 8px; }
+.console-form input, .console-form select, .console-form textarea { font-size: 13px; }
+.console-form label > small { font-size: 10px; }
+.code-editor { font-size: 12px !important; }
+.seo-box p { font-size: 10px; }
+.checkbox-row > span { font-size: 11px !important; }
+.slug-field b { font-size: 11px; }
+.error-list strong { font-size: 12px; }
+.error-list ul { font-size: 10px; }
+.lead-message > header > span { font-size: 10px; }
+.lead-facts small { font-size: 9px; }
+.lead-facts strong { font-size: 11px; }
+.contact-card small { font-size: 9px; }
+.contact-card strong { font-size: 11px; }
+.source-card dl { font-size: 10px; }
+.role-options b { font-size: 11px; }
+.role-options small { font-size: 10px; }
+.role-options i { font-size: 9px; }
+.account-toggle b { font-size: 11px; }
+.account-toggle small { font-size: 10px; }
+.login-signal, .login-copy > small, .form-index { font-size: 9px; }
+.login-copy p { font-size: 14px; }
+.login-form-wrap > p { font-size: 12px; }
+.password-field button { font-size: 11px; }
+.login-panel footer { font-size: 9px; }

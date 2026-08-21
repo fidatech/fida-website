@@ -356,3 +356,58 @@ svg { display: block; }
 
 :focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
 @supports not (backdrop-filter: blur(10px)) { .header-shell, .float-panel, .cube-face { background: #111319; } }
+
+/* Readability refinement */
+.brand-copy small { font-size: 10px; }
+.desktop-nav a { font-size: 13px; }
+.desktop-nav a span { font-size: 9px; }
+.language-button b { font-size: 11px; }
+.language-menu a span { font-size: 10px; }
+.button-small { font-size: 12px; }
+.system-pill { font-size: 11px; }
+.system-pill b { font-size: 9px; }
+.hero-proof p { font-size: 13px; line-height: 1.65; }
+.panel-label { font-size: 9px; }
+.panel-command small { font-size: 8px; }
+.panel-command strong { font-size: 11px; }
+.metric-deck p { font-size: 11px; }
+.metric-stack div b { font-size: 9px; }
+.ticker-track span { font-size: 12px; }
+.micro-label { font-size: 10px; }
+.micro-label span { font-size: 9px; }
+.heading-aside > span { font-size: 10px; }
+.heading-aside p { font-size: 15px; }
+.solution-top { font-size: 10px; }
+.solution-copy p { font-size: 15px; }
+.text-link { font-size: 12px; }
+.product-meta { font-size: 10px; }
+.product-copy p { font-size: 15px; }
+.product-copy a { font-size: 12px; }
+.industry-counter small { font-size: 9px; }
+.industry-item > span { font-size: 10px; }
+.process-step > span { font-size: 12px; }
+.process-step p { font-size: 15px; }
+.contact-copy > p { font-size: 15px; }
+.contact-direct a span { font-size: 9px; }
+.form-console b { font-size: 10px; }
+.form-console small { font-size: 8px; }
+.form-grid label > span { font-size: 11px; }
+.form-grid input, .form-grid select, .form-grid textarea { font-size: 16px; }
+.form-success, .form-errors { font-size: 13px; }
+.back-link { font-size: 10px; }
+.prose { font-size: 17px; }
+.page-cta > span { font-size: 10px; }
+.page-cta p { font-size: 15px; }
+.footer-brand p { font-size: 15px; }
+.footer-status small { font-size: 9px; }
+.footer-status strong { font-size: 13px; }
+.footer-heading { font-size: 9px; }
+.footer-grid a, .footer-grid div > span:not(.footer-heading) { font-size: 14px; }
+.footer-bottom { font-size: 9px; }
+.mobile-nav a span { font-size: 10px; }
+
+@media (max-width: 560px) {
+    .system-pill { font-size: 10px; }
+    .system-pill b { font-size: 8px; }
+    .metric-stack div b { font-size: 9px; }
+}

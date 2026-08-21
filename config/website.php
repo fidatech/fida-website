@@ -19,9 +19,9 @@ return [
     ],
     'default_locale' => 'en',
     'stats' => [
-        ['value' => '70+', 'label' => 'business clients'],
-        ['value' => '10+', 'label' => 'years of experience'],
-        ['value' => '3', 'label' => 'working languages'],
+        ['value' => '70+', 'key' => 'clients'],
+        ['value' => '10+', 'key' => 'experience'],
+        ['value' => '3', 'key' => 'languages'],
     ],
     'featured_solutions' => [
         [

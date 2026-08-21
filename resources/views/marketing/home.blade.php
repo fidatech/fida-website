@@ -1,86 +1,99 @@
 @extends('layouts.marketing')
 
 @section('content')
-<section class="hero">
-    <div class="hero-glow hero-glow-one"></div>
-    <div class="hero-glow hero-glow-two"></div>
-    <div class="container hero-grid">
+<section class="hero" data-hero>
+    <div class="hero-grid-lines" aria-hidden="true"></div>
+    <div class="hero-index" aria-hidden="true">F / 27</div>
+    <div class="container hero-layout">
         <div class="hero-copy reveal">
-            <div class="eyebrow"><span></span>{{ __('website.hero.eyebrow') }}</div>
+            <div class="system-pill"><span class="system-pulse"></span>{{ __('website.hero.eyebrow') }}<b>2027 READY</b></div>
             <h1>{{ __('website.hero.title_before') }} <em>{{ __('website.hero.title_emphasis') }}</em></h1>
             <p class="hero-description">{{ __('website.hero.description') }}</p>
             <div class="hero-actions">
-                <a class="button button-primary" href="#contact">{{ __('website.hero.primary_cta') }} <span aria-hidden="true">↗</span></a>
-                <a class="button button-ghost" href="#solutions">{{ __('website.hero.secondary_cta') }}</a>
+                <a class="button button-lime button-large" href="#contact">{{ __('website.hero.primary_cta') }}<span class="button-arrow">↗</span></a>
+                <a class="button button-wire button-large" href="#solutions"><span class="play-mark">▶</span>{{ __('website.hero.secondary_cta') }}</a>
             </div>
-            <div class="hero-trust">
-                <div class="trust-avatars" aria-hidden="true"><span>FT</span><span>ERP</span><span>AF</span></div>
+            <div class="hero-proof">
+                <div class="proof-stack" aria-hidden="true"><span>ERP</span><span>AF</span><span>AI</span></div>
                 <p>{{ __('website.hero.trust') }}</p>
+                <svg viewBox="0 0 42 12" aria-hidden="true"><path d="M1 10 8 5l7 3 8-7 8 4 10-4"/></svg>
             </div>
         </div>
 
-        <div class="hero-visual reveal" aria-label="Business software dashboard preview">
-            <div class="visual-orbit orbit-one"></div>
-            <div class="visual-orbit orbit-two"></div>
-            <div class="dashboard-shell">
-                <div class="dashboard-topbar">
-                    <div class="window-dots"><i></i><i></i><i></i></div>
-                    <span>{{ __('website.hero.dashboard_label') }}</span>
-                    <div class="dashboard-avatar">FT</div>
+        <div class="core-stage reveal" data-core-stage aria-label="Fida business technology core">
+            <div class="stage-readout stage-readout-top"><span>FIDA CORE</span><b>ONLINE</b></div>
+            <div class="core-scene" data-core-scene>
+                <div class="scene-shadow"></div>
+                <div class="scene-ring scene-ring-outer"></div>
+                <div class="scene-ring scene-ring-inner"></div>
+                <div class="orbit orbit-one"><span class="orbit-node node-erp">ERP</span><span class="orbit-node node-ai">AI</span></div>
+                <div class="orbit orbit-two"><span class="orbit-node node-data">DATA</span><span class="orbit-node node-cloud">CLOUD</span></div>
+
+                <div class="core-cube" aria-hidden="true">
+                    <div class="cube-face cube-front"><span>F</span><small>BUSINESS OS</small></div>
+                    <div class="cube-face cube-back"><span>27</span></div>
+                    <div class="cube-face cube-right"><i></i><i></i><i></i></div>
+                    <div class="cube-face cube-left"><b>01</b><b>10</b><b>11</b></div>
+                    <div class="cube-face cube-top"></div>
+                    <div class="cube-face cube-bottom"></div>
                 </div>
-                <div class="dashboard-body">
-                    <aside class="dashboard-sidebar" aria-hidden="true">
-                        <span class="active"></span><span></span><span></span><span></span><span></span>
-                    </aside>
-                    <div class="dashboard-content">
-                        <div class="metric-row">
-                            <article><span>{{ __('website.hero.revenue') }}</span><strong>$284K</strong><small>+18.4%</small></article>
-                            <article><span>{{ __('website.hero.operations') }}</span><strong>1,248</strong><small>{{ __('website.hero.active') }}</small></article>
-                        </div>
-                        <div class="chart-card">
-                            <div class="chart-heading"><span>{{ __('website.hero.growth') }}</span><strong>+24.8%</strong></div>
-                            <svg viewBox="0 0 430 170" preserveAspectRatio="none" role="img" aria-label="Growth trend">
-                                <defs><linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6f6bff" stop-opacity=".48"/><stop offset="1" stop-color="#6f6bff" stop-opacity="0"/></linearGradient></defs>
-                                <path class="chart-area" d="M0 148 C48 132 58 112 101 122 S170 95 211 104 S285 45 326 66 S378 26 430 16 L430 170 L0 170 Z"/>
-                                <path class="chart-line" d="M0 148 C48 132 58 112 101 122 S170 95 211 104 S285 45 326 66 S378 26 430 16"/>
-                            </svg>
-                        </div>
-                        <div class="activity-row"><span></span><span></span><span></span></div>
-                    </div>
+
+                <div class="float-panel panel-signal">
+                    <div class="panel-label"><span></span>LIVE SIGNAL</div>
+                    <div class="signal-value">99.9<small>%</small></div>
+                    <svg viewBox="0 0 124 34" preserveAspectRatio="none" aria-hidden="true"><path d="M1 27 14 21l12 4 13-16 13 10 13-6 13 9 13-17 13 7 19-9"/></svg>
                 </div>
+                <div class="float-panel panel-modules">
+                    <div class="panel-label">CONNECTED MODULES</div>
+                    <div class="module-row"><i></i><i></i><i></i><i></i><i></i></div>
+                    <strong>18 <small>ACTIVE</small></strong>
+                </div>
+                <div class="float-panel panel-command"><span>⌁</span><div><small>SMART COMMAND</small><strong>Ask your business.</strong></div></div>
             </div>
-            <div class="floating-card secure-card"><i>✓</i><span>{{ __('website.hero.secure') }}</span></div>
-            <div class="floating-card growth-card"><strong>+32%</strong><span>{{ __('website.hero.growth') }}</span></div>
+            <div class="stage-readout stage-readout-bottom"><span>KBL · 34.55°N</span><span>LATENCY 24MS</span></div>
         </div>
     </div>
 
-    <div class="container stat-strip">
+    <div class="container metric-deck reveal">
         @foreach(config('website.stats') as $stat)
-            <div><strong>{{ $stat['value'] }}</strong><span>{{ $stat['label'] }}</span></div>
+            <article><span>0{{ $loop->iteration }}</span><strong>{{ $stat['value'] }}</strong><p>{{ __("website.stats.{$stat['key']}") }}</p></article>
         @endforeach
-        <div class="stat-technologies"><span>Laravel</span><span>Flutter</span><span>MySQL</span><span>Cloud</span></div>
+        <article class="metric-stack"><span>04</span><div><b>LARAVEL</b><b>FLUTTER</b><b>MYSQL</b><b>CLOUD</b></div><p>ENGINEERED STACK</p></article>
+    </div>
+</section>
+
+<section class="ticker" aria-label="Fida capabilities">
+    <div class="ticker-track">
+        @for($i = 0; $i < 2; $i++)
+            <span>ERP SYSTEMS <b>✦</b> FINTECH <b>✦</b> MOBILE APPS <b>✦</b> AI WORKFLOWS <b>✦</b> CLOUD PLATFORMS <b>✦</b> DATA INTELLIGENCE <b>✦</b></span>
+        @endfor
     </div>
 </section>
 
 <section class="section solutions-section" id="solutions">
     <div class="container">
-        <div class="section-heading split-heading reveal">
-            <div><div class="eyebrow"><span></span>{{ __('website.sections.solutions_eyebrow') }}</div><h2>{{ __('website.sections.solutions_title') }}</h2></div>
-            <p>{{ __('website.sections.solutions_description') }}</p>
+        <div class="section-heading section-heading-grid reveal">
+            <div><div class="micro-label"><span>01</span>{{ __('website.sections.solutions_eyebrow') }}</div><h2>{{ __('website.sections.solutions_title') }}</h2></div>
+            <div class="heading-aside"><span>MODULAR / SCALABLE / SECURE</span><p>{{ __('website.sections.solutions_description') }}</p></div>
         </div>
-        <div class="solution-grid">
+
+        <div class="solution-universe">
             @foreach($solutions as $solution)
-                <a class="solution-card reveal" href="{{ App\Support\LocalizedUrl::path($solution['url']) }}">
-                    <div class="solution-icon icon-{{ $solution['icon'] }}" aria-hidden="true">
-                        @if($solution['icon'] === 'layers')<svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 16l9 5 9-5"/></svg>
-                        @elseif($solution['icon'] === 'chart')<svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
-                        @elseif($solution['icon'] === 'code')<svg viewBox="0 0 24 24"><path d="m8 9-4 3 4 3M16 9l4 3-4 3M14 5l-4 14"/></svg>
-                        @else<svg viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 18h4"/></svg>@endif
+                <a class="solution-card reveal" data-tilt href="{{ App\Support\LocalizedUrl::path($solution['url']) }}">
+                    <div class="card-grid" aria-hidden="true"></div>
+                    <div class="solution-top"><span class="solution-index">0{{ $loop->iteration }}</span><span class="solution-link">↗</span></div>
+                    <div class="solution-object object-{{ $solution['icon'] }}" aria-hidden="true">
+                        @if($solution['icon'] === 'layers')
+                            <i></i><i></i><i></i><b>ERP</b>
+                        @elseif($solution['icon'] === 'chart')
+                            <span></span><span></span><span></span><span></span><b>+24%</b>
+                        @elseif($solution['icon'] === 'code')
+                            <i>&lt;/&gt;</i><span></span><span></span>
+                        @else
+                            <i><span></span><b>APP</b></i><em></em>
+                        @endif
                     </div>
-                    <span class="card-number">0{{ $loop->iteration }}</span>
-                    <h3>{{ __("website.solutions.{$solution['key']}.title") }}</h3>
-                    <p>{{ __("website.solutions.{$solution['key']}.description") }}</p>
-                    <span class="text-link">{{ __('website.solutions.learn_more') }} <b>↗</b></span>
+                    <div class="solution-copy"><h3>{{ __("website.solutions.{$solution['key']}.title") }}</h3><p>{{ __("website.solutions.{$solution['key']}.description") }}</p><span class="text-link">{{ __('website.solutions.learn_more') }}<b>↗</b></span></div>
                 </a>
             @endforeach
         </div>
@@ -88,20 +101,31 @@
 </section>
 
 <section class="section products-section" id="products">
+    <div class="product-orbit-bg" aria-hidden="true"></div>
     <div class="container">
-        <div class="section-heading centered reveal">
-            <div class="eyebrow"><span></span>{{ __('website.sections.products_eyebrow') }}</div>
-            <h2>{{ __('website.sections.products_title') }}</h2>
-            <p>{{ __('website.sections.products_description') }}</p>
+        <div class="section-heading section-heading-grid reveal">
+            <div><div class="micro-label"><span>02</span>{{ __('website.sections.products_eyebrow') }}</div><h2>{{ __('website.sections.products_title') }}</h2></div>
+            <div class="heading-aside"><span>FIDA PRODUCT UNIVERSE</span><p>{{ __('website.sections.products_description') }}</p></div>
         </div>
-        <div class="product-grid">
+
+        <div class="product-bento">
             @foreach($products as $product)
-                <article class="product-card reveal" style="--product-accent: {{ $product['accent'] }}">
-                    <div class="product-top"><span class="product-badge">{{ $product['status'] }}</span><span class="product-arrow">↗</span></div>
-                    <div class="product-mark">{{ strtoupper(substr($product['key'], 0, 1)) }}</div>
-                    <h3>{{ __("website.products.{$product['key']}.name") }}</h3>
-                    <p>{{ __("website.products.{$product['key']}.description") }}</p>
-                    <a href="#contact">{{ __('website.products.view') }}</a>
+                <article class="product-card product-{{ $product['key'] }} reveal" data-tilt style="--product-accent: {{ $product['accent'] }}">
+                    <div class="product-meta"><span class="product-status"><i></i>{{ $product['status'] }}</span><span>FIDA / 0{{ $loop->iteration }}</span></div>
+                    <div class="product-copy"><h3>{{ __("website.products.{$product['key']}.name") }}</h3><p>{{ __("website.products.{$product['key']}.description") }}</p><a href="#contact">{{ __('website.products.view') }} <b>↗</b></a></div>
+                    <div class="product-interface" aria-hidden="true">
+                        <div class="ui-window">
+                            <div class="ui-bar"><i></i><i></i><i></i><span>{{ strtoupper($product['key']) }}.OS</span></div>
+                            <div class="ui-body">
+                                <div class="ui-rail"><span></span><span></span><span></span><span></span></div>
+                                <div class="ui-canvas">
+                                    <div class="ui-cards"><i></i><i></i><i></i></div>
+                                    <div class="ui-chart"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                                    <div class="ui-lines"><i></i><i></i><i></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </article>
             @endforeach
         </div>
@@ -109,45 +133,48 @@
 </section>
 
 <section class="section industry-section" id="industries">
-    <div class="container industry-layout">
-        <div class="industry-copy reveal">
-            <div class="eyebrow"><span></span>{{ __('website.sections.industries_eyebrow') }}</div>
+    <div class="container">
+        <div class="industry-intro reveal">
+            <div class="micro-label"><span>03</span>{{ __('website.sections.industries_eyebrow') }}</div>
             <h2>{{ __('website.sections.industries_title') }}</h2>
+            <div class="industry-counter"><span>06</span><small>SECTORS<br>CONNECTED</small></div>
         </div>
-        <div class="industry-list reveal">
+        <div class="industry-rail reveal">
             @foreach($industries as $industry)
-                <div><span>0{{ $loop->iteration }}</span><strong>{{ __("website.industries.{$industry}") }}</strong><i>↗</i></div>
+                <div class="industry-item"><span>0{{ $loop->iteration }}</span><strong>{{ __("website.industries.{$industry}") }}</strong><i>↗</i></div>
             @endforeach
         </div>
     </div>
 </section>
 
 <section class="section process-section" id="process">
-    <div class="container">
-        <div class="section-heading centered reveal">
-            <div class="eyebrow"><span></span>{{ __('website.sections.process_eyebrow') }}</div>
+    <div class="container process-layout">
+        <div class="process-intro reveal">
+            <div class="micro-label"><span>04</span>{{ __('website.sections.process_eyebrow') }}</div>
             <h2>{{ __('website.sections.process_title') }}</h2>
+            <div class="process-sphere" aria-hidden="true"><i></i><i></i><i></i><span>F</span></div>
         </div>
-        <div class="process-grid">
+        <div class="process-timeline">
             @foreach(__('website.process') as $step)
-                <article class="process-card reveal"><span>{{ $step['number'] }}</span><h3>{{ $step['title'] }}</h3><p>{{ $step['description'] }}</p></article>
+                <article class="process-step reveal"><span>{{ $step['number'] }}</span><div><h3>{{ $step['title'] }}</h3><p>{{ $step['description'] }}</p></div><i></i></article>
             @endforeach
         </div>
     </div>
 </section>
 
 <section class="section contact-section" id="contact">
-    <div class="container contact-layout">
-        <div class="contact-copy reveal">
-            <div class="eyebrow"><span></span>{{ __('website.sections.contact_eyebrow') }}</div>
+    <div class="container contact-shell reveal">
+        <div class="contact-grid-bg" aria-hidden="true"></div>
+        <div class="contact-copy">
+            <div class="micro-label"><span>05</span>{{ __('website.sections.contact_eyebrow') }}</div>
             <h2>{{ __('website.sections.contact_title') }}</h2>
             <p>{{ __('website.sections.contact_description') }}</p>
             <div class="contact-direct">
-                <a href="mailto:{{ config('website.email') }}">{{ config('website.email') }}</a>
-                <a href="https://wa.me/{{ config('website.whatsapp') }}" rel="noopener" dir="ltr">WhatsApp · {{ config('website.phone') }}</a>
+                <a href="mailto:{{ config('website.email') }}"><span>EMAIL</span>{{ config('website.email') }}</a>
+                <a href="https://wa.me/{{ config('website.whatsapp') }}" rel="noopener" dir="ltr"><span>WHATSAPP</span>{{ config('website.phone') }}</a>
             </div>
         </div>
-        <form class="lead-form reveal" action="{{ route('leads.store') }}" method="post">
+        <form class="lead-form" action="{{ route('leads.store') }}" method="post">
             @csrf
             <input type="hidden" name="locale" value="{{ app()->getLocale() }}">
             <input type="hidden" name="source_url" value="{{ url()->current() }}">
@@ -156,6 +183,7 @@
             <input type="hidden" name="utm_campaign" value="{{ request('utm_campaign') }}">
             <div class="honeypot" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
 
+            <div class="form-console"><span class="live-dot"></span><b>PROJECT INTAKE</b><small>SECURE CHANNEL / 256-BIT</small></div>
             @if(session('lead_success'))<div class="form-success" role="status">{{ session('lead_success') }}</div>@endif
             @if($errors->any())<div class="form-errors" role="alert"><strong>Please review the highlighted fields.</strong></div>@endif
 
@@ -168,7 +196,7 @@
                 <label><span>{{ __('website.contact.budget') }}</span><select name="budget"><option value="">—</option>@foreach(__('website.contact.budget_options') as $value => $label)<option value="{{ $value }}" @selected(old('budget') === $value)>{{ $label }}</option>@endforeach</select></label>
                 <label class="form-wide"><span>{{ __('website.contact.message') }}</span><textarea name="message" rows="5" required @class(['invalid' => $errors->has('message')])>{{ old('message') }}</textarea></label>
             </div>
-            <button class="button button-primary form-submit" type="submit">{{ __('website.contact.send') }} <span>↗</span></button>
+            <button class="button button-lime form-submit" type="submit">{{ __('website.contact.send') }}<span class="button-arrow">↗</span></button>
         </form>
     </div>
 </section>

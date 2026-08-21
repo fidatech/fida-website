@@ -20,6 +20,9 @@ return [
         'dashboard_label' => 'Live business overview', 'revenue' => 'Revenue', 'operations' => 'Operations',
         'growth' => 'Growth', 'active' => 'Active', 'secure' => 'Secure by design',
     ],
+    'stats' => [
+        'clients' => 'business clients', 'experience' => 'years of experience', 'languages' => 'working languages',
+    ],
     'sections' => [
         'solutions_eyebrow' => 'What we build', 'solutions_title' => 'Technology shaped around the way your business works.',
         'solutions_description' => 'From one focused workflow to an enterprise-wide platform, every solution is designed for clarity, control and growth.',

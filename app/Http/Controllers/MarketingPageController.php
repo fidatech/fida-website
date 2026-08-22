@@ -20,9 +20,10 @@ class MarketingPageController extends Controller
             'type' => $page->type === 'article' ? 'article' : 'website',
         ];
         $faqs = $page->faqs();
+        $productProfile = $page->productProfile();
         $relatedPages = ContentPage::published()
             ->whereKeyNot($page->getKey())
-            ->whereIn('type', ['solution', 'service'])
+            ->whereIn('type', ['solution', 'service', 'product', 'case-study'])
             ->orderByDesc('featured')
             ->orderBy('sort_order')
             ->limit(3)
@@ -32,6 +33,7 @@ class MarketingPageController extends Controller
             'page' => $page,
             'seo' => $seo,
             'faqs' => $faqs,
+            'productProfile' => $productProfile,
             'relatedPages' => $relatedPages,
             'structuredData' => SeoSchema::page($page, $seo['title'], $seo['description'], $seo['canonical'], $faqs),
         ]);

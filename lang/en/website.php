@@ -85,6 +85,8 @@ return [
     ],
     'page' => [
         'back' => 'Back to home', 'home' => 'Home', 'breadcrumbs' => 'Breadcrumbs',
+        'product_profile' => 'Product system profile', 'product_category' => 'Category', 'product_platform' => 'Platform',
+        'product_deployment' => 'Deployment', 'product_status' => 'Status',
         'faq_eyebrow' => 'Direct answers', 'faq_title' => 'Frequently asked questions.',
         'faq_description' => 'Clear, practical answers about the service, implementation and fit.',
         'related_eyebrow' => 'Connected expertise', 'related_title' => 'Explore related capabilities.',
@@ -94,6 +96,11 @@ return [
     ],
     'footer' => [
         'description' => 'ERP systems, accounting software, mobile applications and custom business platforms built for serious operations.',
-        'company' => 'Company', 'contact' => 'Contact', 'rights' => 'All rights reserved.',
+        'company' => 'Company', 'products' => 'Products', 'contact' => 'Contact', 'privacy' => 'Privacy notice', 'rights' => 'All rights reserved.',
+    ],
+    'analytics' => [
+        'title' => 'Optional website analytics',
+        'description' => 'With your permission, anonymous usage data helps us understand which pages are useful. Analytics stays off until you accept.',
+        'accept' => 'Accept analytics', 'decline' => 'Decline',
     ],
 ];

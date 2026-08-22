@@ -8,12 +8,15 @@ Official multilingual website and lead-generation platform for [Fida Technologie
 - Tailwind CSS 4 and minimal JavaScript
 - English, Dari and Pashto with RTL support
 - Dynamic multilingual landing-page content
+- Dedicated multilingual profiles for Realist ERP, Prime Sarafi, Darmal ERP and OGRAYI
 - Search metadata, canonical URLs, hreflang, XML sitemap and page-specific structured data
-- Visible multilingual FAQs, service entities, breadcrumbs and related-topic internal links
+- Visible multilingual FAQs, service/software entities, breadcrumbs and related-topic internal links
 - Google and Bing ownership verification hooks, OpenAI crawler policy and IndexNow submission
-- Lead capture with campaign attribution and spam protection
+- Consent-based GA4 loading, conversion events and campaign-attributed lead capture
 - Automated PHP tests and frontend build verification
 - Separate authenticated website console for content, leads and team access
+
+The seeder also creates one private case-study draft per product. They are intentionally excluded from public routes and the sitemap until the client, implementation facts, redacted screenshots and measurable outcomes are verified and approved.
 
 ## Local setup
 
@@ -60,9 +63,13 @@ After the production domain is serving the new site, add the ownership tokens fr
 ```dotenv
 GOOGLE_SITE_VERIFICATION=
 BING_SITE_VERIFICATION=
+GOOGLE_ANALYTICS_ID=G-XXXXXXXXXX
+ANALYTICS_REQUIRE_CONSENT=true
 WEBSITE_SOCIAL_IMAGE=https://fida.af/path/to/a-1200x630-image.jpg
 WEBSITE_INDEXABLE=true
 ```
+
+GA4 is not requested from the browser until the visitor accepts analytics. The public site records configured CTA clicks, product-profile visits and a `generate_lead` event after a successful project-form submission; it does not send form field values to analytics.
 
 Generate and configure an IndexNow key, then clear the cached configuration and submit all published localized URLs:
 
@@ -74,6 +81,34 @@ php artisan website:indexnow
 ```
 
 The key is exposed only through `/indexnow-key.txt` when configured. Run the submission command after publishing or materially updating pages. Search engines decide whether and when submitted URLs are crawled or indexed.
+
+## Production migration checklist
+
+The currently indexed `www.fida.af` homepage must consolidate into the canonical `fida.af` host. Both the web-server rule and Laravel middleware preserve the path and query string with a `301` redirect. Keep both hostnames connected to the production account and covered by HTTPS.
+
+Before changing the production document root:
+
+1. Export at least the last 16 months of **Pages** data from Google Search Console, plus Bing Webmaster Tools if available. Public `site:` searches are not an exhaustive URL inventory.
+2. Crawl the existing website and combine that list with the exports, backlinks and analytics landing pages.
+3. For every verified legacy URL, choose the closest new equivalent and add a direct one-hop `301`; do not redirect unrelated URLs to the homepage.
+4. Back up the current files, database and `.env`, then deploy the reviewed `main` commit to a fresh release directory.
+5. Set `APP_URL=https://fida.af`, `APP_ENV=production`, `APP_DEBUG=false` and `WEBSITE_INDEXABLE=true`; configure the verification, analytics and IndexNow values.
+6. Run the production install, migration, build, test and optimization commands below, then point the domain document root to the release `public` directory.
+7. Verify HTTPS, redirects, canonical tags, robots, sitemap, localized pages, the lead form and admin login before submitting the sitemap and IndexNow URLs.
+8. Monitor Search Console indexing, Page indexing, Core Web Vitals and 404 logs weekly after launch. Keep verified legacy redirects for at least one year.
+
+```bash
+composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+php artisan optimize:clear
+php artisan migrate --force
+npm ci --ignore-scripts
+npm run build
+php artisan test
+php artisan optimize
+php artisan website:indexnow
+```
+
+Search Console and Bing verification are ownership and diagnostic tools; they do not guarantee rankings. Product pages and case studies should be updated only with accurate, supportable information.
 
 ## Branch policy
 

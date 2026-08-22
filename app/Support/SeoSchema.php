@@ -31,6 +31,7 @@ final class SeoSchema
     {
         $pageId = $canonical.'#webpage';
         $serviceId = $canonical.'#service';
+        $productId = $canonical.'#software';
         $breadcrumbId = $canonical.'#breadcrumb';
         $graph = [
             [
@@ -79,6 +80,22 @@ final class SeoSchema
                     '@type' => 'Country',
                     'name' => config('website.address.country'),
                 ],
+            ];
+        }
+
+        if ($page->type === 'product' && ($product = $page->productProfile()) !== null) {
+            $graph[0]['mainEntity'] = ['@id' => $productId];
+            $graph[] = [
+                '@type' => 'SoftwareApplication',
+                '@id' => $productId,
+                'url' => $canonical,
+                'name' => $page->translation('title'),
+                'description' => $page->translation('summary'),
+                'applicationCategory' => $product['category'],
+                'operatingSystem' => $product['platform'],
+                'featureList' => $product['features'],
+                'publisher' => ['@id' => url('/').'#organization'],
+                'inLanguage' => app()->getLocale(),
             ];
         }
 

@@ -65,7 +65,7 @@
             <header><small>PAGE SETTINGS</small></header>
             <div class="console-form">
                 <label><span>URL slug</span><span class="slug-field"><b>/</b><input name="slug" required value="{{ old('slug', $contentPage->slug) }}" placeholder="page-url"></span>@error('slug')<small class="field-error">{{ $message }}</small>@enderror</label>
-                <label><span>Content type</span><select name="type" required>@foreach(['solution', 'service', 'industry', 'case-study', 'article', 'page'] as $type)<option value="{{ $type }}" @selected(old('type', $contentPage->type ?: 'solution') === $type)>{{ Str::headline($type) }}</option>@endforeach</select></label>
+                <label><span>Content type</span><select name="type" required>@foreach(['solution', 'service', 'product', 'industry', 'case-study', 'article', 'page'] as $type)<option value="{{ $type }}" @selected(old('type', $contentPage->type ?: 'solution') === $type)>{{ Str::headline($type) }}</option>@endforeach</select></label>
                 <label><span>Sort priority</span><input type="number" name="sort_order" min="0" max="9999" value="{{ old('sort_order', $contentPage->sort_order ?? 0) }}"></label>
             </div>
         </section>

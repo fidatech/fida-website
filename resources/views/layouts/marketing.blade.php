@@ -44,6 +44,14 @@
     @isset($structuredData)
         <script type="application/ld+json">{!! json_encode($structuredData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
     @endisset
+    @if(config('website.indexable') && config('website.analytics.ga4_measurement_id'))
+        <script>
+            window.fidaAnalytics = {
+                measurementId: @json((string) config('website.analytics.ga4_measurement_id')),
+                requireConsent: @json((bool) config('website.analytics.require_consent')),
+            };
+        </script>
+    @endif
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="marketing-body">
@@ -87,7 +95,7 @@
                         @endforeach
                     </div>
                 </div>
-                <a class="button button-small button-lime header-cta" href="{{ \App\Support\LocalizedUrl::path('/#contact') }}">
+                <a class="button button-small button-lime header-cta" href="{{ \App\Support\LocalizedUrl::path('/#contact') }}" data-track-event="cta_click" data-track-label="header_proposal">
                     {{ __('website.nav.proposal') }}<span class="button-arrow">↗</span>
                 </a>
                 <button class="menu-button" type="button" data-menu-button aria-expanded="false" aria-label="{{ __('website.nav.menu') }}">
@@ -126,6 +134,13 @@
                     <a href="{{ \App\Support\LocalizedUrl::path('/custom-software-development-afghanistan') }}">Custom Software</a>
                     <a href="{{ \App\Support\LocalizedUrl::path('/mobile-app-development-afghanistan') }}">Mobile Apps</a>
                     <a href="{{ \App\Support\LocalizedUrl::path('/technology-company-afghanistan') }}">Technology Company</a>
+                    <a href="{{ \App\Support\LocalizedUrl::path('/privacy-policy') }}">{{ __('website.footer.privacy') }}</a>
+                </div>
+                <div>
+                    <span class="footer-heading">{{ __('website.footer.products') }}</span>
+                    @foreach(config('website.products') as $product)
+                        <a href="{{ \App\Support\LocalizedUrl::path($product['url']) }}">{{ __("website.products.{$product['key']}.name") }}</a>
+                    @endforeach
                 </div>
                 <div>
                     <span class="footer-heading">{{ __('website.footer.contact') }}</span>
@@ -141,5 +156,18 @@
             </div>
         </div>
     </footer>
+
+    @if(config('website.indexable') && config('website.analytics.ga4_measurement_id'))
+        <aside class="analytics-consent" data-analytics-consent hidden aria-label="{{ __('website.analytics.title') }}">
+            <div>
+                <strong>{{ __('website.analytics.title') }}</strong>
+                <p>{{ __('website.analytics.description') }} <a href="{{ \App\Support\LocalizedUrl::path('/privacy-policy') }}">{{ __('website.footer.privacy') }}</a></p>
+            </div>
+            <div class="analytics-consent-actions">
+                <button type="button" class="button button-wire" data-analytics-decline>{{ __('website.analytics.decline') }}</button>
+                <button type="button" class="button button-lime" data-analytics-accept>{{ __('website.analytics.accept') }}</button>
+            </div>
+        </aside>
+    @endif
 </body>
 </html>

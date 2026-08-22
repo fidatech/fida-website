@@ -14,7 +14,7 @@
             <label class="search-field"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input name="search" value="{{ request('search') }}" placeholder="Search title or URL…"></label>
             <select name="type" aria-label="Content type">
                 <option value="">All types</option>
-                @foreach(['solution', 'service', 'industry', 'case-study', 'article', 'page'] as $type)<option value="{{ $type }}" @selected(request('type') === $type)>{{ Str::headline($type) }}</option>@endforeach
+                @foreach(['solution', 'service', 'product', 'industry', 'case-study', 'article', 'page'] as $type)<option value="{{ $type }}" @selected(request('type') === $type)>{{ Str::headline($type) }}</option>@endforeach
             </select>
             <select name="status" aria-label="Publishing status">
                 <option value="">All statuses</option><option value="published" @selected(request('status') === 'published')>Published</option><option value="draft" @selected(request('status') === 'draft')>Draft</option>

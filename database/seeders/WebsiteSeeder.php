@@ -12,6 +12,10 @@ class WebsiteSeeder extends Seeder
         foreach ($this->pages() as $page) {
             ContentPage::query()->updateOrCreate(['slug' => $page['slug']], $page);
         }
+
+        foreach ($this->caseStudyDrafts() as $caseStudy) {
+            ContentPage::query()->firstOrCreate(['slug' => $caseStudy['slug']], $caseStudy);
+        }
     }
 
     private function pages(): array
@@ -103,25 +107,215 @@ class WebsiteSeeder extends Seeder
                     $this->faq('Which languages can Fida software support?', 'Fida products can be designed for English, Dari and Pashto, including right-to-left interfaces where required.'),
                 ],
             ),
+            $this->product(
+                slug: 'realist-real-estate-erp',
+                title: ['en' => 'Realist ERP for Real Estate & Construction', 'fa' => 'Realist ERP برای املاک و ساختمان', 'ps' => 'د املاکو او ساختمان لپاره Realist ERP'],
+                eyebrow: ['en' => 'Property operations, connected', 'fa' => 'عملیات یکپارچه املاک', 'ps' => 'یوځای د املاکو عملیات'],
+                summary: [
+                    'en' => 'Connect property inventory, sales, contracts, customer payments, construction workflows and accounting in one controlled real estate ERP.',
+                    'fa' => 'موجودی ملکیت، فروش، قراردادها، پرداخت مشتری، روند ساختمان و حسابداری را در یک ERP املاک یکجا سازید.',
+                    'ps' => 'د ملکیتونو لست، پلور، قراردادونه، د پېرودونکو تادیات، ساختماني بهیر او حسابداري په یوه ERP کې یوځای کړئ.',
+                ],
+                body: [
+                    'en' => '<h2>One operating system from property inventory to finance</h2><p>Realist ERP is designed for property developers and construction businesses that need every unit, customer agreement, payment and approval connected to a reliable financial record.</p><h2>Property sales and customer operations</h2><ul><li>Projects, buildings, floors, units and availability status</li><li>Reservations, contracts, negotiated prices and milestone schedules</li><li>Customer payments, discounts, refunds and controlled sales returns</li><li>Customer statements in transaction and reporting currencies</li><li>Approvals, activity history and management dashboards</li></ul><h2>Construction and financial control</h2><p>The platform can connect construction phases, subcontractor assignments, material requests, purchasing, inventory receipts and site issues with international-standard accounting and decision-ready reports.</p><h2>Configured around the project</h2><p>Implementation begins with the company structure, sales policy, approval chain, currencies and reporting requirements. Modules are configured to the actual development workflow instead of forcing a generic template.</p>',
+                    'fa' => '<h2>یک سیستم از موجودی ملکیت تا امور مالی</h2><p>Realist ERP برای شرکت‌های ساختمانی و توسعه‌دهندگان املاک طراحی شده است تا هر واحد، قرارداد مشتری، پرداخت و تأییدی با ثبت دقیق مالی مرتبط باشد.</p><h2>فروش ملکیت و عملیات مشتری</h2><ul><li>پروژه، تعمیر، منزل، واحد و وضعیت موجودی</li><li>رزرو، قرارداد، قیمت توافقی و اقساط مرحله‌ای</li><li>پرداخت، تخفیف، بازپرداخت و برگشت کنترول‌شده فروش</li><li>صورت‌حساب مشتری و تأییدی‌های مدیریتی</li></ul><h2>کنترول ساختمان و مالی</h2><p>سیستم می‌تواند مراحل ساختمان، قراردادی‌ها، درخواست مواد، خرید، ورود گدام و مصرف ساحه را با حسابداری معیاری و گزارش‌های مدیریتی مرتبط سازد.</p>',
+                    'ps' => '<h2>له ملکیتونو تر مالي چارو یو سیسټم</h2><p>Realist ERP د املاکو پراختیاکوونکو او ساختماني شرکتونو لپاره جوړ شوی، څو هر واحد، قرارداد، تادیه او تایید له کره مالي ثبت سره وتړل شي.</p><h2>د ملکیت پلور او پیرودونکي</h2><ul><li>پروژې، ودانۍ، پوړونه، واحدونه او موجود حالت</li><li>ریزرف، قراردادونه، توافق شوې بیې او قسطونه</li><li>تادیات، تخفیفونه، بېرته ورکړه او د پلور کنټرول شوې راستنېدنه</li><li>د پیرودونکي حساب‌لیک او مدیریتي تاییدونه</li></ul><h2>ساختماني او مالي کنټرول</h2><p>سیسټم ساختماني پړاوونه، قراردادیان، د موادو غوښتنې، پېرود، ګدام او ساحې مصرف له معیاري حسابدارۍ او راپورونو سره نښلوي.</p>',
+                ],
+                metaTitle: ['en' => 'Real Estate ERP Software | Realist ERP Afghanistan', 'fa' => 'نرم‌افزار ERP املاک | Realist ERP افغانستان', 'ps' => 'د املاکو ERP سافټویر | Realist ERP افغانستان'],
+                metaDescription: ['en' => 'Realist ERP connects property inventory, sales, contracts, installment payments, construction workflows and accounting for real estate businesses.', 'fa' => 'Realist ERP برای موجودی املاک، فروش، قرارداد، اقساط، روند ساختمان و حسابداری شرکت‌های املاک.', 'ps' => 'Realist ERP د ملکیتونو، پلور، قراردادونو، قسطونو، ساختماني بهیر او حسابدارۍ لپاره.'],
+                profile: [
+                    'code' => 'REALIST', 'accent' => '#6f6bff',
+                    'category' => ['en' => 'Real estate & construction ERP', 'fa' => 'ERP املاک و ساختمان', 'ps' => 'د املاکو او ساختمان ERP'],
+                    'platform' => ['en' => 'Responsive web platform', 'fa' => 'پلتفرم واکنش‌گرای وب', 'ps' => 'غبرګون‌کوونکی وېب پلېټفارم'],
+                    'deployment' => ['en' => 'Cloud or private server', 'fa' => 'کلود یا سرور خصوصی', 'ps' => 'کلاوډ یا شخصي سرور'],
+                    'status' => ['en' => 'Project-based implementation', 'fa' => 'تطبیق مطابق پروژه', 'ps' => 'د پروژې مطابق پلي کول'],
+                    'features' => [
+                        ['en' => 'Property inventory', 'fa' => 'موجودی ملکیت', 'ps' => 'د ملکیتونو لست'],
+                        ['en' => 'Contracts & installments', 'fa' => 'قرارداد و اقساط', 'ps' => 'قراردادونه او قسطونه'],
+                        ['en' => 'Customer statements', 'fa' => 'صورت‌حساب مشتری', 'ps' => 'د پیرودونکي حساب‌لیک'],
+                        ['en' => 'Construction workflow', 'fa' => 'روند ساختمان', 'ps' => 'ساختماني بهیر'],
+                        ['en' => 'Accounting', 'fa' => 'حسابداری', 'ps' => 'حسابداري'],
+                        ['en' => 'Approvals & reports', 'fa' => 'تأییدی و گزارش', 'ps' => 'تاییدونه او راپورونه'],
+                    ],
+                ],
+                faqs: [
+                    $this->faq('What does Realist ERP manage?', 'Realist ERP connects property inventory, sales, contracts, installment schedules, customer payments, construction operations and accounting in one controlled platform.'),
+                    $this->faq('Can Realist ERP support more than one building or project?', 'The platform can be configured for multi-project and multi-building operations, or simplified for a company managing one development.'),
+                    $this->faq('Does Realist ERP include accounting?', 'Yes. The implementation can include connected journals, customer accounts, expenses, assets, liabilities and financial statements based on the approved accounting structure.'),
+                ],
+            ),
+            $this->product(
+                slug: 'prime-sarafi-software',
+                title: ['en' => 'Prime Sarafi & Remittance Management Software', 'fa' => 'نرم‌افزار مدیریت صرافی و حواله Prime', 'ps' => 'د Prime صرافۍ او حوالو مدیریت سافټویر'],
+                eyebrow: ['en' => 'Controlled multi-currency operations', 'fa' => 'عملیات کنترول‌شده چندارزی', 'ps' => 'کنټرول شوي څو اسعارو عملیات'],
+                summary: ['en' => 'Manage currency exchange, remittances, customer accounts, cash positions, approvals and multi-currency accounting through one professional platform.', 'fa' => 'تبادله اسعار، حواله، حساب مشتری، موجودی نقد، تأییدی و حسابداری چندارزی را در یک پلتفرم مدیریت کنید.', 'ps' => 'د اسعارو تبادله، حوالې، د پیرودونکو حسابونه، نغدي حالت، تاییدونه او څو اسعارو حسابداري په یوه پلېټفارم کې مدیریت کړئ.'],
+                body: [
+                    'en' => '<h2>Built for the operating reality of a sarafi</h2><p>Prime Sarafi is designed for exchange and remittance businesses that need accurate customer balances, traceable transactions, controlled approvals and clear currency positions.</p><h2>Exchange, remittance and customer accounts</h2><ul><li>Currency exchange across configured currency pairs</li><li>Outgoing and incoming remittance workflows</li><li>Customer, saraf, cash and partner accounts</li><li>Credit, debit and per-currency running balances</li><li>Receipts, transaction references and WhatsApp-ready communication</li></ul><h2>Financial control and auditability</h2><p>Linked journal entries, roles, permissions, approval states and activity records make each operation easier to review. Reports can cover cash, bank, customer, creditor, debtor and profit-and-loss positions by currency.</p><h2>Configured for each business model</h2><p>Currency pairs, rate rules, commission handling, branches, approval roles and reporting requirements are defined during implementation.</p>',
+                    'fa' => '<h2>ساخته‌شده برای عملیات واقعی صرافی</h2><p>Prime Sarafi برای صرافی‌ها و شرکت‌های حواله طراحی شده است که به بیلانس دقیق مشتری، معاملات قابل پیگیری، تأییدی کنترول‌شده و وضعیت روشن اسعار نیاز دارند.</p><h2>تبادله، حواله و حساب مشتری</h2><ul><li>تبادله میان جفت‌های اسعار تعیین‌شده</li><li>روند حواله صادره و وارده</li><li>حساب مشتری، صراف، نقدی و شریک</li><li>کردیت، دبیت و بیلانس جاری هر ارز</li><li>رسید، مرجع معامله و ارتباط واتساپ</li></ul><h2>کنترول مالی و قابلیت بررسی</h2><p>ثبت‌های مرتبط ژورنال، نقش‌ها، صلاحیت‌ها، تأییدی‌ها و تاریخچه فعالیت، بررسی هر عملیات را روشن می‌سازد.</p>',
+                    'ps' => '<h2>د صرافۍ د واقعي عملیاتو لپاره جوړ شوی</h2><p>Prime Sarafi د صرافیو او حوالو شرکتونو لپاره دی چې کره د پیرودونکو بیلانس، د تعقیب وړ معاملې، کنټرول شوي تاییدونه او د اسعارو روښانه حالت غواړي.</p><h2>تبادله، حوالې او د پیرودونکو حسابونه</h2><ul><li>د ټاکل شوو اسعارو ترمنځ تبادله</li><li>وتونکې او راتلونکې حوالې</li><li>د پیرودونکي، صراف، نغدي او شریک حسابونه</li><li>کریډیټ، ډیبیټ او د هر اسعار روان بیلانس</li><li>رسیدونه، د معاملې مرجع او واټس‌اپ اړیکه</li></ul><h2>مالي کنټرول او څارنه</h2><p>تړلي ژورنال ثبتونه، رولونه، صلاحیتونه، تاییدونه او د فعالیت تاریخ د هر عملیاتو کتنه روښانه کوي.</p>',
+                ],
+                metaTitle: ['en' => 'Sarafi & Remittance Software Afghanistan | Prime', 'fa' => 'نرم‌افزار صرافی و حواله افغانستان | Prime', 'ps' => 'د صرافۍ او حوالو سافټویر افغانستان | Prime'],
+                metaDescription: ['en' => 'Prime Sarafi software for currency exchange, remittances, customer balances, approvals and multi-currency accounting in Afghanistan.', 'fa' => 'نرم‌افزار Prime برای تبادله اسعار، حواله، بیلانس مشتری، تأییدی و حسابداری چندارزی در افغانستان.', 'ps' => 'Prime د اسعارو تبادلې، حوالو، پیرودونکو بیلانس، تاییدونو او څو اسعارو حسابدارۍ لپاره.'],
+                profile: [
+                    'code' => 'PRIME', 'accent' => '#16c7a3',
+                    'category' => ['en' => 'Sarafi & remittance platform', 'fa' => 'پلتفرم صرافی و حواله', 'ps' => 'د صرافۍ او حوالو پلېټفارم'],
+                    'platform' => ['en' => 'Secure web platform', 'fa' => 'پلتفرم امن وب', 'ps' => 'خوندي وېب پلېټفارم'],
+                    'deployment' => ['en' => 'Cloud or private server', 'fa' => 'کلود یا سرور خصوصی', 'ps' => 'کلاوډ یا شخصي سرور'],
+                    'status' => ['en' => 'Sarafi-specific implementation', 'fa' => 'تطبیق مطابق صرافی', 'ps' => 'د صرافۍ مطابق پلي کول'],
+                    'features' => [
+                        ['en' => 'Currency exchange', 'fa' => 'تبادله اسعار', 'ps' => 'د اسعارو تبادله'],
+                        ['en' => 'Remittances', 'fa' => 'حواله', 'ps' => 'حوالې'],
+                        ['en' => 'Customer accounts', 'fa' => 'حساب مشتری', 'ps' => 'د پیرودونکو حسابونه'],
+                        ['en' => 'Multi-currency ledger', 'fa' => 'دفتر چندارزی', 'ps' => 'څو اسعارو لیجر'],
+                        ['en' => 'Approvals', 'fa' => 'تأییدی‌ها', 'ps' => 'تاییدونه'],
+                        ['en' => 'Financial reports', 'fa' => 'گزارش‌های مالی', 'ps' => 'مالي راپورونه'],
+                    ],
+                ],
+                faqs: [
+                    $this->faq('Which operations can Prime Sarafi manage?', 'Prime can manage configured currency exchange, incoming and outgoing remittances, customer accounts, cash and bank positions, approvals, receipts and financial reporting.'),
+                    $this->faq('Does Prime keep balances separately for each currency?', 'Yes. Transactions and running balances can be maintained by currency while management reports use configured conversion rules where required.'),
+                    $this->faq('Can roles and approvals be configured?', 'Yes. Access, approval steps and visible operations can be configured for owners, managers, cashiers and other authorized roles.'),
+                ],
+            ),
+            $this->product(
+                slug: 'darmal-pharmacy-erp',
+                title: ['en' => 'Darmal Pharmacy & Pharmaceutical ERP', 'fa' => 'Darmal ERP برای دواخانه و شرکت دارویی', 'ps' => 'د درملتون او درملو شرکت لپاره Darmal ERP'],
+                eyebrow: ['en' => 'Expiry-aware medicine operations', 'fa' => 'عملیات دوا با کنترول تاریخ انقضا', 'ps' => 'د ختمېدو نېټې له کنټرول سره د درملو عملیات'],
+                summary: ['en' => 'An actively developed ERP for pharmacy retail, medicine wholesale and pharmaceutical operations from purchasing to expiry-aware inventory and finance.', 'fa' => 'ERP در حال توسعه برای پرچون دواخانه، فروش عمده دوا و عملیات شرکت دارویی از خرید تا گدام و امور مالی.', 'ps' => 'د درملتون پرچون، درملو عمده پلور او درملو شرکت عملیاتو لپاره د پراختیا په حال ERP.'],
+                body: [
+                    'en' => '<h2>Medicine inventory needs more than a generic stock system</h2><p>Darmal ERP is under active product development for pharmacies and pharmaceutical businesses that need batch-aware purchasing, controlled stock movement, expiry visibility and connected accounting.</p><h2>Planned operational foundation</h2><ul><li>Medicine catalogue, units, categories and supplier records</li><li>Purchasing, receiving and supplier balances</li><li>Batch, expiry and stock-level visibility</li><li>Wholesale and retail sales workflows</li><li>Returns, damaged stock and controlled adjustments</li><li>Customer, doctor and pharmacy relationship records where required</li></ul><h2>Finance connected to inventory</h2><p>The product architecture connects purchases, sales, payments, receivables, payables and expenses with accounting records and management reports.</p><h2>Development status</h2><p>Darmal remains in active development. Final module availability and implementation scope must be confirmed during consultation before any commercial commitment.</p>',
+                    'fa' => '<h2>موجودی دوا به یک سیستم عادی گدام محدود نمی‌شود</h2><p>Darmal ERP برای دواخانه‌ها و شرکت‌های دارویی در حال توسعه است تا خرید بر اساس بچ، حرکت کنترول‌شده موجودی، دید تاریخ انقضا و حسابداری مرتبط را مدیریت کند.</p><h2>بنیاد عملیاتی در حال توسعه</h2><ul><li>فهرست دوا، واحد، کتگوری و عرضه‌کننده</li><li>خرید، دریافت و بیلانس عرضه‌کننده</li><li>بچ، تاریخ انقضا و سطح موجودی</li><li>فروش عمده و پرچون</li><li>برگشت، موجودی آسیب‌دیده و تعدیلات</li></ul><h2>وضعیت توسعه</h2><p>Darmal در حال توسعه فعال است. موجودیت نهایی ماژول‌ها و محدوده تطبیق پیش از قرارداد تأیید می‌شود.</p>',
+                    'ps' => '<h2>د درملو زېرمتون له عادي سټاک سیسټم څخه ډېر څه غواړي</h2><p>Darmal ERP د درملتونونو او درملو شرکتونو لپاره د پراختیا په حال کې دی، څو د بچ پېرود، کنټرول شوی سټاک، د ختمېدو نېټه او تړلې حسابداري اداره کړي.</p><h2>د پراختیا په حال عملیاتي بنسټ</h2><ul><li>د درملو لست، واحدونه، کټګورۍ او عرضه کوونکي</li><li>پېرود، ترلاسه کول او د عرضه کوونکي بیلانس</li><li>بچ، د ختمېدو نېټه او سټاک</li><li>عمده او پرچون پلور</li><li>راستنول، خراب سټاک او تعدیلات</li></ul><h2>د پراختیا حالت</h2><p>Darmal لا هم په فعاله پراختیا کې دی. وروستي ماډیولونه او د پلي کولو حدود له قرارداد مخکې تاییدېږي.</p>',
+                ],
+                metaTitle: ['en' => 'Pharmacy ERP Software Afghanistan | Darmal', 'fa' => 'نرم‌افزار ERP دواخانه افغانستان | Darmal', 'ps' => 'د درملتون ERP سافټویر افغانستان | Darmal'],
+                metaDescription: ['en' => 'Darmal is an actively developed pharmacy and pharmaceutical ERP for purchasing, batch and expiry inventory, sales and connected finance.', 'fa' => 'Darmal ERP در حال توسعه برای خرید، موجودی بچ و انقضا، فروش و امور مالی دواخانه و شرکت دارویی.', 'ps' => 'Darmal د پېرود، بچ او ختمېدو سټاک، پلور او مالي چارو لپاره د پراختیا په حال ERP دی.'],
+                profile: [
+                    'code' => 'DARMAL', 'accent' => '#2c8cff',
+                    'category' => ['en' => 'Pharmacy & pharmaceutical ERP', 'fa' => 'ERP دواخانه و شرکت دارویی', 'ps' => 'د درملتون او درملو شرکت ERP'],
+                    'platform' => ['en' => 'Web platform architecture', 'fa' => 'معماری پلتفرم وب', 'ps' => 'د وېب پلېټفارم جوړښت'],
+                    'deployment' => ['en' => 'Deployment model in development', 'fa' => 'مدل نصب در حال توسعه', 'ps' => 'د نصب موډل د پراختیا په حال کې'],
+                    'status' => ['en' => 'Active product development', 'fa' => 'در حال توسعه فعال', 'ps' => 'فعاله پراختیا'],
+                    'features' => [
+                        ['en' => 'Medicine catalogue', 'fa' => 'فهرست دوا', 'ps' => 'د درملو لست'],
+                        ['en' => 'Batch & expiry', 'fa' => 'بچ و انقضا', 'ps' => 'بچ او ختمېدو نېټه'],
+                        ['en' => 'Purchasing', 'fa' => 'خرید', 'ps' => 'پېرود'],
+                        ['en' => 'Wholesale & retail', 'fa' => 'عمده و پرچون', 'ps' => 'عمده او پرچون'],
+                        ['en' => 'Inventory control', 'fa' => 'کنترول گدام', 'ps' => 'د سټاک کنټرول'],
+                        ['en' => 'Connected finance', 'fa' => 'امور مالی مرتبط', 'ps' => 'تړلې مالي چارې'],
+                    ],
+                ],
+                faqs: [
+                    $this->faq('Is Darmal ERP already commercially available?', 'Darmal is in active product development. The final available modules, implementation date and commercial scope must be confirmed directly with Fida Technologies.'),
+                    $this->faq('Is Darmal intended for both pharmacies and pharmaceutical companies?', 'The architecture is being designed for retail pharmacies, medicine wholesalers and pharmaceutical operations, with workflows configured for the selected business model.'),
+                    $this->faq('Will Darmal track batches and expiry dates?', 'Batch and expiry-aware inventory is part of the planned operational foundation, subject to confirmation in the agreed implementation scope.'),
+                ],
+            ),
+            $this->product(
+                slug: 'ograyi-account-manager',
+                title: ['en' => 'OGRAYI Mobile Credit & Debit Account Manager', 'fa' => 'OGRAYI برای مدیریت حساب قرض و طلب', 'ps' => 'OGRAYI د پور او طلب حسابونو مدیریت'],
+                eyebrow: ['en' => 'Everyday accounts, made clearer', 'fa' => 'حساب‌های روزمره، روشن‌تر', 'ps' => 'ورځني حسابونه، لا روښانه'],
+                summary: ['en' => 'A mobile-first product for recording customer and supplier credit, debit and everyday account activity with a connected administration system.', 'fa' => 'محصول موبایل‌محور برای ثبت قرض، طلب و فعالیت روزمره حساب مشتری و عرضه‌کننده با سیستم مدیریتی مرتبط.', 'ps' => 'موبایل‌محور محصول د پیرودونکي او عرضه کوونکي پور، طلب او ورځنیو حسابونو لپاره له تړلي مدیریتي سیسټم سره.'],
+                body: [
+                    'en' => '<h2>A simpler record for relationship-based accounts</h2><p>OGRAYI is a mobile product under development for small businesses and individuals who record credit, debit and everyday balances with customers or suppliers.</p><h2>Focused account workflows</h2><ul><li>Customer and supplier account records</li><li>Credit and debit transactions</li><li>Running balances and transaction history</li><li>Receipts and clear transaction references</li><li>Owner and authorized employee workflows</li><li>Connected administration and account control</li></ul><h2>Designed for quick daily use</h2><p>The product direction prioritizes a fast mobile interface, clear balances, multilingual use and reliable synchronization with the administration system.</p><h2>Development status</h2><p>OGRAYI remains in product development. Distribution, pricing and final feature availability must be confirmed directly before use.</p>',
+                    'fa' => '<h2>ثبت ساده‌تر برای حساب‌های مبتنی بر رابطه</h2><p>OGRAYI یک محصول موبایل در حال توسعه برای تجارت‌های کوچک و افرادی است که قرض، طلب و بیلانس روزمره مشتری یا عرضه‌کننده را ثبت می‌کنند.</p><h2>روندهای متمرکز حساب</h2><ul><li>حساب مشتری و عرضه‌کننده</li><li>معاملات کردیت و دبیت</li><li>بیلانس جاری و تاریخچه معاملات</li><li>رسید و مرجع روشن معامله</li><li>روند مالک و کارمند مجاز</li><li>سیستم مدیریت مرتبط</li></ul><h2>وضعیت توسعه</h2><p>OGRAYI در حال توسعه محصول است. روش توزیع، قیمت و امکانات نهایی پیش از استفاده تأیید می‌شود.</p>',
+                    'ps' => '<h2>د اړیکو پر بنسټ حسابونو لپاره ساده ثبت</h2><p>OGRAYI د وړو سوداګریو او هغو خلکو لپاره د پراختیا په حال موبایل محصول دی چې له پیرودونکو یا عرضه کوونکو سره پور، طلب او ورځني بیلانسونه ثبتوي.</p><h2>متمرکز حسابي بهیرونه</h2><ul><li>د پیرودونکي او عرضه کوونکي حسابونه</li><li>کریډیټ او ډیبیټ معاملې</li><li>روان بیلانس او د معاملو تاریخ</li><li>رسیدونه او روښانه مرجع</li><li>د مالک او مجاز کارکوونکي بهیر</li><li>تړلی مدیریتي سیسټم</li></ul><h2>د پراختیا حالت</h2><p>OGRAYI د محصول په پراختیا کې دی. وېش، بیه او وروستي امکانات له کارولو مخکې تاییدېږي.</p>',
+                ],
+                metaTitle: ['en' => 'Credit & Debit Account Manager App | OGRAYI', 'fa' => 'اپ مدیریت حساب قرض و طلب | OGRAYI', 'ps' => 'د پور او طلب حسابونو اپ | OGRAYI'],
+                metaDescription: ['en' => 'OGRAYI is a mobile-first credit and debit account manager for customer, supplier and everyday relationship-based balances.', 'fa' => 'OGRAYI محصول موبایل برای مدیریت قرض، طلب، حساب مشتری، عرضه‌کننده و بیلانس‌های روزمره.', 'ps' => 'OGRAYI موبایل‌محور محصول د پور، طلب، پیرودونکو، عرضه کوونکو او ورځنیو بیلانسونو لپاره.'],
+                profile: [
+                    'code' => 'OGRAYI', 'accent' => '#ff8a5c',
+                    'category' => ['en' => 'Mobile account manager', 'fa' => 'مدیریت حساب موبایل', 'ps' => 'د موبایل حساب مدیر'],
+                    'platform' => ['en' => 'Mobile app + web administration', 'fa' => 'اپ موبایل + مدیریت وب', 'ps' => 'موبایل اپ + وېب مدیریت'],
+                    'deployment' => ['en' => 'Private business workspace', 'fa' => 'فضای خصوصی تجارتی', 'ps' => 'شخصي سوداګریز کاري ځای'],
+                    'status' => ['en' => 'Mobile product development', 'fa' => 'در حال توسعه محصول موبایل', 'ps' => 'د موبایل محصول پراختیا'],
+                    'features' => [
+                        ['en' => 'Customer accounts', 'fa' => 'حساب مشتری', 'ps' => 'د پیرودونکي حسابونه'],
+                        ['en' => 'Supplier accounts', 'fa' => 'حساب عرضه‌کننده', 'ps' => 'د عرضه کوونکي حسابونه'],
+                        ['en' => 'Credit & debit', 'fa' => 'قرض و طلب', 'ps' => 'پور او طلب'],
+                        ['en' => 'Running balance', 'fa' => 'بیلانس جاری', 'ps' => 'روان بیلانس'],
+                        ['en' => 'Receipts', 'fa' => 'رسید', 'ps' => 'رسیدونه'],
+                        ['en' => 'Team workflow', 'fa' => 'روند تیم', 'ps' => 'د ټیم بهیر'],
+                    ],
+                ],
+                faqs: [
+                    $this->faq('What is OGRAYI intended to manage?', 'OGRAYI is intended to record customer and supplier credit, debit, running balances and everyday account activity through a mobile-first workflow.'),
+                    $this->faq('Is OGRAYI available in app stores?', 'Public app-store availability is not currently stated on this website. OGRAYI remains in product development, and distribution must be confirmed directly with Fida Technologies.'),
+                    $this->faq('Can a business owner work with employees in OGRAYI?', 'The product direction includes owner and authorized employee workflows connected to an administration system; final behavior depends on the released scope.'),
+                ],
+            ),
+            $this->page(
+                slug: 'privacy-policy',
+                title: ['en' => 'Privacy Notice', 'fa' => 'اطلاعیه حریم خصوصی', 'ps' => 'د محرمیت خبرتیا'],
+                eyebrow: ['en' => 'How website information is handled', 'fa' => 'نحوه مدیریت معلومات وب‌سایت', 'ps' => 'د وېب‌سایټ معلوماتو د مدیریت څرنګوالی'],
+                summary: ['en' => 'A clear description of the information this website receives, why it is used and the choices available to visitors.', 'fa' => 'توضیح روشن معلوماتی که این وب‌سایت دریافت می‌کند، دلیل استفاده و انتخاب‌های بازدیدکننده.', 'ps' => 'د هغو معلوماتو روښانه بیان چې وېب‌سایټ یې ترلاسه کوي، د کارولو دلیل او د لیدونکو انتخابونه.'],
+                body: [
+                    'en' => '<h2>Information you choose to provide</h2><p>When you submit the project form, Fida Technologies receives the contact and project information you enter, together with the page and campaign source fields included in the form. We use it to review the request, communicate with you and manage the opportunity.</p><h2>Essential website data</h2><p>The website may use necessary session and security data to operate forms, prevent abuse and protect authenticated administration access. Server logs may also contain standard technical request information used for security and troubleshooting.</p><h2>Optional analytics</h2><p>Analytics is loaded only when it is configured on the production website and the visitor accepts analytics. The preference can be changed by clearing the website storage in the browser.</p><h2>Sharing and retention</h2><p>We do not publish contact-form submissions. Information may be accessible to authorized Fida team members and technical service providers required to operate the website. It is retained only as needed for the business request, security and applicable record-keeping.</p><h2>Your request</h2><p>To ask about information submitted through this website, email info@fida.af. Identity verification may be required before disclosing or changing records.</p>',
+                    'fa' => '<h2>معلوماتی که شما ارائه می‌کنید</h2><p>هنگام ارسال فورم پروژه، Fida Technologies معلومات تماس و پروژه‌ای را که وارد می‌کنید همراه با صفحه و منبع کمپاین دریافت می‌کند. این معلومات برای بررسی درخواست، تماس با شما و مدیریت فرصت استفاده می‌شود.</p><h2>معلومات ضروری وب‌سایت</h2><p>وب‌سایت می‌تواند از معلومات ضروری نشست و امنیت برای فعالیت فورم، جلوگیری از سوءاستفاده و حفاظت بخش مدیریت استفاده کند.</p><h2>تحلیل اختیاری</h2><p>تحلیل بازدید تنها زمانی بارگذاری می‌شود که در وب‌سایت اصلی تنظیم شده و بازدیدکننده آن را قبول کند.</p><h2>درخواست شما</h2><p>برای پرسش درباره معلومات ارسال‌شده به info@fida.af ایمیل کنید. پیش از ارائه یا تغییر معلومات، تأیید هویت ممکن است لازم باشد.</p>',
+                    'ps' => '<h2>هغه معلومات چې تاسو یې ورکوئ</h2><p>کله چې د پروژې فورم لېږئ، Fida Technologies ستاسو د اړیکې او پروژې معلومات له پاڼې او کمپاین سرچینې سره ترلاسه کوي. دا معلومات د غوښتنې د کتنې، اړیکې او فرصت مدیریت لپاره کارول کېږي.</p><h2>اړین وېب‌سایټ معلومات</h2><p>وېب‌سایټ د فورمو، ناوړه کارونې مخنیوي او اډمین خوندي ساتلو لپاره اړین سیشن او امنیتي معلومات کارولی شي.</p><h2>اختیاري تحلیل</h2><p>تحلیل یوازې هغه وخت پورته کېږي چې په اصلي وېب‌سایټ کې تنظیم وي او لیدونکی یې ومني.</p><h2>ستاسو غوښتنه</h2><p>د لېږل شوو معلوماتو په اړه info@fida.af ته برېښنالیک واستوئ. د معلوماتو له ورکولو یا بدلولو مخکې د هویت تایید غوښتل کېدای شي.</p>',
+                ],
+                metaTitle: ['en' => 'Privacy Notice | Fida Technologies', 'fa' => 'اطلاعیه حریم خصوصی | Fida Technologies', 'ps' => 'د محرمیت خبرتیا | Fida Technologies'],
+                metaDescription: ['en' => 'How Fida Technologies handles project-form information, essential website data and optional analytics preferences.', 'fa' => 'نحوه مدیریت معلومات فورم پروژه، معلومات ضروری وب‌سایت و تحلیل اختیاری توسط Fida Technologies.', 'ps' => 'Fida Technologies د پروژې فورم، اړین وېب‌سایټ معلومات او اختیاري تحلیل څنګه اداره کوي.'],
+                type: 'page',
+            ),
         ];
     }
 
-    private function page(string $slug, array $title, array $eyebrow, array $summary, array $body, array $metaTitle, array $metaDescription, array $faqs = []): array
+    private function page(string $slug, array $title, array $eyebrow, array $summary, array $body, array $metaTitle, array $metaDescription, array $faqs = [], string $type = 'solution', array $metadata = [], int $sortOrder = 0): array
     {
         return [
             'slug' => $slug,
-            'type' => 'solution',
+            'type' => $type,
             'title' => $title,
             'eyebrow' => $eyebrow,
             'summary' => $summary,
             'body' => $body,
             'meta_title' => $metaTitle,
             'meta_description' => $metaDescription,
-            'metadata' => ['faqs' => $faqs],
+            'metadata' => array_replace_recursive($metadata, ['faqs' => $faqs]),
             'status' => 'published',
             'featured' => true,
+            'sort_order' => $sortOrder,
             'published_at' => now(),
         ];
+    }
+
+    private function product(string $slug, array $title, array $eyebrow, array $summary, array $body, array $metaTitle, array $metaDescription, array $profile, array $faqs): array
+    {
+        return $this->page(
+            slug: $slug,
+            title: $title,
+            eyebrow: $eyebrow,
+            summary: $summary,
+            body: $body,
+            metaTitle: $metaTitle,
+            metaDescription: $metaDescription,
+            faqs: $faqs,
+            type: 'product',
+            metadata: ['product' => $profile],
+            sortOrder: 10,
+        );
+    }
+
+    private function caseStudyDrafts(): array
+    {
+        return collect([
+            ['realist-erp-case-study', 'Realist ERP case study'],
+            ['prime-sarafi-case-study', 'Prime Sarafi case study'],
+            ['darmal-erp-case-study', 'Darmal ERP case study'],
+            ['ograyi-case-study', 'OGRAYI case study'],
+        ])->map(fn (array $draft): array => [
+            'slug' => $draft[0],
+            'type' => 'case-study',
+            'title' => ['en' => $draft[1].' — publication draft'],
+            'eyebrow' => ['en' => 'Evidence required before publication'],
+            'summary' => ['en' => 'Internal draft. Add verified client permission, implementation facts, approved screenshots and measurable outcomes before publishing.'],
+            'body' => ['en' => '<h2>Publication checklist</h2><ul><li>Confirm the client or business name and written permission</li><li>Describe the workflow before implementation without exaggeration</li><li>List the exact modules and implementation period</li><li>Add approved, redacted product screenshots</li><li>Add only measurable outcomes supported by records</li><li>Obtain final client approval for public use</li></ul>'],
+            'meta_title' => ['en' => $draft[1].' | Fida Technologies'],
+            'meta_description' => ['en' => 'Unpublished internal case-study draft awaiting verified implementation evidence.'],
+            'status' => 'draft',
+            'featured' => false,
+            'sort_order' => 100,
+        ])->all();
     }
 
     private function faq(string $question, string $answer): array

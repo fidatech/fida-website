@@ -10,7 +10,7 @@
             <h1>{{ __('website.hero.title_before') }} <em>{{ __('website.hero.title_emphasis') }}</em></h1>
             <p class="hero-description">{{ __('website.hero.description') }}</p>
             <div class="hero-actions">
-                <a class="button button-lime button-large" href="#contact">{{ __('website.hero.primary_cta') }}<span class="button-arrow">↗</span></a>
+                <a class="button button-lime button-large" href="#contact" data-track-event="cta_click" data-track-label="hero_primary">{{ __('website.hero.primary_cta') }}<span class="button-arrow">↗</span></a>
                 <a class="button button-wire button-large" href="#solutions"><span class="play-mark">▶</span>{{ __('website.hero.secondary_cta') }}</a>
             </div>
             <div class="hero-proof">
@@ -131,7 +131,7 @@
             @foreach($products as $product)
                 <article class="product-card product-{{ $product['key'] }} reveal" data-tilt style="--product-accent: {{ $product['accent'] }}">
                     <div class="product-meta"><span class="product-status"><i></i>{{ $product['status'] }}</span><span>FIDA / 0{{ $loop->iteration }}</span></div>
-                    <div class="product-copy"><h3>{{ __("website.products.{$product['key']}.name") }}</h3><p>{{ __("website.products.{$product['key']}.description") }}</p><a href="#contact">{{ __('website.products.view') }} <b>↗</b></a></div>
+                    <div class="product-copy"><h3>{{ __("website.products.{$product['key']}.name") }}</h3><p>{{ __("website.products.{$product['key']}.description") }}</p><a href="{{ App\Support\LocalizedUrl::path($product['url']) }}" data-track-event="product_view" data-track-label="{{ $product['key'] }}">{{ __('website.products.view') }} <b>↗</b></a></div>
                     <div class="product-interface" aria-hidden="true">
                         <div class="ui-window">
                             <div class="ui-bar"><i></i><i></i><i></i><span>{{ strtoupper($product['key']) }}.OS</span></div>
@@ -189,8 +189,8 @@
             <h2>{{ __('website.sections.contact_title') }}</h2>
             <p>{{ __('website.sections.contact_description') }}</p>
             <div class="contact-direct">
-                <a href="mailto:{{ config('website.email') }}"><span>EMAIL</span>{{ config('website.email') }}</a>
-                <a href="https://wa.me/{{ config('website.whatsapp') }}" rel="noopener" dir="ltr"><span>WHATSAPP</span>{{ config('website.phone') }}</a>
+                <a href="mailto:{{ config('website.email') }}" data-track-event="contact_click" data-track-label="email"><span>EMAIL</span>{{ config('website.email') }}</a>
+                <a href="https://wa.me/{{ config('website.whatsapp') }}" rel="noopener" dir="ltr" data-track-event="contact_click" data-track-label="whatsapp"><span>WHATSAPP</span>{{ config('website.phone') }}</a>
             </div>
         </div>
         <form class="lead-form" action="{{ route('leads.store') }}" method="post">
@@ -203,7 +203,7 @@
             <div class="honeypot" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
 
             <div class="form-console"><span class="live-dot"></span><b>PROJECT INTAKE</b><small>SECURE CHANNEL / 256-BIT</small></div>
-            @if(session('lead_success'))<div class="form-success" role="status">{{ session('lead_success') }}</div>@endif
+            @if(session('lead_success'))<div class="form-success" role="status" data-conversion="generate_lead">{{ session('lead_success') }}</div>@endif
             @if($errors->any())<div class="form-errors" role="alert"><strong>Please review the highlighted fields.</strong></div>@endif
 
             <div class="form-grid">

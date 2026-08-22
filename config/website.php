@@ -20,6 +20,10 @@ return [
         'key' => env('INDEXNOW_KEY'),
         'endpoint' => env('INDEXNOW_ENDPOINT', 'https://api.indexnow.org/indexnow'),
     ],
+    'analytics' => [
+        'ga4_measurement_id' => env('GOOGLE_ANALYTICS_ID'),
+        'require_consent' => env('ANALYTICS_REQUIRE_CONSENT', true),
+    ],
     'address' => [
         'city' => 'Kabul',
         'country' => 'Afghanistan',
@@ -66,10 +70,10 @@ return [
         ],
     ],
     'products' => [
-        ['key' => 'realist', 'accent' => '#6f6bff', 'status' => 'ERP'],
-        ['key' => 'prime', 'accent' => '#16c7a3', 'status' => 'FinTech'],
-        ['key' => 'darmal', 'accent' => '#2c8cff', 'status' => 'HealthTech'],
-        ['key' => 'ograyi', 'accent' => '#ff8a5c', 'status' => 'Mobile'],
+        ['key' => 'realist', 'accent' => '#6f6bff', 'status' => 'ERP', 'url' => '/realist-real-estate-erp'],
+        ['key' => 'prime', 'accent' => '#16c7a3', 'status' => 'FinTech', 'url' => '/prime-sarafi-software'],
+        ['key' => 'darmal', 'accent' => '#2c8cff', 'status' => 'HealthTech', 'url' => '/darmal-pharmacy-erp'],
+        ['key' => 'ograyi', 'accent' => '#ff8a5c', 'status' => 'Mobile', 'url' => '/ograyi-account-manager'],
     ],
     'industries' => ['real_estate', 'finance', 'logistics', 'pharmacy', 'construction', 'retail'],
 ];

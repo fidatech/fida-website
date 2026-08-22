@@ -90,4 +90,56 @@ class ContentPage extends Model
             ->values()
             ->all();
     }
+
+    public function metadataTranslation(string $path, ?string $locale = null): mixed
+    {
+        $locale ??= app()->getLocale();
+        $value = data_get($this->metadata, $path);
+
+        if (! is_array($value)) {
+            return $value;
+        }
+
+        return $value[$locale]
+            ?? $value[config('website.default_locale')]
+            ?? collect($value)->first();
+    }
+
+    public function productProfile(?string $locale = null): ?array
+    {
+        if ($this->type !== 'product' || ! is_array(data_get($this->metadata, 'product'))) {
+            return null;
+        }
+
+        $locale ??= app()->getLocale();
+        $features = collect(data_get($this->metadata, 'product.features', []))
+            ->map(function (mixed $feature) use ($locale): string {
+                if (! is_array($feature)) {
+                    return trim((string) $feature);
+                }
+
+                return trim((string) ($feature[$locale]
+                    ?? $feature[config('website.default_locale')]
+                    ?? collect($feature)->first()));
+            })
+            ->filter()
+            ->values()
+            ->all();
+
+        $accent = (string) data_get($this->metadata, 'product.accent', '#c9ff4a');
+
+        if (! preg_match('/^#[0-9a-f]{6}$/i', $accent)) {
+            $accent = '#c9ff4a';
+        }
+
+        return [
+            'code' => (string) data_get($this->metadata, 'product.code', strtoupper($this->slug)),
+            'accent' => $accent,
+            'category' => (string) $this->metadataTranslation('product.category', $locale),
+            'platform' => (string) $this->metadataTranslation('product.platform', $locale),
+            'deployment' => (string) $this->metadataTranslation('product.deployment', $locale),
+            'status' => (string) $this->metadataTranslation('product.status', $locale),
+            'features' => $features,
+        ];
+    }
 }

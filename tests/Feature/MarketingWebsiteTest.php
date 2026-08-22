@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Lead;
+use App\Models\ContentPage;
 use Database\Seeders\WebsiteSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
@@ -73,8 +74,40 @@ class MarketingWebsiteTest extends TestCase
             ->assertHeader('Content-Type', 'application/xml; charset=UTF-8')
             ->assertSee('erp-systems-afghanistan')
             ->assertSee('technology-company-afghanistan')
+            ->assertSee('realist-real-estate-erp')
+            ->assertSee('prime-sarafi-software')
+            ->assertSee('privacy-policy')
+            ->assertDontSee('realist-erp-case-study')
             ->assertSee('hreflang="fa"', false)
             ->assertSee('hreflang="x-default"', false);
+    }
+
+    public function test_product_pages_expose_localized_profiles_and_software_schema(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $this->get('/realist-real-estate-erp')
+            ->assertOk()
+            ->assertSee('<h1>Realist ERP for Real Estate &amp; Construction</h1>', false)
+            ->assertSee('Property inventory')
+            ->assertSee('Project-based implementation')
+            ->assertSee('"@type":"SoftwareApplication"', false)
+            ->assertSee('"featureList"', false);
+
+        $this->get('/fa/prime-sarafi-software')
+            ->assertOk()
+            ->assertSee('<html lang="fa" dir="rtl">', false)
+            ->assertSee('نرم‌افزار مدیریت صرافی و حواله Prime')
+            ->assertSee('پلتفرم صرافی و حواله');
+    }
+
+    public function test_unverified_case_studies_remain_private_drafts(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $this->assertSame(4, ContentPage::query()->where('type', 'case-study')->where('status', 'draft')->count());
+
+        $this->get('/realist-erp-case-study')->assertNotFound();
     }
 
     public function test_homepage_exposes_organization_and_website_entities(): void
@@ -101,6 +134,34 @@ class MarketingWebsiteTest extends TestCase
             ->assertSee('User-agent: OAI-SearchBot')
             ->assertSee('User-agent: GPTBot')
             ->assertSee(route('sitemap'));
+    }
+
+    public function test_production_analytics_is_configurable_and_requires_consent(): void
+    {
+        config()->set('website.indexable', true);
+        config()->set('website.analytics.ga4_measurement_id', 'G-TEST123');
+        config()->set('website.analytics.require_consent', true);
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('measurementId: "G-TEST123"', false)
+            ->assertSee('data-analytics-consent', false)
+            ->assertSee('Analytics stays off until you accept.')
+            ->assertDontSee('https://www.googletagmanager.com/gtag/js?id=G-TEST123', false);
+    }
+
+    public function test_www_requests_redirect_permanently_to_the_canonical_production_host(): void
+    {
+        config()->set('website.indexable', true);
+        config()->set('website.url', 'https://fida.af');
+
+        $this->withServerVariables([
+            'HTTP_HOST' => 'www.fida.af',
+            'SERVER_NAME' => 'www.fida.af',
+            'HTTPS' => 'on',
+        ])->get('/realist-real-estate-erp?utm_source=google')
+            ->assertStatus(301)
+            ->assertRedirect('https://fida.af/realist-real-estate-erp?utm_source=google');
     }
 
     public function test_non_indexable_environment_blocks_crawlers_and_url_submission(): void

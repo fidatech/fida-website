@@ -131,3 +131,99 @@ if (canTilt) {
         });
     });
 }
+
+const analyticsConfig = window.fidaAnalytics;
+
+if (analyticsConfig?.measurementId) {
+    const consentBanner = document.querySelector('[data-analytics-consent]');
+    const acceptButton = document.querySelector('[data-analytics-accept]');
+    const declineButton = document.querySelector('[data-analytics-decline]');
+    const pendingEvents = [];
+    const storageKey = 'fida_analytics_consent';
+    let analyticsLoaded = false;
+
+    const readConsent = () => {
+        try {
+            return window.localStorage.getItem(storageKey);
+        } catch {
+            return null;
+        }
+    };
+
+    const writeConsent = (value) => {
+        try {
+            window.localStorage.setItem(storageKey, value);
+        } catch {
+            // A blocked storage API should not block the visitor from using the site.
+        }
+    };
+
+    const track = (name, parameters = {}) => {
+        if (!analyticsLoaded || typeof window.gtag !== 'function') {
+            pendingEvents.push([name, parameters]);
+            return;
+        }
+
+        window.gtag('event', name, parameters);
+    };
+
+    const loadAnalytics = () => {
+        if (analyticsLoaded) return;
+
+        analyticsLoaded = true;
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function gtag() {
+            window.dataLayer.push(arguments);
+        };
+
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(analyticsConfig.measurementId)}`;
+        document.head.append(script);
+
+        window.gtag('js', new Date());
+        window.gtag('config', analyticsConfig.measurementId);
+
+        pendingEvents.splice(0).forEach(([name, parameters]) => {
+            window.gtag('event', name, parameters);
+        });
+    };
+
+    document.querySelectorAll('[data-track-event]').forEach((element) => {
+        element.addEventListener('click', () => {
+            track(element.dataset.trackEvent, {
+                event_label: element.dataset.trackLabel || '',
+                page_path: window.location.pathname,
+                language: document.documentElement.lang,
+            });
+        });
+    });
+
+    if (document.querySelector('[data-conversion="generate_lead"]')) {
+        track('generate_lead', {
+            method: 'website_form',
+            page_path: window.location.pathname,
+            language: document.documentElement.lang,
+        });
+    }
+
+    const consent = readConsent();
+
+    if (consent === 'granted' || !analyticsConfig.requireConsent) {
+        loadAnalytics();
+    } else if (consent !== 'denied' && consentBanner) {
+        consentBanner.hidden = false;
+    }
+
+    acceptButton?.addEventListener('click', () => {
+        writeConsent('granted');
+        consentBanner.hidden = true;
+        loadAnalytics();
+    });
+
+    declineButton?.addEventListener('click', () => {
+        writeConsent('denied');
+        pendingEvents.length = 0;
+        consentBanner.hidden = true;
+    });
+}

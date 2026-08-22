@@ -10,7 +10,9 @@ return [
     'nav' => [
         'home' => 'Home', 'about' => 'About', 'services' => 'Services', 'projects' => 'Projects',
         'pricing' => 'Pricing', 'contact' => 'Contact', 'solutions' => 'Solutions', 'products' => 'Products',
-        'industries' => 'Industries', 'process' => 'Process', 'proposal' => 'Request a proposal', 'menu' => 'Open menu',
+        'industries' => 'Industries', 'case_studies' => 'Case studies', 'articles' => 'Insights',
+        'process' => 'Process', 'proposal' => 'Request a proposal', 'menu' => 'Open menu',
+        'light_mode' => 'Use day mode', 'dark_mode' => 'Use night mode',
     ],
     'hero' => [
         'eyebrow' => 'Business software built in Afghanistan',
@@ -98,6 +100,13 @@ return [
     'hubs' => [
         'services' => ['eyebrow' => 'Connected capabilities', 'title' => 'Choose the capability your operation needs.', 'description' => 'Each service page explains the business fit, implementation approach and practical questions in detail.'],
         'projects' => ['eyebrow' => 'Fida product systems', 'title' => 'Explore platforms built around demanding workflows.', 'description' => 'These public profiles describe the current product direction and confirmed capabilities without unverified client results.'],
+        'solutions' => ['eyebrow' => 'Outcome-focused technology', 'title' => 'Find the right solution for the workflow.', 'description' => 'Explore confirmed software capabilities by operational problem, business fit and implementation direction.'],
+        'products' => ['eyebrow' => 'Fida product systems', 'title' => 'Purpose-built platforms for focused operations.', 'description' => 'Review each product’s intended workflow, platform direction and currently confirmed capabilities.'],
+        'industries' => ['eyebrow' => 'Sector knowledge', 'title' => 'Industry context before architecture.', 'description' => 'Published guides connect sector-specific roles, controls and reports with practical software decisions.'],
+        'case-studies' => ['eyebrow' => 'Verified implementation evidence', 'title' => 'Client stories published with permission.', 'description' => 'Only approved case studies with factual scope and reviewed evidence appear in this collection.'],
+        'articles' => ['eyebrow' => 'Practical knowledge', 'title' => 'Clear answers for better technology decisions.', 'description' => 'Read useful guidance about ERP, software selection, implementation, security and digital operations.'],
+        'empty_title' => 'No public entries yet.',
+        'empty_description' => 'This collection is ready. Content will appear here after it is completed, reviewed and published from the website console.',
     ],
     'pricing' => [
         'eyebrow' => 'Clear commercial paths', 'title' => 'A quotation matched to the real scope.',

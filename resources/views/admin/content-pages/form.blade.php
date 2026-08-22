@@ -1,9 +1,11 @@
 @php
     $locales = config('website.locales');
-    $translatableFields = ['title', 'eyebrow', 'summary', 'body', 'meta_title', 'meta_description'];
+    $contentTypes = config('website.content_types');
+    $selectedType = old('type', $contentPage->type ?: 'page');
+    $selectedTypeDefinition = $contentTypes[$selectedType] ?? $contentTypes['page'];
 @endphp
 <section class="editor-heading">
-    <div><a href="{{ route('admin.content-pages.index') }}">← Content library</a><h1>{{ $contentPage->exists ? $contentPage->translation('title', 'en') : 'Untitled page' }}</h1><p>{{ $contentPage->exists ? '/'.$contentPage->slug : 'Build a search-ready page in three languages.' }}</p></div>
+    <div><a href="{{ route('admin.content-pages.index', ['type' => $selectedType]) }}">← {{ $selectedTypeDefinition['label'] }}</a><h1>{{ $contentPage->exists ? $contentPage->translation('title', 'en') : 'New '.$selectedTypeDefinition['singular'] }}</h1><p>{{ $contentPage->exists ? '/'.$contentPage->slug : $selectedTypeDefinition['description'] }}</p></div>
     <div class="editor-actions">
         @if($contentPage->exists && $contentPage->status === 'published')<a class="console-button console-button-quiet" href="{{ route('pages.show', $contentPage) }}" target="_blank">Preview ↗</a>@endif
         <button class="console-button console-button-primary" type="submit">{{ $submitLabel }} <span>✓</span></button>
@@ -65,7 +67,7 @@
             <header><small>PAGE SETTINGS</small></header>
             <div class="console-form">
                 <label><span>URL slug</span><span class="slug-field"><b>/</b><input name="slug" required value="{{ old('slug', $contentPage->slug) }}" placeholder="page-url"></span>@error('slug')<small class="field-error">{{ $message }}</small>@enderror</label>
-                <label><span>Content type</span><select name="type" required>@foreach(['solution', 'service', 'product', 'industry', 'case-study', 'article', 'page'] as $type)<option value="{{ $type }}" @selected(old('type', $contentPage->type ?: 'solution') === $type)>{{ Str::headline($type) }}</option>@endforeach</select></label>
+                <label><span>Content type</span><select name="type" required>@foreach($contentTypes as $type => $definition)<option value="{{ $type }}" @selected($selectedType === $type)>{{ $definition['singular'] }}</option>@endforeach</select><small>Controls where this content appears on the public website.</small></label>
                 <label><span>Sort priority</span><input type="number" name="sort_order" min="0" max="9999" value="{{ old('sort_order', $contentPage->sort_order ?? 0) }}"></label>
             </div>
         </section>

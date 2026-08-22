@@ -50,6 +50,12 @@ svg { display: block; fill: none; stroke: currentColor; stroke-linecap: round; s
 .console-nav a.active { color: white; border-color: rgba(var(--admin-accent-rgb),.12); background: linear-gradient(90deg, rgba(var(--admin-accent-rgb),.08), rgba(var(--admin-accent-rgb),.018)); box-shadow: inset 0 1px rgba(255,255,255,.025); }
 .console-nav a.active::before { height: 25px; }
 .console-nav a.active svg { color: var(--admin-lime); }
+.console-content-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; margin: 0 0 8px; padding: 5px 2px 8px 12px; border-bottom: 1px solid var(--admin-line); }
+.console-content-nav a { min-height: 32px; gap: 7px; padding: 0 8px; border-radius: 9px; font-size: 10px; font-weight: 600; }
+.console-content-nav a::before { display: none; }
+.console-content-nav a span { color: #606672; font: 8px ui-monospace, monospace; }
+.console-content-nav a:hover, .console-content-nav a.active { transform: none; }
+.console-content-nav a.active span { color: var(--admin-lime); }
 .nav-count { min-width: 21px; height: 21px; display: grid; place-items: center; margin-left: auto; border-radius: 99px; color: #090b06; background: var(--admin-lime); font-size: 9px; }
 .console-sidebar-foot { display: grid; gap: 10px; margin-top: auto; padding: 18px 12px 3px; border-top: 1px solid var(--admin-line); }
 .console-sidebar-foot small { color: #4f535c; font: 7px ui-monospace, monospace; letter-spacing: .15em; }
@@ -149,6 +155,13 @@ svg { display: block; fill: none; stroke: currentColor; stroke-linecap: round; s
 .page-heading { align-items: center; }
 .heading-stat { min-width: 110px; display: grid; gap: 5px; padding-left: 18px; border-left: 1px solid var(--admin-line); }.heading-stat small { color: #656a74; font: 7px ui-monospace, monospace; }.heading-stat strong { color: var(--admin-lime); font-size: 28px; }
 .table-card { overflow: hidden; }
+.content-type-grid { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 8px; margin-bottom: 14px; }
+.content-type-card { min-height: 92px; display: grid; align-content: center; gap: 5px; padding: 13px; border: 1px solid var(--admin-line); border-radius: 14px; background: linear-gradient(145deg, rgba(19,22,28,.72), rgba(14,16,21,.8)); transition: transform .2s, border-color .2s, background .2s; }
+.content-type-card:hover { transform: translateY(-3px); border-color: var(--admin-line-strong); }
+.content-type-card.active { border-color: rgba(var(--admin-accent-rgb),.27); background: linear-gradient(145deg, rgba(var(--admin-accent-rgb),.07), rgba(14,16,21,.84)); }
+.content-type-card > span { color: var(--admin-lime); font: 8px ui-monospace, monospace; letter-spacing: .12em; }
+.content-type-card > strong { font-size: 24px; line-height: 1; letter-spacing: -.05em; }
+.content-type-card > small { overflow: hidden; color: #818792; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
 .filter-bar { display: flex; align-items: center; gap: 9px; padding: 16px; border-bottom: 1px solid var(--admin-line); }
 .filter-bar select, .filter-bar input { min-height: 41px; border: 1px solid var(--admin-line); border-radius: 10px; outline: 0; background: rgba(255,255,255,.025); font-size: 10px; transition: border-color .2s, box-shadow .2s; }
 .filter-bar select { min-width: 145px; padding: 0 34px 0 11px; }
@@ -272,6 +285,7 @@ svg { display: block; fill: none; stroke: currentColor; stroke-linecap: round; s
 
 /* Responsive */
 @media (max-width: 1180px) {
+    .content-type-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .dashboard-columns { grid-template-columns: 1fr; }
     .editor-layout, .lead-layout { grid-template-columns: minmax(0, 1fr) 270px; }
@@ -290,7 +304,7 @@ svg { display: block; fill: none; stroke: currentColor; stroke-linecap: round; s
     .console-topbar { height: 70px; padding: 0 16px; }.console-heading small { display: none; }.console-content { padding: 25px 16px 50px; }.visit-site, .profile-menu > button b { display: none; }
     .dashboard-intro, .page-heading, .editor-heading { align-items: flex-start; flex-direction: column; }.dashboard-date { display: none; }.dashboard-intro h1, .page-heading h1 { font-size: 33px; }.page-heading .console-button, .editor-heading > .console-button { width: 100%; }.heading-stat { display: none; }
     .metric-grid { grid-template-columns: 1fr; }.metric-card { min-height: 164px; }.quick-grid { grid-template-columns: 1fr; }.quick-grid a { min-height: 105px; }
-    .filter-bar { align-items: stretch; flex-direction: column; }.filter-bar select { width: 100%; }.filter-bar .console-button { width: 100%; }.console-table { min-width: 760px; }
+    .content-type-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }.filter-bar { align-items: stretch; flex-direction: column; }.filter-bar select { width: 100%; }.filter-bar .console-button { width: 100%; }.console-table { min-width: 760px; }
     .console-pagination { align-items: flex-start; flex-direction: column; padding: 14px 16px; }
     .editor-actions { width: 100%; }.editor-actions > * { flex: 1; }.editor-sidebar, .lead-sidebar { grid-template-columns: 1fr; }.console-form.two-columns { grid-template-columns: 1fr; }.language-panel { padding: 18px; }.language-tabs { overflow-x: auto; }.language-tabs button { min-width: max-content; }
     .website-settings-side { grid-template-columns: 1fr; }.brand-settings-grid { grid-template-columns: 1fr; }.logo-uploader { grid-template-columns: 1fr; }.logo-preview { width: 112px; height: 112px; }.theme-option { grid-template-columns: 105px 1fr; }.palette-options { grid-template-columns: 1fr; }.custom-color-lab { grid-template-columns: 1fr; }.custom-color-lab label { grid-template-columns: 1fr 42px; }
@@ -306,6 +320,8 @@ svg { display: block; fill: none; stroke: currentColor; stroke-linecap: round; s
 .console-brand small { font-size: 9px; }
 .console-nav > small { font-size: 10px; }
 .console-nav a { font-size: 14px; }
+.console-content-nav a { font-size: 11px; }
+.content-type-card > span { font-size: 9px; }.content-type-card > small { font-size: 11px; }
 .nav-count { font-size: 10px; }
 .console-sidebar-foot small { font-size: 9px; }
 .system-live { font-size: 11px; }

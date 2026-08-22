@@ -81,6 +81,11 @@ class MarketingWebsiteTest extends TestCase
             ->assertSee('/about')
             ->assertSee('/services')
             ->assertSee('/projects')
+            ->assertSee('/solutions')
+            ->assertSee('/products')
+            ->assertSee('/industries')
+            ->assertSee('/case-studies')
+            ->assertSee('/articles')
             ->assertSee('/pricing')
             ->assertSee('/contact')
             ->assertSee('privacy-policy')
@@ -116,6 +121,11 @@ class MarketingWebsiteTest extends TestCase
             ->assertOk()
             ->assertSee('href="'.url('/about').'"', false)
             ->assertSee('href="'.url('/services').'"', false)
+            ->assertSee('href="'.url('/solutions').'"', false)
+            ->assertSee('href="'.url('/products').'"', false)
+            ->assertSee('href="'.url('/industries').'"', false)
+            ->assertSee('href="'.url('/case-studies').'"', false)
+            ->assertSee('href="'.url('/articles').'"', false)
             ->assertSee('href="'.url('/projects').'"', false)
             ->assertSee('href="'.url('/pricing').'"', false)
             ->assertSee('href="'.url('/contact').'"', false);
@@ -144,6 +154,65 @@ class MarketingWebsiteTest extends TestCase
             ->assertSee('Darmal Pharmacy &amp; Pharmaceutical ERP', false)
             ->assertSee('OGRAYI Mobile Credit &amp; Debit Account Manager', false)
             ->assertDontSee('publication draft');
+    }
+
+    public function test_every_public_content_archive_is_available_and_only_lists_published_entries(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $this->get('/solutions')
+            ->assertOk()
+            ->assertSee('Business Software Solutions')
+            ->assertSee('ERP Systems in Afghanistan')
+            ->assertSee('"@type":"CollectionPage"', false);
+
+        $this->get('/products')
+            ->assertOk()
+            ->assertSee('Fida Software Products')
+            ->assertSee('Realist ERP for Real Estate &amp; Construction', false);
+
+        $this->get('/industries')
+            ->assertOk()
+            ->assertSee('No public entries yet.');
+
+        $this->get('/case-studies')
+            ->assertOk()
+            ->assertSee('No public entries yet.')
+            ->assertDontSee('publication draft');
+
+        $this->get('/articles')
+            ->assertOk()
+            ->assertSee('Software &amp; Business Insights', false)
+            ->assertSee('No public entries yet.');
+    }
+
+    public function test_newly_published_typed_content_appears_in_its_archive(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        ContentPage::query()->create([
+            'type' => 'industry',
+            'slug' => 'logistics-software-afghanistan',
+            'title' => ['en' => 'Logistics Software in Afghanistan'],
+            'summary' => ['en' => 'A verified overview of logistics software workflows.'],
+            'status' => 'published',
+            'published_at' => now(),
+        ]);
+
+        $this->get('/industries')
+            ->assertOk()
+            ->assertSee('Logistics Software in Afghanistan')
+            ->assertDontSee('No public entries yet.');
+    }
+
+    public function test_visitor_can_select_a_persistent_day_or_night_mode(): void
+    {
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('data-color-mode-toggle', false)
+            ->assertSee("const key = 'fida_color_mode'", false)
+            ->assertSee('prefers-color-scheme: light', false)
+            ->assertSee('Use day mode');
     }
 
     public function test_pricing_and_contact_pages_are_truthful_and_actionable(): void

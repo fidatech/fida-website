@@ -13,9 +13,13 @@ class ContentPageController extends Controller
 {
     public function index(Request $request): View
     {
+        $contentTypes = config('website.content_types');
+        $activeType = array_key_exists((string) $request->string('type'), $contentTypes)
+            ? (string) $request->string('type')
+            : null;
         $pages = ContentPage::query()
             ->when($request->filled('status'), fn ($query) => $query->where('status', (string) $request->string('status')))
-            ->when($request->filled('type'), fn ($query) => $query->where('type', (string) $request->string('type')))
+            ->when($activeType, fn ($query) => $query->where('type', $activeType))
             ->when($request->filled('search'), fn ($query) => $query->where(function ($query) use ($request): void {
                 $term = '%'.(string) $request->string('search')->trim().'%';
                 $query->where('slug', 'like', $term)->orWhere('title->en', 'like', $term);
@@ -23,13 +27,22 @@ class ContentPageController extends Controller
             ->orderByDesc('updated_at')
             ->paginate(20)
             ->withQueryString();
+        $typeCounts = ContentPage::query()
+            ->selectRaw('type, count(*) as aggregate')
+            ->groupBy('type')
+            ->pluck('aggregate', 'type');
 
-        return view('admin.content-pages.index', compact('pages'));
+        return view('admin.content-pages.index', compact('pages', 'contentTypes', 'activeType', 'typeCounts'));
     }
 
-    public function create(): View
+    public function create(Request $request): View
     {
-        return view('admin.content-pages.create', ['contentPage' => new ContentPage]);
+        $requestedType = (string) $request->string('type');
+        $contentPage = new ContentPage([
+            'type' => array_key_exists($requestedType, config('website.content_types')) ? $requestedType : 'page',
+        ]);
+
+        return view('admin.content-pages.create', compact('contentPage'));
     }
 
     public function store(ContentPageRequest $request): RedirectResponse

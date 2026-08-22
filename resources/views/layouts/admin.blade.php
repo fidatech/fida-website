@@ -3,6 +3,8 @@
     $adminTheme = config('website.appearance.current_theme_values', config('website.appearance.themes.midnight'));
     $adminColors = config('website.appearance.current_colors', config('website.appearance.palettes.fida'));
     $adminRgb = config('website.appearance.rgb', ['primary' => '201,255,74', 'secondary' => '132,108,255', 'highlight' => '78,232,255']);
+    $adminRouteContent = request()->route('contentPage');
+    $adminActiveContentType = request('type') ?: ($adminRouteContent instanceof \App\Models\ContentPage ? $adminRouteContent->type : null);
 @endphp
 <html lang="en" dir="ltr" style="--admin-bg:{{ $adminTheme['background'] }};--admin-panel:{{ $adminTheme['surface'] }};--admin-panel-soft:{{ $adminTheme['background_soft'] }};--admin-lime:{{ $adminColors['primary'] }};--admin-violet:{{ $adminColors['secondary'] }};--admin-cyan:{{ $adminColors['highlight'] }};--admin-accent-rgb:{{ $adminRgb['primary'] }};--admin-secondary-rgb:{{ $adminRgb['secondary'] }};--admin-highlight-rgb:{{ $adminRgb['highlight'] }}">
 <head>
@@ -32,10 +34,17 @@
                     Dashboard
                 </a>
                 @if(auth()->user()->allows('content.manage'))
-                    <a @class(['active' => request()->routeIs('admin.content-pages.*')]) href="{{ route('admin.content-pages.index') }}">
+                    <a @class(['active' => request()->routeIs('admin.content-pages.*') && !$adminActiveContentType]) href="{{ route('admin.content-pages.index') }}">
                         <svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6V3Zm7 1.5V8h3.5M9 12h6M9 16h6"/></svg>
-                        Content
+                        All content
                     </a>
+                    <div class="console-content-nav" aria-label="Content types">
+                        @foreach(config('website.content_types') as $type => $definition)
+                            <a @class(['active' => request()->routeIs('admin.content-pages.*') && $adminActiveContentType === $type]) href="{{ route('admin.content-pages.index', ['type' => $type]) }}">
+                                <span>{{ strtoupper(substr($type, 0, 2)) }}</span>{{ $definition['label'] }}
+                            </a>
+                        @endforeach
+                    </div>
                 @endif
                 @if(auth()->user()->allows('leads.manage'))
                     <a @class(['active' => request()->routeIs('admin.leads.*')]) href="{{ route('admin.leads.index') }}">

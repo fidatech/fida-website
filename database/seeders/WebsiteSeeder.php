@@ -343,6 +343,7 @@ class WebsiteSeeder extends Seeder
                     $this->faq('Can a business owner work with employees in OGRAYI?', 'The product direction includes owner and authorized employee workflows connected to an administration system; final behavior depends on the released scope.'),
                 ],
             ),
+            ...$this->archivePages(),
             $this->page(
                 slug: 'privacy-policy',
                 title: ['en' => 'Privacy Notice', 'fa' => 'اطلاعیه حریم خصوصی', 'ps' => 'د محرمیت خبرتیا'],
@@ -358,6 +359,67 @@ class WebsiteSeeder extends Seeder
                 type: 'page',
             ),
         ];
+    }
+
+    private function archivePages(): array
+    {
+        return [
+            $this->archivePage(
+                'solutions',
+                ['en' => 'Business Software Solutions', 'fa' => 'راهکارهای نرم‌افزار تجارتی', 'ps' => 'د سوداګریز سافټویر حللارې'],
+                ['en' => 'Technology matched to the outcome', 'fa' => 'تکنالوژی مطابق نتیجه', 'ps' => 'له پایلې سره برابره ټکنالوژي'],
+                ['en' => 'Explore ERP, accounting, custom software and mobile solutions designed around operational control and growth.', 'fa' => 'راهکارهای ERP، حسابداری، نرم‌افزار اختصاصی و موبایل را مطابق کنترول عملیات و رشد بررسی کنید.', 'ps' => 'د عملیاتي کنټرول او ودې لپاره ERP، حسابداري، ځانګړی سافټویر او موبایل حللارې وپلټئ.'],
+                ['en' => '<h2>Start with the business outcome</h2><p>Each solution profile explains the workflow it addresses, the practical implementation questions and the capabilities that can be confirmed before a project begins.</p>', 'fa' => '<h2>از نتیجه تجارتی آغاز کنید</h2><p>هر پروفایل راهکار، روند کاری، پرسش‌های عملی تطبیق و توانایی‌هایی را توضیح می‌دهد که پیش از شروع پروژه قابل تأیید است.</p>', 'ps' => '<h2>له سوداګریزې پایلې پیل وکړئ</h2><p>د هرې حللارې پېژندپاڼه کاري بهیر، عملي پوښتنې او هغه وړتیاوې بیانوي چې تر پروژې مخکې تاییدېدای شي.</p>'],
+                3,
+            ),
+            $this->archivePage(
+                'products',
+                ['en' => 'Fida Software Products', 'fa' => 'محصولات نرم‌افزاری فیدا', 'ps' => 'د فیدا سافټویر محصولات'],
+                ['en' => 'Purpose-built platforms', 'fa' => 'پلتفرم‌های هدفمند', 'ps' => 'د ځانګړي هدف پلېټفارمونه'],
+                ['en' => 'Review Fida product profiles for real estate, finance, pharmaceutical operations and mobile account management.', 'fa' => 'پروفایل محصولات فیدا برای املاک، مالی، عملیات دارویی و مدیریت حساب موبایل را بررسی کنید.', 'ps' => 'د املاکو، مالي، درملو عملیاتو او موبایل حساب مدیریت لپاره د فیدا محصولات وګورئ.'],
+                ['en' => '<h2>Confirmed product information</h2><p>Product pages describe the intended workflow, platform direction and currently confirmed capabilities. Availability, implementation scope and commercial terms are confirmed directly for each engagement.</p>', 'fa' => '<h2>معلومات تأییدشده محصول</h2><p>صفحات محصول روند مورد نظر، جهت پلتفرم و توانایی‌های تأییدشده فعلی را توضیح می‌دهد. موجودیت، محدوده تطبیق و شرایط تجارتی برای هر همکاری جداگانه تأیید می‌شود.</p>', 'ps' => '<h2>تایید شوي محصولي معلومات</h2><p>د محصول پاڼې هدف کاري بهیر، د پلېټفارم لوری او اوس تایید شوې وړتیاوې بیانوي. شتون، د پلي کولو حدود او سوداګریز شرایط د هرې همکارۍ لپاره جلا تاییدېږي.</p>'],
+                4,
+            ),
+            $this->archivePage(
+                'industries',
+                ['en' => 'Software for Afghan Industries', 'fa' => 'نرم‌افزار برای صنایع افغانستان', 'ps' => 'د افغانستان د سکتورونو لپاره سافټویر'],
+                ['en' => 'Workflow knowledge by sector', 'fa' => 'شناخت روند به تفکیک صنعت', 'ps' => 'د سکتور له مخې د کاري بهیر پوهه'],
+                ['en' => 'Industry pages connect sector-specific workflows with practical software architecture and implementation guidance.', 'fa' => 'صفحات صنعت، روندهای خاص هر بخش را با معماری عملی نرم‌افزار و راهنمای تطبیق یکجا می‌کند.', 'ps' => 'د سکتور پاڼې ځانګړي کاري بهیرونه له عملي سافټویر معمارۍ او د پلي کولو لارښوونې سره نښلوي.'],
+                ['en' => '<h2>Industry knowledge must be specific</h2><p>As verified industry guides are published, they will document the roles, controls, reports and integration questions that materially affect software design in each sector.</p>', 'fa' => '<h2>شناخت صنعت باید مشخص باشد</h2><p>با نشر راهنماهای تأییدشده، نقش‌ها، کنترول‌ها، گزارش‌ها و پرسش‌های یکپارچه‌سازی مؤثر بر طراحی نرم‌افزار هر صنعت مستند می‌شود.</p>', 'ps' => '<h2>د سکتور پوهه باید مشخصه وي</h2><p>کله چې تایید شوې لارښوونې خپرې شي، د هر سکتور هغه رولونه، کنټرولونه، راپورونه او د ادغام پوښتنې به ثبت کړي چې د سافټویر پر ډیزاین اغېز لري.</p>'],
+                5,
+            ),
+            $this->archivePage(
+                'case-studies',
+                ['en' => 'Verified Software Case Studies', 'fa' => 'مطالعات موردی تأییدشده نرم‌افزار', 'ps' => 'تایید شوې د سافټویر قضیوي مطالعې'],
+                ['en' => 'Evidence before promotion', 'fa' => 'شواهد پیش از تبلیغ', 'ps' => 'تر تبلیغ مخکې شواهد'],
+                ['en' => 'Approved implementation stories will appear here only after client permission, factual review and evidence checks.', 'fa' => 'داستان‌های تطبیق تنها پس از اجازه مشتری، بررسی حقایق و شواهد در اینجا نشر می‌شود.', 'ps' => 'د پلي کولو کیسې به یوازې د مشتری له اجازې، د حقایقو او شواهدو له کتنې وروسته دلته خپرېږي.'],
+                ['en' => '<h2>Trust requires verification</h2><p>Case studies remain private drafts until the client identity, project scope, screenshots and measurable outcomes are approved for public use.</p>', 'fa' => '<h2>اعتماد به تأیید نیاز دارد</h2><p>مطالعات موردی تا زمان تأیید هویت مشتری، محدوده پروژه، تصاویر و نتایج قابل اندازه‌گیری برای استفاده عمومی، خصوصی باقی می‌ماند.</p>', 'ps' => '<h2>باور تایید ته اړتیا لري</h2><p>قضیوي مطالعې تر هغه شخصي مسودې پاتې کېږي چې د مشتری هویت، د پروژې حدود، انځورونه او اندازه کېدونکې پایلې د عامه کارونې لپاره تایید شي.</p>'],
+                6,
+            ),
+            $this->archivePage(
+                'articles',
+                ['en' => 'Software & Business Insights', 'fa' => 'دیدگاه‌های نرم‌افزار و تجارت', 'ps' => 'د سافټویر او سوداګرۍ لیدلوري'],
+                ['en' => 'Practical knowledge for better systems', 'fa' => 'دانش عملی برای سیستم‌های بهتر', 'ps' => 'د غوره سیسټمونو لپاره عملي پوهه'],
+                ['en' => 'Read practical guidance about ERP, software selection, implementation, security and digital operations in Afghanistan.', 'fa' => 'راهنمای عملی ERP، انتخاب نرم‌افزار، تطبیق، امنیت و عملیات دیجیتال در افغانستان را بخوانید.', 'ps' => 'په افغانستان کې د ERP، سافټویر ټاکنې، پلي کولو، امنیت او ډیجیټل عملیاتو عملي لارښوونې ولولئ.'],
+                ['en' => '<h2>Useful answers, not filler</h2><p>Articles are published when they provide a clear, factual answer to a real business or technology question. New posts can be managed from the Articles section of the website console.</p>', 'fa' => '<h2>پاسخ مفید، نه محتوای اضافی</h2><p>مقالات زمانی نشر می‌شود که به یک پرسش واقعی تجارتی یا تخنیکی پاسخ روشن و دقیق بدهد. نوشته‌های جدید از بخش مقالات کنسول مدیریت می‌شود.</p>', 'ps' => '<h2>ګټور ځوابونه، نه اضافي منځپانګه</h2><p>مقالې هغه وخت خپرېږي چې یوې واقعي سوداګریزې یا تخنیکي پوښتنې ته روښانه او دقیق ځواب ورکړي. نوې لیکنې د اډمین د مقالو له برخې اداره کېږي.</p>'],
+                7,
+            ),
+        ];
+    }
+
+    private function archivePage(string $slug, array $title, array $eyebrow, array $summary, array $body, int $sortOrder): array
+    {
+        return $this->page(
+            slug: $slug,
+            title: $title,
+            eyebrow: $eyebrow,
+            summary: $summary,
+            body: $body,
+            metaTitle: array_map(fn (string $value): string => $value.' | Fida Technologies', $title),
+            metaDescription: $summary,
+            type: 'page',
+            sortOrder: $sortOrder,
+        );
     }
 
     private function page(string $slug, array $title, array $eyebrow, array $summary, array $body, array $metaTitle, array $metaDescription, array $faqs = [], string $type = 'solution', array $metadata = [], int $sortOrder = 0): array

@@ -6,6 +6,7 @@ use App\Models\ContentPage;
 use App\Models\Lead;
 use App\Models\SiteSetting;
 use App\Models\User;
+use Database\Seeders\WebsiteSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -178,6 +179,41 @@ class AdminConsoleTest extends TestCase
             ->assertSessionHasErrors('body.en');
 
         $this->assertDatabaseCount('content_pages', 0);
+    }
+
+    public function test_editor_can_browse_every_content_type_from_the_library(): void
+    {
+        $editor = User::factory()->admin('editor')->create();
+        $this->seed(WebsiteSeeder::class);
+
+        $this->actingAs($editor)
+            ->get(route('admin.content-pages.index'))
+            ->assertOk()
+            ->assertSee('Every story, one publishing system.')
+            ->assertSee('Solutions')
+            ->assertSee('Services')
+            ->assertSee('Products')
+            ->assertSee('Industries')
+            ->assertSee('Case studies')
+            ->assertSee('Articles')
+            ->assertSee('Pages');
+
+        $this->actingAs($editor)
+            ->get(route('admin.content-pages.index', ['type' => 'case-study']))
+            ->assertOk()
+            ->assertSee('Case studies built to be found.')
+            ->assertSee('Realist ERP case study');
+    }
+
+    public function test_type_specific_create_link_prefills_the_editor(): void
+    {
+        $editor = User::factory()->admin('editor')->create();
+
+        $this->actingAs($editor)
+            ->get(route('admin.content-pages.create', ['type' => 'article']))
+            ->assertOk()
+            ->assertSee('New Article')
+            ->assertSee('<option value="article" selected>Article</option>', false);
     }
 
     private function pagePayload(): array

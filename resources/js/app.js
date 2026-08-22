@@ -4,7 +4,51 @@ const menuButton = document.querySelector('[data-menu-button]');
 const mobileNav = document.querySelector('[data-mobile-nav]');
 const languageSwitcher = document.querySelector('[data-language-switcher]');
 const languageButton = document.querySelector('[data-language-button]');
+const colorModeButton = document.querySelector('[data-color-mode-toggle]');
+const colorModeQuery = window.matchMedia('(prefers-color-scheme: light)');
+const colorModeStorageKey = 'fida_color_mode';
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const readColorMode = () => {
+    try {
+        return window.localStorage.getItem(colorModeStorageKey);
+    } catch {
+        return null;
+    }
+};
+
+const applyColorMode = (mode, remember = false) => {
+    const nextMode = mode === 'light' ? 'light' : 'dark';
+    document.documentElement.dataset.colorMode = nextMode;
+
+    if (remember) {
+        try {
+            window.localStorage.setItem(colorModeStorageKey, nextMode);
+        } catch {
+            // The visual preference still works when storage is blocked.
+        }
+    }
+
+    if (colorModeButton) {
+        const nextLabel = nextMode === 'dark' ? colorModeButton.dataset.lightLabel : colorModeButton.dataset.darkLabel;
+        colorModeButton.setAttribute('aria-label', nextLabel);
+        colorModeButton.setAttribute('title', nextLabel);
+        colorModeButton.setAttribute('aria-pressed', String(nextMode === 'light'));
+    }
+
+    const themeColor = document.querySelector('[data-theme-color]');
+    themeColor?.setAttribute('content', nextMode === 'light' ? '#f4f7fa' : themeColor.dataset.darkColor);
+};
+
+applyColorMode(document.documentElement.dataset.colorMode || (colorModeQuery.matches ? 'light' : 'dark'));
+
+colorModeButton?.addEventListener('click', () => {
+    applyColorMode(document.documentElement.dataset.colorMode === 'light' ? 'dark' : 'light', true);
+});
+
+colorModeQuery.addEventListener?.('change', (event) => {
+    if (readColorMode() === null) applyColorMode(event.matches ? 'light' : 'dark');
+});
 
 let scrollFrame = 0;
 
@@ -45,11 +89,32 @@ languageButton?.addEventListener('click', () => {
     languageButton.setAttribute('aria-expanded', String(open));
 });
 
+document.querySelectorAll('[data-nav-cluster-button]').forEach((button) => {
+    button.addEventListener('click', () => {
+        const cluster = button.closest('[data-nav-cluster]');
+        const open = !cluster?.classList.contains('open');
+
+        document.querySelectorAll('[data-nav-cluster].open').forEach((item) => {
+            item.classList.remove('open');
+            item.querySelector('[data-nav-cluster-button]')?.setAttribute('aria-expanded', 'false');
+        });
+
+        cluster?.classList.toggle('open', open);
+        button.setAttribute('aria-expanded', String(open));
+    });
+});
+
 document.addEventListener('click', (event) => {
     if (languageSwitcher && !languageSwitcher.contains(event.target)) {
         languageSwitcher.classList.remove('open');
         languageButton?.setAttribute('aria-expanded', 'false');
     }
+
+    document.querySelectorAll('[data-nav-cluster].open').forEach((cluster) => {
+        if (cluster.contains(event.target)) return;
+        cluster.classList.remove('open');
+        cluster.querySelector('[data-nav-cluster-button]')?.setAttribute('aria-expanded', 'false');
+    });
 });
 
 document.addEventListener('keydown', (event) => {
@@ -59,6 +124,10 @@ document.addEventListener('keydown', (event) => {
     languageButton?.setAttribute('aria-expanded', 'false');
     mobileNav?.classList.remove('open');
     menuButton?.setAttribute('aria-expanded', 'false');
+    document.querySelectorAll('[data-nav-cluster].open').forEach((cluster) => {
+        cluster.classList.remove('open');
+        cluster.querySelector('[data-nav-cluster-button]')?.setAttribute('aria-expanded', 'false');
+    });
 });
 
 const revealItems = document.querySelectorAll('.reveal');

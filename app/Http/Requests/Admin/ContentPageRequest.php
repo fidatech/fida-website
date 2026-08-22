@@ -30,7 +30,7 @@ class ContentPageRequest extends FormRequest
         };
 
         return [
-            'type' => ['required', Rule::in(['solution', 'service', 'product', 'industry', 'case-study', 'article', 'page'])],
+            'type' => ['required', Rule::in(array_keys(config('website.content_types')))],
             'slug' => [
                 'required',
                 'string',

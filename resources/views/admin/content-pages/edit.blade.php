@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit page')
+@section('title', 'Edit '.(config('website.content_types.'.$contentPage->type.'.singular') ?? 'content'))
 @section('eyebrow', 'Content / '.$contentPage->slug)
 
 @section('content')

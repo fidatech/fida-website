@@ -25,7 +25,7 @@
 </section>
 @endif
 
-@if(in_array($hubLayout, ['services', 'projects'], true) && $collectionPages->isNotEmpty())
+@if(config("website.content_hubs.{$hubLayout}"))
 <section class="hub-collection-section">
     <div class="container">
         <div class="hub-section-heading reveal">
@@ -33,16 +33,24 @@
             <h2>{{ __("website.hubs.{$hubLayout}.title") }}</h2>
             <p>{{ __("website.hubs.{$hubLayout}.description") }}</p>
         </div>
-        <div class="hub-card-grid hub-card-grid-{{ $hubLayout }}">
-            @foreach($collectionPages as $collectionPage)
-                <a class="hub-card reveal" data-tilt href="{{ App\Support\LocalizedUrl::path('/'.$collectionPage->slug) }}">
-                    <div class="hub-card-gridline" aria-hidden="true"></div>
-                    <header><span>0{{ $loop->iteration }}</span><b>{{ strtoupper($collectionPage->type) }}</b><i>↗</i></header>
-                    <div class="hub-card-core" aria-hidden="true"><span>{{ strtoupper(substr($collectionPage->slug, 0, 2)) }}</span><i></i><i></i></div>
-                    <div><h3>{{ $collectionPage->translation('title') }}</h3><p>{{ $collectionPage->translation('summary') }}</p><strong>{{ __('website.solutions.learn_more') }} ↗</strong></div>
-                </a>
-            @endforeach
-        </div>
+        @if($collectionPages->isNotEmpty())
+            <div class="hub-card-grid hub-card-grid-{{ $hubLayout }}">
+                @foreach($collectionPages as $collectionPage)
+                    <a class="hub-card reveal" data-tilt href="{{ App\Support\LocalizedUrl::path('/'.$collectionPage->slug) }}">
+                        <div class="hub-card-gridline" aria-hidden="true"></div>
+                        <header><span>{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span><b>{{ strtoupper(config("website.content_types.{$collectionPage->type}.singular", Str::headline($collectionPage->type))) }}</b><i>↗</i></header>
+                        <div class="hub-card-core" aria-hidden="true"><span>{{ strtoupper(substr($collectionPage->slug, 0, 2)) }}</span><i></i><i></i></div>
+                        <div><h3>{{ $collectionPage->translation('title') }}</h3><p>{{ $collectionPage->translation('summary') }}</p><strong>{{ __('website.solutions.learn_more') }} ↗</strong></div>
+                    </a>
+                @endforeach
+            </div>
+        @else
+            <div class="hub-empty-state reveal">
+                <span>00</span>
+                <div><h3>{{ __('website.hubs.empty_title') }}</h3><p>{{ __('website.hubs.empty_description') }}</p></div>
+                <a class="button button-wire" href="{{ App\Support\LocalizedUrl::path('/contact') }}">{{ __('website.page.cta') }} <span class="button-arrow">↗</span></a>
+            </div>
+        @endif
     </div>
 </section>
 @endif

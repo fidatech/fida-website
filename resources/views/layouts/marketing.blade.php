@@ -5,8 +5,9 @@
     $direction = $localeConfig['direction'];
     $routePage = request()->route('page');
     $currentSlug = $routePage instanceof \App\Models\ContentPage ? $routePage->slug : null;
-    $servicesActive = $currentSlug === 'services' || ($routePage instanceof \App\Models\ContentPage && in_array($routePage->type, ['solution', 'service'], true));
-    $projectsActive = $currentSlug === 'projects' || ($routePage instanceof \App\Models\ContentPage && in_array($routePage->type, ['product', 'case-study'], true));
+    $servicesActive = in_array($currentSlug, ['services', 'solutions', 'industries'], true) || ($routePage instanceof \App\Models\ContentPage && in_array($routePage->type, ['solution', 'service', 'industry'], true));
+    $productsActive = in_array($currentSlug, ['products', 'projects', 'case-studies'], true) || ($routePage instanceof \App\Models\ContentPage && in_array($routePage->type, ['product', 'case-study'], true));
+    $articlesActive = $currentSlug === 'articles' || ($routePage instanceof \App\Models\ContentPage && $routePage->type === 'article');
     $siteTheme = config('website.appearance.current_theme_values', config('website.appearance.themes.midnight'));
     $siteColors = config('website.appearance.current_colors', config('website.appearance.palettes.fida'));
     $siteRgb = config('website.appearance.rgb', ['primary' => '201,255,74', 'secondary' => '132,108,255', 'highlight' => '78,232,255']);
@@ -15,8 +16,19 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="{{ $siteTheme['background'] }}">
-    <meta name="color-scheme" content="dark">
+    <meta name="theme-color" content="{{ $siteTheme['background'] }}" data-theme-color data-dark-color="{{ $siteTheme['background'] }}">
+    <meta name="color-scheme" content="dark light">
+    <script>
+        (() => {
+            const key = 'fida_color_mode';
+            let saved = null;
+            try { saved = localStorage.getItem(key); } catch (error) {}
+            const mode = saved === 'light' || saved === 'dark'
+                ? saved
+                : (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+            document.documentElement.dataset.colorMode = mode;
+        })();
+    </script>
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
 
     <title>{{ $seo['title'] }}</title>
@@ -87,12 +99,31 @@
             <nav class="desktop-nav" aria-label="Primary navigation">
                 <a href="{{ \App\Support\LocalizedUrl::path('/') }}" @class(['active' => $currentSlug === null])><span>01</span>{{ __('website.nav.home') }}</a>
                 <a href="{{ \App\Support\LocalizedUrl::path('/about') }}" @class(['active' => $currentSlug === 'about'])><span>02</span>{{ __('website.nav.about') }}</a>
-                <a href="{{ \App\Support\LocalizedUrl::path('/services') }}" @class(['active' => $servicesActive])><span>03</span>{{ __('website.nav.services') }}</a>
-                <a href="{{ \App\Support\LocalizedUrl::path('/projects') }}" @class(['active' => $projectsActive])><span>04</span>{{ __('website.nav.projects') }}</a>
-                <a href="{{ \App\Support\LocalizedUrl::path('/pricing') }}" @class(['active' => $currentSlug === 'pricing'])><span>05</span>{{ __('website.nav.pricing') }}</a>
+                <div @class(['nav-cluster', 'active' => $servicesActive]) data-nav-cluster>
+                    <button type="button" data-nav-cluster-button aria-expanded="false"><span>03</span>{{ __('website.nav.services') }}<svg viewBox="0 0 16 16"><path d="m4 6 4 4 4-4"/></svg></button>
+                    <div class="nav-cluster-menu">
+                        <a href="{{ \App\Support\LocalizedUrl::path('/services') }}">{{ __('website.nav.services') }}<small>↗</small></a>
+                        <a href="{{ \App\Support\LocalizedUrl::path('/solutions') }}">{{ __('website.nav.solutions') }}<small>↗</small></a>
+                        <a href="{{ \App\Support\LocalizedUrl::path('/industries') }}">{{ __('website.nav.industries') }}<small>↗</small></a>
+                    </div>
+                </div>
+                <div @class(['nav-cluster', 'active' => $productsActive]) data-nav-cluster>
+                    <button type="button" data-nav-cluster-button aria-expanded="false"><span>04</span>{{ __('website.nav.products') }}<svg viewBox="0 0 16 16"><path d="m4 6 4 4 4-4"/></svg></button>
+                    <div class="nav-cluster-menu">
+                        <a href="{{ \App\Support\LocalizedUrl::path('/products') }}">{{ __('website.nav.products') }}<small>↗</small></a>
+                        <a href="{{ \App\Support\LocalizedUrl::path('/projects') }}">{{ __('website.nav.projects') }}<small>↗</small></a>
+                        <a href="{{ \App\Support\LocalizedUrl::path('/case-studies') }}">{{ __('website.nav.case_studies') }}<small>↗</small></a>
+                    </div>
+                </div>
+                <a href="{{ \App\Support\LocalizedUrl::path('/articles') }}" @class(['active' => $articlesActive])><span>05</span>{{ __('website.nav.articles') }}</a>
+                <a href="{{ \App\Support\LocalizedUrl::path('/pricing') }}" @class(['active' => $currentSlug === 'pricing'])><span>06</span>{{ __('website.nav.pricing') }}</a>
             </nav>
 
             <div class="header-actions">
+                <button class="color-mode-button" type="button" data-color-mode-toggle data-light-label="{{ __('website.nav.light_mode') }}" data-dark-label="{{ __('website.nav.dark_mode') }}" aria-label="{{ __('website.nav.light_mode') }}" title="{{ __('website.nav.light_mode') }}">
+                    <svg class="mode-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/></svg>
+                    <svg class="mode-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 15.1A8.5 8.5 0 0 1 8.9 3.5 8.5 8.5 0 1 0 20.5 15.1Z"/></svg>
+                </button>
                 <div class="language-switcher" data-language-switcher>
                     <button type="button" class="language-button" data-language-button aria-expanded="false" aria-label="Change language">
                         <span class="language-signal"></span>
@@ -120,9 +151,14 @@
             <a href="{{ \App\Support\LocalizedUrl::path('/') }}"><span>01</span>{{ __('website.nav.home') }}</a>
             <a href="{{ \App\Support\LocalizedUrl::path('/about') }}"><span>02</span>{{ __('website.nav.about') }}</a>
             <a href="{{ \App\Support\LocalizedUrl::path('/services') }}"><span>03</span>{{ __('website.nav.services') }}</a>
-            <a href="{{ \App\Support\LocalizedUrl::path('/projects') }}"><span>04</span>{{ __('website.nav.projects') }}</a>
-            <a href="{{ \App\Support\LocalizedUrl::path('/pricing') }}"><span>05</span>{{ __('website.nav.pricing') }}</a>
-            <a href="{{ \App\Support\LocalizedUrl::path('/contact') }}"><span>06</span>{{ __('website.nav.contact') }}</a>
+            <a href="{{ \App\Support\LocalizedUrl::path('/solutions') }}"><span>04</span>{{ __('website.nav.solutions') }}</a>
+            <a href="{{ \App\Support\LocalizedUrl::path('/products') }}"><span>05</span>{{ __('website.nav.products') }}</a>
+            <a href="{{ \App\Support\LocalizedUrl::path('/industries') }}"><span>06</span>{{ __('website.nav.industries') }}</a>
+            <a href="{{ \App\Support\LocalizedUrl::path('/projects') }}"><span>07</span>{{ __('website.nav.projects') }}</a>
+            <a href="{{ \App\Support\LocalizedUrl::path('/case-studies') }}"><span>08</span>{{ __('website.nav.case_studies') }}</a>
+            <a href="{{ \App\Support\LocalizedUrl::path('/articles') }}"><span>09</span>{{ __('website.nav.articles') }}</a>
+            <a href="{{ \App\Support\LocalizedUrl::path('/pricing') }}"><span>10</span>{{ __('website.nav.pricing') }}</a>
+            <a href="{{ \App\Support\LocalizedUrl::path('/contact') }}"><span>11</span>{{ __('website.nav.contact') }}</a>
         </nav>
     </header>
 
@@ -149,6 +185,8 @@
                     <span class="footer-heading">{{ __('website.footer.company') }}</span>
                     <a href="{{ \App\Support\LocalizedUrl::path('/about') }}">{{ __('website.nav.about') }}</a>
                     <a href="{{ \App\Support\LocalizedUrl::path('/services') }}">{{ __('website.nav.services') }}</a>
+                    <a href="{{ \App\Support\LocalizedUrl::path('/solutions') }}">{{ __('website.nav.solutions') }}</a>
+                    <a href="{{ \App\Support\LocalizedUrl::path('/industries') }}">{{ __('website.nav.industries') }}</a>
                     <a href="{{ \App\Support\LocalizedUrl::path('/projects') }}">{{ __('website.nav.projects') }}</a>
                     <a href="{{ \App\Support\LocalizedUrl::path('/pricing') }}">{{ __('website.nav.pricing') }}</a>
                     <a href="{{ \App\Support\LocalizedUrl::path('/contact') }}">{{ __('website.nav.contact') }}</a>
@@ -163,9 +201,12 @@
                 </div>
                 <div>
                     <span class="footer-heading">{{ __('website.footer.products') }}</span>
+                    <a href="{{ \App\Support\LocalizedUrl::path('/products') }}">{{ __('website.nav.products') }}</a>
                     @foreach(config('website.products') as $product)
                         <a href="{{ \App\Support\LocalizedUrl::path($product['url']) }}">{{ __("website.products.{$product['key']}.name") }}</a>
                     @endforeach
+                    <a href="{{ \App\Support\LocalizedUrl::path('/case-studies') }}">{{ __('website.nav.case_studies') }}</a>
+                    <a href="{{ \App\Support\LocalizedUrl::path('/articles') }}">{{ __('website.nav.articles') }}</a>
                 </div>
                 <div>
                     <span class="footer-heading">{{ __('website.footer.contact') }}</span>

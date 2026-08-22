@@ -36,7 +36,7 @@ final class SeoSchema
         $webPageType = match ($page->slug) {
             'about' => 'AboutPage',
             'contact' => 'ContactPage',
-            'services', 'projects' => 'CollectionPage',
+            'services', 'projects', 'solutions', 'products', 'industries', 'case-studies', 'articles' => 'CollectionPage',
             default => 'WebPage',
         };
         $graph = [

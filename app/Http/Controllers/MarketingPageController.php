@@ -22,13 +22,15 @@ class MarketingPageController extends Controller
         ];
         $faqs = $page->faqs();
         $productProfile = $page->productProfile();
-        $hubLayout = in_array($page->slug, ['about', 'services', 'projects', 'pricing', 'contact'], true)
-            ? $page->slug
-            : null;
+        $hubLayout = in_array($page->slug, [
+            'about', 'services', 'projects', 'pricing', 'contact',
+            ...array_keys(config('website.content_hubs')),
+        ], true) ? $page->slug : null;
         $collectionPages = $this->collectionPages($hubLayout);
         $relatedPages = ContentPage::published()
             ->whereKeyNot($page->getKey())
-            ->whereIn('type', ['solution', 'service', 'product', 'case-study'])
+            ->whereIn('type', array_keys(config('website.content_types')))
+            ->where('type', '!=', 'page')
             ->orderByDesc('featured')
             ->orderBy('sort_order')
             ->limit(3)
@@ -48,19 +50,17 @@ class MarketingPageController extends Controller
 
     private function collectionPages(?string $hubLayout): Collection
     {
-        $urls = match ($hubLayout) {
-            'services' => collect(config('website.featured_solutions'))->pluck('url'),
-            'projects' => collect(config('website.products'))->pluck('url'),
-            default => collect(),
-        };
-        $slugs = $urls->map(fn (string $url): string => basename($url))->values();
+        $types = config("website.content_hubs.{$hubLayout}.types", []);
 
-        if ($slugs->isEmpty()) {
+        if ($types === []) {
             return collect();
         }
 
-        $pages = ContentPage::published()->whereIn('slug', $slugs)->get()->keyBy('slug');
-
-        return $slugs->map(fn (string $slug) => $pages->get($slug))->filter()->values();
+        return ContentPage::published()
+            ->whereIn('type', $types)
+            ->orderByDesc('featured')
+            ->orderBy('sort_order')
+            ->orderBy('title->en')
+            ->get();
     }
 }

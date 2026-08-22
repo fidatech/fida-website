@@ -155,11 +155,7 @@ class MarketingWebsiteTest extends TestCase
         config()->set('website.indexable', true);
         config()->set('website.url', 'https://fida.af');
 
-        $this->withServerVariables([
-            'HTTP_HOST' => 'www.fida.af',
-            'SERVER_NAME' => 'www.fida.af',
-            'HTTPS' => 'on',
-        ])->get('/realist-real-estate-erp?utm_source=google')
+        $this->get('https://www.fida.af/realist-real-estate-erp?utm_source=google')
             ->assertStatus(301)
             ->assertRedirect('https://fida.af/realist-real-estate-erp?utm_source=google');
     }

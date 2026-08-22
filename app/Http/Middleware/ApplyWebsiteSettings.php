@@ -9,9 +9,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ApplyWebsiteSettings
 {
-    public function handle(Request $request, Closure $next, WebsiteSettings $settings): Response
+    public function __construct(private WebsiteSettings $settings)
     {
-        $settings->apply();
+    }
+
+    public function handle(Request $request, Closure $next): Response
+    {
+        $this->settings->apply();
 
         return $next($request);
     }

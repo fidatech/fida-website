@@ -190,7 +190,7 @@ class MarketingWebsiteTest extends TestCase
             ->assertOk()
             ->assertSee('Software &amp; Business Insights', false)
             ->assertSee('How to Choose an ERP System in Afghanistan')
-            ->assertSee('ERP Implementation Checklist for Afghanistan')
+            ->assertSee('ERP Implementation Checklist for Afghan Businesses')
             ->assertDontSee('No public entries yet.');
     }
 

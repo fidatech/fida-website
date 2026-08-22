@@ -24,7 +24,8 @@ return Application::configure(basePath: dirname(__DIR__))
         SubmitIndexNow::class,
     ])
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->web(append: [ApplyWebsiteSettings::class, RedirectLegacyUrls::class, EnforceCanonicalHost::class]);
+        $middleware->web(prepend: [RedirectLegacyUrls::class]);
+        $middleware->web(append: [ApplyWebsiteSettings::class, EnforceCanonicalHost::class]);
 
         $middleware->redirectGuestsTo(fn (Request $request) => route('admin.login'));
         $middleware->redirectUsersTo(fn (Request $request) => route('admin.dashboard'));

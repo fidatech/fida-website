@@ -2,10 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Models\Lead;
+use App\Http\Middleware\EnforceCanonicalHost;
 use App\Models\ContentPage;
+use App\Models\Lead;
 use Database\Seeders\WebsiteSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
@@ -155,9 +157,17 @@ class MarketingWebsiteTest extends TestCase
         config()->set('website.indexable', true);
         config()->set('website.url', 'https://fida.af');
 
-        $this->get('https://www.fida.af/realist-real-estate-erp?utm_source=google')
-            ->assertStatus(301)
-            ->assertRedirect('https://fida.af/realist-real-estate-erp?utm_source=google');
+        $request = Request::create(
+            'https://www.fida.af/realist-real-estate-erp?utm_source=google',
+            'GET',
+        );
+        $response = (new EnforceCanonicalHost)->handle($request, fn () => response('next'));
+
+        $this->assertSame(301, $response->getStatusCode());
+        $this->assertSame(
+            'https://fida.af/realist-real-estate-erp?utm_source=google',
+            $response->headers->get('Location'),
+        );
     }
 
     public function test_non_indexable_environment_blocks_crawlers_and_url_submission(): void

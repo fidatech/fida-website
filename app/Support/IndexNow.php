@@ -13,6 +13,10 @@ final class IndexNow
         $key = (string) config('website.indexnow.key');
         $host = parse_url((string) config('website.url'), PHP_URL_HOST);
 
+        if (! config('website.indexable')) {
+            throw new RuntimeException('IndexNow submission is disabled while WEBSITE_INDEXABLE is false.');
+        }
+
         if ($key === '') {
             throw new RuntimeException('INDEXNOW_KEY is not configured.');
         }

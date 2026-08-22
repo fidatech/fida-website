@@ -49,12 +49,19 @@ npm run build
 
 ## Search launch setup
 
+Staging and preview hosts must stay out of search results. Hosts beginning with `stage.` are automatically non-indexable; make the intent explicit in the staging `.env`:
+
+```dotenv
+WEBSITE_INDEXABLE=false
+```
+
 After the production domain is serving the new site, add the ownership tokens from Google Search Console and Bing Webmaster Tools to `.env`:
 
 ```dotenv
 GOOGLE_SITE_VERIFICATION=
 BING_SITE_VERIFICATION=
 WEBSITE_SOCIAL_IMAGE=https://fida.af/path/to/a-1200x630-image.jpg
+WEBSITE_INDEXABLE=true
 ```
 
 Generate and configure an IndexNow key, then clear the cached configuration and submit all published localized URLs:

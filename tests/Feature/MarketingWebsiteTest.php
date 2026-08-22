@@ -102,6 +102,25 @@ class MarketingWebsiteTest extends TestCase
             ->assertSee(route('sitemap'));
     }
 
+    public function test_non_indexable_environment_blocks_crawlers_and_url_submission(): void
+    {
+        config()->set('website.indexable', false);
+        config()->set('website.indexnow.key', '0123456789abcdef0123456789abcdef');
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('name="robots" content="noindex,nofollow,noarchive"', false);
+
+        $this->get('/robots.txt')
+            ->assertOk()
+            ->assertSee("User-agent: *\nDisallow: /")
+            ->assertDontSee('Sitemap:');
+
+        $this->artisan('website:indexnow')
+            ->expectsOutput('IndexNow submission is disabled while WEBSITE_INDEXABLE is false.')
+            ->assertFailed();
+    }
+
     public function test_indexnow_key_and_published_url_submission_are_available(): void
     {
         $this->seed(WebsiteSeeder::class);

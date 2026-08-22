@@ -122,6 +122,8 @@ class MarketingWebsiteTest extends TestCase
 
         $this->get('/')
             ->assertOk()
+            ->assertSee('data-nav-cluster', false)
+            ->assertSee('class="nav-cluster-menu nav-mega-menu', false)
             ->assertSee('href="'.url('/about').'"', false)
             ->assertSee('href="'.url('/services').'"', false)
             ->assertSee('href="'.url('/solutions').'"', false)
@@ -133,10 +135,49 @@ class MarketingWebsiteTest extends TestCase
             ->assertSee('href="'.url('/pricing').'"', false)
             ->assertSee('href="'.url('/contact').'"', false);
 
+        $this->get('/')
+            ->assertSee('href="'.url('/erp-implementation-services-afghanistan').'"', false)
+            ->assertSee('href="'.url('/real-estate-construction-software-afghanistan').'"', false)
+            ->assertSee('href="'.url('/how-to-choose-erp-system-afghanistan').'"', false)
+            ->assertDontSee('realist-erp-case-study');
+
         $this->get('/fa/about')
             ->assertOk()
             ->assertSee('<html lang="fa" dir="rtl"', false)
-            ->assertSee('درباره Fida Technologies');
+            ->assertSee('درباره Fida Technologies')
+            ->assertSee('href="'.url('/fa/erp-implementation-services-afghanistan').'"', false)
+            ->assertSee('خدمات تطبیق ERP در افغانستان');
+    }
+
+    public function test_public_search_finds_published_content_and_is_not_indexable(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $this->get('/search?q=ERP')
+            ->assertOk()
+            ->assertSee('<meta name="robots" content="noindex,follow,noarchive">', false)
+            ->assertSee('Results for “ERP”')
+            ->assertSee('ERP Systems in Afghanistan')
+            ->assertSee('ERP Implementation Services in Afghanistan')
+            ->assertSee('href="'.url('/erp-systems-afghanistan').'"', false)
+            ->assertDontSee('Realist ERP case study');
+
+        $this->get('/fa/search?q=ERP')
+            ->assertOk()
+            ->assertSee('<html lang="fa" dir="rtl"', false)
+            ->assertSee('نتایج برای «ERP»')
+            ->assertSee('سیستم‌های ERP در افغانستان')
+            ->assertSee('href="'.url('/fa/erp-systems-afghanistan').'"', false);
+    }
+
+    public function test_public_search_requires_a_meaningful_query(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $this->get('/search?q=E')
+            ->assertOk()
+            ->assertSee('Enter at least two characters to search the published website.')
+            ->assertDontSee('search-result-card', false);
     }
 
     public function test_services_and_projects_hubs_link_to_detailed_pages(): void

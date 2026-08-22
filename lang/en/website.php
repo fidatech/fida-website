@@ -13,6 +13,8 @@ return [
         'industries' => 'Industries', 'case_studies' => 'Case studies', 'articles' => 'Insights',
         'process' => 'Process', 'proposal' => 'Request a proposal', 'menu' => 'Open menu',
         'light_mode' => 'Use day mode', 'dark_mode' => 'Use night mode',
+        'all_services' => 'Explore all services', 'all_solutions' => 'Explore all solutions',
+        'all_products' => 'Explore all products', 'all_industries' => 'Explore all industries', 'all_articles' => 'View all insights',
     ],
     'hero' => [
         'eyebrow' => 'Business software built in Afghanistan',
@@ -85,6 +87,18 @@ return [
             'not-sure' => 'Not sure yet', 'under-1000' => 'Under $1,000', '1000-3000' => '$1,000–$3,000',
             '3000-10000' => '$3,000–$10,000', '10000-plus' => '$10,000+',
         ],
+    ],
+    'search' => [
+        'title' => 'Search website', 'eyebrow' => 'Find the right page',
+        'heading' => 'Search Fida services, products and insights.',
+        'description' => 'Search published information about ERP, accounting, custom software, products, industries and implementation guidance.',
+        'placeholder' => 'Search ERP, accounting, industry…', 'submit' => 'Search',
+        'results' => 'Results for “:query”', 'count' => ':count pages found',
+        'empty' => 'No published page matched this search.', 'empty_hint' => 'Try a broader phrase or browse the service and industry menus.',
+        'start' => 'Enter at least two characters to search the published website.',
+        'previous' => 'Previous', 'next' => 'Next',
+        'meta_title' => 'Search Fida Technologies',
+        'meta_description' => 'Search Fida Technologies services, products, industry pages and practical software guidance.',
     ],
     'page' => [
         'back' => 'Back to home', 'home' => 'Home', 'breadcrumbs' => 'Breadcrumbs', 'article' => 'Article', 'published' => 'Published',

@@ -26,7 +26,7 @@ class MarketingWebsiteTest extends TestCase
     {
         $this->get('/')
             ->assertOk()
-            ->assertSee('<html lang="en" dir="ltr">', false)
+            ->assertSee('<html lang="en" dir="ltr"', false)
             ->assertSee('Software Company in Afghanistan')
             ->assertSee('A software company in Afghanistan built for operational complexity.')
             ->assertSee('ERP &amp; MIS Systems', false);
@@ -36,7 +36,7 @@ class MarketingWebsiteTest extends TestCase
     {
         $this->get('/fa')
             ->assertOk()
-            ->assertSee('<html lang="fa" dir="rtl">', false)
+            ->assertSee('<html lang="fa" dir="rtl"', false)
             ->assertSee('شرکت نرم‌افزاری در افغانستان');
     }
 
@@ -62,7 +62,7 @@ class MarketingWebsiteTest extends TestCase
 
         $this->get('/fa/erp-systems-afghanistan')
             ->assertOk()
-            ->assertSee('<html lang="fa" dir="rtl">', false)
+            ->assertSee('<html lang="fa" dir="rtl"', false)
             ->assertSee('پرسش‌های متداول')
             ->assertSee('What is an ERP system?');
     }
@@ -103,7 +103,7 @@ class MarketingWebsiteTest extends TestCase
 
         $this->get('/fa/prime-sarafi-software')
             ->assertOk()
-            ->assertSee('<html lang="fa" dir="rtl">', false)
+            ->assertSee('<html lang="fa" dir="rtl"', false)
             ->assertSee('نرم‌افزار مدیریت صرافی و حواله Prime')
             ->assertSee('پلتفرم صرافی و حواله');
     }
@@ -122,7 +122,7 @@ class MarketingWebsiteTest extends TestCase
 
         $this->get('/fa/about')
             ->assertOk()
-            ->assertSee('<html lang="fa" dir="rtl">', false)
+            ->assertSee('<html lang="fa" dir="rtl"', false)
             ->assertSee('درباره Fida Technologies');
     }
 

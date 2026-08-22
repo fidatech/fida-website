@@ -65,6 +65,7 @@ class AdminConsoleTest extends TestCase
         $page = ContentPage::query()->firstOrFail();
         $response->assertRedirect(route('admin.content-pages.edit', $page));
         $this->assertSame('ERP Consulting Afghanistan', $page->title['en']);
+        $this->assertSame('What is ERP consulting?', $page->metadata['faqs'][0]['question']['en']);
         $this->assertNotNull($page->published_at);
 
         $this->actingAs($editor)->get(route('admin.leads.index'))->assertForbidden();
@@ -137,6 +138,10 @@ class AdminConsoleTest extends TestCase
             'body' => ['en' => '<h2>Build the right operating system</h2><p>Start with the workflow.</p>'],
             'meta_title' => ['en' => 'ERP Consulting Afghanistan | Fida'],
             'meta_description' => ['en' => 'ERP consulting and implementation for companies in Afghanistan.'],
+            'metadata' => ['faqs' => [[
+                'question' => ['en' => 'What is ERP consulting?'],
+                'answer' => ['en' => 'It maps business workflows and turns them into a practical ERP implementation plan.'],
+            ]]],
             'status' => 'published',
             'featured' => '1',
             'sort_order' => 1,

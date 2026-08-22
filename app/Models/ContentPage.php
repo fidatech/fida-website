@@ -62,4 +62,32 @@ class ContentPage extends Model
             ?? $translations[config('website.default_locale')]
             ?? collect($translations)->first();
     }
+
+    public function faqs(?string $locale = null): array
+    {
+        $locale ??= app()->getLocale();
+        $fallbackLocale = config('website.default_locale');
+
+        return collect(data_get($this->metadata, 'faqs', []))
+            ->map(function (array $faq) use ($locale, $fallbackLocale): array {
+                $question = trim((string) data_get($faq, "question.{$locale}"));
+                $answer = trim((string) data_get($faq, "answer.{$locale}"));
+                $contentLocale = $locale;
+
+                if ($question === '' || $answer === '') {
+                    $question = trim((string) data_get($faq, "question.{$fallbackLocale}"));
+                    $answer = trim((string) data_get($faq, "answer.{$fallbackLocale}"));
+                    $contentLocale = $fallbackLocale;
+                }
+
+                return [
+                    'question' => $question,
+                    'answer' => $answer,
+                    'locale' => $contentLocale,
+                ];
+            })
+            ->filter(fn (array $faq): bool => $faq['question'] !== '' && $faq['answer'] !== '')
+            ->values()
+            ->all();
+    }
 }

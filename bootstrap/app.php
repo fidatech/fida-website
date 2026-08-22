@@ -1,6 +1,7 @@
 <?php
 
 use App\Console\Commands\CreateAdminUser;
+use App\Console\Commands\SubmitIndexNow;
 use App\Http\Middleware\EnsureAdminAccess;
 use App\Http\Middleware\EnsureCapability;
 use App\Http\Middleware\SetLocale;
@@ -17,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withCommands([
         CreateAdminUser::class,
+        SubmitIndexNow::class,
     ])
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->redirectGuestsTo(fn (Request $request) => route('admin.login'));

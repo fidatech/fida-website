@@ -3,21 +3,6 @@
     $locale = app()->getLocale();
     $localeConfig = config("website.locales.{$locale}", config('website.locales.en'));
     $direction = $localeConfig['direction'];
-    $organizationSchema = [
-        '@context' => 'https://schema.org',
-        '@type' => 'Organization',
-        '@id' => url('/').'#organization',
-        'name' => config('website.name'),
-        'legalName' => config('website.legal_name'),
-        'url' => url('/'),
-        'email' => config('website.email'),
-        'telephone' => config('website.phone'),
-        'address' => [
-            '@type' => 'PostalAddress',
-            'addressLocality' => config('website.address.city'),
-            'addressCountry' => config('website.address.country_code'),
-        ],
-    ];
 @endphp
 <html lang="{{ $locale }}" dir="{{ $direction }}">
 <head>
@@ -30,6 +15,8 @@
     <title>{{ $seo['title'] }}</title>
     <meta name="description" content="{{ $seo['description'] }}">
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+    @if(config('website.search_verification.google'))<meta name="google-site-verification" content="{{ config('website.search_verification.google') }}">@endif
+    @if(config('website.search_verification.bing'))<meta name="msvalidate.01" content="{{ config('website.search_verification.bing') }}">@endif
     <link rel="canonical" href="{{ $seo['canonical'] }}">
 
     @foreach(config('website.locales') as $code => $language)
@@ -38,14 +25,25 @@
     <link rel="alternate" hreflang="x-default" href="{{ \App\Support\LocalizedUrl::current(config('website.default_locale')) }}">
 
     <meta property="og:locale" content="{{ str_replace('-', '_', $locale) }}">
+    @foreach(config('website.locales') as $code => $language)
+        @if($code !== $locale)<meta property="og:locale:alternate" content="{{ str_replace('-', '_', $code) }}">@endif
+    @endforeach
     <meta property="og:type" content="{{ $seo['type'] ?? 'website' }}">
     <meta property="og:title" content="{{ $seo['title'] }}">
     <meta property="og:description" content="{{ $seo['description'] }}">
     <meta property="og:url" content="{{ $seo['canonical'] }}">
     <meta property="og:site_name" content="{{ config('website.name') }}">
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $seo['title'] }}">
+    <meta name="twitter:description" content="{{ $seo['description'] }}">
+    @if(config('website.social_image'))
+        <meta property="og:image" content="{{ config('website.social_image') }}">
+        <meta name="twitter:image" content="{{ config('website.social_image') }}">
+    @endif
 
-    <script type="application/ld+json">{!! json_encode($organizationSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+    @isset($structuredData)
+        <script type="application/ld+json">{!! json_encode($structuredData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+    @endisset
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="marketing-body">
@@ -127,6 +125,7 @@
                     <a href="{{ \App\Support\LocalizedUrl::path('/erp-systems-afghanistan') }}">ERP Systems</a>
                     <a href="{{ \App\Support\LocalizedUrl::path('/custom-software-development-afghanistan') }}">Custom Software</a>
                     <a href="{{ \App\Support\LocalizedUrl::path('/mobile-app-development-afghanistan') }}">Mobile Apps</a>
+                    <a href="{{ \App\Support\LocalizedUrl::path('/technology-company-afghanistan') }}">Technology Company</a>
                 </div>
                 <div>
                     <span class="footer-heading">{{ __('website.footer.contact') }}</span>

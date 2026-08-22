@@ -7,6 +7,15 @@ return [
     'email' => env('WEBSITE_EMAIL', 'info@fida.af'),
     'phone' => env('WEBSITE_PHONE', '+93784006200'),
     'whatsapp' => env('WEBSITE_WHATSAPP', '93784006200'),
+    'social_image' => env('WEBSITE_SOCIAL_IMAGE'),
+    'search_verification' => [
+        'google' => env('GOOGLE_SITE_VERIFICATION'),
+        'bing' => env('BING_SITE_VERIFICATION'),
+    ],
+    'indexnow' => [
+        'key' => env('INDEXNOW_KEY'),
+        'endpoint' => env('INDEXNOW_ENDPOINT', 'https://api.indexnow.org/indexnow'),
+    ],
     'address' => [
         'city' => 'Kabul',
         'country' => 'Afghanistan',
@@ -18,6 +27,13 @@ return [
         'ps' => ['label' => 'Pashto', 'native' => 'پښتو', 'direction' => 'rtl'],
     ],
     'default_locale' => 'en',
+    'expertise' => [
+        'ERP systems',
+        'accounting software',
+        'custom software development',
+        'mobile application development',
+        'business process automation',
+    ],
     'stats' => [
         ['value' => '70+', 'key' => 'clients'],
         ['value' => '10+', 'key' => 'experience'],

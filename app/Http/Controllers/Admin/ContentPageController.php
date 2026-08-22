@@ -64,6 +64,19 @@ class ContentPageController extends Controller
     private function payload(ContentPageRequest $request): array
     {
         $data = $request->validated();
+        $existingMetadata = (array) ($request->route('contentPage')?->metadata ?? []);
+        $faqs = collect(data_get($data, 'metadata.faqs', []))
+            ->map(function (array $faq): array {
+                return [
+                    'question' => collect($faq['question'] ?? [])->map(fn (mixed $value): string => trim((string) $value))->filter()->all(),
+                    'answer' => collect($faq['answer'] ?? [])->map(fn (mixed $value): string => trim((string) $value))->filter()->all(),
+                ];
+            })
+            ->filter(fn (array $faq): bool => $faq['question'] !== [] && $faq['answer'] !== [])
+            ->values()
+            ->all();
+
+        $data['metadata'] = array_replace($existingMetadata, ['faqs' => $faqs]);
 
         if ($data['status'] === 'published' && empty($data['published_at'])) {
             $data['published_at'] = now();

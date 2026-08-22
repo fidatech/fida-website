@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\LeadController as AdminLeadController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\IndexNowKeyController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\MarketingPageController;
 use App\Http\Controllers\RobotsController;
@@ -16,6 +17,7 @@ Route::get('/', HomeController::class)->name('home');
 
 Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
 Route::get('/robots.txt', RobotsController::class)->name('robots');
+Route::get('/indexnow-key.txt', IndexNowKeyController::class)->name('indexnow.key');
 
 Route::post('/contact/lead', LeadController::class)
     ->middleware('throttle:5,1')

@@ -70,6 +70,25 @@
     </div>
 </section>
 
+<section class="company-proof-section">
+    <div class="container company-proof-shell reveal">
+        <div class="company-proof-copy">
+            <div class="micro-label"><span>00</span>{{ __('website.company.eyebrow') }}</div>
+            <h2>{{ __('website.company.title') }}</h2>
+            <p>{{ __('website.company.description') }}</p>
+            <div class="company-proof-links">
+                <a href="{{ App\Support\LocalizedUrl::path('/technology-company-afghanistan') }}">{{ __('website.company.technology_link') }} ↗</a>
+                <a href="{{ App\Support\LocalizedUrl::path('/custom-software-development-afghanistan') }}">{{ __('website.company.software_link') }} ↗</a>
+            </div>
+        </div>
+        <div class="company-proof-facts">
+            @foreach(__('website.company.facts') as $fact)
+                <article><span>0{{ $loop->iteration }}</span><div><small>{{ $fact['label'] }}</small><strong>{{ $fact['value'] }}</strong></div></article>
+            @endforeach
+        </div>
+    </div>
+</section>
+
 <section class="section solutions-section" id="solutions">
     <div class="container">
         <div class="section-heading section-heading-grid reveal">

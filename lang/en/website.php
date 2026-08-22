@@ -23,6 +23,17 @@ return [
     'stats' => [
         'clients' => 'business clients', 'experience' => 'years of experience', 'languages' => 'working languages',
     ],
+    'company' => [
+        'eyebrow' => 'Afghanistan technology partner',
+        'title' => 'A software company in Afghanistan built for operational complexity.',
+        'description' => 'Fida Technologies helps organizations replace disconnected tools with maintainable ERP, financial, web and mobile systems. Our team combines local workflow understanding with secure, modern software engineering.',
+        'technology_link' => 'About our technology company', 'software_link' => 'Custom software development',
+        'facts' => [
+            ['label' => 'Based in', 'value' => 'Kabul, Afghanistan'],
+            ['label' => 'Working languages', 'value' => 'English · Dari · Pashto'],
+            ['label' => 'Core capabilities', 'value' => 'ERP · Finance · Web · Mobile'],
+        ],
+    ],
     'sections' => [
         'solutions_eyebrow' => 'What we build', 'solutions_title' => 'Technology shaped around the way your business works.',
         'solutions_description' => 'From one focused workflow to an enterprise-wide platform, every solution is designed for clarity, control and growth.',
@@ -73,7 +84,11 @@ return [
         ],
     ],
     'page' => [
-        'back' => 'Back to home', 'cta_title' => 'Ready to discuss your system?',
+        'back' => 'Back to home', 'home' => 'Home', 'breadcrumbs' => 'Breadcrumbs',
+        'faq_eyebrow' => 'Direct answers', 'faq_title' => 'Frequently asked questions.',
+        'faq_description' => 'Clear, practical answers about the service, implementation and fit.',
+        'related_eyebrow' => 'Connected expertise', 'related_title' => 'Explore related capabilities.',
+        'cta_title' => 'Ready to discuss your system?',
         'cta_description' => 'Share your current workflow and we will recommend a practical implementation path.',
         'cta' => 'Request a proposal',
     ],

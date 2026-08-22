@@ -4,7 +4,11 @@
 <section class="page-hero">
     <div class="page-hero-glow"></div>
     <div class="container narrow reveal">
-        <a class="back-link" href="{{ App\Support\LocalizedUrl::path('/') }}">← {{ __('website.page.back') }}</a>
+        <nav class="page-breadcrumbs" aria-label="{{ __('website.page.breadcrumbs') }}">
+            <a href="{{ App\Support\LocalizedUrl::path('/') }}">{{ __('website.page.home') }}</a>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">{{ $page->translation('title') }}</span>
+        </nav>
         <div class="micro-label"><span>01</span>{{ $page->translation('eyebrow') }}</div>
         <h1>{{ $page->translation('title') }}</h1>
         <p>{{ $page->translation('summary') }}</p>
@@ -22,4 +26,45 @@
         </aside>
     </div>
 </section>
+
+@if($faqs !== [])
+<section class="page-faq-section" id="frequently-asked-questions">
+    <div class="container page-section-grid">
+        <div class="page-section-intro reveal">
+            <div class="micro-label"><span>02</span>{{ __('website.page.faq_eyebrow') }}</div>
+            <h2>{{ __('website.page.faq_title') }}</h2>
+            <p>{{ __('website.page.faq_description') }}</p>
+        </div>
+        <div class="faq-list reveal">
+            @foreach($faqs as $faq)
+                <details class="faq-item" lang="{{ $faq['locale'] }}" dir="{{ config("website.locales.{$faq['locale']}.direction", 'ltr') }}" @if($loop->first) open @endif>
+                    <summary><span>{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>{{ $faq['question'] }}<i aria-hidden="true">+</i></summary>
+                    <p>{{ $faq['answer'] }}</p>
+                </details>
+            @endforeach
+        </div>
+    </div>
+</section>
+@endif
+
+@if($relatedPages->isNotEmpty())
+<section class="related-pages-section">
+    <div class="container">
+        <div class="related-pages-heading reveal">
+            <div class="micro-label"><span>03</span>{{ __('website.page.related_eyebrow') }}</div>
+            <h2>{{ __('website.page.related_title') }}</h2>
+        </div>
+        <div class="related-pages-grid">
+            @foreach($relatedPages as $relatedPage)
+                <a class="related-page-card reveal" href="{{ App\Support\LocalizedUrl::path('/'.$relatedPage->slug) }}">
+                    <span>0{{ $loop->iteration }} / {{ strtoupper($relatedPage->type) }}</span>
+                    <h3>{{ $relatedPage->translation('title') }}</h3>
+                    <p>{{ $relatedPage->translation('summary') }}</p>
+                    <b>{{ __('website.solutions.learn_more') }} ↗</b>
+                </a>
+            @endforeach
+        </div>
+    </div>
+</section>
+@endif
 @endsection

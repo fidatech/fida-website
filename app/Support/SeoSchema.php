@@ -1,0 +1,151 @@
+<?php
+
+namespace App\Support;
+
+use App\Models\ContentPage;
+
+final class SeoSchema
+{
+    public static function home(string $title, string $description, string $canonical): array
+    {
+        return [
+            '@context' => 'https://schema.org',
+            '@graph' => [
+                self::organization(),
+                self::website(),
+                [
+                    '@type' => 'WebPage',
+                    '@id' => $canonical.'#webpage',
+                    'url' => $canonical,
+                    'name' => $title,
+                    'description' => $description,
+                    'inLanguage' => app()->getLocale(),
+                    'isPartOf' => ['@id' => url('/').'#website'],
+                    'about' => ['@id' => url('/').'#organization'],
+                ],
+            ],
+        ];
+    }
+
+    public static function page(ContentPage $page, string $title, string $description, string $canonical, array $faqs = []): array
+    {
+        $pageId = $canonical.'#webpage';
+        $serviceId = $canonical.'#service';
+        $breadcrumbId = $canonical.'#breadcrumb';
+        $graph = [
+            [
+                '@type' => 'WebPage',
+                '@id' => $pageId,
+                'url' => $canonical,
+                'name' => $title,
+                'description' => $description,
+                'inLanguage' => app()->getLocale(),
+                'isPartOf' => ['@id' => url('/').'#website'],
+                'breadcrumb' => ['@id' => $breadcrumbId],
+                'datePublished' => ($page->published_at ?? $page->created_at)?->toAtomString(),
+                'dateModified' => $page->updated_at?->toAtomString(),
+            ],
+            [
+                '@type' => 'BreadcrumbList',
+                '@id' => $breadcrumbId,
+                'itemListElement' => [
+                    [
+                        '@type' => 'ListItem',
+                        'position' => 1,
+                        'name' => __('website.page.home'),
+                        'item' => LocalizedUrl::path('/'),
+                    ],
+                    [
+                        '@type' => 'ListItem',
+                        'position' => 2,
+                        'name' => $page->translation('title'),
+                        'item' => $canonical,
+                    ],
+                ],
+            ],
+        ];
+
+        if (in_array($page->type, ['solution', 'service'], true)) {
+            $graph[0]['mainEntity'] = ['@id' => $serviceId];
+            $graph[] = [
+                '@type' => 'Service',
+                '@id' => $serviceId,
+                'url' => $canonical,
+                'name' => $page->translation('title'),
+                'description' => $page->translation('summary'),
+                'serviceType' => $page->translation('title'),
+                'provider' => ['@id' => url('/').'#organization'],
+                'areaServed' => [
+                    '@type' => 'Country',
+                    'name' => config('website.address.country'),
+                ],
+            ];
+        }
+
+        if ($faqs !== []) {
+            $graph[] = [
+                '@type' => 'FAQPage',
+                '@id' => $canonical.'#faq',
+                'url' => $canonical.'#frequently-asked-questions',
+                'mainEntity' => array_map(fn (array $faq): array => [
+                    '@type' => 'Question',
+                    'name' => $faq['question'],
+                    'inLanguage' => $faq['locale'],
+                    'acceptedAnswer' => [
+                        '@type' => 'Answer',
+                        'text' => $faq['answer'],
+                        'inLanguage' => $faq['locale'],
+                    ],
+                ], $faqs),
+            ];
+        }
+
+        return [
+            '@context' => 'https://schema.org',
+            '@graph' => $graph,
+        ];
+    }
+
+    private static function organization(): array
+    {
+        return [
+            '@type' => 'Organization',
+            '@id' => url('/').'#organization',
+            'name' => config('website.name'),
+            'legalName' => config('website.legal_name'),
+            'url' => url('/'),
+            'email' => config('website.email'),
+            'telephone' => config('website.phone'),
+            'address' => [
+                '@type' => 'PostalAddress',
+                'addressLocality' => config('website.address.city'),
+                'addressCountry' => config('website.address.country_code'),
+            ],
+            'areaServed' => [
+                '@type' => 'Country',
+                'name' => config('website.address.country'),
+            ],
+            'knowsAbout' => config('website.expertise'),
+            'contactPoint' => [
+                '@type' => 'ContactPoint',
+                'contactType' => 'sales',
+                'telephone' => config('website.phone'),
+                'email' => config('website.email'),
+                'areaServed' => config('website.address.country_code'),
+                'availableLanguage' => array_column(config('website.locales'), 'label'),
+            ],
+        ];
+    }
+
+    private static function website(): array
+    {
+        return [
+            '@type' => 'WebSite',
+            '@id' => url('/').'#website',
+            'url' => url('/'),
+            'name' => config('website.name'),
+            'publisher' => ['@id' => url('/').'#organization'],
+            'inLanguage' => array_keys(config('website.locales')),
+        ];
+    }
+}

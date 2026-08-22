@@ -8,7 +8,9 @@ Official multilingual website and lead-generation platform for [Fida Technologie
 - Tailwind CSS 4 and minimal JavaScript
 - English, Dari and Pashto with RTL support
 - Dynamic multilingual landing-page content
-- Search metadata, canonical URLs, hreflang, XML sitemap and Organization schema
+- Search metadata, canonical URLs, hreflang, XML sitemap and page-specific structured data
+- Visible multilingual FAQs, service entities, breadcrumbs and related-topic internal links
+- Google and Bing ownership verification hooks, OpenAI crawler policy and IndexNow submission
 - Lead capture with campaign attribution and spam protection
 - Automated PHP tests and frontend build verification
 - Separate authenticated website console for content, leads and team access
@@ -44,6 +46,27 @@ Run the verification suite:
 php artisan test
 npm run build
 ```
+
+## Search launch setup
+
+After the production domain is serving the new site, add the ownership tokens from Google Search Console and Bing Webmaster Tools to `.env`:
+
+```dotenv
+GOOGLE_SITE_VERIFICATION=
+BING_SITE_VERIFICATION=
+WEBSITE_SOCIAL_IMAGE=https://fida.af/path/to/a-1200x630-image.jpg
+```
+
+Generate and configure an IndexNow key, then clear the cached configuration and submit all published localized URLs:
+
+```bash
+php -r 'echo bin2hex(random_bytes(16)), PHP_EOL;'
+# Add the resulting value as INDEXNOW_KEY in .env
+php artisan optimize:clear
+php artisan website:indexnow
+```
+
+The key is exposed only through `/indexnow-key.txt` when configured. Run the submission command after publishing or materially updating pages. Search engines decide whether and when submitted URLs are crawled or indexed.
 
 ## Branch policy
 

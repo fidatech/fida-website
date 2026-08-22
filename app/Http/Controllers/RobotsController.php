@@ -15,6 +15,9 @@ class RobotsController extends Controller
             'User-agent: OAI-SearchBot',
             'Allow: /',
             '',
+            'User-agent: GPTBot',
+            'Allow: /',
+            '',
             'Sitemap: '.route('sitemap'),
             '',
         ]);

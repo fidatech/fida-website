@@ -5,6 +5,7 @@ namespace App\Http\Requests\Admin;
 use App\Models\ContentPage;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 class ContentPageRequest extends FormRequest
 {
@@ -51,10 +52,37 @@ class ContentPageRequest extends FormRequest
             'meta_title.*' => ['nullable', 'string', 'max:190'],
             'meta_description' => ['nullable', 'array'],
             'meta_description.*' => ['nullable', 'string', 'max:320'],
+            'metadata' => ['nullable', 'array'],
+            'metadata.faqs' => ['nullable', 'array', 'max:6'],
+            'metadata.faqs.*.question' => ['nullable', 'array'],
+            'metadata.faqs.*.question.*' => ['nullable', 'string', 'max:320'],
+            'metadata.faqs.*.answer' => ['nullable', 'array'],
+            'metadata.faqs.*.answer.*' => ['nullable', 'string', 'max:1500'],
             'status' => ['required', Rule::in(['draft', 'published'])],
             'featured' => ['required', 'boolean'],
             'sort_order' => ['required', 'integer', 'min:0', 'max:9999'],
             'published_at' => ['nullable', 'date'],
+        ];
+    }
+
+    public function after(): array
+    {
+        return [
+            function (Validator $validator): void {
+                foreach ((array) $this->input('metadata.faqs', []) as $index => $faq) {
+                    foreach (array_keys(config('website.locales')) as $locale) {
+                        $question = trim((string) data_get($faq, "question.{$locale}"));
+                        $answer = trim((string) data_get($faq, "answer.{$locale}"));
+
+                        if (($question === '') !== ($answer === '')) {
+                            $validator->errors()->add(
+                                "metadata.faqs.{$index}.question.{$locale}",
+                                'Each FAQ needs both a question and an answer in the same language.',
+                            );
+                        }
+                    }
+                }
+            },
         ];
     }
 }

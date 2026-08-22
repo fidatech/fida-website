@@ -34,6 +34,20 @@
                         <label><span>Meta description</span><textarea name="meta_description[{{ $locale }}]" rows="3" maxlength="320" dir="{{ $config['direction'] }}" data-counted>{{ old("meta_description.$locale", $contentPage->meta_description[$locale] ?? '') }}</textarea><small data-counter>0 / 160 recommended</small></label>
                     </div>
                 </div>
+                <div class="seo-box faq-editor-box">
+                    <header><span>?</span><div><h3>Direct answers</h3><p>Add concise questions people may ask search engines or AI assistants. Only complete pairs are published.</p></div></header>
+                    <div class="faq-editor-list">
+                        @for($faqIndex = 0; $faqIndex < 4; $faqIndex++)
+                            <fieldset class="faq-editor-item">
+                                <legend>FAQ {{ str_pad((string) ($faqIndex + 1), 2, '0', STR_PAD_LEFT) }}</legend>
+                                <div class="console-form two-columns">
+                                    <label><span>Question</span><input name="metadata[faqs][{{ $faqIndex }}][question][{{ $locale }}]" maxlength="320" value="{{ old("metadata.faqs.$faqIndex.question.$locale", data_get($contentPage->metadata, "faqs.$faqIndex.question.$locale")) }}" dir="{{ $config['direction'] }}" placeholder="What does a customer need to know?"></label>
+                                    <label><span>Answer</span><textarea name="metadata[faqs][{{ $faqIndex }}][answer][{{ $locale }}]" rows="3" maxlength="1500" dir="{{ $config['direction'] }}" placeholder="Give a factual, self-contained answer.">{{ old("metadata.faqs.$faqIndex.answer.$locale", data_get($contentPage->metadata, "faqs.$faqIndex.answer.$locale")) }}</textarea></label>
+                                </div>
+                            </fieldset>
+                        @endfor
+                    </div>
+                </div>
             </div>
         @endforeach
     </section>

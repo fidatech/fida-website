@@ -27,11 +27,12 @@ final class SeoSchema
         ];
     }
 
-    public static function page(ContentPage $page, string $title, string $description, string $canonical, array $faqs = []): array
+    public static function page(ContentPage $page, string $title, string $description, string $canonical, array $faqs = [], ?array $archive = null): array
     {
         $pageId = $canonical.'#webpage';
         $serviceId = $canonical.'#service';
         $productId = $canonical.'#software';
+        $articleId = $canonical.'#article';
         $breadcrumbId = $canonical.'#breadcrumb';
         $webPageType = match ($page->slug) {
             'about' => 'AboutPage',
@@ -39,6 +40,31 @@ final class SeoSchema
             'services', 'projects', 'solutions', 'products', 'industries', 'case-studies', 'articles' => 'CollectionPage',
             default => 'WebPage',
         };
+        $breadcrumbItems = [
+            [
+                '@type' => 'ListItem',
+                'position' => 1,
+                'name' => __('website.page.home'),
+                'item' => LocalizedUrl::path('/'),
+            ],
+        ];
+
+        if ($archive !== null) {
+            $breadcrumbItems[] = [
+                '@type' => 'ListItem',
+                'position' => 2,
+                'name' => $archive['label'],
+                'item' => $archive['path'],
+            ];
+        }
+
+        $breadcrumbItems[] = [
+            '@type' => 'ListItem',
+            'position' => count($breadcrumbItems) + 1,
+            'name' => $page->translation('title'),
+            'item' => $canonical,
+        ];
+
         $graph = [
             [
                 '@type' => $webPageType,
@@ -55,20 +81,7 @@ final class SeoSchema
             [
                 '@type' => 'BreadcrumbList',
                 '@id' => $breadcrumbId,
-                'itemListElement' => [
-                    [
-                        '@type' => 'ListItem',
-                        'position' => 1,
-                        'name' => __('website.page.home'),
-                        'item' => LocalizedUrl::path('/'),
-                    ],
-                    [
-                        '@type' => 'ListItem',
-                        'position' => 2,
-                        'name' => $page->translation('title'),
-                        'item' => $canonical,
-                    ],
-                ],
+                'itemListElement' => $breadcrumbItems,
             ],
         ];
 
@@ -102,6 +115,23 @@ final class SeoSchema
                 'featureList' => $product['features'],
                 'publisher' => ['@id' => url('/').'#organization'],
                 'inLanguage' => app()->getLocale(),
+            ];
+        }
+
+        if ($page->type === 'article') {
+            $graph[0]['mainEntity'] = ['@id' => $articleId];
+            $graph[] = [
+                '@type' => 'Article',
+                '@id' => $articleId,
+                'url' => $canonical,
+                'headline' => $page->translation('title'),
+                'description' => $page->translation('summary'),
+                'inLanguage' => app()->getLocale(),
+                'datePublished' => ($page->published_at ?? $page->created_at)?->toAtomString(),
+                'dateModified' => $page->updated_at?->toAtomString(),
+                'mainEntityOfPage' => ['@id' => $pageId],
+                'author' => ['@id' => url('/').'#organization'],
+                'publisher' => ['@id' => url('/').'#organization'],
             ];
         }
 

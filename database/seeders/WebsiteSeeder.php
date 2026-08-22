@@ -10,12 +10,14 @@ class WebsiteSeeder extends Seeder
     public function run(): void
     {
         foreach ($this->pages() as $page) {
-            ContentPage::query()->updateOrCreate(['slug' => $page['slug']], $page);
+            ContentPage::query()->firstOrCreate(['slug' => $page['slug']], $page);
         }
 
         foreach ($this->caseStudyDrafts() as $caseStudy) {
             ContentPage::query()->firstOrCreate(['slug' => $caseStudy['slug']], $caseStudy);
         }
+
+        $this->call(MarketingContentSeeder::class);
     }
 
     private function pages(): array

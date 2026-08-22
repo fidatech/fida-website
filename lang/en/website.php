@@ -87,7 +87,7 @@ return [
         ],
     ],
     'page' => [
-        'back' => 'Back to home', 'home' => 'Home', 'breadcrumbs' => 'Breadcrumbs',
+        'back' => 'Back to home', 'home' => 'Home', 'breadcrumbs' => 'Breadcrumbs', 'article' => 'Article', 'published' => 'Published',
         'product_profile' => 'Product system profile', 'product_category' => 'Category', 'product_platform' => 'Platform',
         'product_deployment' => 'Deployment', 'product_status' => 'Status',
         'faq_eyebrow' => 'Direct answers', 'faq_title' => 'Frequently asked questions.',

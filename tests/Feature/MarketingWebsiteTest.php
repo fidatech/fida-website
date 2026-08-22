@@ -78,6 +78,9 @@ class MarketingWebsiteTest extends TestCase
             ->assertSee('technology-company-afghanistan')
             ->assertSee('realist-real-estate-erp')
             ->assertSee('prime-sarafi-software')
+            ->assertSee('erp-implementation-services-afghanistan')
+            ->assertSee('real-estate-construction-software-afghanistan')
+            ->assertSee('how-to-choose-erp-system-afghanistan')
             ->assertSee('/about')
             ->assertSee('/services')
             ->assertSee('/projects')
@@ -144,6 +147,7 @@ class MarketingWebsiteTest extends TestCase
             ->assertOk()
             ->assertSee('<h1>Software &amp; Technology Services</h1>', false)
             ->assertSee('ERP Systems in Afghanistan')
+            ->assertSee('ERP Implementation Services in Afghanistan')
             ->assertSee('Accounting Software in Afghanistan')
             ->assertSee('"@type":"CollectionPage"', false);
 
@@ -173,7 +177,9 @@ class MarketingWebsiteTest extends TestCase
 
         $this->get('/industries')
             ->assertOk()
-            ->assertSee('No public entries yet.');
+            ->assertSee('Real Estate &amp; Construction Software in Afghanistan', false)
+            ->assertSee('Sarafi &amp; Remittance Software in Afghanistan', false)
+            ->assertDontSee('No public entries yet.');
 
         $this->get('/case-studies')
             ->assertOk()
@@ -183,7 +189,47 @@ class MarketingWebsiteTest extends TestCase
         $this->get('/articles')
             ->assertOk()
             ->assertSee('Software &amp; Business Insights', false)
-            ->assertSee('No public entries yet.');
+            ->assertSee('How to Choose an ERP System in Afghanistan')
+            ->assertSee('ERP Implementation Checklist for Afghanistan')
+            ->assertDontSee('No public entries yet.');
+    }
+
+    public function test_seeded_article_has_localized_content_archive_context_and_article_schema(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $this->get('/how-to-choose-erp-system-afghanistan')
+            ->assertOk()
+            ->assertSee('<meta property="og:type" content="article">', false)
+            ->assertSee('href="'.url('/articles').'"', false)
+            ->assertSee('<time datetime="', false)
+            ->assertSee('How to Choose an ERP System in Afghanistan')
+            ->assertSee('Ask vendors to demonstrate your scenario')
+            ->assertSee('"@type":"Article"', false)
+            ->assertSee('"mainEntityOfPage"', false)
+            ->assertSee('"position":3', false);
+
+        $this->get('/fa/how-to-choose-erp-system-afghanistan')
+            ->assertOk()
+            ->assertSee('<html lang="fa" dir="rtl"', false)
+            ->assertSee('چگونه یک سیستم ERP در افغانستان انتخاب کنیم')
+            ->assertSee('سناریوی خود را از فروشنده بخواهید')
+            ->assertSee('href="'.url('/fa/articles').'"', false);
+    }
+
+    public function test_marketing_seeder_does_not_overwrite_content_edited_in_admin(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $page = ContentPage::query()->where('slug', 'erp-implementation-services-afghanistan')->firstOrFail();
+        $page->update(['title' => ['en' => 'Admin edited service title']]);
+
+        $this->seed(WebsiteSeeder::class);
+
+        $this->assertSame(
+            'Admin edited service title',
+            ContentPage::query()->where('slug', 'erp-implementation-services-afghanistan')->firstOrFail()->translation('title', 'en'),
+        );
     }
 
     public function test_newly_published_typed_content_appears_in_its_archive(): void

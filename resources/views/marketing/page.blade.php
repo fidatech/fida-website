@@ -7,11 +7,23 @@
         <nav class="page-breadcrumbs" aria-label="{{ __('website.page.breadcrumbs') }}">
             <a href="{{ App\Support\LocalizedUrl::path('/') }}">{{ __('website.page.home') }}</a>
             <span aria-hidden="true">/</span>
+            @if($archive)
+                <a href="{{ $archive['path'] }}">{{ $archive['label'] }}</a>
+                <span aria-hidden="true">/</span>
+            @endif
             <span aria-current="page">{{ $page->translation('title') }}</span>
         </nav>
         <div class="micro-label"><span>01</span>{{ $page->translation('eyebrow') }}</div>
         <h1>{{ $page->translation('title') }}</h1>
         <p>{{ $page->translation('summary') }}</p>
+        @if($page->type === 'article' && $page->published_at)
+            <div class="article-meta">
+                <span>{{ __('website.page.article') }}</span>
+                <span aria-hidden="true">·</span>
+                <span>{{ __('website.page.published') }}</span>
+                <time datetime="{{ $page->published_at->toDateString() }}">{{ $page->published_at->format('Y-m-d') }}</time>
+            </div>
+        @endif
     </div>
 </section>
 

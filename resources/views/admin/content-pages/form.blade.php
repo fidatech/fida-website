@@ -32,8 +32,9 @@
                 <div class="seo-box">
                     <header><span>◎</span><div><h3>Search & AI discovery</h3><p>Concise facts help search engines and answer systems understand this page.</p></div></header>
                     <div class="console-form two-columns">
+                        <label><span>Primary search topic</span><input name="primary_query[{{ $locale }}]" maxlength="190" value="{{ old("primary_query.$locale", $contentPage->primary_query[$locale] ?? '') }}" dir="{{ $config['direction'] }}" placeholder="The one topic this page should answer"><small>Planning field only—never printed as a meta-keywords tag.</small></label>
                         <label><span>Meta title</span><input name="meta_title[{{ $locale }}]" maxlength="190" value="{{ old("meta_title.$locale", $contentPage->meta_title[$locale] ?? '') }}" dir="{{ $config['direction'] }}" data-counted><small data-counter>0 / 60 recommended</small></label>
-                        <label><span>Meta description</span><textarea name="meta_description[{{ $locale }}]" rows="3" maxlength="320" dir="{{ $config['direction'] }}" data-counted>{{ old("meta_description.$locale", $contentPage->meta_description[$locale] ?? '') }}</textarea><small data-counter>0 / 160 recommended</small></label>
+                        <label class="field-wide"><span>Meta description</span><textarea name="meta_description[{{ $locale }}]" rows="3" maxlength="320" dir="{{ $config['direction'] }}" data-counted>{{ old("meta_description.$locale", $contentPage->meta_description[$locale] ?? '') }}</textarea><small data-counter>0 / 160 recommended</small></label>
                     </div>
                 </div>
                 <div class="seo-box faq-editor-box">
@@ -52,6 +53,18 @@
                 </div>
             </div>
         @endforeach
+
+        <section class="discovery-controls">
+            <div class="form-section-head"><span>AI</span><div><h2>Search, answer and generative discovery</h2><p>These controls apply consistently to classic search, AI results and shared previews.</p></div></div>
+            <div class="console-form two-columns">
+                <label><span>Search intent</span><select name="search_intent"><option value="">Choose the visitor's intent</option>@foreach(config('website.discovery.search_intents') as $intent => $label)<option value="{{ $intent }}" @selected(old('search_intent', $contentPage->search_intent) === $intent)>{{ $label }}</option>@endforeach</select></label>
+                <label><span>Robots policy</span><select name="robots_directive">@foreach(config('website.discovery.robots') as $directive => $label)<option value="{{ $directive }}" @selected(old('robots_directive', $contentPage->robotsDirective()) === $directive)>{{ $label }}</option>@endforeach</select></label>
+                <label class="field-wide"><span>Social preview image URL</span><input type="url" name="social_image_url" maxlength="2048" value="{{ old('social_image_url', $contentPage->social_image_url) }}" dir="ltr" placeholder="https://fida.af/storage/..."><small>A page-specific 1200×630 image; the global website image is used when empty.</small></label>
+                <label><span>Author or responsible expert</span><input name="author_name" maxlength="120" value="{{ old('author_name', $contentPage->author_name) }}" placeholder="Verified public name"></label>
+                <label><span>Editorial reviewer</span><input name="reviewer_name" maxlength="120" value="{{ old('reviewer_name', $contentPage->reviewer_name) }}" placeholder="Verified reviewer name"></label>
+                <label><span>Last reviewed</span><input type="datetime-local" name="reviewed_at" value="{{ old('reviewed_at', $contentPage->reviewed_at?->format('Y-m-d\TH:i')) }}"></label>
+            </div>
+        </section>
     </section>
 
     <aside class="editor-sidebar">
@@ -70,6 +83,16 @@
                 <label><span>Content type</span><select name="type" required>@foreach($contentTypes as $type => $definition)<option value="{{ $type }}" @selected($selectedType === $type)>{{ $definition['singular'] }}</option>@endforeach</select><small>Controls where this content appears on the public website.</small></label>
                 <label><span>Sort priority</span><input type="number" name="sort_order" min="0" max="9999" value="{{ old('sort_order', $contentPage->sort_order ?? 0) }}"></label>
             </div>
+        </section>
+        <section class="console-card discovery-audit-card">
+            <header><small>DISCOVERY READINESS</small><span class="audit-score audit-score-{{ $discoveryAudit['status'] }}">{{ $discoveryAudit['score'] }}%</span></header>
+            <div class="audit-meter"><i style="width: {{ $discoveryAudit['score'] }}%"></i></div>
+            <p>{{ $discoveryAudit['passed'] }} of {{ $discoveryAudit['total'] }} checks currently pass. Save changes to refresh the audit.</p>
+            @if($discoveryAudit['issues'] !== [])
+                <ul>@foreach(array_slice($discoveryAudit['issues'], 0, 7) as $issue)<li>{{ $issue['label'] }}</li>@endforeach</ul>
+            @else
+                <div class="audit-ready">✓ Ready for final editorial review</div>
+            @endif
         </section>
         @if($errors->any())
             <section class="console-card error-list"><strong>Fix before saving</strong><ul>@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></section>

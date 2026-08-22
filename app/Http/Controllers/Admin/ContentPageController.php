@@ -5,9 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ContentPageRequest;
 use App\Models\ContentPage;
+use App\Support\DiscoveryAudit;
+use App\Support\DiscoveryPublisher;
+use App\Support\PageRedirects;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ContentPageController extends Controller
 {
@@ -35,33 +39,55 @@ class ContentPageController extends Controller
         return view('admin.content-pages.index', compact('pages', 'contentTypes', 'activeType', 'typeCounts'));
     }
 
-    public function create(Request $request): View
+    public function create(Request $request, DiscoveryAudit $discoveryAudit): View
     {
         $requestedType = (string) $request->string('type');
         $contentPage = new ContentPage([
             'type' => array_key_exists($requestedType, config('website.content_types')) ? $requestedType : 'page',
         ]);
 
-        return view('admin.content-pages.create', compact('contentPage'));
+        return view('admin.content-pages.create', [
+            'contentPage' => $contentPage,
+            'discoveryAudit' => $discoveryAudit->analyze($contentPage),
+        ]);
     }
 
-    public function store(ContentPageRequest $request): RedirectResponse
+    public function store(ContentPageRequest $request, DiscoveryPublisher $discoveryPublisher): RedirectResponse
     {
         $page = ContentPage::query()->create($this->payload($request));
+        $discoveryPublisher->schedule($page);
 
         return redirect()
             ->route('admin.content-pages.edit', $page)
             ->with('success', 'Content page created.');
     }
 
-    public function edit(ContentPage $contentPage): View
+    public function edit(ContentPage $contentPage, DiscoveryAudit $discoveryAudit): View
     {
-        return view('admin.content-pages.edit', compact('contentPage'));
+        return view('admin.content-pages.edit', [
+            'contentPage' => $contentPage,
+            'discoveryAudit' => $discoveryAudit->analyze($contentPage),
+        ]);
     }
 
-    public function update(ContentPageRequest $request, ContentPage $contentPage): RedirectResponse
+    public function update(
+        ContentPageRequest $request,
+        ContentPage $contentPage,
+        PageRedirects $pageRedirects,
+        DiscoveryPublisher $discoveryPublisher,
+    ): RedirectResponse
     {
-        $contentPage->update($this->payload($request));
+        $oldSlug = $contentPage->slug;
+
+        DB::transaction(function () use ($request, $contentPage, $pageRedirects, $oldSlug): void {
+            $contentPage->update($this->payload($request));
+
+            if ($oldSlug !== $contentPage->slug) {
+                $pageRedirects->rememberSlugChange($oldSlug, $contentPage->slug);
+            }
+        });
+
+        $discoveryPublisher->schedule($contentPage, $oldSlug !== $contentPage->slug ? $oldSlug : null);
 
         return back()->with('success', 'Content page updated.');
     }
@@ -90,6 +116,7 @@ class ContentPageController extends Controller
             ->all();
 
         $data['metadata'] = array_replace($existingMetadata, ['faqs' => $faqs]);
+        $data['robots_directive'] ??= config('website.discovery.default_robots');
 
         if ($data['status'] === 'published' && empty($data['published_at'])) {
             $data['published_at'] = now();

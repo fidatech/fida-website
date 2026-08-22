@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\ContentPage;
 use App\Models\Lead;
+use App\Models\PageRedirect;
 use App\Models\SiteSetting;
 use App\Models\User;
 use Database\Seeders\WebsiteSeeder;
@@ -68,6 +69,8 @@ class AdminConsoleTest extends TestCase
         $response->assertRedirect(route('admin.content-pages.edit', $page));
         $this->assertSame('ERP Consulting Afghanistan', $page->title['en']);
         $this->assertSame('What is ERP consulting?', $page->metadata['faqs'][0]['question']['en']);
+        $this->assertSame('ERP consulting in Afghanistan', $page->primary_query['en']);
+        $this->assertSame('commercial', $page->search_intent);
         $this->assertNotNull($page->published_at);
 
         $this->actingAs($editor)->get(route('admin.leads.index'))->assertForbidden();
@@ -216,6 +219,83 @@ class AdminConsoleTest extends TestCase
             ->assertSee('<option value="article" selected>Article</option>', false);
     }
 
+    public function test_editor_can_review_page_discovery_readiness(): void
+    {
+        $editor = User::factory()->admin('editor')->create();
+        $response = $this->actingAs($editor)->post(route('admin.content-pages.store'), $this->pagePayload());
+        $page = ContentPage::query()->firstOrFail();
+
+        $response->assertRedirect(route('admin.content-pages.edit', $page));
+
+        $this->actingAs($editor)
+            ->get(route('admin.content-pages.edit', $page))
+            ->assertOk()
+            ->assertSee('Search, answer and generative discovery')
+            ->assertSee('DISCOVERY READINESS')
+            ->assertSee('ERP consulting in Afghanistan')
+            ->assertSee('Planning field only—never printed as a meta-keywords tag.');
+    }
+
+    public function test_slug_changes_create_direct_multilingual_redirects(): void
+    {
+        $editor = User::factory()->admin('editor')->create();
+        $this->actingAs($editor)->post(route('admin.content-pages.store'), $this->pagePayload());
+        $page = ContentPage::query()->firstOrFail();
+        $payload = $this->pagePayload();
+        $payload['slug'] = 'erp-advisory-afghanistan';
+
+        $this->actingAs($editor)
+            ->put(route('admin.content-pages.update', $page), $payload)
+            ->assertRedirect();
+
+        $this->assertDatabaseCount('page_redirects', 3);
+        $this->assertDatabaseHas('page_redirects', [
+            'source_path' => '/erp-consulting-afghanistan',
+            'target_path' => '/erp-advisory-afghanistan',
+            'status_code' => 301,
+        ]);
+        $this->assertDatabaseHas('page_redirects', [
+            'source_path' => '/fa/erp-consulting-afghanistan',
+            'target_path' => '/fa/erp-advisory-afghanistan',
+        ]);
+
+        $this->get('/erp-consulting-afghanistan?utm_source=legacy')
+            ->assertRedirect(url('/erp-advisory-afghanistan').'?utm_source=legacy');
+
+        $this->get('/fa/erp-consulting-afghanistan')
+            ->assertRedirect(url('/fa/erp-advisory-afghanistan'));
+
+        $this->assertSame(1, PageRedirect::query()->where('source_path', '/erp-consulting-afghanistan')->value('hits'));
+    }
+
+    public function test_redirect_manager_rejects_loops_and_protects_admin_paths(): void
+    {
+        $editor = User::factory()->admin('editor')->create();
+
+        $this->actingAs($editor)->post(route('admin.redirects.store'), [
+            'source_path' => '/old-erp',
+            'target_path' => '/new-erp',
+            'status_code' => 301,
+            'active' => 1,
+        ])->assertRedirect();
+
+        $this->actingAs($editor)->post(route('admin.redirects.store'), [
+            'source_path' => '/new-erp',
+            'target_path' => '/old-erp',
+            'status_code' => 301,
+            'active' => 1,
+        ])->assertSessionHasErrors('target_path');
+
+        $this->actingAs($editor)->post(route('admin.redirects.store'), [
+            'source_path' => '/admin/login',
+            'target_path' => '/contact',
+            'status_code' => 301,
+            'active' => 1,
+        ])->assertSessionHasErrors('source_path');
+
+        $this->assertDatabaseCount('page_redirects', 1);
+    }
+
     private function pagePayload(): array
     {
         return [
@@ -227,6 +307,13 @@ class AdminConsoleTest extends TestCase
             'body' => ['en' => '<h2>Build the right operating system</h2><p>Start with the workflow.</p>'],
             'meta_title' => ['en' => 'ERP Consulting Afghanistan | Fida'],
             'meta_description' => ['en' => 'ERP consulting and implementation for companies in Afghanistan.'],
+            'primary_query' => ['en' => 'ERP consulting in Afghanistan', 'fa' => 'مشاوره ERP در افغانستان', 'ps' => 'په افغانستان کې د ERP مشوره'],
+            'search_intent' => 'commercial',
+            'robots_directive' => 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1',
+            'social_image_url' => 'https://fida.af/media/erp-consulting.jpg',
+            'author_name' => 'Fida Technologies',
+            'reviewer_name' => 'Fida Editorial Team',
+            'reviewed_at' => now()->format('Y-m-d H:i:s'),
             'metadata' => ['faqs' => [[
                 'question' => ['en' => 'What is ERP consulting?'],
                 'answer' => ['en' => 'It maps business workflows and turns them into a practical ERP implementation plan.'],

@@ -39,6 +39,8 @@ class WebsiteSeeder extends Seeder
                 ],
                 metaTitle: ['en' => 'ERP Systems in Afghanistan | Fida Technologies', 'fa' => 'سیستم‌های ERP در افغانستان | Fida Technologies', 'ps' => 'په افغانستان کې ERP سیسټمونه | Fida Technologies'],
                 metaDescription: ['en' => 'Modern ERP systems for Afghan businesses: accounting, inventory, HR, approvals, multi-currency operations and management reporting.', 'fa' => 'سیستم‌های مدرن ERP برای تجارت‌های افغانستان؛ حسابداری، گدام، منابع بشری، تأییدی‌ها و گزارش‌دهی.', 'ps' => 'د افغان سوداګریو لپاره عصري ERP؛ حسابداري، زېرمتون، بشري سرچینې، تاییدونه او راپورونه.'],
+                primaryQuery: ['en' => 'ERP systems in Afghanistan', 'fa' => 'سیستم‌های ERP در افغانستان', 'ps' => 'په افغانستان کې ERP سیسټمونه'],
+                searchIntent: 'commercial',
                 faqs: [
                     $this->faq('What is an ERP system?', 'An ERP system connects core business functions such as accounting, inventory, sales, purchasing, HR and reporting in one controlled platform.'),
                     $this->faq('Can an ERP system support multiple branches and currencies?', 'Yes. Fida ERP solutions can be designed for branch-level operations, consolidated reporting and multi-currency accounting based on the organization’s workflow.'),
@@ -424,7 +426,7 @@ class WebsiteSeeder extends Seeder
         );
     }
 
-    private function page(string $slug, array $title, array $eyebrow, array $summary, array $body, array $metaTitle, array $metaDescription, array $faqs = [], string $type = 'solution', array $metadata = [], int $sortOrder = 0): array
+    private function page(string $slug, array $title, array $eyebrow, array $summary, array $body, array $metaTitle, array $metaDescription, array $faqs = [], string $type = 'solution', array $metadata = [], int $sortOrder = 0, ?array $primaryQuery = null, ?string $searchIntent = null): array
     {
         return [
             'slug' => $slug,
@@ -435,6 +437,8 @@ class WebsiteSeeder extends Seeder
             'body' => $body,
             'meta_title' => $metaTitle,
             'meta_description' => $metaDescription,
+            'primary_query' => $primaryQuery,
+            'search_intent' => $searchIntent,
             'metadata' => array_replace_recursive($metadata, ['faqs' => $faqs]),
             'status' => 'published',
             'featured' => true,

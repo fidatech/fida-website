@@ -45,6 +45,10 @@
                             </a>
                         @endforeach
                     </div>
+                    <a @class(['active' => request()->routeIs('admin.redirects.*')]) href="{{ route('admin.redirects.index') }}">
+                        <svg viewBox="0 0 24 24"><path d="M8 7h8a4 4 0 0 1 4 4v2M16 17H8a4 4 0 0 1-4-4v-2m12 3 4-1 1 4M8 10 4 11 3 7"/></svg>
+                        Redirects
+                    </a>
                 @endif
                 @if(auth()->user()->allows('leads.manage'))
                     <a @class(['active' => request()->routeIs('admin.leads.*')]) href="{{ route('admin.leads.index') }}">

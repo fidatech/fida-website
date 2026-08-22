@@ -16,6 +16,13 @@ class ContentPage extends Model
         'body',
         'meta_title',
         'meta_description',
+        'primary_query',
+        'search_intent',
+        'robots_directive',
+        'social_image_url',
+        'author_name',
+        'reviewer_name',
+        'reviewed_at',
         'schema',
         'metadata',
         'status',
@@ -33,10 +40,12 @@ class ContentPage extends Model
             'body' => 'array',
             'meta_title' => 'array',
             'meta_description' => 'array',
+            'primary_query' => 'array',
             'schema' => 'array',
             'metadata' => 'array',
             'featured' => 'boolean',
             'published_at' => 'datetime',
+            'reviewed_at' => 'datetime',
         ];
     }
 
@@ -103,6 +112,27 @@ class ContentPage extends Model
         return $value[$locale]
             ?? $value[config('website.default_locale')]
             ?? collect($value)->first();
+    }
+
+    public function primaryQuery(?string $locale = null): string
+    {
+        return trim((string) $this->translation('primary_query', $locale));
+    }
+
+    public function robotsDirective(): string
+    {
+        $directive = trim((string) $this->robots_directive);
+
+        return array_key_exists($directive, config('website.discovery.robots'))
+            ? $directive
+            : (string) config('website.discovery.default_robots');
+    }
+
+    public function socialImage(): ?string
+    {
+        return filled($this->social_image_url)
+            ? (string) $this->social_image_url
+            : config('website.social_image');
     }
 
     public function productProfile(?string $locale = null): ?array

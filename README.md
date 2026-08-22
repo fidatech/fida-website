@@ -11,8 +11,11 @@ Official multilingual website and lead-generation platform for [Fida Technologie
 - Dynamic multilingual landing-page content
 - Dedicated multilingual profiles for Realist ERP, Prime Sarafi, Darmal ERP and OGRAYI
 - Search metadata, canonical URLs, hreflang, XML sitemap and page-specific structured data
+- Per-page discovery strategy, robots policy, social previews, editorial trust fields and publishing-readiness audits
+- Automatic multilingual one-hop redirects when slugs change, plus an admin redirect manager
 - Visible multilingual FAQs, service/software entities, breadcrumbs and related-topic internal links
 - Google and Bing ownership verification hooks, OpenAI crawler policy and IndexNow submission
+- Automatic after-response IndexNow notification for content changes when production credentials are configured
 - Consent-based GA4 loading, conversion events and campaign-attributed lead capture
 - Automated PHP tests and frontend build verification
 - Separate authenticated website console for content, leads and team access
@@ -52,6 +55,8 @@ Super administrators can manage the public identity from `/admin/settings`. The 
 ```bash
 php artisan storage:link
 ```
+
+Editors can document the primary search topic, visitor intent, robots policy, social preview and verified editorial responsibility on every content item. The readiness audit is advisory: it highlights missing or weak discovery inputs without encouraging filler or blocking an editor from publishing accurate time-sensitive content. Changing a slug automatically preserves the previous English, Dari and Pashto URLs as direct permanent redirects. Manual legacy redirects are managed at `/admin/redirects`.
 
 Run the verification suite:
 

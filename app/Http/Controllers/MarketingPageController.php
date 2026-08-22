@@ -19,6 +19,9 @@ class MarketingPageController extends Controller
             'description' => $page->translation('meta_description') ?: $page->translation('summary'),
             'canonical' => LocalizedUrl::path('/'.$page->slug),
             'type' => $page->type === 'article' ? 'article' : 'website',
+            'robots' => $page->robotsDirective(),
+            'image' => $page->socialImage(),
+            'author' => $page->author_name,
         ];
         $faqs = $page->faqs();
         $productProfile = $page->productProfile();

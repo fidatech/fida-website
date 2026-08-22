@@ -6,24 +6,33 @@ use App\Models\ContentPage;
 
 final class SeoSchema
 {
-    public static function home(string $title, string $description, string $canonical): array
+    public static function home(string $title, string $description, string $canonical, ?string $topic = null, ?string $image = null): array
     {
+        $webPage = [
+            '@type' => 'WebPage',
+            '@id' => $canonical.'#webpage',
+            'url' => $canonical,
+            'name' => $title,
+            'description' => $description,
+            'inLanguage' => app()->getLocale(),
+            'isPartOf' => ['@id' => url('/').'#website'],
+            'about' => $topic
+                ? ['@type' => 'Thing', 'name' => $topic]
+                : ['@id' => url('/').'#organization'],
+        ];
+        $graph = [self::organization(), self::website()];
+
+        if ($image) {
+            $imageId = $canonical.'#primaryimage';
+            $webPage['primaryImageOfPage'] = ['@id' => $imageId];
+            $graph[] = self::image($imageId, $image);
+        }
+
+        $graph[] = $webPage;
+
         return [
             '@context' => 'https://schema.org',
-            '@graph' => [
-                self::organization(),
-                self::website(),
-                [
-                    '@type' => 'WebPage',
-                    '@id' => $canonical.'#webpage',
-                    'url' => $canonical,
-                    'name' => $title,
-                    'description' => $description,
-                    'inLanguage' => app()->getLocale(),
-                    'isPartOf' => ['@id' => url('/').'#website'],
-                    'about' => ['@id' => url('/').'#organization'],
-                ],
-            ],
+            '@graph' => $graph,
         ];
     }
 
@@ -66,6 +75,8 @@ final class SeoSchema
         ];
 
         $graph = [
+            self::organization(),
+            self::website(),
             [
                 '@type' => $webPageType,
                 '@id' => $pageId,
@@ -84,9 +95,34 @@ final class SeoSchema
                 'itemListElement' => $breadcrumbItems,
             ],
         ];
+        $webPageIndex = 2;
+        $imageId = $canonical.'#primaryimage';
+
+        if ($page->primaryQuery() !== '') {
+            $graph[$webPageIndex]['about'] = [
+                '@type' => 'Thing',
+                'name' => $page->primaryQuery(),
+            ];
+        }
+
+        if ($page->socialImage()) {
+            $graph[$webPageIndex]['primaryImageOfPage'] = ['@id' => $imageId];
+            $graph[] = self::image($imageId, $page->socialImage());
+        }
+
+        if ($page->reviewed_at) {
+            $graph[$webPageIndex]['lastReviewed'] = $page->reviewed_at->toDateString();
+        }
+
+        if (filled($page->reviewer_name)) {
+            $graph[$webPageIndex]['reviewedBy'] = [
+                '@type' => 'Person',
+                'name' => $page->reviewer_name,
+            ];
+        }
 
         if (in_array($page->type, ['solution', 'service'], true)) {
-            $graph[0]['mainEntity'] = ['@id' => $serviceId];
+            $graph[$webPageIndex]['mainEntity'] = ['@id' => $serviceId];
             $graph[] = [
                 '@type' => 'Service',
                 '@id' => $serviceId,
@@ -103,7 +139,7 @@ final class SeoSchema
         }
 
         if ($page->type === 'product' && ($product = $page->productProfile()) !== null) {
-            $graph[0]['mainEntity'] = ['@id' => $productId];
+            $graph[$webPageIndex]['mainEntity'] = ['@id' => $productId];
             $graph[] = [
                 '@type' => 'SoftwareApplication',
                 '@id' => $productId,
@@ -116,10 +152,17 @@ final class SeoSchema
                 'publisher' => ['@id' => url('/').'#organization'],
                 'inLanguage' => app()->getLocale(),
             ];
+
+            if ($page->socialImage()) {
+                $graph[array_key_last($graph)]['image'] = ['@id' => $imageId];
+            }
         }
 
         if ($page->type === 'article') {
-            $graph[0]['mainEntity'] = ['@id' => $articleId];
+            $graph[$webPageIndex]['mainEntity'] = ['@id' => $articleId];
+            $author = filled($page->author_name)
+                ? ['@type' => 'Person', 'name' => $page->author_name]
+                : ['@id' => url('/').'#organization'];
             $graph[] = [
                 '@type' => 'Article',
                 '@id' => $articleId,
@@ -130,9 +173,13 @@ final class SeoSchema
                 'datePublished' => ($page->published_at ?? $page->created_at)?->toAtomString(),
                 'dateModified' => $page->updated_at?->toAtomString(),
                 'mainEntityOfPage' => ['@id' => $pageId],
-                'author' => ['@id' => url('/').'#organization'],
+                'author' => $author,
                 'publisher' => ['@id' => url('/').'#organization'],
             ];
+
+            if ($page->socialImage()) {
+                $graph[array_key_last($graph)]['image'] = ['@id' => $imageId];
+            }
         }
 
         if ($faqs !== []) {
@@ -212,6 +259,16 @@ final class SeoSchema
             'name' => config('website.name'),
             'publisher' => ['@id' => url('/').'#organization'],
             'inLanguage' => array_keys(config('website.locales')),
+        ];
+    }
+
+    private static function image(string $id, string $url): array
+    {
+        return [
+            '@type' => 'ImageObject',
+            '@id' => $id,
+            'url' => $url,
+            'contentUrl' => $url,
         ];
     }
 }

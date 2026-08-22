@@ -63,10 +63,11 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $seo['title'] }}">
     <meta name="twitter:description" content="{{ $seo['description'] }}">
-    @if(config('website.social_image'))
-        <meta property="og:image" content="{{ config('website.social_image') }}">
-        <meta name="twitter:image" content="{{ config('website.social_image') }}">
+    @if($seo['image'] ?? config('website.social_image'))
+        <meta property="og:image" content="{{ $seo['image'] ?? config('website.social_image') }}">
+        <meta name="twitter:image" content="{{ $seo['image'] ?? config('website.social_image') }}">
     @endif
+    @if($seo['author'] ?? null)<meta name="author" content="{{ $seo['author'] }}">@endif
 
     @isset($structuredData)
         <script type="application/ld+json">{!! json_encode($structuredData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>

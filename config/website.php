@@ -24,6 +24,29 @@ return [
         'ga4_measurement_id' => env('GOOGLE_ANALYTICS_ID'),
         'require_consent' => env('ANALYTICS_REQUIRE_CONSENT', true),
     ],
+    'discovery' => [
+        'default_robots' => 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1',
+        'robots' => [
+            'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1' => 'Index and follow',
+            'noindex,follow,noarchive' => 'Do not index; follow links',
+            'noindex,nofollow,noarchive' => 'Private from search',
+        ],
+        'search_intents' => [
+            'commercial' => 'Commercial investigation',
+            'transactional' => 'Request or purchase',
+            'informational' => 'Informational answer',
+            'navigational' => 'Company or product navigation',
+            'local' => 'Local service discovery',
+        ],
+        'home' => [
+            'primary_query' => [
+                'en' => 'software company in Afghanistan',
+                'fa' => 'شرکت نرم‌افزاری در افغانستان',
+                'ps' => 'په افغانستان کې د سافټویر شرکت',
+            ],
+            'search_intent' => 'commercial',
+        ],
+    ],
     'address' => [
         'line' => '',
         'city' => 'Kabul',

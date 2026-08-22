@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Http\Middleware\EnforceCanonicalHost;
 use App\Models\ContentPage;
 use App\Models\Lead;
+use App\Support\DiscoveryPublisher;
 use Database\Seeders\WebsiteSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
@@ -53,6 +54,9 @@ class MarketingWebsiteTest extends TestCase
             ->assertSee('What is an ERP system?')
             ->assertSee('"@type":"Service"', false)
             ->assertSee('"@type":"FAQPage"', false)
+            ->assertSee('"@type":"Organization"', false)
+            ->assertSee('"@type":"WebSite"', false)
+            ->assertSee('"name":"ERP systems in Afghanistan"', false)
             ->assertSee('BreadcrumbList');
     }
 
@@ -335,7 +339,46 @@ class MarketingWebsiteTest extends TestCase
             ->assertOk()
             ->assertSee('"@type":"Organization"', false)
             ->assertSee('"@type":"WebSite"', false)
+            ->assertSee('"name":"software company in Afghanistan"', false)
             ->assertSee('"knowsAbout"', false);
+    }
+
+    public function test_page_discovery_controls_drive_public_metadata_and_schema(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+        config()->set('website.indexable', true);
+
+        ContentPage::query()->where('slug', 'erp-systems-afghanistan')->firstOrFail()->update([
+            'robots_directive' => 'noindex,follow,noarchive',
+            'social_image_url' => 'https://fida.af/media/erp-afghanistan-social.jpg',
+            'author_name' => 'Fida Technologies',
+            'reviewer_name' => 'Fida Editorial Team',
+            'reviewed_at' => now(),
+        ]);
+
+        $this->get('/erp-systems-afghanistan')
+            ->assertOk()
+            ->assertSee('<meta name="robots" content="noindex,follow,noarchive">', false)
+            ->assertSee('<meta property="og:image" content="https://fida.af/media/erp-afghanistan-social.jpg">', false)
+            ->assertSee('<meta name="author" content="Fida Technologies">', false)
+            ->assertSee('"primaryImageOfPage"', false)
+            ->assertSee('"reviewedBy"', false)
+            ->assertSee('"lastReviewed"', false);
+    }
+
+    public function test_automatic_discovery_builds_current_and_previous_localized_urls(): void
+    {
+        $page = new ContentPage(['slug' => 'erp-platform-afghanistan']);
+        $urls = app(DiscoveryPublisher::class)->urlsFor($page, 'erp-systems-afghanistan');
+
+        $this->assertSame([
+            url('/erp-platform-afghanistan'),
+            url('/erp-systems-afghanistan'),
+            url('/fa/erp-platform-afghanistan'),
+            url('/fa/erp-systems-afghanistan'),
+            url('/ps/erp-platform-afghanistan'),
+            url('/ps/erp-systems-afghanistan'),
+        ], $urls);
     }
 
     public function test_search_verification_and_crawler_controls_are_configurable(): void

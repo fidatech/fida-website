@@ -101,7 +101,7 @@ return [
         'meta_description' => 'Search Fida Technologies services, products, industry pages and practical software guidance.',
     ],
     'page' => [
-        'back' => 'Back to home', 'home' => 'Home', 'breadcrumbs' => 'Breadcrumbs', 'article' => 'Article', 'published' => 'Published',
+        'back' => 'Back to home', 'home' => 'Home', 'breadcrumbs' => 'Breadcrumbs', 'article' => 'Article', 'published' => 'Published', 'by' => 'By', 'reviewed_by' => 'Reviewed by',
         'product_profile' => 'Product system profile', 'product_category' => 'Category', 'product_platform' => 'Platform',
         'product_deployment' => 'Deployment', 'product_status' => 'Status',
         'faq_eyebrow' => 'Direct answers', 'faq_title' => 'Frequently asked questions.',

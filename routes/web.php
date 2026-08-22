@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\ContentPageController as AdminContentPageController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\LeadController as AdminLeadController;
+use App\Http\Controllers\Admin\PageRedirectController as AdminPageRedirectController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\WebsiteSettingsController as AdminWebsiteSettingsController;
 use App\Http\Controllers\HomeController;
@@ -41,6 +42,11 @@ Route::prefix('admin')->name('admin.')->group(function (): void {
         Route::resource('content-pages', AdminContentPageController::class)
             ->except('show')
             ->parameters(['content-pages' => 'contentPage'])
+            ->middleware('capability:content.manage');
+
+        Route::resource('redirects', AdminPageRedirectController::class)
+            ->only(['index', 'store', 'update', 'destroy'])
+            ->parameters(['redirects' => 'pageRedirect'])
             ->middleware('capability:content.manage');
 
         Route::resource('leads', AdminLeadController::class)

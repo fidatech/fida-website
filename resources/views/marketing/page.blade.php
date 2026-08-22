@@ -16,12 +16,18 @@
         <div class="micro-label"><span>01</span>{{ $page->translation('eyebrow') }}</div>
         <h1>{{ $page->translation('title') }}</h1>
         <p>{{ $page->translation('summary') }}</p>
-        @if($page->type === 'article' && $page->published_at)
+        @if(($page->type === 'article' && $page->published_at) || $page->author_name || $page->reviewer_name)
             <div class="article-meta">
-                <span>{{ __('website.page.article') }}</span>
-                <span aria-hidden="true">·</span>
-                <span>{{ __('website.page.published') }}</span>
-                <time datetime="{{ $page->published_at->toDateString() }}">{{ $page->published_at->format('Y-m-d') }}</time>
+                @if($page->type === 'article' && $page->published_at)
+                    <span>{{ __('website.page.article') }}</span><span aria-hidden="true">·</span><span>{{ __('website.page.published') }}</span><time datetime="{{ $page->published_at->toDateString() }}">{{ $page->published_at->format('Y-m-d') }}</time>
+                @endif
+                @if($page->author_name)
+                    <span aria-hidden="true">·</span><span>{{ __('website.page.by') }} {{ $page->author_name }}</span>
+                @endif
+                @if($page->reviewer_name)
+                    <span aria-hidden="true">·</span><span>{{ __('website.page.reviewed_by') }} {{ $page->reviewer_name }}</span>
+                    @if($page->reviewed_at)<time datetime="{{ $page->reviewed_at->toDateString() }}">{{ $page->reviewed_at->format('Y-m-d') }}</time>@endif
+                @endif
             </div>
         @endif
     </div>

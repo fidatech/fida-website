@@ -33,9 +33,15 @@ final class SeoSchema
         $serviceId = $canonical.'#service';
         $productId = $canonical.'#software';
         $breadcrumbId = $canonical.'#breadcrumb';
+        $webPageType = match ($page->slug) {
+            'about' => 'AboutPage',
+            'contact' => 'ContactPage',
+            'services', 'projects' => 'CollectionPage',
+            default => 'WebPage',
+        };
         $graph = [
             [
-                '@type' => 'WebPage',
+                '@type' => $webPageType,
                 '@id' => $pageId,
                 'url' => $canonical,
                 'name' => $title,

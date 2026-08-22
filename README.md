@@ -7,6 +7,7 @@ Official multilingual website and lead-generation platform for [Fida Technologie
 - Laravel 13 with server-rendered Blade pages
 - Tailwind CSS 4 and minimal JavaScript
 - English, Dari and Pashto with RTL support
+- Dedicated CMS-backed About, Services, Projects, Pricing and Contact sections with localized routes
 - Dynamic multilingual landing-page content
 - Dedicated multilingual profiles for Realist ERP, Prime Sarafi, Darmal ERP and OGRAYI
 - Search metadata, canonical URLs, hreflang, XML sitemap and page-specific structured data
@@ -42,6 +43,8 @@ The secure console is available at `/admin`. Available roles are:
 - `super_admin`: all console areas, including team access
 - `editor`: multilingual content and search metadata
 - `sales`: customer leads and opportunity pipeline
+
+Primary public routes are available in English at `/about`, `/services`, `/projects`, `/pricing` and `/contact`. Dari and Pashto use the same page slugs below `/fa` and `/ps`. The homepage remains an overview, while the primary navigation points to these standalone pages.
 
 Run the verification suite:
 

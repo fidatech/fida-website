@@ -6,6 +6,7 @@ use App\Models\ContentPage;
 use App\Support\LocalizedUrl;
 use App\Support\SeoSchema;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Collection;
 
 class MarketingPageController extends Controller
 {
@@ -21,6 +22,10 @@ class MarketingPageController extends Controller
         ];
         $faqs = $page->faqs();
         $productProfile = $page->productProfile();
+        $hubLayout = in_array($page->slug, ['about', 'services', 'projects', 'pricing', 'contact'], true)
+            ? $page->slug
+            : null;
+        $collectionPages = $this->collectionPages($hubLayout);
         $relatedPages = ContentPage::published()
             ->whereKeyNot($page->getKey())
             ->whereIn('type', ['solution', 'service', 'product', 'case-study'])
@@ -29,13 +34,33 @@ class MarketingPageController extends Controller
             ->limit(3)
             ->get();
 
-        return view('marketing.page', [
+        return view($hubLayout ? 'marketing.hub' : 'marketing.page', [
             'page' => $page,
             'seo' => $seo,
             'faqs' => $faqs,
             'productProfile' => $productProfile,
+            'hubLayout' => $hubLayout,
+            'collectionPages' => $collectionPages,
             'relatedPages' => $relatedPages,
             'structuredData' => SeoSchema::page($page, $seo['title'], $seo['description'], $seo['canonical'], $faqs),
         ]);
+    }
+
+    private function collectionPages(?string $hubLayout): Collection
+    {
+        $urls = match ($hubLayout) {
+            'services' => collect(config('website.featured_solutions'))->pluck('url'),
+            'projects' => collect(config('website.products'))->pluck('url'),
+            default => collect(),
+        };
+        $slugs = $urls->map(fn (string $url): string => basename($url))->values();
+
+        if ($slugs->isEmpty()) {
+            return collect();
+        }
+
+        $pages = ContentPage::published()->whereIn('slug', $slugs)->get()->keyBy('slug');
+
+        return $slugs->map(fn (string $slug) => $pages->get($slug))->filter()->values();
     }
 }

@@ -3,6 +3,10 @@
     $locale = app()->getLocale();
     $localeConfig = config("website.locales.{$locale}", config('website.locales.en'));
     $direction = $localeConfig['direction'];
+    $routePage = request()->route('page');
+    $currentSlug = $routePage instanceof \App\Models\ContentPage ? $routePage->slug : null;
+    $servicesActive = $currentSlug === 'services' || ($routePage instanceof \App\Models\ContentPage && in_array($routePage->type, ['solution', 'service'], true));
+    $projectsActive = $currentSlug === 'projects' || ($routePage instanceof \App\Models\ContentPage && in_array($routePage->type, ['product', 'case-study'], true));
 @endphp
 <html lang="{{ $locale }}" dir="{{ $direction }}">
 <head>
@@ -74,10 +78,11 @@
             </a>
 
             <nav class="desktop-nav" aria-label="Primary navigation">
-                <a href="{{ \App\Support\LocalizedUrl::path('/#solutions') }}"><span>01</span>{{ __('website.nav.solutions') }}</a>
-                <a href="{{ \App\Support\LocalizedUrl::path('/#products') }}"><span>02</span>{{ __('website.nav.products') }}</a>
-                <a href="{{ \App\Support\LocalizedUrl::path('/#industries') }}"><span>03</span>{{ __('website.nav.industries') }}</a>
-                <a href="{{ \App\Support\LocalizedUrl::path('/#process') }}"><span>04</span>{{ __('website.nav.process') }}</a>
+                <a href="{{ \App\Support\LocalizedUrl::path('/') }}" @class(['active' => $currentSlug === null])><span>01</span>{{ __('website.nav.home') }}</a>
+                <a href="{{ \App\Support\LocalizedUrl::path('/about') }}" @class(['active' => $currentSlug === 'about'])><span>02</span>{{ __('website.nav.about') }}</a>
+                <a href="{{ \App\Support\LocalizedUrl::path('/services') }}" @class(['active' => $servicesActive])><span>03</span>{{ __('website.nav.services') }}</a>
+                <a href="{{ \App\Support\LocalizedUrl::path('/projects') }}" @class(['active' => $projectsActive])><span>04</span>{{ __('website.nav.projects') }}</a>
+                <a href="{{ \App\Support\LocalizedUrl::path('/pricing') }}" @class(['active' => $currentSlug === 'pricing'])><span>05</span>{{ __('website.nav.pricing') }}</a>
             </nav>
 
             <div class="header-actions">
@@ -95,8 +100,8 @@
                         @endforeach
                     </div>
                 </div>
-                <a class="button button-small button-lime header-cta" href="{{ \App\Support\LocalizedUrl::path('/#contact') }}" data-track-event="cta_click" data-track-label="header_proposal">
-                    {{ __('website.nav.proposal') }}<span class="button-arrow">↗</span>
+                <a class="button button-small button-lime header-cta" href="{{ \App\Support\LocalizedUrl::path('/contact') }}" data-track-event="cta_click" data-track-label="header_contact">
+                    {{ __('website.nav.contact') }}<span class="button-arrow">↗</span>
                 </a>
                 <button class="menu-button" type="button" data-menu-button aria-expanded="false" aria-label="{{ __('website.nav.menu') }}">
                     <span></span><span></span>
@@ -105,11 +110,12 @@
         </div>
 
         <nav class="mobile-nav" data-mobile-nav aria-label="Mobile navigation">
-            <a href="{{ \App\Support\LocalizedUrl::path('/#solutions') }}"><span>01</span>{{ __('website.nav.solutions') }}</a>
-            <a href="{{ \App\Support\LocalizedUrl::path('/#products') }}"><span>02</span>{{ __('website.nav.products') }}</a>
-            <a href="{{ \App\Support\LocalizedUrl::path('/#industries') }}"><span>03</span>{{ __('website.nav.industries') }}</a>
-            <a href="{{ \App\Support\LocalizedUrl::path('/#process') }}"><span>04</span>{{ __('website.nav.process') }}</a>
-            <a href="{{ \App\Support\LocalizedUrl::path('/#contact') }}"><span>05</span>{{ __('website.nav.proposal') }}</a>
+            <a href="{{ \App\Support\LocalizedUrl::path('/') }}"><span>01</span>{{ __('website.nav.home') }}</a>
+            <a href="{{ \App\Support\LocalizedUrl::path('/about') }}"><span>02</span>{{ __('website.nav.about') }}</a>
+            <a href="{{ \App\Support\LocalizedUrl::path('/services') }}"><span>03</span>{{ __('website.nav.services') }}</a>
+            <a href="{{ \App\Support\LocalizedUrl::path('/projects') }}"><span>04</span>{{ __('website.nav.projects') }}</a>
+            <a href="{{ \App\Support\LocalizedUrl::path('/pricing') }}"><span>05</span>{{ __('website.nav.pricing') }}</a>
+            <a href="{{ \App\Support\LocalizedUrl::path('/contact') }}"><span>06</span>{{ __('website.nav.contact') }}</a>
         </nav>
     </header>
 
@@ -130,11 +136,19 @@
             <div class="footer-grid">
                 <div>
                     <span class="footer-heading">{{ __('website.footer.company') }}</span>
+                    <a href="{{ \App\Support\LocalizedUrl::path('/about') }}">{{ __('website.nav.about') }}</a>
+                    <a href="{{ \App\Support\LocalizedUrl::path('/services') }}">{{ __('website.nav.services') }}</a>
+                    <a href="{{ \App\Support\LocalizedUrl::path('/projects') }}">{{ __('website.nav.projects') }}</a>
+                    <a href="{{ \App\Support\LocalizedUrl::path('/pricing') }}">{{ __('website.nav.pricing') }}</a>
+                    <a href="{{ \App\Support\LocalizedUrl::path('/contact') }}">{{ __('website.nav.contact') }}</a>
+                    <a href="{{ \App\Support\LocalizedUrl::path('/privacy-policy') }}">{{ __('website.footer.privacy') }}</a>
+                </div>
+                <div>
+                    <span class="footer-heading">{{ __('website.footer.expertise') }}</span>
                     <a href="{{ \App\Support\LocalizedUrl::path('/erp-systems-afghanistan') }}">ERP Systems</a>
                     <a href="{{ \App\Support\LocalizedUrl::path('/custom-software-development-afghanistan') }}">Custom Software</a>
                     <a href="{{ \App\Support\LocalizedUrl::path('/mobile-app-development-afghanistan') }}">Mobile Apps</a>
                     <a href="{{ \App\Support\LocalizedUrl::path('/technology-company-afghanistan') }}">Technology Company</a>
-                    <a href="{{ \App\Support\LocalizedUrl::path('/privacy-policy') }}">{{ __('website.footer.privacy') }}</a>
                 </div>
                 <div>
                     <span class="footer-heading">{{ __('website.footer.products') }}</span>

@@ -47,7 +47,7 @@
             <span>Fida Technologies</span>
             <h2>{{ __('website.page.cta_title') }}</h2>
             <p>{{ __('website.page.cta_description') }}</p>
-            <a class="button button-lime" href="{{ App\Support\LocalizedUrl::path('/#contact') }}" data-track-event="cta_click" data-track-label="{{ $page->slug }}">{{ __('website.page.cta') }} <span class="button-arrow">↗</span></a>
+            <a class="button button-lime" href="{{ App\Support\LocalizedUrl::path('/contact') }}" data-track-event="cta_click" data-track-label="{{ $page->slug }}">{{ __('website.page.cta') }} <span class="button-arrow">↗</span></a>
         </aside>
     </div>
 </section>

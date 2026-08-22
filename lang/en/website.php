@@ -8,8 +8,9 @@ return [
         ],
     ],
     'nav' => [
-        'solutions' => 'Solutions', 'products' => 'Products', 'industries' => 'Industries',
-        'process' => 'Process', 'about' => 'About', 'proposal' => 'Request a proposal', 'menu' => 'Open menu',
+        'home' => 'Home', 'about' => 'About', 'services' => 'Services', 'projects' => 'Projects',
+        'pricing' => 'Pricing', 'contact' => 'Contact', 'solutions' => 'Solutions', 'products' => 'Products',
+        'industries' => 'Industries', 'process' => 'Process', 'proposal' => 'Request a proposal', 'menu' => 'Open menu',
     ],
     'hero' => [
         'eyebrow' => 'Business software built in Afghanistan',
@@ -72,7 +73,7 @@ return [
     'contact' => [
         'name' => 'Your name', 'email' => 'Email address', 'phone' => 'Phone or WhatsApp', 'company' => 'Company name',
         'project_type' => 'What do you need?', 'budget' => 'Approximate budget',
-        'message' => 'Tell us about the workflow or problem', 'send' => 'Request consultation',
+        'message' => 'Tell us about the workflow or problem', 'send' => 'Request consultation', 'review' => 'Please review the highlighted fields.',
         'success' => 'Thank you. Your request has been received and our team will contact you.',
         'project_options' => [
             'erp' => 'ERP or MIS system', 'accounting' => 'Accounting software', 'mobile' => 'Mobile application',
@@ -94,9 +95,24 @@ return [
         'cta_description' => 'Share your current workflow and we will recommend a practical implementation path.',
         'cta' => 'Request a proposal',
     ],
+    'hubs' => [
+        'services' => ['eyebrow' => 'Connected capabilities', 'title' => 'Choose the capability your operation needs.', 'description' => 'Each service page explains the business fit, implementation approach and practical questions in detail.'],
+        'projects' => ['eyebrow' => 'Fida product systems', 'title' => 'Explore platforms built around demanding workflows.', 'description' => 'These public profiles describe the current product direction and confirmed capabilities without unverified client results.'],
+    ],
+    'pricing' => [
+        'eyebrow' => 'Clear commercial paths', 'title' => 'A quotation matched to the real scope.',
+        'description' => 'Software cost depends on users, workflows, integrations, data migration, deployment and support. We define those items before presenting a commercial offer.',
+        'quote' => 'Custom quotation', 'cta' => 'Request an estimate',
+        'note' => 'Every written quotation should state the included scope, delivery stages, hosting, support and any separately charged future work.',
+        'paths' => [
+            ['label' => 'Digital presence', 'title' => 'Company website', 'description' => 'A fast multilingual public website built for credibility, discovery and customer enquiries.', 'includes' => ['Multilingual public pages', 'Content administration', 'Technical SEO foundation', 'Launch and handover']],
+            ['label' => 'Operational control', 'title' => 'Business software', 'description' => 'A focused system that replaces spreadsheets or disconnected daily workflows.', 'includes' => ['Workflow discovery', 'Roles and permissions', 'Operational reports', 'Deployment and training']],
+            ['label' => 'Connected platform', 'title' => 'ERP or digital product', 'description' => 'A modular platform for connected departments, complex rules or a new software product.', 'includes' => ['Solution architecture', 'Phased module delivery', 'Integrations and localization', 'Support plan definition']],
+        ],
+    ],
     'footer' => [
         'description' => 'ERP systems, accounting software, mobile applications and custom business platforms built for serious operations.',
-        'company' => 'Company', 'products' => 'Products', 'contact' => 'Contact', 'privacy' => 'Privacy notice', 'rights' => 'All rights reserved.',
+        'company' => 'Company', 'expertise' => 'Expertise', 'products' => 'Products', 'contact' => 'Contact', 'privacy' => 'Privacy notice', 'rights' => 'All rights reserved.',
     ],
     'analytics' => [
         'title' => 'Optional website analytics',

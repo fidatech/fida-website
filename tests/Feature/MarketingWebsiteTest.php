@@ -78,6 +78,11 @@ class MarketingWebsiteTest extends TestCase
             ->assertSee('technology-company-afghanistan')
             ->assertSee('realist-real-estate-erp')
             ->assertSee('prime-sarafi-software')
+            ->assertSee('/about')
+            ->assertSee('/services')
+            ->assertSee('/projects')
+            ->assertSee('/pricing')
+            ->assertSee('/contact')
             ->assertSee('privacy-policy')
             ->assertDontSee('realist-erp-case-study')
             ->assertSee('hreflang="fa"', false)
@@ -101,6 +106,61 @@ class MarketingWebsiteTest extends TestCase
             ->assertSee('<html lang="fa" dir="rtl">', false)
             ->assertSee('نرم‌افزار مدیریت صرافی و حواله Prime')
             ->assertSee('پلتفرم صرافی و حواله');
+    }
+
+    public function test_primary_navigation_uses_real_multilingual_pages(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('href="'.url('/about').'"', false)
+            ->assertSee('href="'.url('/services').'"', false)
+            ->assertSee('href="'.url('/projects').'"', false)
+            ->assertSee('href="'.url('/pricing').'"', false)
+            ->assertSee('href="'.url('/contact').'"', false);
+
+        $this->get('/fa/about')
+            ->assertOk()
+            ->assertSee('<html lang="fa" dir="rtl">', false)
+            ->assertSee('درباره Fida Technologies');
+    }
+
+    public function test_services_and_projects_hubs_link_to_detailed_pages(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $this->get('/services')
+            ->assertOk()
+            ->assertSee('<h1>Software &amp; Technology Services</h1>', false)
+            ->assertSee('ERP Systems in Afghanistan')
+            ->assertSee('Accounting Software in Afghanistan')
+            ->assertSee('"@type":"CollectionPage"', false);
+
+        $this->get('/projects')
+            ->assertOk()
+            ->assertSee('Realist ERP for Real Estate &amp; Construction', false)
+            ->assertSee('Prime Sarafi &amp; Remittance Management Software', false)
+            ->assertSee('Darmal Pharmacy &amp; Pharmaceutical ERP', false)
+            ->assertSee('OGRAYI Mobile Credit &amp; Debit Account Manager', false)
+            ->assertDontSee('publication draft');
+    }
+
+    public function test_pricing_and_contact_pages_are_truthful_and_actionable(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $this->get('/pricing')
+            ->assertOk()
+            ->assertSee('Custom quotation')
+            ->assertSee('Why one fixed price would be misleading')
+            ->assertSee('Request an estimate');
+
+        $this->get('/contact')
+            ->assertOk()
+            ->assertSee('<h1>Contact Fida Technologies</h1>', false)
+            ->assertSee('action="'.route('leads.store').'"', false)
+            ->assertSee('"@type":"ContactPage"', false);
     }
 
     public function test_unverified_case_studies_remain_private_drafts(): void

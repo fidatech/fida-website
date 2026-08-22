@@ -152,6 +152,7 @@ class MarketingWebsiteTest extends TestCase
     public function test_public_search_finds_published_content_and_is_not_indexable(): void
     {
         $this->seed(WebsiteSeeder::class);
+        config()->set('website.indexable', true);
 
         $this->get('/search?q=ERP')
             ->assertOk()

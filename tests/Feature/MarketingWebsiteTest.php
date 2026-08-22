@@ -88,6 +88,7 @@ class MarketingWebsiteTest extends TestCase
 
     public function test_search_verification_and_crawler_controls_are_configurable(): void
     {
+        config()->set('website.indexable', true);
         config()->set('website.search_verification.google', 'google-token');
         config()->set('website.search_verification.bing', 'bing-token');
 
@@ -124,6 +125,7 @@ class MarketingWebsiteTest extends TestCase
     public function test_indexnow_key_and_published_url_submission_are_available(): void
     {
         $this->seed(WebsiteSeeder::class);
+        config()->set('website.indexable', true);
         config()->set('website.indexnow.key', '0123456789abcdef0123456789abcdef');
         config()->set('website.indexnow.endpoint', 'https://api.indexnow.org/indexnow');
         config()->set('website.url', url('/'));

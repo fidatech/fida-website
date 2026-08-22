@@ -471,6 +471,79 @@ class MarketingWebsiteTest extends TestCase
         );
     }
 
+    public function test_software_company_keyword_cluster_has_distinct_topics_and_useful_content(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $customSoftware = ContentPage::query()
+            ->where('slug', 'custom-software-development-afghanistan')
+            ->firstOrFail();
+        $technologyCompany = ContentPage::query()
+            ->where('slug', 'technology-company-afghanistan')
+            ->firstOrFail();
+
+        $this->assertSame('custom software development in Afghanistan', $customSoftware->primaryQuery('en'));
+        $this->assertSame('commercial', $customSoftware->search_intent);
+        $this->assertSame('technology company in Afghanistan', $technologyCompany->primaryQuery('en'));
+        $this->assertSame('local', $technologyCompany->search_intent);
+
+        $this->get('/custom-software-development-afghanistan')
+            ->assertOk()
+            ->assertSee('Custom software should fit the business')
+            ->assertSee('Designed for practical operations in Afghanistan')
+            ->assertSee('From discovery to deployment')
+            ->assertSee('How to request a useful estimate')
+            ->assertSee('"name":"custom software development in Afghanistan"', false)
+            ->assertSee('"@type":"Service"', false);
+
+        $this->get('/fa/custom-software-development-afghanistan')
+            ->assertOk()
+            ->assertSee('<html lang="fa" dir="rtl"', false)
+            ->assertSee('نرم‌افزار اختصاصی باید با تجارت هماهنگ باشد')
+            ->assertSee('از شناخت تا راه‌اندازی');
+
+        $this->get('/technology-company-afghanistan')
+            ->assertOk()
+            ->assertSee('Technology built around real Afghan business workflows')
+            ->assertSee('"name":"technology company in Afghanistan"', false);
+    }
+
+    public function test_discovery_content_migration_backfills_defaults_without_overwriting_admin_topics(): void
+    {
+        $customSoftware = ContentPage::query()->create([
+            'type' => 'solution',
+            'slug' => 'custom-software-development-afghanistan',
+            'title' => ['en' => 'Custom Software Development in Afghanistan'],
+            'body' => [
+                'en' => '<h2>Software should fit the business</h2><p>We analyze your operation, simplify the workflow and develop a maintainable system with clear permissions, auditability and reporting.</p>',
+                'fa' => '<h2>نرم‌افزار باید با تجارت هماهنگ باشد</h2><p>عملیات شما را تحلیل، روند را ساده و یک سیستم قابل توسعه با صلاحیت‌ها، ثبت فعالیت و گزارش‌دهی روشن می‌سازیم.</p>',
+                'ps' => '<h2>سافټویر باید له سوداګرۍ سره برابر وي</h2><p>ستاسو عملیات څېړو، کاري بهیر ساده کوو او د روښانه صلاحیتونو، ثبت او راپورونو لرونکی سیسټم جوړوو.</p>',
+            ],
+            'status' => 'published',
+        ]);
+
+        $technologyCompany = ContentPage::query()->create([
+            'type' => 'solution',
+            'slug' => 'technology-company-afghanistan',
+            'title' => ['en' => 'Technology Company in Afghanistan'],
+            'primary_query' => ['en' => 'Admin-selected technology topic'],
+            'search_intent' => 'commercial',
+            'status' => 'published',
+        ]);
+
+        $migration = require database_path('migrations/2026_08_23_000006_enrich_software_company_discovery_pages.php');
+        $migration->up();
+
+        $customSoftware->refresh();
+        $technologyCompany->refresh();
+
+        $this->assertSame('custom software development in Afghanistan', $customSoftware->primaryQuery('en'));
+        $this->assertSame('commercial', $customSoftware->search_intent);
+        $this->assertStringContainsString('From discovery to deployment', $customSoftware->translation('body', 'en'));
+        $this->assertSame('Admin-selected technology topic', $technologyCompany->primaryQuery('en'));
+        $this->assertSame('commercial', $technologyCompany->search_intent);
+    }
+
     public function test_valid_project_request_is_recorded_as_a_lead(): void
     {
         $response = $this->post('/contact/lead', [

@@ -1,19 +1,28 @@
 <!doctype html>
-<html lang="en" dir="ltr">
+@php
+    $adminTheme = config('website.appearance.current_theme_values', config('website.appearance.themes.midnight'));
+    $adminColors = config('website.appearance.current_colors', config('website.appearance.palettes.fida'));
+    $adminRgb = config('website.appearance.rgb', ['primary' => '201,255,74', 'secondary' => '132,108,255', 'highlight' => '78,232,255']);
+@endphp
+<html lang="en" dir="ltr" style="--admin-bg:{{ $adminTheme['background'] }};--admin-panel:{{ $adminTheme['surface'] }};--admin-panel-soft:{{ $adminTheme['background_soft'] }};--admin-lime:{{ $adminColors['primary'] }};--admin-violet:{{ $adminColors['secondary'] }};--admin-cyan:{{ $adminColors['highlight'] }};--admin-accent-rgb:{{ $adminRgb['primary'] }};--admin-secondary-rgb:{{ $adminRgb['secondary'] }};--admin-highlight-rgb:{{ $adminRgb['highlight'] }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex, nofollow">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Console') · Fida</title>
+    <title>@yield('title', 'Console') · {{ config('website.branding.name') }}</title>
     @vite(['resources/css/admin.css', 'resources/js/admin.js'])
 </head>
 <body class="console-body">
     <div class="console-grid">
         <aside class="console-sidebar" data-sidebar>
-            <a class="console-brand" href="{{ route('admin.dashboard') }}" aria-label="Fida console home">
-                <span class="console-brand-mark"><b>F</b></span>
-                <span><strong>Fida</strong><small>website console</small></span>
+            <a class="console-brand" href="{{ route('admin.dashboard') }}" aria-label="{{ config('website.branding.name') }} console home">
+                @if(config('website.branding.logo_url'))
+                    <span class="console-brand-logo"><img src="{{ config('website.branding.logo_url') }}" alt=""></span>
+                @else
+                    <span class="console-brand-mark"><b>{{ mb_substr(config('website.branding.name'), 0, 1) }}</b></span>
+                @endif
+                <span><strong>{{ config('website.branding.name') }}</strong><small>website console</small></span>
             </a>
 
             <nav class="console-nav" aria-label="Administration">
@@ -42,6 +51,12 @@
                     <a @class(['active' => request()->routeIs('admin.users.*')]) href="{{ route('admin.users.index') }}">
                         <svg viewBox="0 0 24 24"><path d="M16 20v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2m6.5-10a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM17 8v6m-3-3h6"/></svg>
                         Team & roles
+                    </a>
+                @endif
+                @if(auth()->user()->allows('settings.manage'))
+                    <a @class(['active' => request()->routeIs('admin.settings.*')]) href="{{ route('admin.settings.edit') }}">
+                        <svg viewBox="0 0 24 24"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm7-3.5 2-1-2-3.5-2.2.2-1.3-.8-.8-2.1H9.3L8.5 6.9l-1.3.8L5 7.5 3 11l2 1v1.8l-2 1 2 3.5 2.2-.2 1.3.8.8 2.1h5.4l.8-2.1 1.3-.8 2.2.2 2-3.5-2-1V12Z"/></svg>
+                        Brand & settings
                     </a>
                 @endif
             </nav>

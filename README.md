@@ -16,6 +16,7 @@ Official multilingual website and lead-generation platform for [Fida Technologie
 - Consent-based GA4 loading, conversion events and campaign-attributed lead capture
 - Automated PHP tests and frontend build verification
 - Separate authenticated website console for content, leads and team access
+- Database-backed brand settings for logo, company contacts, address, approved map embeds, surface themes and color palettes
 
 The seeder also creates one private case-study draft per product. They are intentionally excluded from public routes and the sitemap until the client, implementation facts, redacted screenshots and measurable outcomes are verified and approved.
 
@@ -45,6 +46,12 @@ The secure console is available at `/admin`. Available roles are:
 - `sales`: customer leads and opportunity pipeline
 
 Primary public routes are available in English at `/about`, `/services`, `/projects`, `/pricing` and `/contact`. Dari and Pashto use the same page slugs below `/fa` and `/ps`. The homepage remains an overview, while the primary navigation points to these standalone pages.
+
+Super administrators can manage the public identity from `/admin/settings`. The selected surface theme and palette apply to both the public website and administration console. Company details also feed the public contact areas and Organization structured data. Uploaded logos use Laravel's public disk, so each deployment needs the public storage link:
+
+```bash
+php artisan storage:link
+```
 
 Run the verification suite:
 
@@ -104,6 +111,7 @@ Before changing the production document root:
 composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 php artisan optimize:clear
 php artisan migrate --force
+php artisan storage:link
 npm ci --ignore-scripts
 npm run build
 php artisan test

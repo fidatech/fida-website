@@ -35,10 +35,10 @@
             <p>English · Dari · Pashto</p>
         </article>
         <article class="metric-card metric-orange">
-            <div><small>Platform health</small><strong>99.9</strong></div>
+            <div><small>Current request</small><strong>LIVE</strong></div>
             <span class="metric-icon"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-6 4 12 2-6h6"/></svg></span>
-            <div class="metric-track"><i style="width:99.9%"></i></div>
-            <p><span class="online-dot"></span> Application operational</p>
+            <div class="metric-track"><i style="width:100%"></i></div>
+            <p><span class="online-dot"></span> Application responding</p>
         </article>
     </section>
 
@@ -75,6 +75,9 @@
                 @endif
                 @if(auth()->user()->allows('leads.manage'))
                     <a href="{{ route('admin.leads.index', ['status' => 'new']) }}"><span>◎</span><strong>New leads</strong><small>Continue the pipeline</small></a>
+                @endif
+                @if(auth()->user()->allows('settings.manage'))
+                    <a href="{{ route('admin.settings.edit') }}"><span>◈</span><strong>Brand settings</strong><small>Logo, colors and company profile</small></a>
                 @endif
                 <a href="{{ route('home') }}" target="_blank"><span>⌁</span><strong>Live website</strong><small>Open public experience</small></a>
             </div>

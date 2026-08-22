@@ -7,12 +7,15 @@
     $currentSlug = $routePage instanceof \App\Models\ContentPage ? $routePage->slug : null;
     $servicesActive = $currentSlug === 'services' || ($routePage instanceof \App\Models\ContentPage && in_array($routePage->type, ['solution', 'service'], true));
     $projectsActive = $currentSlug === 'projects' || ($routePage instanceof \App\Models\ContentPage && in_array($routePage->type, ['product', 'case-study'], true));
+    $siteTheme = config('website.appearance.current_theme_values', config('website.appearance.themes.midnight'));
+    $siteColors = config('website.appearance.current_colors', config('website.appearance.palettes.fida'));
+    $siteRgb = config('website.appearance.rgb', ['primary' => '201,255,74', 'secondary' => '132,108,255', 'highlight' => '78,232,255']);
 @endphp
-<html lang="{{ $locale }}" dir="{{ $direction }}">
+<html lang="{{ $locale }}" dir="{{ $direction }}" style="--ink:{{ $siteTheme['background'] }};--ink-soft:{{ $siteTheme['background_soft'] }};--panel-solid:{{ $siteTheme['surface'] }};--lime:{{ $siteColors['primary'] }};--lime-soft:{{ $siteColors['primary_soft'] }};--violet:{{ $siteColors['secondary'] }};--cyan:{{ $siteColors['highlight'] }};--accent-rgb:{{ $siteRgb['primary'] }};--secondary-rgb:{{ $siteRgb['secondary'] }};--highlight-rgb:{{ $siteRgb['highlight'] }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#07080b">
+    <meta name="theme-color" content="{{ $siteTheme['background'] }}">
     <meta name="color-scheme" content="dark">
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
 
@@ -58,7 +61,7 @@
     @endif
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="marketing-body">
+<body class="marketing-body theme-{{ config('website.appearance.current_theme', 'midnight') }} palette-{{ config('website.appearance.current_palette', 'fida') }}">
     <a class="skip-link" href="#main">Skip to content</a>
     <div class="page-noise" aria-hidden="true"></div>
     <div class="page-aurora page-aurora-one" aria-hidden="true"></div>
@@ -67,14 +70,18 @@
 
     <header class="site-header" data-header>
         <div class="container header-shell">
-            <a class="brand" href="{{ \App\Support\LocalizedUrl::path('/') }}" aria-label="Fida Technologies home">
-                <span class="brand-mark" aria-hidden="true">
-                    <span class="brand-plane brand-plane-back"></span>
-                    <span class="brand-plane brand-plane-front">
-                        <svg viewBox="0 0 44 44"><path d="M11 9h24v7H19v6h12v7H19v11h-8z" fill="currentColor"/><path d="M30 29h8v11h-8z" fill="currentColor"/></svg>
+            <a class="brand" href="{{ \App\Support\LocalizedUrl::path('/') }}" aria-label="{{ config('website.name') }} home">
+                @if(config('website.branding.logo_url'))
+                    <span class="brand-logo"><img src="{{ config('website.branding.logo_url') }}" alt="" width="42" height="42"></span>
+                @else
+                    <span class="brand-mark" aria-hidden="true">
+                        <span class="brand-plane brand-plane-back"></span>
+                        <span class="brand-plane brand-plane-front">
+                            <svg viewBox="0 0 44 44"><path d="M11 9h24v7H19v6h12v7H19v11h-8z" fill="currentColor"/><path d="M30 29h8v11h-8z" fill="currentColor"/></svg>
+                        </span>
                     </span>
-                </span>
-                <span class="brand-copy"><strong>Fida</strong><small>Technologies</small></span>
+                @endif
+                <span class="brand-copy"><strong>{{ config('website.branding.name') }}</strong><small>{{ config('website.branding.tagline') }}</small></span>
             </a>
 
             <nav class="desktop-nav" aria-label="Primary navigation">
@@ -126,8 +133,12 @@
             <div class="footer-top">
                 <div class="footer-brand">
                     <a class="brand" href="{{ \App\Support\LocalizedUrl::path('/') }}">
-                        <span class="brand-mark" aria-hidden="true"><span class="brand-plane brand-plane-back"></span><span class="brand-plane brand-plane-front"><svg viewBox="0 0 44 44"><path d="M11 9h24v7H19v6h12v7H19v11h-8z" fill="currentColor"/><path d="M30 29h8v11h-8z" fill="currentColor"/></svg></span></span>
-                        <span class="brand-copy"><strong>Fida</strong><small>Technologies</small></span>
+                        @if(config('website.branding.logo_url'))
+                            <span class="brand-logo"><img src="{{ config('website.branding.logo_url') }}" alt="" width="42" height="42"></span>
+                        @else
+                            <span class="brand-mark" aria-hidden="true"><span class="brand-plane brand-plane-back"></span><span class="brand-plane brand-plane-front"><svg viewBox="0 0 44 44"><path d="M11 9h24v7H19v6h12v7H19v11h-8z" fill="currentColor"/><path d="M30 29h8v11h-8z" fill="currentColor"/></svg></span></span>
+                        @endif
+                        <span class="brand-copy"><strong>{{ config('website.branding.name') }}</strong><small>{{ config('website.branding.tagline') }}</small></span>
                     </a>
                     <p>{{ __('website.footer.description') }}</p>
                 </div>
@@ -160,6 +171,7 @@
                     <span class="footer-heading">{{ __('website.footer.contact') }}</span>
                     <a href="mailto:{{ config('website.email') }}">{{ config('website.email') }}</a>
                     <a href="tel:{{ config('website.phone') }}" dir="ltr">{{ config('website.phone') }}</a>
+                    @if(config('website.address.line'))<span>{{ config('website.address.line') }}</span>@endif
                     <span>{{ config('website.address.city') }}, {{ config('website.address.country') }}</span>
                 </div>
                 <div class="footer-coordinate"><span class="footer-heading">LOCAL / GLOBAL</span><strong>34.5553° N<br>69.2075° E</strong></div>

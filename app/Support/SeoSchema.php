@@ -131,7 +131,7 @@ final class SeoSchema
 
     private static function organization(): array
     {
-        return [
+        $organization = [
             '@type' => 'Organization',
             '@id' => url('/').'#organization',
             'name' => config('website.name'),
@@ -158,6 +158,19 @@ final class SeoSchema
                 'availableLanguage' => array_column(config('website.locales'), 'label'),
             ],
         ];
+
+        if (config('website.address.line')) {
+            $organization['address']['streetAddress'] = config('website.address.line');
+        }
+
+        if (config('website.branding.logo_url')) {
+            $organization['logo'] = [
+                '@type' => 'ImageObject',
+                'url' => config('website.branding.logo_url'),
+            ];
+        }
+
+        return $organization;
     }
 
     private static function website(): array

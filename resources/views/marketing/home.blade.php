@@ -30,7 +30,7 @@
                 <div class="orbit orbit-two"><span class="orbit-node node-data">DATA</span><span class="orbit-node node-cloud">CLOUD</span></div>
 
                 <div class="core-cube" aria-hidden="true">
-                    <div class="cube-face cube-front"><span>F</span><small>BUSINESS OS</small></div>
+                    <div class="cube-face cube-front"><span>{{ mb_substr(config('website.branding.name'), 0, 1) }}</span><small>BUSINESS OS</small></div>
                     <div class="cube-face cube-back"><span>27</span></div>
                     <div class="cube-face cube-right"><i></i><i></i><i></i></div>
                     <div class="cube-face cube-left"><b>01</b><b>10</b><b>11</b></div>
@@ -40,17 +40,17 @@
 
                 <div class="float-panel panel-signal">
                     <div class="panel-label"><span></span>LIVE SIGNAL</div>
-                    <div class="signal-value">99.9<small>%</small></div>
+                    <div class="signal-value">ONLINE<small>NOW</small></div>
                     <svg viewBox="0 0 124 34" preserveAspectRatio="none" aria-hidden="true"><path d="M1 27 14 21l12 4 13-16 13 10 13-6 13 9 13-17 13 7 19-9"/></svg>
                 </div>
                 <div class="float-panel panel-modules">
                     <div class="panel-label">CONNECTED MODULES</div>
                     <div class="module-row"><i></i><i></i><i></i><i></i><i></i></div>
-                    <strong>18 <small>ACTIVE</small></strong>
+                    <strong>ERP <small>CONNECTED</small></strong>
                 </div>
                 <div class="float-panel panel-command"><span>⌁</span><div><small>SMART COMMAND</small><strong>Ask your business.</strong></div></div>
             </div>
-            <div class="stage-readout stage-readout-bottom"><span>KBL · 34.55°N</span><span>LATENCY 24MS</span></div>
+            <div class="stage-readout stage-readout-bottom"><span>KBL · 34.55°N</span><span>SERVER RENDERED</span></div>
         </div>
     </div>
 
@@ -105,7 +105,7 @@
                         @if($solution['icon'] === 'layers')
                             <i></i><i></i><i></i><b>ERP</b>
                         @elseif($solution['icon'] === 'chart')
-                            <span></span><span></span><span></span><span></span><b>+24%</b>
+                            <span></span><span></span><span></span><span></span><b>DATA</b>
                         @elseif($solution['icon'] === 'code')
                             <i>&lt;/&gt;</i><span></span><span></span>
                         @else

@@ -1,11 +1,16 @@
 <!doctype html>
-<html lang="en" dir="ltr">
+@php
+    $adminTheme = config('website.appearance.current_theme_values', config('website.appearance.themes.midnight'));
+    $adminColors = config('website.appearance.current_colors', config('website.appearance.palettes.fida'));
+    $adminRgb = config('website.appearance.rgb', ['primary' => '201,255,74', 'secondary' => '132,108,255', 'highlight' => '78,232,255']);
+@endphp
+<html lang="en" dir="ltr" style="--admin-bg:{{ $adminTheme['background'] }};--admin-panel:{{ $adminTheme['surface'] }};--admin-panel-soft:{{ $adminTheme['background_soft'] }};--admin-lime:{{ $adminColors['primary'] }};--admin-violet:{{ $adminColors['secondary'] }};--admin-cyan:{{ $adminColors['highlight'] }};--admin-accent-rgb:{{ $adminRgb['primary'] }};--admin-secondary-rgb:{{ $adminRgb['secondary'] }};--admin-highlight-rgb:{{ $adminRgb['highlight'] }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex, nofollow">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Secure console · Fida</title>
+    <title>Secure console · {{ config('website.branding.name') }}</title>
     @vite(['resources/css/admin.css', 'resources/js/admin.js'])
 </head>
 <body class="login-body">
@@ -15,7 +20,7 @@
             <div class="login-orbit login-orbit-one"></div>
             <div class="login-orbit login-orbit-two"></div>
             <div class="login-cube">
-                <span>F</span><i></i><b></b>
+                <span>{{ mb_substr(config('website.branding.name'), 0, 1) }}</span><i></i><b></b>
             </div>
             <div class="login-signal"><i></i> Secure administration layer</div>
             <div class="login-copy">
@@ -27,8 +32,12 @@
 
         <section class="login-panel">
             <a class="console-brand" href="{{ route('home') }}">
-                <span class="console-brand-mark"><b>F</b></span>
-                <span><strong>Fida</strong><small>website console</small></span>
+                @if(config('website.branding.logo_url'))
+                    <span class="console-brand-logo"><img src="{{ config('website.branding.logo_url') }}" alt=""></span>
+                @else
+                    <span class="console-brand-mark"><b>{{ mb_substr(config('website.branding.name'), 0, 1) }}</b></span>
+                @endif
+                <span><strong>{{ config('website.branding.name') }}</strong><small>website console</small></span>
             </a>
             <div class="login-form-wrap">
                 <small class="form-index">01 / AUTHENTICATION</small>

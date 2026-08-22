@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ContentPageController as AdminContentPageControll
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\LeadController as AdminLeadController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\WebsiteSettingsController as AdminWebsiteSettingsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IndexNowKeyController;
 use App\Http\Controllers\LeadController;
@@ -47,6 +48,13 @@ Route::prefix('admin')->name('admin.')->group(function (): void {
         Route::resource('users', AdminUserController::class)
             ->except(['show', 'destroy'])
             ->middleware('capability:users.manage');
+
+        Route::get('/settings', [AdminWebsiteSettingsController::class, 'edit'])
+            ->middleware('capability:settings.manage')
+            ->name('settings.edit');
+        Route::put('/settings', [AdminWebsiteSettingsController::class, 'update'])
+            ->middleware('capability:settings.manage')
+            ->name('settings.update');
     });
 });
 

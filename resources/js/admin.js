@@ -66,6 +66,67 @@ document.querySelectorAll('[data-counted]').forEach((field) => {
     update();
 });
 
+const brandNameInput = document.querySelector('[data-brand-name]');
+const brandTaglineInput = document.querySelector('[data-brand-tagline]');
+const brandNamePreview = document.querySelector('[data-brand-name-preview]');
+const brandTaglinePreview = document.querySelector('[data-brand-tagline-preview]');
+const brandMarkPreview = document.querySelector('[data-brand-mark-preview]');
+
+const updateBrandPreview = () => {
+    if (brandNamePreview && brandNameInput) brandNamePreview.textContent = brandNameInput.value || 'Brand';
+    if (brandTaglinePreview && brandTaglineInput) brandTaglinePreview.textContent = brandTaglineInput.value || 'Tagline';
+    if (brandMarkPreview && brandNameInput) brandMarkPreview.textContent = (brandNameInput.value.trim()[0] || 'F').toUpperCase();
+};
+
+brandNameInput?.addEventListener('input', updateBrandPreview);
+brandTaglineInput?.addEventListener('input', updateBrandPreview);
+
+const logoInput = document.querySelector('[data-logo-input]');
+const logoPreview = document.querySelector('[data-logo-preview]');
+let logoObjectUrl;
+
+logoInput?.addEventListener('change', () => {
+    const file = logoInput.files?.[0];
+    if (!file || !logoPreview) return;
+    if (logoObjectUrl) URL.revokeObjectURL(logoObjectUrl);
+    logoObjectUrl = URL.createObjectURL(file);
+    logoPreview.replaceChildren(Object.assign(document.createElement('img'), {
+        src: logoObjectUrl,
+        alt: 'Selected logo preview',
+    }));
+});
+
+const colorInputs = Object.fromEntries(
+    [...document.querySelectorAll('[data-color-input]')].map((input) => [input.dataset.colorInput, input]),
+);
+
+const updateColorCode = (name) => {
+    const code = document.querySelector(`[data-color-code="${name}"]`);
+    if (code && colorInputs[name]) code.textContent = colorInputs[name].value.toLowerCase();
+};
+
+document.querySelectorAll('[data-palette-card]').forEach((card) => {
+    card.addEventListener('click', () => {
+        const radio = card.querySelector('input[type="radio"]');
+        if (radio?.value === 'custom') return;
+
+        ['primary', 'secondary', 'highlight'].forEach((name) => {
+            if (!colorInputs[name] || !card.dataset[name]) return;
+            colorInputs[name].value = card.dataset[name];
+            updateColorCode(name);
+        });
+    });
+});
+
+Object.entries(colorInputs).forEach(([name, input]) => {
+    input.addEventListener('input', () => {
+        const customPalette = document.querySelector('input[name="palette"][value="custom"]');
+        if (customPalette) customPalette.checked = true;
+        updateColorCode(name);
+    });
+    updateColorCode(name);
+});
+
 document.addEventListener('keydown', (event) => {
     if (event.key !== 'Escape') return;
     setSidebar(false);

@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\ContentPage;
 use App\Models\Lead;
+use App\Models\SiteSetting;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -114,6 +115,58 @@ class AdminConsoleTest extends TestCase
         ]);
     }
 
+    public function test_only_super_administrator_can_open_website_settings(): void
+    {
+        $admin = User::factory()->admin()->create();
+        $editor = User::factory()->admin('editor')->create();
+
+        $this->actingAs($admin)
+            ->get(route('admin.settings.edit'))
+            ->assertOk()
+            ->assertSee('Your identity, from one place.')
+            ->assertSee('Fida lime');
+
+        $this->actingAs($editor)
+            ->get(route('admin.settings.edit'))
+            ->assertForbidden();
+    }
+
+    public function test_super_administrator_can_update_public_identity_and_theme(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        $this->actingAs($admin)
+            ->put(route('admin.settings.update'), $this->settingsPayload())
+            ->assertRedirect();
+
+        $this->assertDatabaseCount('site_settings', 3);
+        $this->assertSame(
+            'Fida Technology Group',
+            SiteSetting::query()->where('key', 'website.general')->firstOrFail()->value['company_name'],
+        );
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('Fida Technology Group')
+            ->assertSee('hello@fida.af')
+            ->assertSee('--ink:#050914', false)
+            ->assertSee('--lime:#55a7ff', false)
+            ->assertSee('theme-deep_navy palette-electric', false);
+    }
+
+    public function test_website_settings_reject_unsafe_map_provider(): void
+    {
+        $admin = User::factory()->admin()->create();
+        $payload = $this->settingsPayload();
+        $payload['map_embed_url'] = 'https://example.com/embed/map';
+
+        $this->actingAs($admin)
+            ->put(route('admin.settings.update'), $payload)
+            ->assertSessionHasErrors('map_embed_url');
+
+        $this->assertDatabaseCount('site_settings', 0);
+    }
+
     public function test_content_body_rejects_executable_html(): void
     {
         $editor = User::factory()->admin('editor')->create();
@@ -146,6 +199,30 @@ class AdminConsoleTest extends TestCase
             'featured' => '1',
             'sort_order' => 1,
             'published_at' => null,
+        ];
+    }
+
+    private function settingsPayload(): array
+    {
+        return [
+            'company_name' => 'Fida Technology Group',
+            'legal_name' => 'Fida Technologies & Marketing Services',
+            'email' => 'hello@fida.af',
+            'phone' => '+93 784 006 200',
+            'whatsapp' => '93784006200',
+            'address_line' => 'Technology District',
+            'city' => 'Kabul',
+            'country' => 'Afghanistan',
+            'country_code' => 'AF',
+            'map_embed_url' => 'https://www.google.com/maps/embed?pb=test',
+            'brand_name' => 'Fida',
+            'brand_tagline' => 'Technology Group',
+            'remove_logo' => '0',
+            'theme' => 'deep_navy',
+            'palette' => 'electric',
+            'primary_color' => '#55a7ff',
+            'secondary_color' => '#725cff',
+            'highlight_color' => '#54f4dc',
         ];
     }
 

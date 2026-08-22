@@ -11,7 +11,13 @@
             <div class="contact-direct">
                 <a href="mailto:{{ config('website.email') }}" data-track-event="contact_click" data-track-label="email"><span>EMAIL</span>{{ config('website.email') }}</a>
                 <a href="https://wa.me/{{ config('website.whatsapp') }}" rel="noopener" dir="ltr" data-track-event="contact_click" data-track-label="whatsapp"><span>WHATSAPP</span>{{ config('website.phone') }}</a>
+                <div><span>LOCATION</span>@if(config('website.address.line')){{ config('website.address.line') }} · @endif{{ config('website.address.city') }}, {{ config('website.address.country') }}</div>
             </div>
+            @if(isset($page) && $page instanceof \App\Models\ContentPage && $page->slug === 'contact' && config('website.map_embed_url'))
+                <div class="contact-map">
+                    <iframe src="{{ config('website.map_embed_url') }}" title="{{ config('website.name') }} location" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+                </div>
+            @endif
         </div>
         <form class="lead-form" action="{{ route('leads.store') }}" method="post">
             @csrf

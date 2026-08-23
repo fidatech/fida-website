@@ -86,7 +86,7 @@ class MarketingPageController extends Controller
 
         $fallback = ContentPage::published()
             ->whereKeyNot($page->getKey())
-            ->whereNotIn('id', $preferred->modelKeys())
+            ->whereNotIn('id', $preferred->pluck('id')->all())
             ->whereIn('type', $this->relatedTypes($page->type))
             ->with(['articleCategory', 'articleAuthor'])
             ->orderByDesc('featured')

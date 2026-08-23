@@ -4,11 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ContentPage extends Model
 {
     protected $fillable = [
         'type',
+        'article_category_id',
+        'article_author_id',
         'slug',
         'title',
         'eyebrow',
@@ -56,6 +59,16 @@ class ContentPage extends Model
             ->where(function (Builder $query): void {
                 $query->whereNull('published_at')->orWhere('published_at', '<=', now());
             });
+    }
+
+    public function articleCategory(): BelongsTo
+    {
+        return $this->belongsTo(ArticleCategory::class);
+    }
+
+    public function articleAuthor(): BelongsTo
+    {
+        return $this->belongsTo(ArticleAuthor::class);
     }
 
     public function translation(string $field, ?string $locale = null): mixed
@@ -135,6 +148,45 @@ class ContentPage extends Model
             : config('website.social_image');
     }
 
+    public function byline(): ?string
+    {
+        return $this->articleAuthor?->name ?: (filled($this->author_name) ? (string) $this->author_name : null);
+    }
+
+    public function publicationStatus(): string
+    {
+        if ($this->status === 'published' && $this->published_at?->isFuture()) {
+            return 'scheduled';
+        }
+
+        return (string) ($this->status ?: 'draft');
+    }
+
+    public function relatedSlugs(): array
+    {
+        return collect(data_get($this->metadata, 'related_slugs', []))
+            ->filter(fn (mixed $slug): bool => is_string($slug) && $slug !== $this->slug)
+            ->unique()
+            ->values()
+            ->all();
+    }
+
+    public function serviceProfile(?string $locale = null): ?array
+    {
+        if ($this->type !== 'service' || ! is_array(data_get($this->metadata, 'service'))) {
+            return null;
+        }
+
+        $locale ??= app()->getLocale();
+
+        return [
+            'engagement' => (string) $this->metadataTranslation('service.engagement', $locale),
+            'delivery' => (string) $this->metadataTranslation('service.delivery', $locale),
+            'handover' => (string) $this->metadataTranslation('service.handover', $locale),
+            'capabilities' => $this->localizedMetadataList('service.capabilities', $locale),
+        ];
+    }
+
     public function productProfile(?string $locale = null): ?array
     {
         if ($this->type !== 'product' || ! is_array(data_get($this->metadata, 'product'))) {
@@ -171,5 +223,22 @@ class ContentPage extends Model
             'status' => (string) $this->metadataTranslation('product.status', $locale),
             'features' => $features,
         ];
+    }
+
+    private function localizedMetadataList(string $path, string $locale): array
+    {
+        return collect(data_get($this->metadata, $path, []))
+            ->map(function (mixed $item) use ($locale): string {
+                if (! is_array($item)) {
+                    return trim((string) $item);
+                }
+
+                return trim((string) ($item[$locale]
+                    ?? $item[config('website.default_locale')]
+                    ?? collect($item)->first()));
+            })
+            ->filter()
+            ->values()
+            ->all();
     }
 }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ContentPageRequest;
+use App\Models\ArticleAuthor;
+use App\Models\ArticleCategory;
 use App\Models\ContentPage;
 use App\Support\DiscoveryAudit;
 use App\Support\DiscoveryPublisher;
@@ -49,6 +51,7 @@ class ContentPageController extends Controller
         return view('admin.content-pages.create', [
             'contentPage' => $contentPage,
             'discoveryAudit' => $discoveryAudit->analyze($contentPage),
+            ...$this->editorOptions(),
         ]);
     }
 
@@ -67,6 +70,7 @@ class ContentPageController extends Controller
         return view('admin.content-pages.edit', [
             'contentPage' => $contentPage,
             'discoveryAudit' => $discoveryAudit->analyze($contentPage),
+            ...$this->editorOptions($contentPage),
         ]);
     }
 
@@ -104,6 +108,7 @@ class ContentPageController extends Controller
     {
         $data = $request->validated();
         $existingMetadata = (array) ($request->route('contentPage')?->metadata ?? []);
+        $submittedMetadata = (array) data_get($data, 'metadata', []);
         $faqs = collect(data_get($data, 'metadata.faqs', []))
             ->map(function (array $faq): array {
                 return [
@@ -115,7 +120,41 @@ class ContentPageController extends Controller
             ->values()
             ->all();
 
-        $data['metadata'] = array_replace($existingMetadata, ['faqs' => $faqs]);
+        $metadata = array_replace($existingMetadata, $submittedMetadata);
+        $metadata['faqs'] = $faqs;
+        $metadata['related_slugs'] = collect(data_get($submittedMetadata, 'related_slugs', []))
+            ->map(fn (mixed $slug): string => trim((string) $slug))
+            ->filter()
+            ->unique()
+            ->values()
+            ->all();
+
+        if ($data['type'] === 'service') {
+            $service = (array) data_get($submittedMetadata, 'service', []);
+            $metadata['service'] = [
+                'engagement' => $this->cleanTranslations((array) data_get($service, 'engagement', [])),
+                'delivery' => $this->cleanTranslations((array) data_get($service, 'delivery', [])),
+                'handover' => $this->cleanTranslations((array) data_get($service, 'handover', [])),
+                'capabilities' => $this->cleanLocalizedList((array) data_get($service, 'capabilities', [])),
+            ];
+        }
+
+        if ($data['type'] === 'product') {
+            $product = (array) data_get($submittedMetadata, 'product', []);
+            $metadata['product'] = [
+                'code' => trim((string) data_get($product, 'code')),
+                'accent' => trim((string) data_get($product, 'accent', '#c9ff4a')) ?: '#c9ff4a',
+                'category' => $this->cleanTranslations((array) data_get($product, 'category', [])),
+                'platform' => $this->cleanTranslations((array) data_get($product, 'platform', [])),
+                'deployment' => $this->cleanTranslations((array) data_get($product, 'deployment', [])),
+                'status' => $this->cleanTranslations((array) data_get($product, 'status', [])),
+                'features' => $this->cleanLocalizedList((array) data_get($product, 'features', [])),
+            ];
+        }
+
+        $data['metadata'] = $metadata;
+        $data['article_category_id'] = $data['type'] === 'article' ? ($data['article_category_id'] ?? null) : null;
+        $data['article_author_id'] = $data['type'] === 'article' ? ($data['article_author_id'] ?? null) : null;
         $data['robots_directive'] ??= config('website.discovery.default_robots');
 
         if ($data['status'] === 'published' && empty($data['published_at'])) {
@@ -123,5 +162,35 @@ class ContentPageController extends Controller
         }
 
         return $data;
+    }
+
+    private function editorOptions(?ContentPage $contentPage = null): array
+    {
+        return [
+            'articleCategories' => ArticleCategory::query()->orderBy('sort_order')->orderBy('name->en')->get(),
+            'articleAuthors' => ArticleAuthor::query()->orderBy('sort_order')->orderBy('name')->get(),
+            'relatedOptions' => ContentPage::query()
+                ->when($contentPage, fn ($query) => $query->whereKeyNot($contentPage->getKey()))
+                ->orderBy('type')
+                ->orderBy('title->en')
+                ->get(['id', 'type', 'slug', 'title', 'status']),
+        ];
+    }
+
+    private function cleanTranslations(array $translations): array
+    {
+        return collect($translations)
+            ->map(fn (mixed $value): string => trim((string) $value))
+            ->filter()
+            ->all();
+    }
+
+    private function cleanLocalizedList(array $items): array
+    {
+        return collect($items)
+            ->map(fn (mixed $item): array => $this->cleanTranslations((array) $item))
+            ->filter()
+            ->values()
+            ->all();
     }
 }

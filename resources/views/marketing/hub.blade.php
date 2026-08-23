@@ -33,6 +33,14 @@
             <h2>{{ __("website.hubs.{$hubLayout}.title") }}</h2>
             <p>{{ __("website.hubs.{$hubLayout}.description") }}</p>
         </div>
+        @if($hubLayout === 'articles' && $articleCategories->isNotEmpty())
+            <nav class="insights-category-nav reveal" aria-label="{{ __('website.insights.categories') }}">
+                <span>{{ __('website.insights.explore_topics') }}</span>
+                @foreach($articleCategories as $articleCategory)
+                    <a href="{{ App\Support\LocalizedUrl::path('/articles/category/'.$articleCategory->slug) }}">{{ $articleCategory->translation('name') }} <small>{{ $articleCategory->articles_count }}</small></a>
+                @endforeach
+            </nav>
+        @endif
         @if($collectionPages->isNotEmpty())
             <div class="hub-card-grid hub-card-grid-{{ $hubLayout }}">
                 @foreach($collectionPages as $collectionPage)
@@ -41,6 +49,9 @@
                         <header><span>{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span><b>{{ strtoupper(config("website.content_types.{$collectionPage->type}.singular", Str::headline($collectionPage->type))) }}</b><i>↗</i></header>
                         <div class="hub-card-core" aria-hidden="true"><span>{{ strtoupper(substr($collectionPage->slug, 0, 2)) }}</span><i></i><i></i></div>
                         <div><h3>{{ $collectionPage->translation('title') }}</h3><p>{{ $collectionPage->translation('summary') }}</p><strong>{{ __('website.solutions.learn_more') }} ↗</strong></div>
+                        @if($hubLayout === 'articles' && ($collectionPage->articleCategory || $collectionPage->byline()))
+                            <footer class="hub-card-editorial"><span>{{ $collectionPage->articleCategory?->translation('name') }}</span><small>{{ $collectionPage->byline() }}</small></footer>
+                        @endif
                     </a>
                 @endforeach
             </div>

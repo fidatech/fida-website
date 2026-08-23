@@ -45,6 +45,14 @@
                             </a>
                         @endforeach
                     </div>
+                    <a @class(['active' => request()->routeIs('admin.article-categories.*')]) href="{{ route('admin.article-categories.index') }}">
+                        <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h7"/></svg>
+                        Insight categories
+                    </a>
+                    <a @class(['active' => request()->routeIs('admin.article-authors.*')]) href="{{ route('admin.article-authors.index') }}">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+                        Insight authors
+                    </a>
                     <a @class(['active' => request()->routeIs('admin.redirects.*')]) href="{{ route('admin.redirects.index') }}">
                         <svg viewBox="0 0 24 24"><path d="M8 7h8a4 4 0 0 1 4 4v2M16 17H8a4 4 0 0 1-4-4v-2m12 3 4-1 1 4M8 10 4 11 3 7"/></svg>
                         Redirects

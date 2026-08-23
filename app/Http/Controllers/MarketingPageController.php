@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ArticleCategory;
 use App\Models\ContentPage;
 use App\Support\LocalizedUrl;
 use App\Support\SeoSchema;
@@ -13,6 +14,7 @@ class MarketingPageController extends Controller
     public function __invoke(ContentPage $page): View
     {
         abort_unless($page->status === 'published' && (! $page->published_at || $page->published_at->isPast()), 404);
+        $page->loadMissing(['articleCategory', 'articleAuthor']);
 
         $seo = [
             'title' => $page->translation('meta_title') ?: $page->translation('title').' | '.config('website.name'),
@@ -21,35 +23,78 @@ class MarketingPageController extends Controller
             'type' => $page->type === 'article' ? 'article' : 'website',
             'robots' => $page->robotsDirective(),
             'image' => $page->socialImage(),
-            'author' => $page->author_name,
+            'author' => $page->byline(),
         ];
         $faqs = $page->faqs();
         $productProfile = $page->productProfile();
+        $serviceProfile = $page->serviceProfile();
         $archive = $this->archiveFor($page->type);
         $hubLayout = in_array($page->slug, [
             'about', 'services', 'projects', 'pricing', 'contact',
             ...array_keys(config('website.content_hubs')),
         ], true) ? $page->slug : null;
         $collectionPages = $this->collectionPages($hubLayout);
-        $relatedPages = ContentPage::published()
-            ->whereKeyNot($page->getKey())
-            ->whereIn('type', $this->relatedTypes($page->type))
-            ->orderByDesc('featured')
-            ->orderBy('sort_order')
-            ->limit(3)
-            ->get();
+        $relatedPages = $this->relatedPages($page);
+        $articleCategories = $hubLayout === 'articles'
+            ? ArticleCategory::active()
+                ->whereHas('articles', fn ($query) => $query->published()->where('type', 'article'))
+                ->withCount(['articles' => fn ($query) => $query->published()->where('type', 'article')])
+                ->orderBy('sort_order')
+                ->get()
+            : collect();
+        $detailView = match ($page->type) {
+            'service' => 'marketing.service',
+            'product' => 'marketing.product',
+            'article' => 'marketing.article',
+            default => 'marketing.page',
+        };
 
-        return view($hubLayout ? 'marketing.hub' : 'marketing.page', [
+        return view($hubLayout ? 'marketing.hub' : $detailView, [
             'page' => $page,
             'seo' => $seo,
             'faqs' => $faqs,
             'productProfile' => $productProfile,
+            'serviceProfile' => $serviceProfile,
             'hubLayout' => $hubLayout,
             'archive' => $archive,
             'collectionPages' => $collectionPages,
+            'articleCategories' => $articleCategories,
             'relatedPages' => $relatedPages,
             'structuredData' => SeoSchema::page($page, $seo['title'], $seo['description'], $seo['canonical'], $faqs, $archive),
         ]);
+    }
+
+    private function relatedPages(ContentPage $page): Collection
+    {
+        $preferredSlugs = $page->relatedSlugs();
+        $preferred = collect();
+
+        if ($preferredSlugs !== []) {
+            $positions = array_flip($preferredSlugs);
+            $preferred = ContentPage::published()
+                ->whereKeyNot($page->getKey())
+                ->whereIn('slug', $preferredSlugs)
+                ->with(['articleCategory', 'articleAuthor'])
+                ->get()
+                ->sortBy(fn (ContentPage $relatedPage): int => $positions[$relatedPage->slug] ?? PHP_INT_MAX)
+                ->values();
+        }
+
+        if ($preferred->count() >= 3) {
+            return $preferred->take(3);
+        }
+
+        $fallback = ContentPage::published()
+            ->whereKeyNot($page->getKey())
+            ->whereNotIn('id', $preferred->modelKeys())
+            ->whereIn('type', $this->relatedTypes($page->type))
+            ->with(['articleCategory', 'articleAuthor'])
+            ->orderByDesc('featured')
+            ->orderBy('sort_order')
+            ->limit(3 - $preferred->count())
+            ->get();
+
+        return $preferred->concat($fallback)->values();
     }
 
     private function archiveFor(string $type): ?array
@@ -100,6 +145,7 @@ class MarketingPageController extends Controller
 
         return ContentPage::published()
             ->whereIn('type', $types)
+            ->with(['articleCategory', 'articleAuthor'])
             ->orderByDesc('featured')
             ->orderBy('sort_order')
             ->orderBy('title->en')

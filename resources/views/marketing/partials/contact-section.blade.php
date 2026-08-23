@@ -23,6 +23,7 @@
             @csrf
             <input type="hidden" name="locale" value="{{ app()->getLocale() }}">
             <input type="hidden" name="source_url" value="{{ url()->current() }}">
+            <input type="hidden" name="interest_slug" value="{{ request('interest', isset($page) && $page instanceof \App\Models\ContentPage && !in_array($page->slug, ['contact', 'pricing'], true) ? $page->slug : '') }}">
             <input type="hidden" name="utm_source" value="{{ request('utm_source') }}">
             <input type="hidden" name="utm_medium" value="{{ request('utm_medium') }}">
             <input type="hidden" name="utm_campaign" value="{{ request('utm_campaign') }}">

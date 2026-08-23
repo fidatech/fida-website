@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\ArticleAuthorController as AdminArticleAuthorController;
+use App\Http\Controllers\Admin\ArticleCategoryController as AdminArticleCategoryController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\ContentPageController as AdminContentPageController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
@@ -8,6 +10,7 @@ use App\Http\Controllers\Admin\PageRedirectController as AdminPageRedirectContro
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\WebsiteSettingsController as AdminWebsiteSettingsController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ArticleTaxonomyController;
 use App\Http\Controllers\IndexNowKeyController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\MarketingPageController;
@@ -44,6 +47,16 @@ Route::prefix('admin')->name('admin.')->group(function (): void {
             ->parameters(['content-pages' => 'contentPage'])
             ->middleware('capability:content.manage');
 
+        Route::resource('article-categories', AdminArticleCategoryController::class)
+            ->except('show')
+            ->parameters(['article-categories' => 'articleCategory'])
+            ->middleware('capability:content.manage');
+
+        Route::resource('article-authors', AdminArticleAuthorController::class)
+            ->except('show')
+            ->parameters(['article-authors' => 'articleAuthor'])
+            ->middleware('capability:content.manage');
+
         Route::resource('redirects', AdminPageRedirectController::class)
             ->only(['index', 'store', 'update', 'destroy'])
             ->parameters(['redirects' => 'pageRedirect'])
@@ -72,10 +85,19 @@ Route::prefix('{locale}')
     ->group(function (): void {
         Route::get('/', HomeController::class)->name('localized.home');
         Route::get('/search', SearchController::class)->name('localized.search');
+        Route::get('/articles/category/{articleCategory:slug}', [ArticleTaxonomyController::class, 'category'])
+            ->name('localized.articles.category');
+        Route::get('/articles/author/{articleAuthor:slug}', [ArticleTaxonomyController::class, 'author'])
+            ->name('localized.articles.author');
         Route::get('/{page:slug}', MarketingPageController::class)
             ->where('page', '[a-z0-9-]+')
             ->name('localized.pages.show');
     });
+
+Route::get('/articles/category/{articleCategory:slug}', [ArticleTaxonomyController::class, 'category'])
+    ->name('articles.category');
+Route::get('/articles/author/{articleAuthor:slug}', [ArticleTaxonomyController::class, 'author'])
+    ->name('articles.author');
 
 Route::get('/{page:slug}', MarketingPageController::class)
     ->where('page', '[a-z0-9-]+')

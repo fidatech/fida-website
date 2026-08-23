@@ -3,9 +3,45 @@
 namespace App\Support;
 
 use App\Models\ContentPage;
+use Illuminate\Support\Collection;
 
 final class SeoSchema
 {
+    public static function articleCollection(string $title, string $description, string $canonical, Collection $articles): array
+    {
+        $collectionId = $canonical.'#collection';
+        $items = $articles->values()->map(fn (ContentPage $article, int $index): array => [
+            '@type' => 'ListItem',
+            'position' => $index + 1,
+            'url' => LocalizedUrl::path('/'.$article->slug),
+            'name' => $article->translation('title'),
+        ])->all();
+
+        return [
+            '@context' => 'https://schema.org',
+            '@graph' => [
+                self::organization(),
+                self::website(),
+                [
+                    '@type' => 'CollectionPage',
+                    '@id' => $collectionId,
+                    'url' => $canonical,
+                    'name' => $title,
+                    'description' => $description,
+                    'inLanguage' => app()->getLocale(),
+                    'isPartOf' => ['@id' => url('/').'#website'],
+                    'mainEntity' => ['@id' => $canonical.'#items'],
+                ],
+                [
+                    '@type' => 'ItemList',
+                    '@id' => $canonical.'#items',
+                    'numberOfItems' => count($items),
+                    'itemListElement' => $items,
+                ],
+            ],
+        ];
+    }
+
     public static function home(string $title, string $description, string $canonical, ?string $topic = null, ?string $image = null): array
     {
         $webPage = [
@@ -160,8 +196,14 @@ final class SeoSchema
 
         if ($page->type === 'article') {
             $graph[$webPageIndex]['mainEntity'] = ['@id' => $articleId];
-            $author = filled($page->author_name)
-                ? ['@type' => 'Person', 'name' => $page->author_name]
+            $author = $page->byline()
+                ? array_filter([
+                    '@type' => 'Person',
+                    'name' => $page->byline(),
+                    'url' => $page->articleAuthor?->active
+                        ? LocalizedUrl::path('/articles/author/'.$page->articleAuthor->slug)
+                        : null,
+                ])
                 : ['@id' => url('/').'#organization'];
             $graph[] = [
                 '@type' => 'Article',
@@ -176,6 +218,10 @@ final class SeoSchema
                 'author' => $author,
                 'publisher' => ['@id' => url('/').'#organization'],
             ];
+
+            if ($page->articleCategory?->active) {
+                $graph[array_key_last($graph)]['articleSection'] = $page->articleCategory->translation('name');
+            }
 
             if ($page->socialImage()) {
                 $graph[array_key_last($graph)]['image'] = ['@id' => $imageId];

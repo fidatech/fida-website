@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\ArticleCategory;
 use App\Models\ContentPage;
 use Illuminate\Database\Seeder;
 
@@ -10,7 +11,18 @@ class MarketingContentSeeder extends Seeder
     public function run(): void
     {
         foreach ([...$this->services(), ...$this->industries(), ...$this->articles()] as $page) {
-            ContentPage::query()->firstOrCreate(['slug' => $page['slug']], $page);
+            $contentPage = ContentPage::query()->firstOrCreate(['slug' => $page['slug']], $page);
+
+            if ($contentPage->type === 'article' && ! $contentPage->article_category_id) {
+                $categorySlug = $contentPage->slug === 'accounting-software-selection-afghanistan'
+                    ? 'accounting-finance-systems'
+                    : 'business-software-planning';
+                $categoryId = ArticleCategory::query()->where('slug', $categorySlug)->value('id');
+
+                if ($categoryId) {
+                    $contentPage->update(['article_category_id' => $categoryId]);
+                }
+            }
         }
     }
 
@@ -182,7 +194,27 @@ class MarketingContentSeeder extends Seeder
             'body' => $body,
             'meta_title' => $metaTitle,
             'meta_description' => $metaDescription,
-            'metadata' => ['faqs' => $faqs],
+            'metadata' => array_filter([
+                'faqs' => $faqs,
+                'service' => $type === 'service' ? [
+                    'engagement' => ['en' => 'Confirmed workflow and written scope', 'fa' => 'روند تأییدشده و محدوده کتبی', 'ps' => 'تایید شوی بهیر او لیکلي حدود'],
+                    'delivery' => ['en' => 'Reviewable stages defined for the engagement', 'fa' => 'مراحل قابل بررسی مطابق همکاری', 'ps' => 'د همکارۍ لپاره د کتنې وړ پړاوونه'],
+                    'handover' => ['en' => 'Documented handover and agreed support boundaries', 'fa' => 'تحویل مستند و حدود توافق‌شده پشتیبانی', 'ps' => 'مستند سپارل او هوکړه شوي د ملاتړ حدود'],
+                    'capabilities' => [
+                        ['en' => 'Workflow discovery', 'fa' => 'شناخت روند', 'ps' => 'د کاري بهیر پېژندنه'],
+                        ['en' => 'Scope confirmation', 'fa' => 'تأیید محدوده', 'ps' => 'د حدودو تایید'],
+                        ['en' => 'Testing and review', 'fa' => 'آزمایش و بررسی', 'ps' => 'ازموینه او کتنه'],
+                        ['en' => 'Controlled handover', 'fa' => 'تحویل کنترول‌شده', 'ps' => 'کنټرول شوې سپارنه'],
+                    ],
+                ] : null,
+                'related_slugs' => $type === 'article' ? match ($slug) {
+                    'how-to-choose-erp-system-afghanistan' => ['erp-implementation-services-afghanistan', 'erp-systems-afghanistan', 'products'],
+                    'custom-software-vs-ready-made-afghanistan' => ['custom-software-development-afghanistan', 'business-process-analysis-afghanistan', 'services'],
+                    'accounting-software-selection-afghanistan' => ['accounting-software-afghanistan', 'erp-implementation-services-afghanistan', 'services'],
+                    'questions-before-hiring-software-company-afghanistan' => ['services', 'business-process-analysis-afghanistan', 'pricing'],
+                    default => [],
+                } : null,
+            ], fn (mixed $value): bool => $value !== null),
             'status' => 'published',
             'featured' => true,
             'sort_order' => $sortOrder,

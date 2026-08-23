@@ -425,3 +425,12 @@ svg { display: block; fill: none; stroke: currentColor; stroke-linecap: round; s
 .login-form-wrap > p { font-size: 12px; }
 .password-field button { font-size: 11px; }
 .login-panel footer { font-size: 9px; }
+/* Insight editorial controls */
+.taxonomy-language-block + .taxonomy-language-block { margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--console-line); }
+.content-profile-box { margin-top: 1.25rem; }
+.editorial-controls,
+.related-content-controls { margin-top: 1.25rem; }
+.console-form select[multiple] { min-height: 13rem; padding: .55rem; }
+.console-form select[multiple] option { padding: .55rem .65rem; border-radius: .35rem; }
+.status-review { color: #d7c7ff; background: rgba(132, 108, 255, .14); border-color: rgba(132, 108, 255, .35); }
+.status-scheduled { color: #9beeff; background: rgba(78, 232, 255, .12); border-color: rgba(78, 232, 255, .32); }

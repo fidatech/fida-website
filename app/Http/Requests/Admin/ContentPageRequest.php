@@ -31,6 +31,8 @@ class ContentPageRequest extends FormRequest
 
         return [
             'type' => ['required', Rule::in(array_keys(config('website.content_types')))],
+            'article_category_id' => ['nullable', Rule::exists('article_categories', 'id')],
+            'article_author_id' => ['nullable', Rule::exists('article_authors', 'id')],
             'slug' => [
                 'required',
                 'string',
@@ -61,12 +63,38 @@ class ContentPageRequest extends FormRequest
             'reviewer_name' => ['nullable', 'string', 'max:120'],
             'reviewed_at' => ['nullable', 'date'],
             'metadata' => ['nullable', 'array'],
+            'metadata.related_slugs' => ['nullable', 'array', 'max:8'],
+            'metadata.related_slugs.*' => ['nullable', 'string', 'distinct', Rule::exists('content_pages', 'slug')],
             'metadata.faqs' => ['nullable', 'array', 'max:6'],
             'metadata.faqs.*.question' => ['nullable', 'array'],
             'metadata.faqs.*.question.*' => ['nullable', 'string', 'max:320'],
             'metadata.faqs.*.answer' => ['nullable', 'array'],
             'metadata.faqs.*.answer.*' => ['nullable', 'string', 'max:1500'],
-            'status' => ['required', Rule::in(['draft', 'published'])],
+            'metadata.service' => ['nullable', 'array'],
+            'metadata.service.engagement' => ['nullable', 'array'],
+            'metadata.service.engagement.*' => ['nullable', 'string', 'max:240'],
+            'metadata.service.delivery' => ['nullable', 'array'],
+            'metadata.service.delivery.*' => ['nullable', 'string', 'max:240'],
+            'metadata.service.handover' => ['nullable', 'array'],
+            'metadata.service.handover.*' => ['nullable', 'string', 'max:240'],
+            'metadata.service.capabilities' => ['nullable', 'array', 'max:8'],
+            'metadata.service.capabilities.*' => ['nullable', 'array'],
+            'metadata.service.capabilities.*.*' => ['nullable', 'string', 'max:190'],
+            'metadata.product' => ['nullable', 'array'],
+            'metadata.product.code' => ['nullable', 'string', 'max:24'],
+            'metadata.product.accent' => ['nullable', 'regex:/^#[0-9a-f]{6}$/i'],
+            'metadata.product.category' => ['nullable', 'array'],
+            'metadata.product.category.*' => ['nullable', 'string', 'max:190'],
+            'metadata.product.platform' => ['nullable', 'array'],
+            'metadata.product.platform.*' => ['nullable', 'string', 'max:190'],
+            'metadata.product.deployment' => ['nullable', 'array'],
+            'metadata.product.deployment.*' => ['nullable', 'string', 'max:190'],
+            'metadata.product.status' => ['nullable', 'array'],
+            'metadata.product.status.*' => ['nullable', 'string', 'max:190'],
+            'metadata.product.features' => ['nullable', 'array', 'max:10'],
+            'metadata.product.features.*' => ['nullable', 'array'],
+            'metadata.product.features.*.*' => ['nullable', 'string', 'max:190'],
+            'status' => ['required', Rule::in(['draft', 'review', 'published'])],
             'featured' => ['required', 'boolean'],
             'sort_order' => ['required', 'integer', 'min:0', 'max:9999'],
             'published_at' => ['nullable', 'date'],
@@ -89,6 +117,15 @@ class ContentPageRequest extends FormRequest
                             );
                         }
                     }
+                }
+
+                if ((string) $this->input('type') !== 'article'
+                    && ($this->filled('article_category_id') || $this->filled('article_author_id'))) {
+                    $validator->errors()->add('type', 'Article categories and authors can only be assigned to articles.');
+                }
+
+                if (in_array((string) $this->input('slug'), (array) $this->input('metadata.related_slugs', []), true)) {
+                    $validator->errors()->add('metadata.related_slugs', 'A page cannot link to itself as related content.');
                 }
             },
         ];

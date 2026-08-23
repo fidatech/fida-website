@@ -29,6 +29,33 @@
                     <label class="field-wide"><span>Summary</span><textarea name="summary[{{ $locale }}]" rows="3" dir="{{ $config['direction'] }}">{{ old("summary.$locale", $contentPage->summary[$locale] ?? '') }}</textarea></label>
                     <label class="field-wide"><span>Page body <b>Safe HTML</b></span><textarea class="code-editor" name="body[{{ $locale }}]" rows="15" dir="{{ $config['direction'] }}" spellcheck="false">{{ old("body.$locale", $contentPage->body[$locale] ?? '') }}</textarea><small>Allowed for trusted editors: headings, paragraphs, lists, strong text and links. Scripts and embedded objects are blocked.</small></label>
                 </div>
+                @if($selectedType === 'service')
+                    <div class="seo-box content-profile-box">
+                        <header><span>SVC</span><div><h3>Service profile</h3><p>Structured facts shown on the dedicated service detail page.</p></div></header>
+                        <div class="console-form two-columns">
+                            <label><span>Engagement begins with</span><input name="metadata[service][engagement][{{ $locale }}]" maxlength="240" value="{{ old("metadata.service.engagement.$locale", data_get($contentPage->metadata, "service.engagement.$locale")) }}" dir="{{ $config['direction'] }}"></label>
+                            <label><span>Delivery approach</span><input name="metadata[service][delivery][{{ $locale }}]" maxlength="240" value="{{ old("metadata.service.delivery.$locale", data_get($contentPage->metadata, "service.delivery.$locale")) }}" dir="{{ $config['direction'] }}"></label>
+                            <label class="field-wide"><span>Handover or support boundary</span><input name="metadata[service][handover][{{ $locale }}]" maxlength="240" value="{{ old("metadata.service.handover.$locale", data_get($contentPage->metadata, "service.handover.$locale")) }}" dir="{{ $config['direction'] }}"></label>
+                            @for($capabilityIndex = 0; $capabilityIndex < 4; $capabilityIndex++)
+                                <label><span>Capability {{ $capabilityIndex + 1 }}</span><input name="metadata[service][capabilities][{{ $capabilityIndex }}][{{ $locale }}]" maxlength="190" value="{{ old("metadata.service.capabilities.$capabilityIndex.$locale", data_get($contentPage->metadata, "service.capabilities.$capabilityIndex.$locale")) }}" dir="{{ $config['direction'] }}"></label>
+                            @endfor
+                        </div>
+                    </div>
+                @endif
+                @if($selectedType === 'product')
+                    <div class="seo-box content-profile-box">
+                        <header><span>SYS</span><div><h3>Product profile</h3><p>Confirmed platform facts and capability labels for the product detail page.</p></div></header>
+                        <div class="console-form two-columns">
+                            <label><span>Product category</span><input name="metadata[product][category][{{ $locale }}]" maxlength="190" value="{{ old("metadata.product.category.$locale", data_get($contentPage->metadata, "product.category.$locale")) }}" dir="{{ $config['direction'] }}"></label>
+                            <label><span>Platform</span><input name="metadata[product][platform][{{ $locale }}]" maxlength="190" value="{{ old("metadata.product.platform.$locale", data_get($contentPage->metadata, "product.platform.$locale")) }}" dir="{{ $config['direction'] }}"></label>
+                            <label><span>Deployment</span><input name="metadata[product][deployment][{{ $locale }}]" maxlength="190" value="{{ old("metadata.product.deployment.$locale", data_get($contentPage->metadata, "product.deployment.$locale")) }}" dir="{{ $config['direction'] }}"></label>
+                            <label><span>Availability status</span><input name="metadata[product][status][{{ $locale }}]" maxlength="190" value="{{ old("metadata.product.status.$locale", data_get($contentPage->metadata, "product.status.$locale")) }}" dir="{{ $config['direction'] }}"></label>
+                            @for($featureIndex = 0; $featureIndex < 6; $featureIndex++)
+                                <label><span>Capability {{ $featureIndex + 1 }}</span><input name="metadata[product][features][{{ $featureIndex }}][{{ $locale }}]" maxlength="190" value="{{ old("metadata.product.features.$featureIndex.$locale", data_get($contentPage->metadata, "product.features.$featureIndex.$locale")) }}" dir="{{ $config['direction'] }}"></label>
+                            @endfor
+                        </div>
+                    </div>
+                @endif
                 <div class="seo-box">
                     <header><span>◎</span><div><h3>Search & AI discovery</h3><p>Concise facts help search engines and answer systems understand this page.</p></div></header>
                     <div class="console-form two-columns">
@@ -54,6 +81,26 @@
             </div>
         @endforeach
 
+        @if($selectedType === 'article')
+            <section class="discovery-controls editorial-controls">
+                <div class="form-section-head"><span>ED</span><div><h2>Insight editorial details</h2><p>Connect the article to a managed topic and a verified public author.</p></div></div>
+                <div class="console-form two-columns">
+                    <label><span>Article category</span><select name="article_category_id"><option value="">Uncategorized</option>@foreach($articleCategories as $articleCategory)<option value="{{ $articleCategory->id }}" @selected((string) old('article_category_id', $contentPage->article_category_id) === (string) $articleCategory->id)>{{ $articleCategory->translation('name', 'en') }}{{ $articleCategory->active ? '' : ' (inactive)' }}</option>@endforeach</select></label>
+                    <label><span>Article author</span><select name="article_author_id"><option value="">Use the responsible expert field</option>@foreach($articleAuthors as $articleAuthor)<option value="{{ $articleAuthor->id }}" @selected((string) old('article_author_id', $contentPage->article_author_id) === (string) $articleAuthor->id)>{{ $articleAuthor->name }}{{ $articleAuthor->active ? '' : ' (inactive)' }}</option>@endforeach</select></label>
+                </div>
+            </section>
+        @endif
+
+        @if($selectedType === 'product')
+            <section class="discovery-controls editorial-controls">
+                <div class="form-section-head"><span>SYS</span><div><h2>Product identity</h2><p>Short code and safe accent color used by the existing 3D product profile.</p></div></div>
+                <div class="console-form two-columns">
+                    <label><span>Product code</span><input name="metadata[product][code]" maxlength="24" value="{{ old('metadata.product.code', data_get($contentPage->metadata, 'product.code')) }}" dir="ltr"></label>
+                    <label><span>Accent color</span><input name="metadata[product][accent]" maxlength="7" value="{{ old('metadata.product.accent', data_get($contentPage->metadata, 'product.accent', '#c9ff4a')) }}" dir="ltr" placeholder="#c9ff4a"></label>
+                </div>
+            </section>
+        @endif
+
         <section class="discovery-controls">
             <div class="form-section-head"><span>AI</span><div><h2>Search, answer and generative discovery</h2><p>These controls apply consistently to classic search, AI results and shared previews.</p></div></div>
             <div class="console-form two-columns">
@@ -65,13 +112,19 @@
                 <label><span>Last reviewed</span><input type="datetime-local" name="reviewed_at" value="{{ old('reviewed_at', $contentPage->reviewed_at?->format('Y-m-d\TH:i')) }}"></label>
             </div>
         </section>
+        <section class="discovery-controls related-content-controls">
+            <div class="form-section-head"><span>↗</span><div><h2>Intentional internal links</h2><p>Preferred related pages appear before automatic recommendations on the public detail page.</p></div></div>
+            <div class="console-form">
+                <label class="field-wide"><span>Related content</span><input type="hidden" name="metadata[related_slugs][]" value=""><select name="metadata[related_slugs][]" multiple size="8">@foreach($relatedOptions as $relatedOption)<option value="{{ $relatedOption->slug }}" @selected(in_array($relatedOption->slug, (array) old('metadata.related_slugs', data_get($contentPage->metadata, 'related_slugs', [])), true))>{{ strtoupper($relatedOption->type) }} · {{ $relatedOption->translation('title', 'en') }}{{ $relatedOption->status === 'published' ? '' : ' ('.$relatedOption->status.')' }}</option>@endforeach</select><small>Select up to eight factual next steps. Hold Ctrl or Command to select more than one.</small></label>
+            </div>
+        </section>
     </section>
 
     <aside class="editor-sidebar">
         <section class="console-card publish-card">
             <header><small>PUBLICATION</small><span class="status status-{{ old('status', $contentPage->status ?: 'draft') }}">{{ old('status', $contentPage->status ?: 'draft') }}</span></header>
             <div class="console-form">
-                <label><span>Status</span><select name="status"><option value="draft" @selected(old('status', $contentPage->status) === 'draft')>Draft</option><option value="published" @selected(old('status', $contentPage->status) === 'published')>Published</option></select></label>
+                <label><span>Status</span><select name="status"><option value="draft" @selected(old('status', $contentPage->status) === 'draft')>Draft</option><option value="review" @selected(old('status', $contentPage->status) === 'review')>In review</option><option value="published" @selected(old('status', $contentPage->status) === 'published')>Published / scheduled</option></select></label>
                 <label><span>Publish time</span><input type="datetime-local" name="published_at" value="{{ old('published_at', $contentPage->published_at?->format('Y-m-d\TH:i')) }}"></label>
                 <label class="checkbox-row"><input type="checkbox" name="featured" value="1" @checked(old('featured', $contentPage->featured))><span>Feature this page</span></label>
             </div>

@@ -100,6 +100,14 @@ return [
         'meta_title' => 'Search Fida Technologies',
         'meta_description' => 'Search Fida Technologies services, products, industry pages and practical software guidance.',
     ],
+    'insights' => [
+        'categories' => 'Insight categories', 'explore_topics' => 'Explore topics', 'category' => 'Category', 'author' => 'Author',
+        'category_description' => 'Published Fida Technologies guidance about :category.',
+        'author_description' => 'Published Fida Technologies articles written by :author.',
+        'author_title' => 'Articles by :author | :company', 'published_articles' => 'Published articles',
+        'service_profile' => 'Service profile', 'service_profile_title' => 'A clear path from scope to handover.',
+        'service_engagement' => 'Engagement', 'service_delivery' => 'Delivery', 'service_handover' => 'Handover',
+    ],
     'page' => [
         'back' => 'Back to home', 'home' => 'Home', 'breadcrumbs' => 'Breadcrumbs', 'article' => 'Article', 'published' => 'Published', 'by' => 'By', 'reviewed_by' => 'Reviewed by',
         'product_profile' => 'Product system profile', 'product_category' => 'Category', 'product_platform' => 'Platform',

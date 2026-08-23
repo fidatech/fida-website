@@ -17,6 +17,7 @@ class Lead extends Model
         'message',
         'locale',
         'source_url',
+        'interest_slug',
         'utm_source',
         'utm_medium',
         'utm_campaign',

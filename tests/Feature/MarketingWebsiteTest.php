@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use App\Http\Middleware\EnforceCanonicalHost;
+use App\Models\ArticleAuthor;
+use App\Models\ArticleCategory;
 use App\Models\ContentPage;
 use App\Models\Lead;
 use App\Support\DiscoveryPublisher;
@@ -69,6 +71,98 @@ class MarketingWebsiteTest extends TestCase
             ->assertSee('<html lang="fa" dir="rtl"', false)
             ->assertSee('پرسش‌های متداول')
             ->assertSee('What is an ERP system?');
+    }
+
+    public function test_service_detail_uses_cms_profile_and_contextual_conversion_path(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $this->get('/erp-implementation-services-afghanistan')
+            ->assertOk()
+            ->assertSee('service-profile-section', false)
+            ->assertSee('Confirmed workflow and written scope')
+            ->assertSee('Documented handover and agreed support boundaries')
+            ->assertSee('?interest=erp-implementation-services-afghanistan#contact', false);
+
+        $this->get('/fa/erp-implementation-services-afghanistan')
+            ->assertOk()
+            ->assertSee('<html lang="fa" dir="rtl"', false)
+            ->assertSee('روند تأییدشده و محدوده کتبی');
+    }
+
+    public function test_insight_categories_have_localized_archives_schema_and_sitemap_entries(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+        $category = ArticleCategory::query()->where('slug', 'business-software-planning')->firstOrFail();
+
+        $this->get('/articles/category/'.$category->slug)
+            ->assertOk()
+            ->assertSee('Business Software Planning')
+            ->assertSee('How to Choose an ERP System in Afghanistan')
+            ->assertSee('"@type":"CollectionPage"', false)
+            ->assertSee('"@type":"ItemList"', false);
+
+        $this->get('/fa/articles/category/'.$category->slug)
+            ->assertOk()
+            ->assertSee('<html lang="fa" dir="rtl"', false)
+            ->assertSee('پلان‌گذاری نرم‌افزار تجارتی');
+
+        $this->get('/sitemap.xml')
+            ->assertOk()
+            ->assertSee('/articles/category/business-software-planning')
+            ->assertSee('/fa/articles/category/business-software-planning');
+    }
+
+    public function test_managed_author_drives_the_byline_archive_and_article_schema(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+        $author = ArticleAuthor::query()->create([
+            'slug' => 'verified-editor',
+            'name' => 'Verified Editor',
+            'role' => ['en' => 'Software editor', 'fa' => 'ویرایشگر نرم‌افزار'],
+            'bio' => ['en' => 'A verified editorial profile used for this test.'],
+            'active' => true,
+        ]);
+        $article = ContentPage::query()->where('slug', 'how-to-choose-erp-system-afghanistan')->firstOrFail();
+        $article->update(['article_author_id' => $author->id]);
+
+        $this->get('/'.$article->slug)
+            ->assertOk()
+            ->assertSee('Verified Editor')
+            ->assertSee('/articles/author/verified-editor', false)
+            ->assertSee('"name":"Verified Editor"', false)
+            ->assertSee('"articleSection":"Business Software Planning"', false);
+
+        $this->get('/articles/author/verified-editor')
+            ->assertOk()
+            ->assertSee('Articles by Verified Editor')
+            ->assertSee($article->translation('title', 'en'));
+    }
+
+    public function test_preferred_internal_links_and_lead_interest_are_preserved(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $response = $this->get('/how-to-choose-erp-system-afghanistan');
+
+        $response->assertOk();
+        $this->assertSame([
+            'erp-implementation-services-afghanistan',
+            'erp-systems-afghanistan',
+            'products',
+        ], $response->viewData('relatedPages')->pluck('slug')->all());
+
+        $this->post('/contact/lead', [
+            'name' => 'Ahmad Example',
+            'email' => 'ahmad@example.com',
+            'project_type' => 'erp',
+            'message' => 'We need to review the ERP implementation workflow in detail.',
+            'locale' => 'en',
+            'source_url' => url('/how-to-choose-erp-system-afghanistan'),
+            'interest_slug' => 'erp-implementation-services-afghanistan',
+        ])->assertRedirect();
+
+        $this->assertSame('erp-implementation-services-afghanistan', Lead::query()->firstOrFail()->interest_slug);
     }
 
     public function test_sitemap_contains_seeded_pages_and_localized_alternates(): void

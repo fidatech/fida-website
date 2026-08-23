@@ -38,7 +38,7 @@
                 @foreach($contentTypes as $type => $definition)<option value="{{ $type }}" @selected($activeType === $type)>{{ $definition['label'] }}</option>@endforeach
             </select>
             <select name="status" aria-label="Publishing status">
-                <option value="">All statuses</option><option value="published" @selected(request('status') === 'published')>Published</option><option value="draft" @selected(request('status') === 'draft')>Draft</option>
+                <option value="">All statuses</option><option value="published" @selected(request('status') === 'published')>Published / scheduled</option><option value="review" @selected(request('status') === 'review')>In review</option><option value="draft" @selected(request('status') === 'draft')>Draft</option>
             </select>
             <button class="console-button console-button-quiet" type="submit">Filter</button>
         </form>
@@ -52,7 +52,7 @@
                         <td><a class="table-title" href="{{ route('admin.content-pages.edit', $page) }}"><strong>{{ $page->translation('title', 'en') }}</strong><small>/{{ $page->slug }}</small></a></td>
                         <td><span class="type-label">{{ $contentTypes[$page->type]['singular'] ?? Str::headline($page->type) }}</span></td>
                         <td><span class="language-pills">@foreach(config('website.locales') as $locale => $config)<i @class(['complete' => filled($page->title[$locale] ?? null)])>{{ strtoupper($locale) }}</i>@endforeach</span></td>
-                        <td><span class="status status-{{ $page->status }}">{{ $page->status }}</span></td>
+                        <td><span class="status status-{{ $page->publicationStatus() }}">{{ $page->publicationStatus() }}</span></td>
                         <td><time>{{ $page->updated_at->diffForHumans() }}</time></td>
                         <td><a class="row-action" href="{{ route('admin.content-pages.edit', $page) }}" aria-label="Edit {{ $page->translation('title', 'en') }}">↗</a></td>
                     </tr>

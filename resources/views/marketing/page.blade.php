@@ -1,7 +1,7 @@
 @extends('layouts.marketing')
 
 @section('content')
-<section @class(['page-hero', 'product-page-hero' => $productProfile]) @if($productProfile) style="--product-accent: {{ $productProfile['accent'] }}" @endif>
+<section @class(['page-hero', 'product-page-hero' => $productProfile, 'detail-page-hero', 'detail-page-hero-'.$page->type]) @if($productProfile) style="--product-accent: {{ $productProfile['accent'] }}" @endif>
     <div class="page-hero-glow"></div>
     <div class="container narrow reveal">
         <nav class="page-breadcrumbs" aria-label="{{ __('website.page.breadcrumbs') }}">
@@ -21,8 +21,16 @@
                 @if($page->type === 'article' && $page->published_at)
                     <span>{{ __('website.page.article') }}</span><span aria-hidden="true">·</span><span>{{ __('website.page.published') }}</span><time datetime="{{ $page->published_at->toDateString() }}">{{ $page->published_at->format('Y-m-d') }}</time>
                 @endif
-                @if($page->author_name)
-                    <span aria-hidden="true">·</span><span>{{ __('website.page.by') }} {{ $page->author_name }}</span>
+                @if($page->articleCategory?->active)
+                    <span aria-hidden="true">·</span><a href="{{ App\Support\LocalizedUrl::path('/articles/category/'.$page->articleCategory->slug) }}">{{ $page->articleCategory->translation('name') }}</a>
+                @endif
+                @if($page->byline())
+                    <span aria-hidden="true">·</span>
+                    @if($page->articleAuthor?->active)
+                        <a href="{{ App\Support\LocalizedUrl::path('/articles/author/'.$page->articleAuthor->slug) }}">{{ __('website.page.by') }} {{ $page->byline() }}</a>
+                    @else
+                        <span>{{ __('website.page.by') }} {{ $page->byline() }}</span>
+                    @endif
                 @endif
                 @if($page->reviewer_name)
                     <span aria-hidden="true">·</span><span>{{ __('website.page.reviewed_by') }} {{ $page->reviewer_name }}</span>
@@ -33,30 +41,7 @@
     </div>
 </section>
 
-@if($productProfile)
-<section class="product-profile-section" style="--product-accent: {{ $productProfile['accent'] }}">
-    <div class="container product-profile-shell reveal">
-        <div class="product-profile-core" aria-hidden="true">
-            <span>{{ $productProfile['code'] }}</span>
-            <div class="product-profile-orbit product-profile-orbit-one"></div>
-            <div class="product-profile-orbit product-profile-orbit-two"></div>
-            <i></i><i></i><i></i>
-        </div>
-        <div class="product-profile-data">
-            <div class="micro-label"><span>SYS</span>{{ __('website.page.product_profile') }}</div>
-            <dl>
-                <div><dt>{{ __('website.page.product_category') }}</dt><dd>{{ $productProfile['category'] }}</dd></div>
-                <div><dt>{{ __('website.page.product_platform') }}</dt><dd>{{ $productProfile['platform'] }}</dd></div>
-                <div><dt>{{ __('website.page.product_deployment') }}</dt><dd>{{ $productProfile['deployment'] }}</dd></div>
-                <div><dt>{{ __('website.page.product_status') }}</dt><dd>{{ $productProfile['status'] }}</dd></div>
-            </dl>
-            <div class="product-feature-cloud">
-                @foreach($productProfile['features'] as $feature)<span>{{ $feature }}</span>@endforeach
-            </div>
-        </div>
-    </div>
-</section>
-@endif
+@yield('detail_profile')
 
 <section class="page-content-section">
     <div class="container content-layout">
@@ -65,7 +50,7 @@
             <span>{{ config('website.name') }}</span>
             <h2>{{ __('website.page.cta_title') }}</h2>
             <p>{{ __('website.page.cta_description') }}</p>
-            <a class="button button-lime" href="{{ App\Support\LocalizedUrl::path('/contact') }}" data-track-event="cta_click" data-track-label="{{ $page->slug }}">{{ __('website.page.cta') }} <span class="button-arrow">↗</span></a>
+            <a class="button button-lime" href="{{ App\Support\LocalizedUrl::path('/contact') }}?interest={{ urlencode($page->slug) }}#contact" data-track-event="cta_click" data-track-label="{{ $page->slug }}">{{ __('website.page.cta') }} <span class="button-arrow">↗</span></a>
         </aside>
     </div>
 </section>
@@ -103,6 +88,9 @@
                     <span>0{{ $loop->iteration }} / {{ strtoupper($relatedPage->type) }}</span>
                     <h3>{{ $relatedPage->translation('title') }}</h3>
                     <p>{{ $relatedPage->translation('summary') }}</p>
+                    @if($relatedPage->type === 'article' && ($relatedPage->articleCategory || $relatedPage->byline()))
+                        <small>{{ $relatedPage->articleCategory?->translation('name') }}@if($relatedPage->articleCategory && $relatedPage->byline()) · @endif{{ $relatedPage->byline() }}</small>
+                    @endif
                     <b>{{ __('website.solutions.learn_more') }} ↗</b>
                 </a>
             @endforeach

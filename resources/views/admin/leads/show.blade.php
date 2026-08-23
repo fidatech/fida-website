@@ -37,7 +37,7 @@
                 @if($lead->phone)<a href="tel:{{ preg_replace('/[^+0-9]/', '', $lead->phone) }}"><span>☎</span><div><small>Phone</small><strong>{{ $lead->phone }}</strong></div></a>@endif
                 @if($lead->phone)<a href="https://wa.me/{{ preg_replace('/\D/', '', $lead->phone) }}" target="_blank" rel="noopener"><span>↗</span><div><small>WhatsApp</small><strong>Open conversation</strong></div></a>@endif
             </section>
-            <section class="console-card source-card"><header><small>REQUEST CONTEXT</small></header><dl><dt>Page</dt><dd>{{ $lead->source_url ?: 'Unknown' }}</dd><dt>Medium</dt><dd>{{ $lead->utm_medium ?: '—' }}</dd><dt>First contacted</dt><dd>{{ $lead->contacted_at?->format('d M Y · H:i') ?: 'Not yet' }}</dd></dl></section>
+            <section class="console-card source-card"><header><small>REQUEST CONTEXT</small></header><dl><dt>Interest</dt><dd>{{ $lead->interest_slug ? Str::headline($lead->interest_slug) : 'Not specified' }}</dd><dt>Page</dt><dd>{{ $lead->source_url ?: 'Unknown' }}</dd><dt>Medium</dt><dd>{{ $lead->utm_medium ?: '—' }}</dd><dt>First contacted</dt><dd>{{ $lead->contacted_at?->format('d M Y · H:i') ?: 'Not yet' }}</dd></dl></section>
         </aside>
     </div>
 @endsection

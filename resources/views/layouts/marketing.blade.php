@@ -9,7 +9,7 @@
     $servicesActive = in_array($currentSlug, ['services', 'solutions'], true) || ($routePage instanceof \App\Models\ContentPage && in_array($routePage->type, ['solution', 'service'], true));
     $productsActive = in_array($currentSlug, ['products', 'projects', 'case-studies'], true) || ($routePage instanceof \App\Models\ContentPage && in_array($routePage->type, ['product', 'case-study'], true));
     $industriesActive = $currentSlug === 'industries' || ($routePage instanceof \App\Models\ContentPage && $routePage->type === 'industry');
-    $articlesActive = $currentSlug === 'articles' || ($routePage instanceof \App\Models\ContentPage && $routePage->type === 'article');
+    $articlesActive = request()->routeIs('articles.*', 'localized.articles.*') || $currentSlug === 'articles' || ($routePage instanceof \App\Models\ContentPage && $routePage->type === 'article');
     $navServices = $navigationPages->get('service', collect());
     $navSolutions = $navigationPages->get('solution', collect());
     $navProducts = $navigationPages->get('product', collect());

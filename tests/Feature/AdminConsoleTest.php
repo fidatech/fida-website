@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\ArticleAuthor;
+use App\Models\ArticleCategory;
 use App\Models\ContentPage;
 use App\Models\Lead;
 use App\Models\PageRedirect;
@@ -75,6 +77,52 @@ class AdminConsoleTest extends TestCase
 
         $this->actingAs($editor)->get(route('admin.leads.index'))->assertForbidden();
         $this->actingAs($editor)->get(route('admin.users.index'))->assertForbidden();
+    }
+
+    public function test_editor_manages_insight_taxonomies_and_article_publication_state(): void
+    {
+        $editor = User::factory()->admin('editor')->create();
+
+        $this->actingAs($editor)->post(route('admin.article-categories.store'), [
+            'slug' => 'software-security',
+            'name' => ['en' => 'Software Security', 'fa' => 'امنیت نرم‌افزار', 'ps' => 'د سافټویر امنیت'],
+            'description' => ['en' => 'Verified software security guidance.'],
+            'meta_title' => ['en' => 'Software Security Insights | Fida'],
+            'meta_description' => ['en' => 'Verified software security guidance from Fida Technologies.'],
+            'active' => '1',
+            'sort_order' => 30,
+        ])->assertRedirect();
+        $category = ArticleCategory::query()->where('slug', 'software-security')->firstOrFail();
+
+        $this->actingAs($editor)->post(route('admin.article-authors.store'), [
+            'slug' => 'verified-author',
+            'name' => 'Verified Author',
+            'role' => ['en' => 'Technical editor'],
+            'bio' => ['en' => 'Verified public biography.'],
+            'active' => '1',
+            'sort_order' => 10,
+        ])->assertRedirect();
+        $author = ArticleAuthor::query()->where('slug', 'verified-author')->firstOrFail();
+
+        $payload = $this->pagePayload();
+        $payload['type'] = 'article';
+        $payload['slug'] = 'secure-software-planning';
+        $payload['title']['en'] = 'Secure Software Planning';
+        $payload['article_category_id'] = $category->id;
+        $payload['article_author_id'] = $author->id;
+        $payload['status'] = 'review';
+        $payload['published_at'] = now()->addDay()->format('Y-m-d H:i:s');
+
+        $this->actingAs($editor)->post(route('admin.content-pages.store'), $payload)->assertRedirect();
+        $article = ContentPage::query()->where('slug', 'secure-software-planning')->firstOrFail();
+
+        $this->assertTrue($article->articleCategory->is($category));
+        $this->assertTrue($article->articleAuthor->is($author));
+        $this->get('/secure-software-planning')->assertNotFound();
+
+        $article->update(['status' => 'published']);
+        $this->assertSame('scheduled', $article->fresh()->publicationStatus());
+        $this->get('/secure-software-planning')->assertNotFound();
     }
 
     public function test_sales_manager_can_update_leads_but_not_content(): void

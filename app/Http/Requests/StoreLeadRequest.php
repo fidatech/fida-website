@@ -24,6 +24,7 @@ class StoreLeadRequest extends FormRequest
             'message' => ['required', 'string', 'min:20', 'max:3000'],
             'locale' => ['nullable', Rule::in(array_keys(config('website.locales', [])))],
             'source_url' => ['nullable', 'url', 'max:2048'],
+            'interest_slug' => ['nullable', 'string', 'max:190', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/'],
             'utm_source' => ['nullable', 'string', 'max:100'],
             'utm_medium' => ['nullable', 'string', 'max:100'],
             'utm_campaign' => ['nullable', 'string', 'max:150'],

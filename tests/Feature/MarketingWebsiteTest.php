@@ -590,16 +590,16 @@ class MarketingWebsiteTest extends TestCase
             ->assertSee('"name":"custom software development in Afghanistan"', false)
             ->assertSee('"@type":"Service"', false);
 
+        $this->get('/technology-company-afghanistan')
+            ->assertOk()
+            ->assertSee('Technology built around real Afghan business workflows')
+            ->assertSee('"name":"technology company in Afghanistan"', false);
+
         $this->get('/fa/custom-software-development-afghanistan')
             ->assertOk()
             ->assertSee('<html lang="fa" dir="rtl"', false)
             ->assertSee('نرم‌افزار اختصاصی باید با تجارت هماهنگ باشد')
             ->assertSee('از شناخت تا راه‌اندازی');
-
-        $this->get('/technology-company-afghanistan')
-            ->assertOk()
-            ->assertSee('Technology built around real Afghan business workflows')
-            ->assertSee('"name":"technology company in Afghanistan"', false);
     }
 
     public function test_discovery_content_migration_backfills_defaults_without_overwriting_admin_topics(): void

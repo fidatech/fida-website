@@ -107,7 +107,7 @@
 
             <nav class="desktop-nav" aria-label="Primary navigation">
                 <a href="{{ \App\Support\LocalizedUrl::path('/') }}" @class(['active' => $homeActive])><span>01</span>{{ __('website.nav.home') }}</a>
-                <a href="{{ \App\Support\LocalizedUrl::path('/about') }}" @class(['active' => $currentSlug === 'about'])><span>02</span>{{ __('website.nav.about') }}</a>
+                <a href="{{ \App\Support\LocalizedUrl::path('/about') }}" @class(['active' => $currentSlug === 'about'])><span>02</span>{{ __('website.nav.company') }}</a>
                 <div @class(['nav-cluster', 'active' => $servicesActive]) data-nav-cluster>
                     <button type="button" data-nav-cluster-button aria-expanded="false"><span>03</span>{{ __('website.nav.services') }}<svg viewBox="0 0 16 16"><path d="m4 6 4 4 4-4"/></svg></button>
                     <div class="nav-cluster-menu nav-mega-menu nav-mega-menu-services">
@@ -171,7 +171,6 @@
                         </section>
                     </div>
                 </div>
-                <a href="{{ \App\Support\LocalizedUrl::path('/pricing') }}" @class(['active' => $currentSlug === 'pricing'])><span>07</span>{{ __('website.nav.pricing') }}</a>
             </nav>
 
             <div class="header-actions">
@@ -197,7 +196,7 @@
                     </div>
                 </div>
                 <a class="button button-small button-lime header-cta" href="{{ \App\Support\LocalizedUrl::path('/contact') }}" data-track-event="cta_click" data-track-label="header_contact">
-                    {{ __('website.nav.contact') }}<span class="button-arrow">↗</span>
+                    {{ __('website.nav.proposal') }}<span class="button-arrow">↗</span>
                 </a>
                 <button class="menu-button" type="button" data-menu-button aria-expanded="false" aria-label="{{ __('website.nav.menu') }}">
                     <span></span><span></span>
@@ -207,7 +206,7 @@
 
         <nav class="mobile-nav" data-mobile-nav aria-label="Mobile navigation">
             <a href="{{ \App\Support\LocalizedUrl::path('/') }}"><span>01</span>{{ __('website.nav.home') }}</a>
-            <a href="{{ \App\Support\LocalizedUrl::path('/about') }}"><span>02</span>{{ __('website.nav.about') }}</a>
+            <a href="{{ \App\Support\LocalizedUrl::path('/about') }}"><span>02</span>{{ __('website.nav.company') }}</a>
             <details class="mobile-nav-group">
                 <summary><span>03</span>{{ __('website.nav.services') }}<i>+</i></summary>
                 <div>
@@ -240,8 +239,7 @@
                 </div>
             </details>
             <a href="{{ \App\Support\LocalizedUrl::path('/search') }}"><span>07</span>{{ __('website.search.title') }}</a>
-            <a href="{{ \App\Support\LocalizedUrl::path('/pricing') }}"><span>08</span>{{ __('website.nav.pricing') }}</a>
-            <a href="{{ \App\Support\LocalizedUrl::path('/contact') }}"><span>09</span>{{ __('website.nav.contact') }}</a>
+            <a href="{{ \App\Support\LocalizedUrl::path('/contact') }}"><span>08</span>{{ __('website.nav.proposal') }}</a>
         </nav>
     </header>
 

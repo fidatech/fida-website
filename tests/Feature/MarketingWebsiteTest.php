@@ -25,13 +25,18 @@ class MarketingWebsiteTest extends TestCase
         $this->withoutVite();
     }
 
-    public function test_homepage_targets_the_primary_software_company_keyword(): void
+    public function test_homepage_establishes_enterprise_positioning_and_truthful_history(): void
     {
         $this->get('/')
             ->assertOk()
             ->assertSee('<html lang="en" dir="ltr"', false)
-            ->assertSee('Software Company in Afghanistan')
-            ->assertSee('A software company in Afghanistan built for operational complexity.')
+            ->assertSee('Enterprise Software, ERP &amp; Digital Transformation Afghanistan', false)
+            ->assertSee('Enterprise software, ERP &amp;', false)
+            ->assertSee('Technology experience since 2014.')
+            ->assertSee('Fida operations began in 2022')
+            ->assertSee('formally licensed in 2024')
+            ->assertDontSee('2027 READY')
+            ->assertDontSee('70+')
             ->assertSee('ERP &amp; MIS Systems', false);
     }
 
@@ -40,7 +45,8 @@ class MarketingWebsiteTest extends TestCase
         $this->get('/fa')
             ->assertOk()
             ->assertSee('<html lang="fa" dir="rtl"', false)
-            ->assertSee('شرکت نرم‌افزاری در افغانستان');
+            ->assertSee('نرم‌افزار سازمانی، ERP و')
+            ->assertSee('تجربه تکنالوژی از ۲۰۱۴');
     }
 
     public function test_seeded_erp_landing_page_is_indexable(): void
@@ -531,12 +537,17 @@ class MarketingWebsiteTest extends TestCase
 
         $this->get('/')
             ->assertOk()
+            ->assertHeader('X-Robots-Tag', 'noindex, nofollow, noarchive')
             ->assertSee('name="robots" content="noindex,nofollow,noarchive"', false);
 
         $this->get('/robots.txt')
             ->assertOk()
             ->assertSee("User-agent: *\nDisallow: /")
             ->assertDontSee('Sitemap:');
+
+        $this->get('/sitemap.xml')
+            ->assertNotFound()
+            ->assertHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
 
         $this->artisan('website:indexnow')
             ->expectsOutput('IndexNow submission is disabled while WEBSITE_INDEXABLE is false.')

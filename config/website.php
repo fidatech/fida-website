@@ -188,9 +188,9 @@ return [
         'business process automation',
     ],
     'stats' => [
-        ['value' => '70+', 'key' => 'clients'],
-        ['value' => '10+', 'key' => 'experience'],
-        ['value' => '3', 'key' => 'languages'],
+        ['value' => '2014', 'key' => 'experience'],
+        ['value' => '2022', 'key' => 'operations'],
+        ['value' => '2024', 'key' => 'licensed'],
     ],
     'featured_solutions' => [
         [

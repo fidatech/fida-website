@@ -6,12 +6,12 @@
     <div class="hero-index" aria-hidden="true">F / 27</div>
     <div class="container hero-layout">
         <div class="hero-copy reveal">
-            <div class="system-pill"><span class="system-pulse"></span>{{ __('website.hero.eyebrow') }}<b>2027 READY</b></div>
+            <div class="system-pill"><span class="system-pulse"></span>{{ __('website.hero.eyebrow') }}<b>ENTERPRISE</b></div>
             <h1>{{ __('website.hero.title_before') }} <em>{{ __('website.hero.title_emphasis') }}</em></h1>
             <p class="hero-description">{{ __('website.hero.description') }}</p>
             <div class="hero-actions">
-                <a class="button button-lime button-large" href="#contact" data-track-event="cta_click" data-track-label="hero_primary">{{ __('website.hero.primary_cta') }}<span class="button-arrow">↗</span></a>
-                <a class="button button-wire button-large" href="{{ App\Support\LocalizedUrl::path('/services') }}"><span class="play-mark">▶</span>{{ __('website.hero.secondary_cta') }}</a>
+                <a class="button button-lime button-large" href="{{ App\Support\LocalizedUrl::path('/contact') }}" data-track-event="cta_click" data-track-label="hero_primary">{{ __('website.hero.primary_cta') }}<span class="button-arrow">↗</span></a>
+                <a class="button button-wire button-large" href="{{ App\Support\LocalizedUrl::path('/solutions') }}">{{ __('website.hero.secondary_cta') }}<span class="button-arrow">↗</span></a>
             </div>
             <div class="hero-proof">
                 <div class="proof-stack" aria-hidden="true"><span>ERP</span><span>AF</span><span>AI</span></div>
@@ -21,7 +21,7 @@
         </div>
 
         <div class="core-stage reveal" data-core-stage aria-label="Fida business technology core">
-            <div class="stage-readout stage-readout-top"><span>FIDA CORE</span><b>ONLINE</b></div>
+            <div class="stage-readout stage-readout-top"><span>FIDA TECHNOLOGIES</span><b>AFGHANISTAN</b></div>
             <div class="core-scene" data-core-scene>
                 <div class="scene-shadow"></div>
                 <div class="scene-ring scene-ring-outer"></div>
@@ -30,8 +30,8 @@
                 <div class="orbit orbit-two"><span class="orbit-node node-data">DATA</span><span class="orbit-node node-cloud">CLOUD</span></div>
 
                 <div class="core-cube" aria-hidden="true">
-                    <div class="cube-face cube-front"><span>{{ mb_substr(config('website.branding.name'), 0, 1) }}</span><small>BUSINESS OS</small></div>
-                    <div class="cube-face cube-back"><span>27</span></div>
+                    <div class="cube-face cube-front"><span>{{ mb_substr(config('website.branding.name'), 0, 1) }}</span><small>ENTERPRISE</small></div>
+                    <div class="cube-face cube-back"><span>ERP</span></div>
                     <div class="cube-face cube-right"><i></i><i></i><i></i></div>
                     <div class="cube-face cube-left"><b>01</b><b>10</b><b>11</b></div>
                     <div class="cube-face cube-top"></div>
@@ -39,16 +39,16 @@
                 </div>
 
                 <div class="float-panel panel-signal">
-                    <div class="panel-label"><span></span>LIVE SIGNAL</div>
-                    <div class="signal-value">ONLINE<small>NOW</small></div>
+                    <div class="panel-label"><span></span>DELIVERY MODEL</div>
+                    <div class="signal-value">PHASED<small>CONTROLLED</small></div>
                     <svg viewBox="0 0 124 34" preserveAspectRatio="none" aria-hidden="true"><path d="M1 27 14 21l12 4 13-16 13 10 13-6 13 9 13-17 13 7 19-9"/></svg>
                 </div>
                 <div class="float-panel panel-modules">
-                    <div class="panel-label">CONNECTED MODULES</div>
+                    <div class="panel-label">INTEGRATED OPERATIONS</div>
                     <div class="module-row"><i></i><i></i><i></i><i></i><i></i></div>
                     <strong>ERP <small>CONNECTED</small></strong>
                 </div>
-                <div class="float-panel panel-command"><span>⌁</span><div><small>SMART COMMAND</small><strong>Ask your business.</strong></div></div>
+                <div class="float-panel panel-command"><span>⌁</span><div><small>DECISION SUPPORT</small><strong>Clear operational data.</strong></div></div>
             </div>
             <div class="stage-readout stage-readout-bottom"><span>KBL · 34.55°N</span><span>SERVER RENDERED</span></div>
         </div>
@@ -58,14 +58,14 @@
         @foreach(config('website.stats') as $stat)
             <article><span>0{{ $loop->iteration }}</span><strong>{{ $stat['value'] }}</strong><p>{{ __("website.stats.{$stat['key']}") }}</p></article>
         @endforeach
-        <article class="metric-stack"><span>04</span><div><b>LARAVEL</b><b>FLUTTER</b><b>MYSQL</b><b>CLOUD</b></div><p>ENGINEERED STACK</p></article>
+        <article class="metric-stack"><span>04</span><div><b>ERP</b><b>MIS</b><b>DATA</b><b>INTEGRATION</b></div><p>ENTERPRISE CAPABILITIES</p></article>
     </div>
 </section>
 
 <section class="ticker" aria-label="Fida capabilities">
     <div class="ticker-track">
         @for($i = 0; $i < 2; $i++)
-            <span>ERP SYSTEMS <b>✦</b> FINTECH <b>✦</b> MOBILE APPS <b>✦</b> AI WORKFLOWS <b>✦</b> CLOUD PLATFORMS <b>✦</b> DATA INTELLIGENCE <b>✦</b></span>
+            <span>ENTERPRISE SOFTWARE <b>✦</b> ERP & MIS <b>✦</b> SYSTEM INTEGRATION <b>✦</b> FINANCIAL SYSTEMS <b>✦</b> DATA ENGINEERING <b>✦</b> AI AUTOMATION <b>✦</b></span>
         @endfor
     </div>
 </section>

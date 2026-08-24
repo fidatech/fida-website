@@ -11,6 +11,8 @@ class SitemapController extends Controller
 {
     public function __invoke(): Response
     {
+        abort_unless(config('website.indexable'), 404);
+
         $pages = ContentPage::published()
             ->orderBy('updated_at', 'desc')
             ->get(['slug', 'updated_at']);

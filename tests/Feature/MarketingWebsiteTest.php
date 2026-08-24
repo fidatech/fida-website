@@ -10,6 +10,7 @@ use App\Models\Lead;
 use App\Support\DiscoveryPublisher;
 use Database\Seeders\EnterpriseAuthoritySeeder;
 use Database\Seeders\EnterpriseCoreSeeder;
+use Database\Seeders\EnterpriseErpAuthoritySeeder;
 use Database\Seeders\WebsiteSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
@@ -62,6 +63,9 @@ class MarketingWebsiteTest extends TestCase
             ->assertOk()
             ->assertSee('<link rel="canonical" href="'.$canonical.'">', false)
             ->assertSee('<h1>ERP Systems in Afghanistan</h1>', false)
+            ->assertSee('ERP connects the operation, not only the software')
+            ->assertSee('A controlled ERP implementation methodology')
+            ->assertSee('ERP quotations are scope-based')
             ->assertSee('What is an ERP system?')
             ->assertSee('"@type":"Service"', false)
             ->assertSee('"@type":"FAQPage"', false)
@@ -79,7 +83,25 @@ class MarketingWebsiteTest extends TestCase
             ->assertOk()
             ->assertSee('<html lang="fa" dir="rtl"', false)
             ->assertSee('پرسش‌های متداول')
-            ->assertSee('What is an ERP system?');
+            ->assertSee('سیستم ERP چیست؟')
+            ->assertSee('روش کنترول‌شده تطبیق ERP');
+    }
+
+    public function test_erp_authority_seeder_preserves_cms_edited_content(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $page = ContentPage::query()->where('slug', 'erp-systems-afghanistan')->firstOrFail();
+        $editedBody = $page->body;
+        $editedBody['en'] = '<h2>Approved editorial version</h2><p>Keep this CMS-managed content.</p>';
+        $page->update(['body' => $editedBody]);
+
+        $this->seed(EnterpriseErpAuthoritySeeder::class);
+
+        $this->assertSame(
+            '<h2>Approved editorial version</h2><p>Keep this CMS-managed content.</p>',
+            $page->fresh()->translation('body', 'en'),
+        );
     }
 
     public function test_service_detail_uses_cms_profile_and_contextual_conversion_path(): void

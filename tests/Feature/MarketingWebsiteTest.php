@@ -12,6 +12,7 @@ use Database\Seeders\EnterpriseAuthoritySeeder;
 use Database\Seeders\EnterpriseCoreSeeder;
 use Database\Seeders\EnterpriseErpAuthoritySeeder;
 use Database\Seeders\ConstructionRealEstateIndustrySeeder;
+use Database\Seeders\ManufacturingHealthcareIndustrySeeder;
 use Database\Seeders\PriorityIndustrySeeder;
 use Database\Seeders\WebsiteSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -248,6 +249,73 @@ class MarketingWebsiteTest extends TestCase
         $this->assertSame('<h2>Verified construction content</h2>', $page->translation('body', 'en'));
         $this->assertNull($page->primary_query);
         $this->assertDatabaseHas('content_pages', ['slug' => 'real-estate-erp-software-afghanistan']);
+    }
+
+    public function test_manufacturing_and_healthcare_are_distinct_localized_industry_authority_pages(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $manufacturing = ContentPage::query()->where('slug', 'manufacturing-erp-software-afghanistan')->firstOrFail();
+        $healthcare = ContentPage::query()->where('slug', 'hospital-management-system-afghanistan')->firstOrFail();
+
+        $this->assertSame('manufacturing ERP Afghanistan', $manufacturing->primaryQuery('en'));
+        $this->assertSame('hospital management system Afghanistan', $healthcare->primaryQuery('en'));
+        $this->assertCount(6, $manufacturing->faqs('en'));
+        $this->assertCount(6, $healthcare->faqs('en'));
+        $this->assertSame('Production planning', $manufacturing->industryProfile('en')['capabilities'][0]);
+        $this->assertSame('Patient registry', $healthcare->industryProfile('en')['capabilities'][0]);
+
+        $this->get('/manufacturing-erp-software-afghanistan')
+            ->assertOk()
+            ->assertSee('industry-profile-section', false)
+            ->assertSee('Manufacturing ERP connects planning, the factory floor and finance')
+            ->assertSee('Product engineering, BOM, formulas and routes')
+            ->assertSee('Quality control and traceability')
+            ->assertSee('How is manufacturing ERP priced?')
+            ->assertSee('href="'.url('/erp-systems-afghanistan').'"', false)
+            ->assertSee('"name":"manufacturing ERP Afghanistan"', false);
+
+        $this->get('/hospital-management-system-afghanistan')
+            ->assertOk()
+            ->assertSee('industry-profile-section', false)
+            ->assertSee('A hospital system must support care and institutional accountability')
+            ->assertSee('Privacy, security and patient safety')
+            ->assertSee('Interoperability and data governance')
+            ->assertSee('How is a hospital system priced?')
+            ->assertSee('href="'.url('/pharmacy-pharmaceutical-software-afghanistan').'"', false)
+            ->assertSee('"name":"hospital management system Afghanistan"', false);
+
+        $this->get('/fa/manufacturing-erp-software-afghanistan')
+            ->assertOk()
+            ->assertSee('<html lang="fa" dir="rtl"', false)
+            ->assertSee('ERP تولیدی پلان، خط تولید و امور مالی را وصل می‌کند')
+            ->assertSee('پلان تولید');
+
+        $this->get('/ps/hospital-management-system-afghanistan')
+            ->assertOk()
+            ->assertSee('<html lang="ps" dir="rtl"', false)
+            ->assertSee('د روغتون سیسټم باید د پاملرنې او اداري حساب ورکونې ملاتړ وکړي')
+            ->assertSee('د ناروغ ثبت');
+
+        $this->get('/sitemaps/industries.xml')
+            ->assertOk()
+            ->assertSee('manufacturing-erp-software-afghanistan')
+            ->assertSee('hospital-management-system-afghanistan');
+    }
+
+    public function test_manufacturing_and_healthcare_seeder_preserves_existing_cms_content(): void
+    {
+        $page = ContentPage::query()->create([
+            'type' => 'industry', 'slug' => 'manufacturing-erp-software-afghanistan',
+            'title' => ['en' => 'Approved Manufacturing Page'],
+            'body' => ['en' => '<h2>Verified manufacturing content</h2>'], 'status' => 'published',
+        ]);
+
+        $this->seed(ManufacturingHealthcareIndustrySeeder::class);
+
+        $this->assertSame('Approved Manufacturing Page', $page->fresh()->translation('title', 'en'));
+        $this->assertSame('<h2>Verified manufacturing content</h2>', $page->fresh()->translation('body', 'en'));
+        $this->assertDatabaseHas('content_pages', ['slug' => 'hospital-management-system-afghanistan']);
     }
 
     public function test_service_detail_uses_cms_profile_and_contextual_conversion_path(): void

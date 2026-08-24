@@ -23,6 +23,7 @@ class MarketingWebsiteTest extends TestCase
         parent::setUp();
 
         $this->withoutVite();
+        config()->set('website.indexable', true);
     }
 
     public function test_homepage_establishes_enterprise_positioning_and_truthful_history(): void
@@ -251,6 +252,60 @@ class MarketingWebsiteTest extends TestCase
             ->assertSee('درباره Fida Technologies')
             ->assertSee('href="'.url('/fa/erp-implementation-services-afghanistan').'"', false)
             ->assertSee('خدمات تطبیق ERP در افغانستان');
+    }
+
+    public function test_about_page_presents_verified_company_history_and_enterprise_authority(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $about = ContentPage::query()->where('slug', 'about')->firstOrFail();
+
+        $this->assertSame('Fida Technologies Afghanistan', $about->primaryQuery('en'));
+        $this->assertSame('navigational', $about->search_intent);
+
+        $this->get('/about')
+            ->assertOk()
+            ->assertSee('Enterprise technology. Afghan context.')
+            ->assertSee('The technology experience behind Fida began in 2014')
+            ->assertSee('Fida Technologies began operations in 2022')
+            ->assertSee('formally licensed in 2024')
+            ->assertSee('Mission and direction')
+            ->assertSee('Security, accountability and reliability')
+            ->assertSee('Deployment, training and support')
+            ->assertSee('WeSoft Technologies')
+            ->assertSee('"foundingDate":"2022"', false)
+            ->assertSee('"name":"Fida Technologies Afghanistan"', false);
+
+        $this->get('/fa/about')
+            ->assertOk()
+            ->assertSee('<html lang="fa" dir="rtl"', false)
+            ->assertSee('تجربه تکنالوژی پشت Fida در سال ۲۰۱۴')
+            ->assertSee('فعالیت Fida Technologies در ۲۰۲۲ آغاز شد');
+
+        $this->get('/ps/about')
+            ->assertOk()
+            ->assertSee('<html lang="ps" dir="rtl"', false)
+            ->assertSee('د فیدا تر شا د ټکنالوژۍ تجربه په ۲۰۱۴ کې')
+            ->assertSee('د Fida Technologies فعالیت په ۲۰۲۲ کې پیل شو');
+    }
+
+    public function test_enterprise_authority_seeder_preserves_an_admin_edited_about_page(): void
+    {
+        $about = ContentPage::query()->create([
+            'type' => 'page',
+            'slug' => 'about',
+            'title' => ['en' => 'Admin About Title'],
+            'body' => ['en' => '<h2>Verified admin content</h2><p>This content must remain unchanged.</p>'],
+            'status' => 'published',
+        ]);
+
+        $this->seed(WebsiteSeeder::class);
+
+        $about->refresh();
+
+        $this->assertSame('Admin About Title', $about->translation('title', 'en'));
+        $this->assertStringContainsString('Verified admin content', $about->translation('body', 'en'));
+        $this->assertNull($about->primary_query);
     }
 
     public function test_public_search_finds_published_content_and_is_not_indexable(): void

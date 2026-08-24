@@ -18,6 +18,7 @@ class WebsiteSeeder extends Seeder
         }
 
         $this->call(MarketingContentSeeder::class);
+        $this->call(EnterpriseAuthoritySeeder::class);
     }
 
     private function pages(): array
@@ -229,276 +230,4 @@ class WebsiteSeeder extends Seeder
                     'ps' => 'د ملکیتونو لست، پلور، قراردادونه، د پېرودونکو تادیات، ساختماني بهیر او حسابداري په یوه ERP کې یوځای کړئ.',
                 ],
                 body: [
-                    'en' => '<h2>One operating system from property inventory to finance</h2><p>Realist ERP is designed for property developers and construction businesses that need every unit, customer agreement, payment and approval connected to a reliable financial record.</p><h2>Property sales and customer operations</h2><ul><li>Projects, buildings, floors, units and availability status</li><li>Reservations, contracts, negotiated prices and milestone schedules</li><li>Customer payments, discounts, refunds and controlled sales returns</li><li>Customer statements in transaction and reporting currencies</li><li>Approvals, activity history and management dashboards</li></ul><h2>Construction and financial control</h2><p>The platform can connect construction phases, subcontractor assignments, material requests, purchasing, inventory receipts and site issues with international-standard accounting and decision-ready reports.</p><h2>Configured around the project</h2><p>Implementation begins with the company structure, sales policy, approval chain, currencies and reporting requirements. Modules are configured to the actual development workflow instead of forcing a generic template.</p>',
-                    'fa' => '<h2>یک سیستم از موجودی ملکیت تا امور مالی</h2><p>Realist ERP برای شرکت‌های ساختمانی و توسعه‌دهندگان املاک طراحی شده است تا هر واحد، قرارداد مشتری، پرداخت و تأییدی با ثبت دقیق مالی مرتبط باشد.</p><h2>فروش ملکیت و عملیات مشتری</h2><ul><li>پروژه، تعمیر، منزل، واحد و وضعیت موجودی</li><li>رزرو، قرارداد، قیمت توافقی و اقساط مرحله‌ای</li><li>پرداخت، تخفیف، بازپرداخت و برگشت کنترول‌شده فروش</li><li>صورت‌حساب مشتری و تأییدی‌های مدیریتی</li></ul><h2>کنترول ساختمان و مالی</h2><p>سیستم می‌تواند مراحل ساختمان، قراردادی‌ها، درخواست مواد، خرید، ورود گدام و مصرف ساحه را با حسابداری معیاری و گزارش‌های مدیریتی مرتبط سازد.</p>',
-                    'ps' => '<h2>له ملکیتونو تر مالي چارو یو سیسټم</h2><p>Realist ERP د املاکو پراختیاکوونکو او ساختماني شرکتونو لپاره جوړ شوی، څو هر واحد، قرارداد، تادیه او تایید له کره مالي ثبت سره وتړل شي.</p><h2>د ملکیت پلور او پیرودونکي</h2><ul><li>پروژې، ودانۍ، پوړونه، واحدونه او موجود حالت</li><li>ریزرف، قراردادونه، توافق شوې بیې او قسطونه</li><li>تادیات، تخفیفونه، بېرته ورکړه او د پلور کنټرول شوې راستنېدنه</li><li>د پیرودونکي حساب‌لیک او مدیریتي تاییدونه</li></ul><h2>ساختماني او مالي کنټرول</h2><p>سیسټم ساختماني پړاوونه، قراردادیان، د موادو غوښتنې، پېرود، ګدام او ساحې مصرف له معیاري حسابدارۍ او راپورونو سره نښلوي.</p>',
-                ],
-                metaTitle: ['en' => 'Real Estate ERP Software | Realist ERP Afghanistan', 'fa' => 'نرم‌افزار ERP املاک | Realist ERP افغانستان', 'ps' => 'د املاکو ERP سافټویر | Realist ERP افغانستان'],
-                metaDescription: ['en' => 'Realist ERP connects property inventory, sales, contracts, installment payments, construction workflows and accounting for real estate businesses.', 'fa' => 'Realist ERP برای موجودی املاک، فروش، قرارداد، اقساط، روند ساختمان و حسابداری شرکت‌های املاک.', 'ps' => 'Realist ERP د ملکیتونو، پلور، قراردادونو، قسطونو، ساختماني بهیر او حسابدارۍ لپاره.'],
-                profile: [
-                    'code' => 'REALIST', 'accent' => '#6f6bff',
-                    'category' => ['en' => 'Real estate & construction ERP', 'fa' => 'ERP املاک و ساختمان', 'ps' => 'د املاکو او ساختمان ERP'],
-                    'platform' => ['en' => 'Responsive web platform', 'fa' => 'پلتفرم واکنش‌گرای وب', 'ps' => 'غبرګون‌کوونکی وېب پلېټفارم'],
-                    'deployment' => ['en' => 'Cloud or private server', 'fa' => 'کلود یا سرور خصوصی', 'ps' => 'کلاوډ یا شخصي سرور'],
-                    'status' => ['en' => 'Project-based implementation', 'fa' => 'تطبیق مطابق پروژه', 'ps' => 'د پروژې مطابق پلي کول'],
-                    'features' => [
-                        ['en' => 'Property inventory', 'fa' => 'موجودی ملکیت', 'ps' => 'د ملکیتونو لست'],
-                        ['en' => 'Contracts & installments', 'fa' => 'قرارداد و اقساط', 'ps' => 'قراردادونه او قسطونه'],
-                        ['en' => 'Customer statements', 'fa' => 'صورت‌حساب مشتری', 'ps' => 'د پیرودونکي حساب‌لیک'],
-                        ['en' => 'Construction workflow', 'fa' => 'روند ساختمان', 'ps' => 'ساختماني بهیر'],
-                        ['en' => 'Accounting', 'fa' => 'حسابداری', 'ps' => 'حسابداري'],
-                        ['en' => 'Approvals & reports', 'fa' => 'تأییدی و گزارش', 'ps' => 'تاییدونه او راپورونه'],
-                    ],
-                ],
-                faqs: [
-                    $this->faq('What does Realist ERP manage?', 'Realist ERP connects property inventory, sales, contracts, installment schedules, customer payments, construction operations and accounting in one controlled platform.'),
-                    $this->faq('Can Realist ERP support more than one building or project?', 'The platform can be configured for multi-project and multi-building operations, or simplified for a company managing one development.'),
-                    $this->faq('Does Realist ERP include accounting?', 'Yes. The implementation can include connected journals, customer accounts, expenses, assets, liabilities and financial statements based on the approved accounting structure.'),
-                ],
-            ),
-            $this->product(
-                slug: 'prime-sarafi-software',
-                title: ['en' => 'Prime Sarafi & Remittance Management Software', 'fa' => 'نرم‌افزار مدیریت صرافی و حواله Prime', 'ps' => 'د Prime صرافۍ او حوالو مدیریت سافټویر'],
-                eyebrow: ['en' => 'Controlled multi-currency operations', 'fa' => 'عملیات کنترول‌شده چندارزی', 'ps' => 'کنټرول شوي څو اسعارو عملیات'],
-                summary: ['en' => 'Manage currency exchange, remittances, customer accounts, cash positions, approvals and multi-currency accounting through one professional platform.', 'fa' => 'تبادله اسعار، حواله، حساب مشتری، موجودی نقد، تأییدی و حسابداری چندارزی را در یک پلتفرم مدیریت کنید.', 'ps' => 'د اسعارو تبادله، حوالې، د پیرودونکو حسابونه، نغدي حالت، تاییدونه او څو اسعارو حسابداري په یوه پلېټفارم کې مدیریت کړئ.'],
-                body: [
-                    'en' => '<h2>Built for the operating reality of a sarafi</h2><p>Prime Sarafi is designed for exchange and remittance businesses that need accurate customer balances, traceable transactions, controlled approvals and clear currency positions.</p><h2>Exchange, remittance and customer accounts</h2><ul><li>Currency exchange across configured currency pairs</li><li>Outgoing and incoming remittance workflows</li><li>Customer, saraf, cash and partner accounts</li><li>Credit, debit and per-currency running balances</li><li>Receipts, transaction references and WhatsApp-ready communication</li></ul><h2>Financial control and auditability</h2><p>Linked journal entries, roles, permissions, approval states and activity records make each operation easier to review. Reports can cover cash, bank, customer, creditor, debtor and profit-and-loss positions by currency.</p><h2>Configured for each business model</h2><p>Currency pairs, rate rules, commission handling, branches, approval roles and reporting requirements are defined during implementation.</p>',
-                    'fa' => '<h2>ساخته‌شده برای عملیات واقعی صرافی</h2><p>Prime Sarafi برای صرافی‌ها و شرکت‌های حواله طراحی شده است که به بیلانس دقیق مشتری، معاملات قابل پیگیری، تأییدی کنترول‌شده و وضعیت روشن اسعار نیاز دارند.</p><h2>تبادله، حواله و حساب مشتری</h2><ul><li>تبادله میان جفت‌های اسعار تعیین‌شده</li><li>روند حواله صادره و وارده</li><li>حساب مشتری، صراف، نقدی و شریک</li><li>کردیت، دبیت و بیلانس جاری هر ارز</li><li>رسید، مرجع معامله و ارتباط واتساپ</li></ul><h2>کنترول مالی و قابلیت بررسی</h2><p>ثبت‌های مرتبط ژورنال، نقش‌ها، صلاحیت‌ها، تأییدی‌ها و تاریخچه فعالیت، بررسی هر عملیات را روشن می‌سازد.</p>',
-                    'ps' => '<h2>د صرافۍ د واقعي عملیاتو لپاره جوړ شوی</h2><p>Prime Sarafi د صرافیو او حوالو شرکتونو لپاره دی چې کره د پیرودونکو بیلانس، د تعقیب وړ معاملې، کنټرول شوي تاییدونه او د اسعارو روښانه حالت غواړي.</p><h2>تبادله، حوالې او د پیرودونکو حسابونه</h2><ul><li>د ټاکل شوو اسعارو ترمنځ تبادله</li><li>وتونکې او راتلونکې حوالې</li><li>د پیرودونکي، صراف، نغدي او شریک حسابونه</li><li>کریډیټ، ډیبیټ او د هر اسعار روان بیلانس</li><li>رسیدونه، د معاملې مرجع او واټس‌اپ اړیکه</li></ul><h2>مالي کنټرول او څارنه</h2><p>تړلي ژورنال ثبتونه، رولونه، صلاحیتونه، تاییدونه او د فعالیت تاریخ د هر عملیاتو کتنه روښانه کوي.</p>',
-                ],
-                metaTitle: ['en' => 'Sarafi & Remittance Software Afghanistan | Prime', 'fa' => 'نرم‌افزار صرافی و حواله افغانستان | Prime', 'ps' => 'د صرافۍ او حوالو سافټویر افغانستان | Prime'],
-                metaDescription: ['en' => 'Prime Sarafi software for currency exchange, remittances, customer balances, approvals and multi-currency accounting in Afghanistan.', 'fa' => 'نرم‌افزار Prime برای تبادله اسعار، حواله، بیلانس مشتری، تأییدی و حسابداری چندارزی در افغانستان.', 'ps' => 'Prime د اسعارو تبادلې، حوالو، پیرودونکو بیلانس، تاییدونو او څو اسعارو حسابدارۍ لپاره.'],
-                profile: [
-                    'code' => 'PRIME', 'accent' => '#16c7a3',
-                    'category' => ['en' => 'Sarafi & remittance platform', 'fa' => 'پلتفرم صرافی و حواله', 'ps' => 'د صرافۍ او حوالو پلېټفارم'],
-                    'platform' => ['en' => 'Secure web platform', 'fa' => 'پلتفرم امن وب', 'ps' => 'خوندي وېب پلېټفارم'],
-                    'deployment' => ['en' => 'Cloud or private server', 'fa' => 'کلود یا سرور خصوصی', 'ps' => 'کلاوډ یا شخصي سرور'],
-                    'status' => ['en' => 'Sarafi-specific implementation', 'fa' => 'تطبیق مطابق صرافی', 'ps' => 'د صرافۍ مطابق پلي کول'],
-                    'features' => [
-                        ['en' => 'Currency exchange', 'fa' => 'تبادله اسعار', 'ps' => 'د اسعارو تبادله'],
-                        ['en' => 'Remittances', 'fa' => 'حواله', 'ps' => 'حوالې'],
-                        ['en' => 'Customer accounts', 'fa' => 'حساب مشتری', 'ps' => 'د پیرودونکو حسابونه'],
-                        ['en' => 'Multi-currency ledger', 'fa' => 'دفتر چندارزی', 'ps' => 'څو اسعارو لیجر'],
-                        ['en' => 'Approvals', 'fa' => 'تأییدی‌ها', 'ps' => 'تاییدونه'],
-                        ['en' => 'Financial reports', 'fa' => 'گزارش‌های مالی', 'ps' => 'مالي راپورونه'],
-                    ],
-                ],
-                faqs: [
-                    $this->faq('Which operations can Prime Sarafi manage?', 'Prime can manage configured currency exchange, incoming and outgoing remittances, customer accounts, cash and bank positions, approvals, receipts and financial reporting.'),
-                    $this->faq('Does Prime keep balances separately for each currency?', 'Yes. Transactions and running balances can be maintained by currency while management reports use configured conversion rules where required.'),
-                    $this->faq('Can roles and approvals be configured?', 'Yes. Access, approval steps and visible operations can be configured for owners, managers, cashiers and other authorized roles.'),
-                ],
-            ),
-            $this->product(
-                slug: 'darmal-pharmacy-erp',
-                title: ['en' => 'Darmal Pharmacy & Pharmaceutical ERP', 'fa' => 'Darmal ERP برای دواخانه و شرکت دارویی', 'ps' => 'د درملتون او درملو شرکت لپاره Darmal ERP'],
-                eyebrow: ['en' => 'Expiry-aware medicine operations', 'fa' => 'عملیات دوا با کنترول تاریخ انقضا', 'ps' => 'د ختمېدو نېټې له کنټرول سره د درملو عملیات'],
-                summary: ['en' => 'An actively developed ERP for pharmacy retail, medicine wholesale and pharmaceutical operations from purchasing to expiry-aware inventory and finance.', 'fa' => 'ERP در حال توسعه برای پرچون دواخانه، فروش عمده دوا و عملیات شرکت دارویی از خرید تا گدام و امور مالی.', 'ps' => 'د درملتون پرچون، درملو عمده پلور او درملو شرکت عملیاتو لپاره د پراختیا په حال ERP.'],
-                body: [
-                    'en' => '<h2>Medicine inventory needs more than a generic stock system</h2><p>Darmal ERP is under active product development for pharmacies and pharmaceutical businesses that need batch-aware purchasing, controlled stock movement, expiry visibility and connected accounting.</p><h2>Planned operational foundation</h2><ul><li>Medicine catalogue, units, categories and supplier records</li><li>Purchasing, receiving and supplier balances</li><li>Batch, expiry and stock-level visibility</li><li>Wholesale and retail sales workflows</li><li>Returns, damaged stock and controlled adjustments</li><li>Customer, doctor and pharmacy relationship records where required</li></ul><h2>Finance connected to inventory</h2><p>The product architecture connects purchases, sales, payments, receivables, payables and expenses with accounting records and management reports.</p><h2>Development status</h2><p>Darmal remains in active development. Final module availability and implementation scope must be confirmed during consultation before any commercial commitment.</p>',
-                    'fa' => '<h2>موجودی دوا به یک سیستم عادی گدام محدود نمی‌شود</h2><p>Darmal ERP برای دواخانه‌ها و شرکت‌های دارویی در حال توسعه است تا خرید بر اساس بچ، حرکت کنترول‌شده موجودی، دید تاریخ انقضا و حسابداری مرتبط را مدیریت کند.</p><h2>بنیاد عملیاتی در حال توسعه</h2><ul><li>فهرست دوا، واحد، کتگوری و عرضه‌کننده</li><li>خرید، دریافت و بیلانس عرضه‌کننده</li><li>بچ، تاریخ انقضا و سطح موجودی</li><li>فروش عمده و پرچون</li><li>برگشت، موجودی آسیب‌دیده و تعدیلات</li></ul><h2>وضعیت توسعه</h2><p>Darmal در حال توسعه فعال است. موجودیت نهایی ماژول‌ها و محدوده تطبیق پیش از قرارداد تأیید می‌شود.</p>',
-                    'ps' => '<h2>د درملو زېرمتون له عادي سټاک سیسټم څخه ډېر څه غواړي</h2><p>Darmal ERP د درملتونونو او درملو شرکتونو لپاره د پراختیا په حال کې دی، څو د بچ پېرود، کنټرول شوی سټاک، د ختمېدو نېټه او تړلې حسابداري اداره کړي.</p><h2>د پراختیا په حال عملیاتي بنسټ</h2><ul><li>د درملو لست، واحدونه، کټګورۍ او عرضه کوونکي</li><li>پېرود، ترلاسه کول او د عرضه کوونکي بیلانس</li><li>بچ، د ختمېدو نېټه او سټاک</li><li>عمده او پرچون پلور</li><li>راستنول، خراب سټاک او تعدیلات</li></ul><h2>د پراختیا حالت</h2><p>Darmal لا هم په فعاله پراختیا کې دی. وروستي ماډیولونه او د پلي کولو حدود له قرارداد مخکې تاییدېږي.</p>',
-                ],
-                metaTitle: ['en' => 'Pharmacy ERP Software Afghanistan | Darmal', 'fa' => 'نرم‌افزار ERP دواخانه افغانستان | Darmal', 'ps' => 'د درملتون ERP سافټویر افغانستان | Darmal'],
-                metaDescription: ['en' => 'Darmal is an actively developed pharmacy and pharmaceutical ERP for purchasing, batch and expiry inventory, sales and connected finance.', 'fa' => 'Darmal ERP در حال توسعه برای خرید، موجودی بچ و انقضا، فروش و امور مالی دواخانه و شرکت دارویی.', 'ps' => 'Darmal د پېرود، بچ او ختمېدو سټاک، پلور او مالي چارو لپاره د پراختیا په حال ERP دی.'],
-                profile: [
-                    'code' => 'DARMAL', 'accent' => '#2c8cff',
-                    'category' => ['en' => 'Pharmacy & pharmaceutical ERP', 'fa' => 'ERP دواخانه و شرکت دارویی', 'ps' => 'د درملتون او درملو شرکت ERP'],
-                    'platform' => ['en' => 'Web platform architecture', 'fa' => 'معماری پلتفرم وب', 'ps' => 'د وېب پلېټفارم جوړښت'],
-                    'deployment' => ['en' => 'Deployment model in development', 'fa' => 'مدل نصب در حال توسعه', 'ps' => 'د نصب موډل د پراختیا په حال کې'],
-                    'status' => ['en' => 'Active product development', 'fa' => 'در حال توسعه فعال', 'ps' => 'فعاله پراختیا'],
-                    'features' => [
-                        ['en' => 'Medicine catalogue', 'fa' => 'فهرست دوا', 'ps' => 'د درملو لست'],
-                        ['en' => 'Batch & expiry', 'fa' => 'بچ و انقضا', 'ps' => 'بچ او ختمېدو نېټه'],
-                        ['en' => 'Purchasing', 'fa' => 'خرید', 'ps' => 'پېرود'],
-                        ['en' => 'Wholesale & retail', 'fa' => 'عمده و پرچون', 'ps' => 'عمده او پرچون'],
-                        ['en' => 'Inventory control', 'fa' => 'کنترول گدام', 'ps' => 'د سټاک کنټرول'],
-                        ['en' => 'Connected finance', 'fa' => 'امور مالی مرتبط', 'ps' => 'تړلې مالي چارې'],
-                    ],
-                ],
-                faqs: [
-                    $this->faq('Is Darmal ERP already commercially available?', 'Darmal is in active product development. The final available modules, implementation date and commercial scope must be confirmed directly with Fida Technologies.'),
-                    $this->faq('Is Darmal intended for both pharmacies and pharmaceutical companies?', 'The architecture is being designed for retail pharmacies, medicine wholesalers and pharmaceutical operations, with workflows configured for the selected business model.'),
-                    $this->faq('Will Darmal track batches and expiry dates?', 'Batch and expiry-aware inventory is part of the planned operational foundation, subject to confirmation in the agreed implementation scope.'),
-                ],
-            ),
-            $this->product(
-                slug: 'ograyi-account-manager',
-                title: ['en' => 'OGRAYI Mobile Credit & Debit Account Manager', 'fa' => 'OGRAYI برای مدیریت حساب قرض و طلب', 'ps' => 'OGRAYI د پور او طلب حسابونو مدیریت'],
-                eyebrow: ['en' => 'Everyday accounts, made clearer', 'fa' => 'حساب‌های روزمره، روشن‌تر', 'ps' => 'ورځني حسابونه، لا روښانه'],
-                summary: ['en' => 'A mobile-first product for recording customer and supplier credit, debit and everyday account activity with a connected administration system.', 'fa' => 'محصول موبایل‌محور برای ثبت قرض، طلب و فعالیت روزمره حساب مشتری و عرضه‌کننده با سیستم مدیریتی مرتبط.', 'ps' => 'موبایل‌محور محصول د پیرودونکي او عرضه کوونکي پور، طلب او ورځنیو حسابونو لپاره له تړلي مدیریتي سیسټم سره.'],
-                body: [
-                    'en' => '<h2>A simpler record for relationship-based accounts</h2><p>OGRAYI is a mobile product under development for small businesses and individuals who record credit, debit and everyday balances with customers or suppliers.</p><h2>Focused account workflows</h2><ul><li>Customer and supplier account records</li><li>Credit and debit transactions</li><li>Running balances and transaction history</li><li>Receipts and clear transaction references</li><li>Owner and authorized employee workflows</li><li>Connected administration and account control</li></ul><h2>Designed for quick daily use</h2><p>The product direction prioritizes a fast mobile interface, clear balances, multilingual use and reliable synchronization with the administration system.</p><h2>Development status</h2><p>OGRAYI remains in product development. Distribution, pricing and final feature availability must be confirmed directly before use.</p>',
-                    'fa' => '<h2>ثبت ساده‌تر برای حساب‌های مبتنی بر رابطه</h2><p>OGRAYI یک محصول موبایل در حال توسعه برای تجارت‌های کوچک و افرادی است که قرض، طلب و بیلانس روزمره مشتری یا عرضه‌کننده را ثبت می‌کنند.</p><h2>روندهای متمرکز حساب</h2><ul><li>حساب مشتری و عرضه‌کننده</li><li>معاملات کردیت و دبیت</li><li>بیلانس جاری و تاریخچه معاملات</li><li>رسید و مرجع روشن معامله</li><li>روند مالک و کارمند مجاز</li><li>سیستم مدیریت مرتبط</li></ul><h2>وضعیت توسعه</h2><p>OGRAYI در حال توسعه محصول است. روش توزیع، قیمت و امکانات نهایی پیش از استفاده تأیید می‌شود.</p>',
-                    'ps' => '<h2>د اړیکو پر بنسټ حسابونو لپاره ساده ثبت</h2><p>OGRAYI د وړو سوداګریو او هغو خلکو لپاره د پراختیا په حال موبایل محصول دی چې له پیرودونکو یا عرضه کوونکو سره پور، طلب او ورځني بیلانسونه ثبتوي.</p><h2>متمرکز حسابي بهیرونه</h2><ul><li>د پیرودونکي او عرضه کوونکي حسابونه</li><li>کریډیټ او ډیبیټ معاملې</li><li>روان بیلانس او د معاملو تاریخ</li><li>رسیدونه او روښانه مرجع</li><li>د مالک او مجاز کارکوونکي بهیر</li><li>تړلی مدیریتي سیسټم</li></ul><h2>د پراختیا حالت</h2><p>OGRAYI د محصول په پراختیا کې دی. وېش، بیه او وروستي امکانات له کارولو مخکې تاییدېږي.</p>',
-                ],
-                metaTitle: ['en' => 'Credit & Debit Account Manager App | OGRAYI', 'fa' => 'اپ مدیریت حساب قرض و طلب | OGRAYI', 'ps' => 'د پور او طلب حسابونو اپ | OGRAYI'],
-                metaDescription: ['en' => 'OGRAYI is a mobile-first credit and debit account manager for customer, supplier and everyday relationship-based balances.', 'fa' => 'OGRAYI محصول موبایل برای مدیریت قرض، طلب، حساب مشتری، عرضه‌کننده و بیلانس‌های روزمره.', 'ps' => 'OGRAYI موبایل‌محور محصول د پور، طلب، پیرودونکو، عرضه کوونکو او ورځنیو بیلانسونو لپاره.'],
-                profile: [
-                    'code' => 'OGRAYI', 'accent' => '#ff8a5c',
-                    'category' => ['en' => 'Mobile account manager', 'fa' => 'مدیریت حساب موبایل', 'ps' => 'د موبایل حساب مدیر'],
-                    'platform' => ['en' => 'Mobile app + web administration', 'fa' => 'اپ موبایل + مدیریت وب', 'ps' => 'موبایل اپ + وېب مدیریت'],
-                    'deployment' => ['en' => 'Private business workspace', 'fa' => 'فضای خصوصی تجارتی', 'ps' => 'شخصي سوداګریز کاري ځای'],
-                    'status' => ['en' => 'Mobile product development', 'fa' => 'در حال توسعه محصول موبایل', 'ps' => 'د موبایل محصول پراختیا'],
-                    'features' => [
-                        ['en' => 'Customer accounts', 'fa' => 'حساب مشتری', 'ps' => 'د پیرودونکي حسابونه'],
-                        ['en' => 'Supplier accounts', 'fa' => 'حساب عرضه‌کننده', 'ps' => 'د عرضه کوونکي حسابونه'],
-                        ['en' => 'Credit & debit', 'fa' => 'قرض و طلب', 'ps' => 'پور او طلب'],
-                        ['en' => 'Running balance', 'fa' => 'بیلانس جاری', 'ps' => 'روان بیلانس'],
-                        ['en' => 'Receipts', 'fa' => 'رسید', 'ps' => 'رسیدونه'],
-                        ['en' => 'Team workflow', 'fa' => 'روند تیم', 'ps' => 'د ټیم بهیر'],
-                    ],
-                ],
-                faqs: [
-                    $this->faq('What is OGRAYI intended to manage?', 'OGRAYI is intended to record customer and supplier credit, debit, running balances and everyday account activity through a mobile-first workflow.'),
-                    $this->faq('Is OGRAYI available in app stores?', 'Public app-store availability is not currently stated on this website. OGRAYI remains in product development, and distribution must be confirmed directly with Fida Technologies.'),
-                    $this->faq('Can a business owner work with employees in OGRAYI?', 'The product direction includes owner and authorized employee workflows connected to an administration system; final behavior depends on the released scope.'),
-                ],
-            ),
-            ...$this->archivePages(),
-            $this->page(
-                slug: 'privacy-policy',
-                title: ['en' => 'Privacy Notice', 'fa' => 'اطلاعیه حریم خصوصی', 'ps' => 'د محرمیت خبرتیا'],
-                eyebrow: ['en' => 'How website information is handled', 'fa' => 'نحوه مدیریت معلومات وب‌سایت', 'ps' => 'د وېب‌سایټ معلوماتو د مدیریت څرنګوالی'],
-                summary: ['en' => 'A clear description of the information this website receives, why it is used and the choices available to visitors.', 'fa' => 'توضیح روشن معلوماتی که این وب‌سایت دریافت می‌کند، دلیل استفاده و انتخاب‌های بازدیدکننده.', 'ps' => 'د هغو معلوماتو روښانه بیان چې وېب‌سایټ یې ترلاسه کوي، د کارولو دلیل او د لیدونکو انتخابونه.'],
-                body: [
-                    'en' => '<h2>Information you choose to provide</h2><p>When you submit the project form, Fida Technologies receives the contact and project information you enter, together with the page and campaign source fields included in the form. We use it to review the request, communicate with you and manage the opportunity.</p><h2>Essential website data</h2><p>The website may use necessary session and security data to operate forms, prevent abuse and protect authenticated administration access. Server logs may also contain standard technical request information used for security and troubleshooting.</p><h2>Optional analytics</h2><p>Analytics is loaded only when it is configured on the production website and the visitor accepts analytics. The preference can be changed by clearing the website storage in the browser.</p><h2>Sharing and retention</h2><p>We do not publish contact-form submissions. Information may be accessible to authorized Fida team members and technical service providers required to operate the website. It is retained only as needed for the business request, security and applicable record-keeping.</p><h2>Your request</h2><p>To ask about information submitted through this website, email info@fida.af. Identity verification may be required before disclosing or changing records.</p>',
-                    'fa' => '<h2>معلوماتی که شما ارائه می‌کنید</h2><p>هنگام ارسال فورم پروژه، Fida Technologies معلومات تماس و پروژه‌ای را که وارد می‌کنید همراه با صفحه و منبع کمپاین دریافت می‌کند. این معلومات برای بررسی درخواست، تماس با شما و مدیریت فرصت استفاده می‌شود.</p><h2>معلومات ضروری وب‌سایت</h2><p>وب‌سایت می‌تواند از معلومات ضروری نشست و امنیت برای فعالیت فورم، جلوگیری از سوءاستفاده و حفاظت بخش مدیریت استفاده کند.</p><h2>تحلیل اختیاری</h2><p>تحلیل بازدید تنها زمانی بارگذاری می‌شود که در وب‌سایت اصلی تنظیم شده و بازدیدکننده آن را قبول کند.</p><h2>درخواست شما</h2><p>برای پرسش درباره معلومات ارسال‌شده به info@fida.af ایمیل کنید. پیش از ارائه یا تغییر معلومات، تأیید هویت ممکن است لازم باشد.</p>',
-                    'ps' => '<h2>هغه معلومات چې تاسو یې ورکوئ</h2><p>کله چې د پروژې فورم لېږئ، Fida Technologies ستاسو د اړیکې او پروژې معلومات له پاڼې او کمپاین سرچینې سره ترلاسه کوي. دا معلومات د غوښتنې د کتنې، اړیکې او فرصت مدیریت لپاره کارول کېږي.</p><h2>اړین وېب‌سایټ معلومات</h2><p>وېب‌سایټ د فورمو، ناوړه کارونې مخنیوي او اډمین خوندي ساتلو لپاره اړین سیشن او امنیتي معلومات کارولی شي.</p><h2>اختیاري تحلیل</h2><p>تحلیل یوازې هغه وخت پورته کېږي چې په اصلي وېب‌سایټ کې تنظیم وي او لیدونکی یې ومني.</p><h2>ستاسو غوښتنه</h2><p>د لېږل شوو معلوماتو په اړه info@fida.af ته برېښنالیک واستوئ. د معلوماتو له ورکولو یا بدلولو مخکې د هویت تایید غوښتل کېدای شي.</p>',
-                ],
-                metaTitle: ['en' => 'Privacy Notice | Fida Technologies', 'fa' => 'اطلاعیه حریم خصوصی | Fida Technologies', 'ps' => 'د محرمیت خبرتیا | Fida Technologies'],
-                metaDescription: ['en' => 'How Fida Technologies handles project-form information, essential website data and optional analytics preferences.', 'fa' => 'نحوه مدیریت معلومات فورم پروژه، معلومات ضروری وب‌سایت و تحلیل اختیاری توسط Fida Technologies.', 'ps' => 'Fida Technologies د پروژې فورم، اړین وېب‌سایټ معلومات او اختیاري تحلیل څنګه اداره کوي.'],
-                type: 'page',
-            ),
-        ];
-    }
-
-    private function archivePages(): array
-    {
-        return [
-            $this->archivePage(
-                'solutions',
-                ['en' => 'Business Software Solutions', 'fa' => 'راهکارهای نرم‌افزار تجارتی', 'ps' => 'د سوداګریز سافټویر حللارې'],
-                ['en' => 'Technology matched to the outcome', 'fa' => 'تکنالوژی مطابق نتیجه', 'ps' => 'له پایلې سره برابره ټکنالوژي'],
-                ['en' => 'Explore ERP, accounting, custom software and mobile solutions designed around operational control and growth.', 'fa' => 'راهکارهای ERP، حسابداری، نرم‌افزار اختصاصی و موبایل را مطابق کنترول عملیات و رشد بررسی کنید.', 'ps' => 'د عملیاتي کنټرول او ودې لپاره ERP، حسابداري، ځانګړی سافټویر او موبایل حللارې وپلټئ.'],
-                ['en' => '<h2>Start with the business outcome</h2><p>Each solution profile explains the workflow it addresses, the practical implementation questions and the capabilities that can be confirmed before a project begins.</p>', 'fa' => '<h2>از نتیجه تجارتی آغاز کنید</h2><p>هر پروفایل راهکار، روند کاری، پرسش‌های عملی تطبیق و توانایی‌هایی را توضیح می‌دهد که پیش از شروع پروژه قابل تأیید است.</p>', 'ps' => '<h2>له سوداګریزې پایلې پیل وکړئ</h2><p>د هرې حللارې پېژندپاڼه کاري بهیر، عملي پوښتنې او هغه وړتیاوې بیانوي چې تر پروژې مخکې تاییدېدای شي.</p>'],
-                3,
-            ),
-            $this->archivePage(
-                'products',
-                ['en' => 'Fida Software Products', 'fa' => 'محصولات نرم‌افزاری فیدا', 'ps' => 'د فیدا سافټویر محصولات'],
-                ['en' => 'Purpose-built platforms', 'fa' => 'پلتفرم‌های هدفمند', 'ps' => 'د ځانګړي هدف پلېټفارمونه'],
-                ['en' => 'Review Fida product profiles for real estate, finance, pharmaceutical operations and mobile account management.', 'fa' => 'پروفایل محصولات فیدا برای املاک، مالی، عملیات دارویی و مدیریت حساب موبایل را بررسی کنید.', 'ps' => 'د املاکو، مالي، درملو عملیاتو او موبایل حساب مدیریت لپاره د فیدا محصولات وګورئ.'],
-                ['en' => '<h2>Confirmed product information</h2><p>Product pages describe the intended workflow, platform direction and currently confirmed capabilities. Availability, implementation scope and commercial terms are confirmed directly for each engagement.</p>', 'fa' => '<h2>معلومات تأییدشده محصول</h2><p>صفحات محصول روند مورد نظر، جهت پلتفرم و توانایی‌های تأییدشده فعلی را توضیح می‌دهد. موجودیت، محدوده تطبیق و شرایط تجارتی برای هر همکاری جداگانه تأیید می‌شود.</p>', 'ps' => '<h2>تایید شوي محصولي معلومات</h2><p>د محصول پاڼې هدف کاري بهیر، د پلېټفارم لوری او اوس تایید شوې وړتیاوې بیانوي. شتون، د پلي کولو حدود او سوداګریز شرایط د هرې همکارۍ لپاره جلا تاییدېږي.</p>'],
-                4,
-            ),
-            $this->archivePage(
-                'industries',
-                ['en' => 'Software for Afghan Industries', 'fa' => 'نرم‌افزار برای صنایع افغانستان', 'ps' => 'د افغانستان د سکتورونو لپاره سافټویر'],
-                ['en' => 'Workflow knowledge by sector', 'fa' => 'شناخت روند به تفکیک صنعت', 'ps' => 'د سکتور له مخې د کاري بهیر پوهه'],
-                ['en' => 'Industry pages connect sector-specific workflows with practical software architecture and implementation guidance.', 'fa' => 'صفحات صنعت، روندهای خاص هر بخش را با معماری عملی نرم‌افزار و راهنمای تطبیق یکجا می‌کند.', 'ps' => 'د سکتور پاڼې ځانګړي کاري بهیرونه له عملي سافټویر معمارۍ او د پلي کولو لارښوونې سره نښلوي.'],
-                ['en' => '<h2>Industry knowledge must be specific</h2><p>As verified industry guides are published, they will document the roles, controls, reports and integration questions that materially affect software design in each sector.</p>', 'fa' => '<h2>شناخت صنعت باید مشخص باشد</h2><p>با نشر راهنماهای تأییدشده، نقش‌ها، کنترول‌ها، گزارش‌ها و پرسش‌های یکپارچه‌سازی مؤثر بر طراحی نرم‌افزار هر صنعت مستند می‌شود.</p>', 'ps' => '<h2>د سکتور پوهه باید مشخصه وي</h2><p>کله چې تایید شوې لارښوونې خپرې شي، د هر سکتور هغه رولونه، کنټرولونه، راپورونه او د ادغام پوښتنې به ثبت کړي چې د سافټویر پر ډیزاین اغېز لري.</p>'],
-                5,
-            ),
-            $this->archivePage(
-                'case-studies',
-                ['en' => 'Verified Software Case Studies', 'fa' => 'مطالعات موردی تأییدشده نرم‌افزار', 'ps' => 'تایید شوې د سافټویر قضیوي مطالعې'],
-                ['en' => 'Evidence before promotion', 'fa' => 'شواهد پیش از تبلیغ', 'ps' => 'تر تبلیغ مخکې شواهد'],
-                ['en' => 'Approved implementation stories will appear here only after client permission, factual review and evidence checks.', 'fa' => 'داستان‌های تطبیق تنها پس از اجازه مشتری، بررسی حقایق و شواهد در اینجا نشر می‌شود.', 'ps' => 'د پلي کولو کیسې به یوازې د مشتری له اجازې، د حقایقو او شواهدو له کتنې وروسته دلته خپرېږي.'],
-                ['en' => '<h2>Trust requires verification</h2><p>Case studies remain private drafts until the client identity, project scope, screenshots and measurable outcomes are approved for public use.</p>', 'fa' => '<h2>اعتماد به تأیید نیاز دارد</h2><p>مطالعات موردی تا زمان تأیید هویت مشتری، محدوده پروژه، تصاویر و نتایج قابل اندازه‌گیری برای استفاده عمومی، خصوصی باقی می‌ماند.</p>', 'ps' => '<h2>باور تایید ته اړتیا لري</h2><p>قضیوي مطالعې تر هغه شخصي مسودې پاتې کېږي چې د مشتری هویت، د پروژې حدود، انځورونه او اندازه کېدونکې پایلې د عامه کارونې لپاره تایید شي.</p>'],
-                6,
-            ),
-            $this->archivePage(
-                'articles',
-                ['en' => 'Software & Business Insights', 'fa' => 'دیدگاه‌های نرم‌افزار و تجارت', 'ps' => 'د سافټویر او سوداګرۍ لیدلوري'],
-                ['en' => 'Practical knowledge for better systems', 'fa' => 'دانش عملی برای سیستم‌های بهتر', 'ps' => 'د غوره سیسټمونو لپاره عملي پوهه'],
-                ['en' => 'Read practical guidance about ERP, software selection, implementation, security and digital operations in Afghanistan.', 'fa' => 'راهنمای عملی ERP، انتخاب نرم‌افزار، تطبیق، امنیت و عملیات دیجیتال در افغانستان را بخوانید.', 'ps' => 'په افغانستان کې د ERP، سافټویر ټاکنې، پلي کولو، امنیت او ډیجیټل عملیاتو عملي لارښوونې ولولئ.'],
-                ['en' => '<h2>Useful answers, not filler</h2><p>Articles are published when they provide a clear, factual answer to a real business or technology question. New posts can be managed from the Articles section of the website console.</p>', 'fa' => '<h2>پاسخ مفید، نه محتوای اضافی</h2><p>مقالات زمانی نشر می‌شود که به یک پرسش واقعی تجارتی یا تخنیکی پاسخ روشن و دقیق بدهد. نوشته‌های جدید از بخش مقالات کنسول مدیریت می‌شود.</p>', 'ps' => '<h2>ګټور ځوابونه، نه اضافي منځپانګه</h2><p>مقالې هغه وخت خپرېږي چې یوې واقعي سوداګریزې یا تخنیکي پوښتنې ته روښانه او دقیق ځواب ورکړي. نوې لیکنې د اډمین د مقالو له برخې اداره کېږي.</p>'],
-                7,
-            ),
-        ];
-    }
-
-    private function archivePage(string $slug, array $title, array $eyebrow, array $summary, array $body, int $sortOrder): array
-    {
-        return $this->page(
-            slug: $slug,
-            title: $title,
-            eyebrow: $eyebrow,
-            summary: $summary,
-            body: $body,
-            metaTitle: array_map(fn (string $value): string => $value.' | Fida Technologies', $title),
-            metaDescription: $summary,
-            type: 'page',
-            sortOrder: $sortOrder,
-        );
-    }
-
-    private function page(string $slug, array $title, array $eyebrow, array $summary, array $body, array $metaTitle, array $metaDescription, array $faqs = [], string $type = 'solution', array $metadata = [], int $sortOrder = 0, ?array $primaryQuery = null, ?string $searchIntent = null): array
-    {
-        return [
-            'slug' => $slug,
-            'type' => $type,
-            'title' => $title,
-            'eyebrow' => $eyebrow,
-            'summary' => $summary,
-            'body' => $body,
-            'meta_title' => $metaTitle,
-            'meta_description' => $metaDescription,
-            'primary_query' => $primaryQuery,
-            'search_intent' => $searchIntent,
-            'metadata' => array_replace_recursive($metadata, ['faqs' => $faqs]),
-            'status' => 'published',
-            'featured' => true,
-            'sort_order' => $sortOrder,
-            'published_at' => now(),
-        ];
-    }
-
-    private function product(string $slug, array $title, array $eyebrow, array $summary, array $body, array $metaTitle, array $metaDescription, array $profile, array $faqs): array
-    {
-        return $this->page(
-            slug: $slug,
-            title: $title,
-            eyebrow: $eyebrow,
-            summary: $summary,
-            body: $body,
-            metaTitle: $metaTitle,
-            metaDescription: $metaDescription,
-            faqs: $faqs,
-            type: 'product',
-            metadata: ['product' => $profile],
-            sortOrder: 10,
-        );
-    }
-
-    private function caseStudyDrafts(): array
-    {
-        return collect([
-            ['realist-erp-case-study', 'Realist ERP case study'],
-            ['prime-sarafi-case-study', 'Prime Sarafi case study'],
-            ['darmal-erp-case-study', 'Darmal ERP case study'],
-            ['ograyi-case-study', 'OGRAYI case study'],
-        ])->map(fn (array $draft): array => [
-            'slug' => $draft[0],
-            'type' => 'case-study',
-            'title' => ['en' => $draft[1].' — publication draft'],
-            'eyebrow' => ['en' => 'Evidence required before publication'],
-            'summary' => ['en' => 'Internal draft. Add verified client permission, implementation facts, approved screenshots and measurable outcomes before publishing.'],
-            'body' => ['en' => '<h2>Publication checklist</h2><ul><li>Confirm the client or business name and written permission</li><li>Describe the workflow before implementation without exaggeration</li><li>List the exact modules and implementation period</li><li>Add approved, redacted product screenshots</li><li>Add only measurable outcomes supported by records</li><li>Obtain final client approval for public use</li></ul>'],
-            'meta_title' => ['en' => $draft[1].' | Fida Technologies'],
-            'meta_description' => ['en' => 'Unpublished internal case-study draft awaiting verified implementation evidence.'],
-            'status' => 'draft',
-            'featured' => false,
-            'sort_order' => 100,
-        ])->all();
-    }
-
-    private function faq(string $question, string $answer): array
-    {
-        return [
-            'question' => ['en' => $question],
-            'answer' => ['en' => $answer],
-        ];
-    }
-}
+                    'en' => '<h2>One operating system from property inventory to fu�}<����k�w��Sb�f�b�f�b�nCj[f(��t�(����������������l������������Q���Ёɕ�եɕٕ́ɥ����ѥ���������͔���Ց��́ɕ������ɥمє��Ʌ��́չѥ��ѡ�������Ё����ѥ�䰁�ɽ���Ё͍�����͍ɕ��͡��́���������Ʌ������э���́�ɔ����ɽٕ����ȁ�Չ�����͔�������������������b�b�b�fb�b��b�f�b�b�n3n3b��fn3b�bȃb�b�b�b�������fb�b�fb�b�b��ff#b�b�n0�b�b��b�fb�f�b�b�n3n3b��ff#n3b��fb�b�b�n3b0�fb�b�f#b�f�f�b�f#jcfb0�b�b�b�f#n3băf �fb�b�n3b��fb�b�f�b�fb�b�b�f�3j�n3b�n0�b�b�b�n0�b�b�b�fb�b�f�b�ff#fn3b0�b�b�f#b�n0�b�b�fn0�fn3�3fb�fb����������̜��������b�b�f#băb�b�n3n3b��b�f�b�jOb�n3b��fb�f(������fb�n3f#f(�fb�b�fb�n@�b�băfb�f�b�b�b�f(�fb�f#b�n@�f�b�b�n@�j�nCj[f(�jn@�b��fb�b�b�n0�ff#n3b�b0�b��f�b�f#jcn@�b�b�f#b�b0�b�fjf#b�f#ff�b�f �b�fb�b�b�f�j�nCb�f#fj�n@�f�b�n3fn@�b��b�b�ff�j�b�b�f#fn@�ff�b�b�f�b�b�n3n3b��b�f(�����t�(����������������ذ(��������������(�������������ѡ�̴��ɍ��ٕA����(�������������������ѥ���̜�(����������������l���������M���݅ɔ���	�ͥ���́%�ͥ���̜�����������b�n3b�j�b�f�3fb�n0�fb�f�3b�fb�b�băf �b�b�b�b�b������̜�����b��b�b�ff�f#n3băb�f �b�f#b�b�j�b�n4�fn3b�ff#b�f(�t�(����������������l���������AɅ�ѥ�������ݱ�������ȁ���ѕȁ���ѕ�̜�����������b�b�fbЃb�ffn0�b�b�b�n0�b�n3b�b�f�3fb�n0�b�fb�bĜ����̜�����b��b�f#b�f�b�n3b�f�ff#ff �ff�b�b�f�b�fff(�f�f#ff�t�(����������������l���������I�����Ʌ�ѥ�����ե����������ЁI@��ͽ��݅ɔ�͕���ѥ������������хѥ����͕��ɥ�䁅�������х�����Ʌѥ��́����������х��������������b�b�fffb�n0�b�ffn0�ICb0�b�fb�b�b�b��fb�f�3b�fb�b�b�b0�b�b�b�n3fb0�b�ffn3b��f �b�ffn3b�b��b�n3b�n3b�b�f�b�băb�fb�b�fb�b�b�f�b�b��b�b�f#b�fn3b�������̜�����f�f�b�fb�b�fb�b�b�f�j�n@�b��ICb0�b�b�ff�f#n3băf�b�j�fnCb0�f�ff(�j�f#ff#b0�b�ffn3b��b�f �j'n3b�n3f�f�b�ffn3b�b�f �b�fff(�fb�b�jkf#f#fn@�f#ff#fb���t�(����������������l������������U͕�հ����ݕ�̰���Ё�������������ѥ���́�ɔ��Չ��͡���ݡ���ѡ���ɽ٥���������Ȱ�����Յ�����ݕȁѼ���ɕ�����ͥ���́�ȁѕ���������Օ�ѥ����9�܁����́����������������ɽ��ѡ���ѥ���͕́�ѥ������ѡ��ݕ�ͥє����ͽ���������������������f�b�b�b��ffn3b�b0�ff�fb�b�f#b�n0�b�b�b�fn0������ffb�fb�b��b�fb�fn0�fb�băfn3�3b�f#b��j�f�b�f�n3j��f�b�b�bЃf#b�fb�n0�b�b�b�b�b�n0�n3b��b�b�fn3j�n0�f�b�b�b��b�f#b�f�f �b�fn3f�b�b�fb���ff#b�b�f�3fb�n0�b�b�n3b��b�bȃb�b�bЃffb�fb�b��j�fb�f#f�fb�n3b�n3b��fn3�3b�f#b����������̜��������j�f�f#băjf#b�b�f#ffb0�ff�b�b�b�ff(�ffjf�b�fj�f������ffb�fn@�fb�f�f#b�b��b�f�b�nCj[f(�jn@�n3f#n@�f#b�fb�f(�b�f#b�b�j�b�n3b�n@�n3b��b�b�fn3j�f(�f�f#jkb�fn@�b�f�b�f#jkb�ff�b�f �b�fn3f�jf#b�b��f#b�j�jOf(��ff#n@�fn3j�fn@�b��b�j'fn3f�b��ffb�ff �ff�b�b�b�n@�b�b�b�b�f�j�nCj[f(�����t�(����������������ܰ(��������������(��������t�(�����((�����ɥمє��չ�ѥ����ɍ��ٕA������ɥ����ͱ՜����Ʌ䀑ѥѱ�����Ʌ䀑�啉ɽܰ���Ʌ䀑�յ���䰁��Ʌ䀑���䰁��Ѐ�ͽ��=ɑ�Ȥ聅�Ʌ�(�����(��������ɕ��ɸ��ѡ�̴������(������������ͱ՜耑ͱ՜�(������������ѥѱ�耑ѥѱ��(�������������啉ɽ�耑�啉ɽܰ(�������������յ����耑�յ����(����������������耑����(��������������хQ�ѱ�聅�Ʌ�}����������ɥ����م�Ք����ɥ�������م�Ք���������Q����������̜���ѥѱ���(��������������х�͍ɥ�ѥ��耑�յ����(����������������耝������(������������ͽ��=ɑ��耑ͽ��=ɑ�Ȱ(����������(�����((�����ɥمє��չ�ѥ����������ɥ����ͱ՜����Ʌ䀑ѥѱ�����Ʌ䀑�啉ɽܰ���Ʌ䀑�յ���䰁��Ʌ䀑���䰁��Ʌ䀑��хQ�ѱ�����Ʌ䀑��х�͍ɥ�ѥ������Ʌ䀑���̀�mt����ɥ����������ͽ��ѥ�������Ʌ䀑��х��ф��mt����Ѐ�ͽ��=ɑ�Ȁ�������Ʌ䀑�ɥ����EՕ���ձ������ɥ����͕�ɍ�%�ѕ�Ѐ�ձ��聅�Ʌ�(�����(��������ɕ��ɸ�l(�������������ͱ՜������ͱ՜�(����������������������������(�������������ѥѱ�������ѥѱ��(��������������啉ɽܜ������啉ɽܰ(��������������յ���䜀�����յ����(����������������䜀��������(���������������х}ѥѱ���������хQ�ѱ��(���������������х}��͍ɥ�ѥ����������х�͍ɥ�ѥ���(��������������ɥ����}�Օ�䜀�����ɥ����EՕ��(�������������͕�ɍ�}��ѕ�М�����͕�ɍ�%�ѕ�а(���������������х��ф�������Ʌ�}ɕ�����}ɕ���ͥٔ����х��ф��l����̜���������t��(��������������х��̜������Չ��͡����(������������������ɕ��������Ք�(�������������ͽ��}�ɑ�Ȝ�����ͽ��=ɑ�Ȱ(��������������Չ��͡��}�М������ܠ��(��������t�(�����((�����ɥمє��չ�ѥ����ɽ�ՍС��ɥ����ͱ՜����Ʌ䀑ѥѱ�����Ʌ䀑�啉ɽܰ���Ʌ䀑�յ���䰁��Ʌ䀑���䰁��Ʌ䀑��хQ�ѱ�����Ʌ䀑��х�͍ɥ�ѥ������Ʌ䀑�ɽ��������Ʌ䀑���̤聅�Ʌ�(�����(��������ɕ��ɸ��ѡ�̴������(������������ͱ՜耑ͱ՜�(������������ѥѱ�耑ѥѱ��(�������������啉ɽ�耑�啉ɽܰ(�������������յ����耑�յ����(����������������耑����(��������������хQ�ѱ�耑��хQ�ѱ��(��������������х�͍ɥ�ѥ��耑��х�͍ɥ�ѥ���(����������������耑���̰(����������������耝�ɽ�ՍМ�(��������������х��ф�l��ɽ�ՍМ������ɽ����t�(������������ͽ��=ɑ������(����������(�����((�����ɥمє��չ�ѥ�����͕M�Ց�Ʌ��̠�聅�Ʌ�(�����(��������ɕ��ɸ�������Сl(������������l�ɕ����е������͔���Ց䜰��I�����ЁI@���͔���Ց�t�(������������l��ɥ���ͅɅ�����͔���Ց䜰��Aɥ���M�Ʌ�����͔���Ց�t�(������������l���ɵ���������͔���Ց䜰���ɵ���I@���͔���Ց�t�(������������l���Ʌ夵��͔���Ց䜰��=Ie$���͔���Ց�t�(��������t�������������Ʌ䀑�Ʌ�Ф聅�Ʌ����l(�������������ͱ՜�������Ʌ��l�t�(�������������������������͔���Ց䜰(�������������ѥѱ������l����������Ʌ��l�t����P��Չ����ѥ����Ʌ�Нt�(��������������啉ɽܜ����l���������٥������ɕ�եɕ������ɔ��Չ����ѥ���t�(��������������յ���䜀���l���������%�ѕɹ����Ʌ�и����ٕɥ����������Ё��ɵ��ͥ������������хѥ�������̰����ɽٕ��͍ɕ��͡��́���������Ʌ������э���́����ɔ��Չ��͡�����t�(����������������䜀���l������������AՉ����ѥ����������������հ�������ɴ�ѡ�������Ё�ȁ��ͥ���́����������ɥ�ѕ����ɵ��ͥ��𽱤����͍ɥ���ѡ��ݽɭ���܁����ɔ���������хѥ���ݥѡ��Ё�ᅝ��Ʌѥ��𽱤���1��Ёѡ���ᅍЁ���ձ�́������������хѥ�����ɥ��𽱤���������ɽٕ���ɕ���ѕ���ɽ�ՍЁ͍ɕ��͡���𽱤���������䁵����Ʌ������э���́������ѕ����ɕ��ɑ�𽱤���=�х��������������Ё���ɽم����ȁ�Չ�����͔𽱤��հ��t�(���������������х}ѥѱ������l����������Ʌ��l�t���������Q����������̝t�(���������������х}��͍ɥ�ѥ�������l���������U��Չ��͡�����ѕɹ�����͔���Ց䁑Ʌ�Ё�݅�ѥ���ٕɥ�������������хѥ����٥�������t�(��������������х��̜������Ʌ�М�(������������������ɕ���������͔�(�������������ͽ��}�ɑ�Ȝ��������(��������t���������(�����((�����ɥمє��չ�ѥ�����ġ��ɥ�����Օ�ѥ������ɥ�������ݕȤ聅�Ʌ�(�����(��������ɕ��ɸ�l(��������������Օ�ѥ�������l����������Օ�ѥ��t�(����������������ݕȜ����l������������ݕ�t�(��������t�(�����)�

@@ -259,6 +259,8 @@ final class SeoSchema
             '@id' => url('/').'#organization',
             'name' => config('website.name'),
             'legalName' => config('website.legal_name'),
+            'foundingDate' => '2022',
+            'description' => 'Fida Technologies is an Afghanistan-based enterprise software, ERP, MIS and digital transformation company. Operations began in 2022 following professional technology experience that started in 2014, and the company was formally licensed in 2024.',
             'url' => url('/'),
             'email' => config('website.email'),
             'telephone' => config('website.phone'),

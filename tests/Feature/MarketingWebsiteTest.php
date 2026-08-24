@@ -9,6 +9,7 @@ use App\Models\ContentPage;
 use App\Models\Lead;
 use App\Support\DiscoveryPublisher;
 use Database\Seeders\EnterpriseAuthoritySeeder;
+use Database\Seeders\EnterpriseCoreSeeder;
 use Database\Seeders\WebsiteSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
@@ -365,6 +366,101 @@ class MarketingWebsiteTest extends TestCase
         $this->assertSame('Admin About Title', $about->translation('title', 'en'));
         $this->assertStringContainsString('Verified admin content', $about->translation('body', 'en'));
         $this->assertNull($about->primary_query);
+    }
+
+    public function test_enterprise_core_pages_are_published_with_distinct_topics_and_buyer_content(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+        $this->seed(EnterpriseCoreSeeder::class);
+
+        $expectedPages = [
+            'enterprise-software-afghanistan' => ['solution', 'enterprise software company Afghanistan'],
+            'mis-development-afghanistan' => ['service', 'MIS development Afghanistan'],
+            'digital-transformation-afghanistan' => ['service', 'digital transformation Afghanistan'],
+            'technology-consulting-afghanistan' => ['service', 'technology consulting Afghanistan'],
+        ];
+
+        foreach ($expectedPages as $slug => [$type, $primaryQuery]) {
+            $page = ContentPage::query()->where('slug', $slug)->firstOrFail();
+
+            $this->assertSame($type, $page->type);
+            $this->assertSame('published', $page->status);
+            $this->assertSame($primaryQuery, $page->primaryQuery('en'));
+            $this->assertTrue($page->sitemap_included);
+        }
+
+        $this->get('/enterprise-software-afghanistan')
+            ->assertOk()
+            ->assertSee('<h1>Enterprise Software Company in Afghanistan</h1>', false)
+            ->assertSee('Enterprise software connects responsibility, data and decisions')
+            ->assertSee('From requirements to accountable delivery')
+            ->assertSee('How is enterprise software priced?')
+            ->assertSee('?interest=enterprise-software-afghanistan#contact', false)
+            ->assertSee('"@type":"Service"', false)
+            ->assertSee('"@type":"FAQPage"', false)
+            ->assertSee('"name":"enterprise software company Afghanistan"', false);
+
+        $this->get('/mis-development-afghanistan')
+            ->assertOk()
+            ->assertSee('service-profile-section', false)
+            ->assertSee('Data governance comes before the dashboard')
+            ->assertSee('MIS, ERP or both?')
+            ->assertSee('Data, indicator and workflow discovery')
+            ->assertSee('"@type":"Service"', false);
+
+        $this->get('/digital-transformation-afghanistan')
+            ->assertOk()
+            ->assertSee('Digital transformation is an operating change, not a software purchase')
+            ->assertSee('Measure only what has a baseline')
+            ->assertSee('Phased delivery');
+
+        $this->get('/technology-consulting-afghanistan')
+            ->assertOk()
+            ->assertSee('Technology decisions should be traceable to business requirements')
+            ->assertSee('Because Fida also develops software')
+            ->assertSee('RFP and vendor questions');
+    }
+
+    public function test_enterprise_core_pages_are_localized_grouped_in_sitemaps_and_preserve_admin_content(): void
+    {
+        $adminPage = ContentPage::query()->create([
+            'type' => 'service',
+            'slug' => 'technology-consulting-afghanistan',
+            'title' => ['en' => 'Admin consulting title'],
+            'body' => ['en' => '<h2>Verified admin consulting content</h2>'],
+            'status' => 'published',
+        ]);
+
+        $this->seed(WebsiteSeeder::class);
+        $this->seed(EnterpriseCoreSeeder::class);
+
+        $adminPage->refresh();
+        $this->assertSame('Admin consulting title', $adminPage->translation('title', 'en'));
+        $this->assertStringContainsString('Verified admin consulting content', $adminPage->translation('body', 'en'));
+        $this->assertSame(1, ContentPage::query()->where('slug', 'technology-consulting-afghanistan')->count());
+
+        $this->get('/fa/digital-transformation-afghanistan')
+            ->assertOk()
+            ->assertSee('<html lang="fa" dir="rtl"', false)
+            ->assertSee('تحول دیجیتال در افغانستان')
+            ->assertSee('تحول دیجیتال تغییر عملیات است، نه خرید نرم‌افزار');
+
+        $this->get('/ps/mis-development-afghanistan')
+            ->assertOk()
+            ->assertSee('<html lang="ps" dir="rtl"', false)
+            ->assertSee('په افغانستان کې د مدیریت معلوماتي MIS سیسټم جوړول')
+            ->assertSee('د ډشبورډ تر مخه د معلوماتو حاکمیت');
+
+        $this->get('/sitemaps/solutions.xml')
+            ->assertOk()
+            ->assertSee('enterprise-software-afghanistan')
+            ->assertDontSee('mis-development-afghanistan');
+
+        $this->get('/sitemaps/services.xml')
+            ->assertOk()
+            ->assertSee('mis-development-afghanistan')
+            ->assertSee('digital-transformation-afghanistan')
+            ->assertDontSee('enterprise-software-afghanistan');
     }
 
     public function test_public_search_finds_published_content_and_is_not_indexable(): void

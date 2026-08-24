@@ -11,6 +11,7 @@ use App\Support\DiscoveryPublisher;
 use Database\Seeders\EnterpriseAuthoritySeeder;
 use Database\Seeders\EnterpriseCoreSeeder;
 use Database\Seeders\EnterpriseErpAuthoritySeeder;
+use Database\Seeders\ConstructionRealEstateIndustrySeeder;
 use Database\Seeders\PriorityIndustrySeeder;
 use Database\Seeders\WebsiteSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -172,6 +173,81 @@ class MarketingWebsiteTest extends TestCase
         $this->assertSame('Approved Government Page', $page->translation('title', 'en'));
         $this->assertSame('<h2>Verified institutional content</h2>', $page->translation('body', 'en'));
         $this->assertNull($page->primary_query);
+    }
+
+    public function test_construction_and_real_estate_are_distinct_localized_industry_authority_pages(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $construction = ContentPage::query()->where('slug', 'construction-erp-software-afghanistan')->firstOrFail();
+        $realEstate = ContentPage::query()->where('slug', 'real-estate-erp-software-afghanistan')->firstOrFail();
+        $combined = ContentPage::query()->where('slug', 'real-estate-construction-software-afghanistan')->firstOrFail();
+
+        $this->assertSame('construction ERP Afghanistan', $construction->primaryQuery('en'));
+        $this->assertSame('real estate ERP Afghanistan', $realEstate->primaryQuery('en'));
+        $this->assertSame('Real Estate & Construction Software in Afghanistan', $combined->translation('title', 'en'));
+        $this->assertCount(6, $construction->faqs('en'));
+        $this->assertCount(6, $realEstate->faqs('en'));
+        $this->assertSame('Project costing', $construction->industryProfile('en')['capabilities'][0]);
+        $this->assertSame('Unit inventory', $realEstate->industryProfile('en')['capabilities'][0]);
+
+        $this->get('/construction-erp-software-afghanistan')
+            ->assertOk()
+            ->assertSee('industry-profile-section', false)
+            ->assertSee('Construction ERP connects the site to the financial record')
+            ->assertSee('Procurement from material request to payment')
+            ->assertSee('Subcontractors, progress and change control')
+            ->assertSee('How is construction ERP priced?')
+            ->assertSee('href="'.url('/erp-systems-afghanistan').'"', false)
+            ->assertSee('"name":"construction ERP Afghanistan"', false);
+
+        $this->get('/real-estate-erp-software-afghanistan')
+            ->assertOk()
+            ->assertSee('industry-profile-section', false)
+            ->assertSee('Real estate ERP follows the property and customer lifecycle')
+            ->assertSee('Payment schedules, collections and customer statements')
+            ->assertSee('Handover and property management are distinct workflows')
+            ->assertSee('How is a Realist ERP implementation priced?')
+            ->assertSee('href="'.url('/realist-real-estate-erp').'"', false)
+            ->assertSee('"name":"real estate ERP Afghanistan"', false);
+
+        $this->get('/fa/construction-erp-software-afghanistan')
+            ->assertOk()
+            ->assertSee('<html lang="fa" dir="rtl"', false)
+            ->assertSee('ERP ساختمانی ساحه را به ثبت مالی وصل می‌کند')
+            ->assertSee('پروژه، ساحه، تدارکات، مواد، قراردادیان فرعی، تجهیزات و اسناد.');
+
+        $this->get('/ps/real-estate-erp-software-afghanistan')
+            ->assertOk()
+            ->assertSee('<html lang="ps" dir="rtl"', false)
+            ->assertSee('د املاکو ERP د ملکیت او مشتری بشپړ ژوندڅرخ تعقیبوي')
+            ->assertSee('د واحدونو موجودي');
+
+        $this->get('/sitemaps/industries.xml')
+            ->assertOk()
+            ->assertSee('construction-erp-software-afghanistan')
+            ->assertSee('real-estate-erp-software-afghanistan')
+            ->assertSee('real-estate-construction-software-afghanistan');
+    }
+
+    public function test_construction_and_real_estate_seeder_preserves_existing_cms_content(): void
+    {
+        $page = ContentPage::query()->create([
+            'type' => 'industry',
+            'slug' => 'construction-erp-software-afghanistan',
+            'title' => ['en' => 'Approved Construction Page'],
+            'body' => ['en' => '<h2>Verified construction content</h2>'],
+            'status' => 'published',
+        ]);
+
+        $this->seed(ConstructionRealEstateIndustrySeeder::class);
+
+        $page->refresh();
+
+        $this->assertSame('Approved Construction Page', $page->translation('title', 'en'));
+        $this->assertSame('<h2>Verified construction content</h2>', $page->translation('body', 'en'));
+        $this->assertNull($page->primary_query);
+        $this->assertDatabaseHas('content_pages', ['slug' => 'real-estate-erp-software-afghanistan']);
     }
 
     public function test_service_detail_uses_cms_profile_and_contextual_conversion_path(): void

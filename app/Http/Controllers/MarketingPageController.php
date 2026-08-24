@@ -28,6 +28,7 @@ class MarketingPageController extends Controller
         $faqs = $page->faqs();
         $productProfile = $page->productProfile();
         $serviceProfile = $page->serviceProfile();
+        $industryProfile = $page->industryProfile();
         $archive = $this->archiveFor($page->type);
         $hubLayout = in_array($page->slug, [
             'about', 'services', 'projects', 'pricing', 'contact',
@@ -45,6 +46,7 @@ class MarketingPageController extends Controller
         $detailView = match ($page->type) {
             'service' => 'marketing.service',
             'product' => 'marketing.product',
+            'industry' => 'marketing.industry',
             'article' => 'marketing.article',
             default => 'marketing.page',
         };
@@ -55,6 +57,7 @@ class MarketingPageController extends Controller
             'faqs' => $faqs,
             'productProfile' => $productProfile,
             'serviceProfile' => $serviceProfile,
+            'industryProfile' => $industryProfile,
             'hubLayout' => $hubLayout,
             'archive' => $archive,
             'collectionPages' => $collectionPages,

@@ -221,6 +221,22 @@ class ContentPage extends Model
         ];
     }
 
+    public function industryProfile(?string $locale = null): ?array
+    {
+        if ($this->type !== 'industry' || ! is_array(data_get($this->metadata, 'industry'))) {
+            return null;
+        }
+
+        $locale ??= app()->getLocale();
+
+        return [
+            'operations' => (string) $this->metadataTranslation('industry.operations', $locale),
+            'control' => (string) $this->metadataTranslation('industry.control', $locale),
+            'decisions' => (string) $this->metadataTranslation('industry.decisions', $locale),
+            'capabilities' => $this->localizedMetadataList('industry.capabilities', $locale),
+        ];
+    }
+
     public function productProfile(?string $locale = null): ?array
     {
         if ($this->type !== 'product' || ! is_array(data_get($this->metadata, 'product'))) {

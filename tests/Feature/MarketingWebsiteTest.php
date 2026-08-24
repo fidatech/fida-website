@@ -8,6 +8,7 @@ use App\Models\ArticleCategory;
 use App\Models\ContentPage;
 use App\Models\Lead;
 use App\Support\DiscoveryPublisher;
+use Database\Seeders\EnterpriseAuthoritySeeder;
 use Database\Seeders\WebsiteSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
@@ -257,6 +258,7 @@ class MarketingWebsiteTest extends TestCase
     public function test_about_page_presents_verified_company_history_and_enterprise_authority(): void
     {
         $this->seed(WebsiteSeeder::class);
+        $this->seed(EnterpriseAuthoritySeeder::class);
 
         $about = ContentPage::query()->where('slug', 'about')->firstOrFail();
 
@@ -300,6 +302,7 @@ class MarketingWebsiteTest extends TestCase
         ]);
 
         $this->seed(WebsiteSeeder::class);
+        $this->seed(EnterpriseAuthoritySeeder::class);
 
         $about->refresh();
 

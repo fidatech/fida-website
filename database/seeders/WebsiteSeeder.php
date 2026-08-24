@@ -22,6 +22,7 @@ class WebsiteSeeder extends Seeder
         $this->call(PriorityIndustrySeeder::class);
         $this->call(ConstructionRealEstateIndustrySeeder::class);
         $this->call(ManufacturingHealthcareIndustrySeeder::class);
+        $this->call(FinanceLogisticsIndustrySeeder::class);
     }
 
     private function pages(): array

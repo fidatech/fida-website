@@ -13,6 +13,7 @@ use Database\Seeders\EnterpriseCoreSeeder;
 use Database\Seeders\EnterpriseErpAuthoritySeeder;
 use Database\Seeders\ConstructionRealEstateIndustrySeeder;
 use Database\Seeders\ManufacturingHealthcareIndustrySeeder;
+use Database\Seeders\FinanceLogisticsIndustrySeeder;
 use Database\Seeders\PriorityIndustrySeeder;
 use Database\Seeders\WebsiteSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -316,6 +317,64 @@ class MarketingWebsiteTest extends TestCase
         $this->assertSame('Approved Manufacturing Page', $page->fresh()->translation('title', 'en'));
         $this->assertSame('<h2>Verified manufacturing content</h2>', $page->fresh()->translation('body', 'en'));
         $this->assertDatabaseHas('content_pages', ['slug' => 'hospital-management-system-afghanistan']);
+    }
+
+    public function test_finance_and_logistics_are_distinct_localized_industry_authority_pages(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $finance = ContentPage::query()->where('slug', 'financial-management-software-afghanistan')->firstOrFail();
+        $logistics = ContentPage::query()->where('slug', 'transport-logistics-software-afghanistan')->firstOrFail();
+
+        $this->assertSame('financial management software Afghanistan', $finance->primaryQuery('en'));
+        $this->assertSame('logistics software Afghanistan', $logistics->primaryQuery('en'));
+        $this->assertCount(6, $finance->faqs('en'));
+        $this->assertCount(6, $logistics->faqs('en'));
+        $this->assertSame('Financial accounting', $finance->industryProfile('en')['capabilities'][0]);
+        $this->assertSame('Shipment tracking', $logistics->industryProfile('en')['capabilities'][0]);
+
+        $this->get('/financial-management-software-afghanistan')
+            ->assertOk()->assertSee('industry-profile-section', false)
+            ->assertSee('Financial software must make responsibility visible')
+            ->assertSee('Roles, maker-checker control and auditability')
+            ->assertSee('Is financial management software the same as core banking?')
+            ->assertSee('href="'.url('/accounting-software-afghanistan').'"', false)
+            ->assertSee('"name":"financial management software Afghanistan"', false);
+
+        $this->get('/transport-logistics-software-afghanistan')
+            ->assertOk()->assertSee('industry-profile-section', false)
+            ->assertSee('Logistics software connects every handover to cost and service')
+            ->assertSee('Freight costing, billing and settlement')
+            ->assertSee('Can customers track shipments?')
+            ->assertSee('href="'.url('/erp-systems-afghanistan').'"', false)
+            ->assertSee('"name":"logistics software Afghanistan"', false);
+
+        $this->get('/fa/financial-management-software-afghanistan')
+            ->assertOk()->assertSee('<html lang="fa" dir="rtl"', false)
+            ->assertSee('نرم‌افزار مالی باید مسئولیت را روشن سازد')->assertSee('حسابداری مالی');
+
+        $this->get('/ps/transport-logistics-software-afghanistan')
+            ->assertOk()->assertSee('<html lang="ps" dir="rtl"', false)
+            ->assertSee('لوژستیک سافټویر هر سپارل له لګښت او خدمت سره نښلوي')->assertSee('د بار تعقیب');
+
+        $this->get('/sitemaps/industries.xml')->assertOk()
+            ->assertSee('financial-management-software-afghanistan')
+            ->assertSee('transport-logistics-software-afghanistan');
+    }
+
+    public function test_finance_logistics_release_seeder_preserves_cms_edits(): void
+    {
+        $logistics = ContentPage::query()->create([
+            'type' => 'industry', 'slug' => 'transport-logistics-software-afghanistan',
+            'title' => ['en' => 'Approved Logistics Page'],
+            'body' => ['en' => '<h2>Verified logistics editorial content</h2>'], 'status' => 'published',
+        ]);
+
+        $this->seed(FinanceLogisticsIndustrySeeder::class);
+
+        $this->assertSame('Approved Logistics Page', $logistics->fresh()->translation('title', 'en'));
+        $this->assertSame('<h2>Verified logistics editorial content</h2>', $logistics->fresh()->translation('body', 'en'));
+        $this->assertDatabaseHas('content_pages', ['slug' => 'financial-management-software-afghanistan']);
     }
 
     public function test_service_detail_uses_cms_profile_and_contextual_conversion_path(): void

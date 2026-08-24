@@ -47,13 +47,13 @@
     <link rel="canonical" href="{{ $seo['canonical'] }}">
 
     @foreach(config('website.locales') as $code => $language)
-        <link rel="alternate" hreflang="{{ $code }}" href="{{ \App\Support\LocalizedUrl::current($code) }}">
+        <link rel="alternate" hreflang="{{ $language['hreflang'] ?? $code }}" href="{{ \App\Support\LocalizedUrl::current($code) }}">
     @endforeach
     <link rel="alternate" hreflang="x-default" href="{{ \App\Support\LocalizedUrl::current(config('website.default_locale')) }}">
 
-    <meta property="og:locale" content="{{ str_replace('-', '_', $locale) }}">
+    <meta property="og:locale" content="{{ $localeConfig['og_locale'] ?? str_replace('-', '_', $locale) }}">
     @foreach(config('website.locales') as $code => $language)
-        @if($code !== $locale)<meta property="og:locale:alternate" content="{{ str_replace('-', '_', $code) }}">@endif
+        @if($code !== $locale)<meta property="og:locale:alternate" content="{{ $language['og_locale'] ?? str_replace('-', '_', $code) }}">@endif
     @endforeach
     <meta property="og:type" content="{{ $seo['type'] ?? 'website' }}">
     <meta property="og:title" content="{{ $seo['title'] }}">
@@ -186,7 +186,7 @@
                     </button>
                     <div class="language-menu" data-language-menu>
                         @foreach(config('website.locales') as $code => $language)
-                            <a href="{{ \App\Support\LocalizedUrl::current($code) }}" @class(['active' => $code === $locale]) hreflang="{{ $code }}">
+                            <a href="{{ \App\Support\LocalizedUrl::current($code) }}" @class(['active' => $code === $locale]) hreflang="{{ $language['hreflang'] ?? $code }}">
                                 <span>{{ strtoupper($code) }}</span>{{ $language['native'] }}
                             </a>
                         @endforeach

@@ -47,6 +47,23 @@ return [
             'search_intent' => 'commercial',
         ],
     ],
+    'sitemap' => [
+        'change_frequencies' => [
+            'daily' => 'Daily',
+            'weekly' => 'Weekly',
+            'monthly' => 'Monthly',
+            'yearly' => 'Yearly',
+        ],
+        'groups' => [
+            'pages' => ['types' => ['page'], 'change_frequency' => 'monthly', 'priority' => 0.8],
+            'services' => ['types' => ['service'], 'change_frequency' => 'monthly', 'priority' => 0.8],
+            'solutions' => ['types' => ['solution'], 'change_frequency' => 'monthly', 'priority' => 0.8],
+            'products' => ['types' => ['product'], 'change_frequency' => 'monthly', 'priority' => 0.8],
+            'industries' => ['types' => ['industry'], 'change_frequency' => 'monthly', 'priority' => 0.8],
+            'case-studies' => ['types' => ['case-study'], 'change_frequency' => 'monthly', 'priority' => 0.7],
+            'insights' => ['types' => ['article'], 'change_frequency' => 'monthly', 'priority' => 0.7, 'taxonomies' => true],
+        ],
+    ],
     'address' => [
         'line' => '',
         'city' => 'Kabul',
@@ -175,9 +192,9 @@ return [
         'articles' => ['types' => ['article']],
     ],
     'locales' => [
-        'en' => ['label' => 'English', 'native' => 'English', 'direction' => 'ltr'],
-        'fa' => ['label' => 'Dari', 'native' => 'دری', 'direction' => 'rtl'],
-        'ps' => ['label' => 'Pashto', 'native' => 'پښتو', 'direction' => 'rtl'],
+        'en' => ['label' => 'English', 'native' => 'English', 'direction' => 'ltr', 'hreflang' => 'en', 'og_locale' => 'en_US'],
+        'fa' => ['label' => 'Dari', 'native' => 'دری', 'direction' => 'rtl', 'hreflang' => 'fa-AF', 'og_locale' => 'fa_AF'],
+        'ps' => ['label' => 'Pashto', 'native' => 'پښتو', 'direction' => 'rtl', 'hreflang' => 'ps-AF', 'og_locale' => 'ps_AF'],
     ],
     'default_locale' => 'en',
     'expertise' => [

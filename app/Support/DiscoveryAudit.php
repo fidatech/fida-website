@@ -28,6 +28,11 @@ final class DiscoveryAudit
 
         $checks[] = $this->check('intent', filled($page->search_intent), 'Search intent is documented.');
         $checks[] = $this->check('robots', in_array($page->robotsDirective(), array_keys(config('website.discovery.robots')), true), 'Robots policy is explicit and valid.');
+        $checks[] = $this->check(
+            'sitemap-policy',
+            ! $page->sitemap_included || ! str_starts_with($page->robotsDirective(), 'noindex'),
+            'Sitemap inclusion agrees with the page robots policy.',
+        );
         $checks[] = $this->check('social-image', filled($page->social_image_url) || filled(config('website.social_image')), 'A page or site-wide social preview image is available.');
 
         if (in_array($page->type, ['article', 'case-study'], true)) {

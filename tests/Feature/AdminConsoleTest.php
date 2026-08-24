@@ -73,6 +73,9 @@ class AdminConsoleTest extends TestCase
         $this->assertSame('What is ERP consulting?', $page->metadata['faqs'][0]['question']['en']);
         $this->assertSame('ERP consulting in Afghanistan', $page->primary_query['en']);
         $this->assertSame('commercial', $page->search_intent);
+        $this->assertTrue($page->sitemap_included);
+        $this->assertSame('0.9', $page->sitemap_priority);
+        $this->assertSame('weekly', $page->sitemap_change_frequency);
         $this->assertNotNull($page->published_at);
 
         $this->actingAs($editor)->get(route('admin.leads.index'))->assertForbidden();
@@ -279,6 +282,7 @@ class AdminConsoleTest extends TestCase
             ->get(route('admin.content-pages.edit', $page))
             ->assertOk()
             ->assertSee('Search, answer and generative discovery')
+            ->assertSee('Include in the appropriate XML sitemap')
             ->assertSee('DISCOVERY READINESS')
             ->assertSee('ERP consulting in Afghanistan')
             ->assertSee('Planning field only—never printed as a meta-keywords tag.');
@@ -358,6 +362,10 @@ class AdminConsoleTest extends TestCase
             'primary_query' => ['en' => 'ERP consulting in Afghanistan', 'fa' => 'مشاوره ERP در افغانستان', 'ps' => 'په افغانستان کې د ERP مشوره'],
             'search_intent' => 'commercial',
             'robots_directive' => 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1',
+            'sitemap_included' => '1',
+            'sitemap_priority' => '0.9',
+            'sitemap_change_frequency' => 'weekly',
+            'sitemap_last_modified_at' => null,
             'social_image_url' => 'https://fida.af/media/erp-consulting.jpg',
             'author_name' => 'Fida Technologies',
             'reviewer_name' => 'Fida Editorial Team',

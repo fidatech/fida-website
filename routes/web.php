@@ -22,6 +22,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', HomeController::class)->name('home');
 
 Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
+Route::get('/sitemaps/{group}.xml', [SitemapController::class, 'show'])
+    ->where('group', '[a-z-]+')
+    ->name('sitemap.group');
 Route::get('/robots.txt', RobotsController::class)->name('robots');
 Route::get('/indexnow-key.txt', IndexNowKeyController::class)->name('indexnow.key');
 Route::get('/search', SearchController::class)->name('search');

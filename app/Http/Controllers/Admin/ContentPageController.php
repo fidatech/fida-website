@@ -156,6 +156,8 @@ class ContentPageController extends Controller
         $data['article_category_id'] = $data['type'] === 'article' ? ($data['article_category_id'] ?? null) : null;
         $data['article_author_id'] = $data['type'] === 'article' ? ($data['article_author_id'] ?? null) : null;
         $data['robots_directive'] ??= config('website.discovery.default_robots');
+        $data['sitemap_included'] ??= true;
+        $data['sitemap_priority'] ??= 0.8;
 
         if ($data['status'] === 'published' && empty($data['published_at'])) {
             $data['published_at'] = now();

@@ -115,7 +115,7 @@ class MarketingWebsiteTest extends TestCase
             ->assertSee('<html lang="fa" dir="rtl"', false)
             ->assertSee('پلان‌گذاری نرم‌افزار تجارتی');
 
-        $this->get('/sitemap.xml')
+        $this->get('/sitemaps/insights.xml')
             ->assertOk()
             ->assertSee('/articles/category/business-software-planning')
             ->assertSee('/fa/articles/category/business-software-planning');
@@ -180,13 +180,43 @@ class MarketingWebsiteTest extends TestCase
         $this->get('/sitemap.xml')
             ->assertOk()
             ->assertHeader('Content-Type', 'application/xml; charset=UTF-8')
+            ->assertSee('/sitemaps/pages.xml')
+            ->assertSee('/sitemaps/services.xml')
+            ->assertSee('/sitemaps/solutions.xml')
+            ->assertSee('/sitemaps/products.xml')
+            ->assertSee('/sitemaps/industries.xml')
+            ->assertSee('/sitemaps/insights.xml')
+            ->assertDontSee('/sitemaps/case-studies.xml');
+
+        $this->get('/sitemaps/solutions.xml')
+            ->assertOk()
             ->assertSee('erp-systems-afghanistan')
             ->assertSee('technology-company-afghanistan')
+            ->assertSee('hreflang="fa-AF"', false)
+            ->assertSee('hreflang="ps-AF"', false)
+            ->assertSee('hreflang="x-default"', false);
+
+        $this->get('/sitemaps/products.xml')
+            ->assertOk()
             ->assertSee('realist-real-estate-erp')
-            ->assertSee('prime-sarafi-software')
+            ->assertSee('prime-sarafi-software');
+
+        $this->get('/sitemaps/services.xml')
+            ->assertOk()
             ->assertSee('erp-implementation-services-afghanistan')
-            ->assertSee('real-estate-construction-software-afghanistan')
+            ->assertDontSee('erp-systems-afghanistan');
+
+        $this->get('/sitemaps/industries.xml')
+            ->assertOk()
+            ->assertSee('real-estate-construction-software-afghanistan');
+
+        $this->get('/sitemaps/insights.xml')
+            ->assertOk()
             ->assertSee('how-to-choose-erp-system-afghanistan')
+            ->assertSee('/articles/category/business-software-planning');
+
+        $this->get('/sitemaps/pages.xml')
+            ->assertOk()
             ->assertSee('/about')
             ->assertSee('/services')
             ->assertSee('/projects')
@@ -198,9 +228,35 @@ class MarketingWebsiteTest extends TestCase
             ->assertSee('/pricing')
             ->assertSee('/contact')
             ->assertSee('privacy-policy')
-            ->assertDontSee('realist-erp-case-study')
-            ->assertSee('hreflang="fa"', false)
-            ->assertSee('hreflang="x-default"', false);
+            ->assertDontSee('realist-erp-case-study');
+
+        $this->get('/sitemaps/case-studies.xml')->assertNotFound();
+    }
+
+    public function test_sitemap_controls_exclude_private_urls_and_publish_verified_overrides(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        ContentPage::query()->where('slug', 'erp-systems-afghanistan')->firstOrFail()->update([
+            'sitemap_included' => false,
+        ]);
+        ContentPage::query()->where('slug', 'technology-company-afghanistan')->firstOrFail()->update([
+            'robots_directive' => 'noindex,follow,noarchive',
+        ]);
+        ContentPage::query()->where('slug', 'accounting-software-afghanistan')->firstOrFail()->update([
+            'sitemap_priority' => 0.9,
+            'sitemap_change_frequency' => 'weekly',
+            'sitemap_last_modified_at' => '2026-08-20 12:00:00',
+        ]);
+
+        $this->get('/sitemaps/solutions.xml')
+            ->assertOk()
+            ->assertDontSee('erp-systems-afghanistan')
+            ->assertDontSee('technology-company-afghanistan')
+            ->assertSee('accounting-software-afghanistan')
+            ->assertSee('<priority>0.9</priority>', false)
+            ->assertSee('<changefreq>weekly</changefreq>', false)
+            ->assertSee('2026-08-20T12:00:00', false);
     }
 
     public function test_product_pages_expose_localized_profiles_and_software_schema(): void
@@ -604,6 +660,10 @@ class MarketingWebsiteTest extends TestCase
             ->assertDontSee('Sitemap:');
 
         $this->get('/sitemap.xml')
+            ->assertNotFound()
+            ->assertHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
+
+        $this->get('/sitemaps/pages.xml')
             ->assertNotFound()
             ->assertHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
 

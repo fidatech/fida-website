@@ -22,6 +22,10 @@ class ContentPage extends Model
         'primary_query',
         'search_intent',
         'robots_directive',
+        'sitemap_included',
+        'sitemap_priority',
+        'sitemap_change_frequency',
+        'sitemap_last_modified_at',
         'social_image_url',
         'author_name',
         'reviewer_name',
@@ -47,6 +51,9 @@ class ContentPage extends Model
             'schema' => 'array',
             'metadata' => 'array',
             'featured' => 'boolean',
+            'sitemap_included' => 'boolean',
+            'sitemap_priority' => 'decimal:1',
+            'sitemap_last_modified_at' => 'datetime',
             'published_at' => 'datetime',
             'reviewed_at' => 'datetime',
         ];
@@ -59,6 +66,13 @@ class ContentPage extends Model
             ->where(function (Builder $query): void {
                 $query->whereNull('published_at')->orWhere('published_at', '<=', now());
             });
+    }
+
+    public function scopeSitemapEligible(Builder $query): Builder
+    {
+        return $query
+            ->where('sitemap_included', true)
+            ->where('robots_directive', 'not like', 'noindex%');
     }
 
     public function articleCategory(): BelongsTo
@@ -139,6 +153,26 @@ class ContentPage extends Model
         return array_key_exists($directive, config('website.discovery.robots'))
             ? $directive
             : (string) config('website.discovery.default_robots');
+    }
+
+    public function sitemapPriority(float $fallback = 0.8): string
+    {
+        $priority = (float) ($this->sitemap_priority ?? $fallback);
+
+        if ($priority < 0.1 || $priority > 1.0) {
+            $priority = $fallback;
+        }
+
+        return number_format($priority, 1, '.', '');
+    }
+
+    public function sitemapChangeFrequency(?string $fallback = null): ?string
+    {
+        $frequency = (string) ($this->sitemap_change_frequency ?: $fallback);
+
+        return array_key_exists($frequency, config('website.sitemap.change_frequencies', []))
+            ? $frequency
+            : null;
     }
 
     public function socialImage(): ?string

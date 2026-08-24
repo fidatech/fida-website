@@ -11,6 +11,7 @@ use App\Support\DiscoveryPublisher;
 use Database\Seeders\EnterpriseAuthoritySeeder;
 use Database\Seeders\EnterpriseCoreSeeder;
 use Database\Seeders\EnterpriseErpAuthoritySeeder;
+use Database\Seeders\PriorityIndustrySeeder;
 use Database\Seeders\WebsiteSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
@@ -102,6 +103,75 @@ class MarketingWebsiteTest extends TestCase
             '<h2>Approved editorial version</h2><p>Keep this CMS-managed content.</p>',
             $page->fresh()->translation('body', 'en'),
         );
+    }
+
+    public function test_priority_government_and_ngo_industries_are_distinct_localized_authority_pages(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+        $this->seed(EnterpriseCoreSeeder::class);
+
+        $government = ContentPage::query()->where('slug', 'government-public-sector-software-afghanistan')->firstOrFail();
+        $ngo = ContentPage::query()->where('slug', 'ngo-ingo-software-afghanistan')->firstOrFail();
+
+        $this->assertSame('industry', $government->type);
+        $this->assertSame('government software Afghanistan', $government->primaryQuery('en'));
+        $this->assertSame('NGO software Afghanistan', $ngo->primaryQuery('en'));
+        $this->assertTrue($government->sitemap_included);
+        $this->assertTrue($ngo->sitemap_included);
+
+        $this->get('/government-public-sector-software-afghanistan')
+            ->assertOk()
+            ->assertSee('Public-sector software begins with the institutional mandate')
+            ->assertSee('Data governance and interoperability')
+            ->assertSee('Requirements and procurement readiness')
+            ->assertSee('Invite Fida to a government technology procurement')
+            ->assertSee('Can Fida respond to an RFP or terms of reference?')
+            ->assertSee('href="'.url('/mis-development-afghanistan').'"', false)
+            ->assertSee('"name":"government software Afghanistan"', false);
+
+        $this->get('/ngo-ingo-software-afghanistan')
+            ->assertOk()
+            ->assertSee('NGO systems must connect programme delivery and organizational control')
+            ->assertSee('Fund accounting, budgets and financial control')
+            ->assertSee('Monitoring, evaluation, accountability and learning')
+            ->assertSee('Beneficiary and case information requires additional care')
+            ->assertSee('Does Fida provide a standard NGO software price?')
+            ->assertSee('href="'.url('/erp-systems-afghanistan').'"', false)
+            ->assertSee('"name":"NGO software Afghanistan"', false);
+
+        $this->get('/fa/government-public-sector-software-afghanistan')
+            ->assertOk()
+            ->assertSee('<html lang="fa" dir="rtl"', false)
+            ->assertSee('حاکمیت معلومات و یکپارچه‌سازی');
+
+        $this->get('/ps/ngo-ingo-software-afghanistan')
+            ->assertOk()
+            ->assertSee('<html lang="ps" dir="rtl"', false)
+            ->assertSee('څار، ارزونه، حساب ورکونه او زده‌کړه');
+
+        $this->get('/sitemaps/industries.xml')
+            ->assertOk()
+            ->assertSee('government-public-sector-software-afghanistan')
+            ->assertSee('ngo-ingo-software-afghanistan');
+    }
+
+    public function test_priority_industry_seeder_preserves_existing_cms_content(): void
+    {
+        $page = ContentPage::query()->create([
+            'type' => 'industry',
+            'slug' => 'government-public-sector-software-afghanistan',
+            'title' => ['en' => 'Approved Government Page'],
+            'body' => ['en' => '<h2>Verified institutional content</h2>'],
+            'status' => 'published',
+        ]);
+
+        $this->seed(PriorityIndustrySeeder::class);
+
+        $page->refresh();
+
+        $this->assertSame('Approved Government Page', $page->translation('title', 'en'));
+        $this->assertSame('<h2>Verified institutional content</h2>', $page->translation('body', 'en'));
+        $this->assertNull($page->primary_query);
     }
 
     public function test_service_detail_uses_cms_profile_and_contextual_conversion_path(): void

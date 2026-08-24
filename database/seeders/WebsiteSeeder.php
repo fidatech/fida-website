@@ -19,6 +19,7 @@ class WebsiteSeeder extends Seeder
 
         $this->call(MarketingContentSeeder::class);
         $this->call(EnterpriseErpAuthoritySeeder::class);
+        $this->call(PriorityIndustrySeeder::class);
     }
 
     private function pages(): array

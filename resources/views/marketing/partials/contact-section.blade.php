@@ -1,4 +1,4 @@
-<section class="section contact-section" id="contact">
+<section @class(['section', 'contact-section', $sectionClass ?? null]) id="contact">
     <div class="container contact-shell reveal">
         <div class="contact-grid-bg" aria-hidden="true"></div>
         <div class="contact-copy">

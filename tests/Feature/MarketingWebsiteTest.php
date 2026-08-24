@@ -312,6 +312,33 @@ class MarketingWebsiteTest extends TestCase
             ->assertSee('خدمات تطبیق ERP در افغانستان');
     }
 
+    public function test_navigation_has_clean_labels_single_panel_state_and_compact_home_sections(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('data-nav-cluster-button aria-expanded="false">Solutions<svg', false)
+            ->assertSee('<summary>Solutions<i>+</i></summary>', false)
+            ->assertDontSee('data-nav-cluster-button aria-expanded="false"><span>', false)
+            ->assertDontSee('<span>05</span>Case Studies', false)
+            ->assertSee('class="section home-section solutions-section"', false)
+            ->assertSee('class="section home-section products-section"', false)
+            ->assertSee('class="section home-section industry-section"', false)
+            ->assertSee('class="section home-section process-section"', false)
+            ->assertSee('class="section contact-section home-section"', false);
+
+        $navigationScript = file_get_contents(resource_path('js/app.js'));
+        $stylesheet = file_get_contents(resource_path('css/app.css'));
+
+        $this->assertStringContainsString('closeNavClusters(cluster);', $navigationScript);
+        $this->assertStringContainsString("group.addEventListener('toggle'", $navigationScript);
+        $this->assertStringContainsString('.nav-cluster.open .nav-cluster-menu', $stylesheet);
+        $this->assertStringNotContainsString('.nav-cluster:hover .nav-cluster-menu', $stylesheet);
+        $this->assertStringNotContainsString('.nav-cluster:focus-within .nav-cluster-menu', $stylesheet);
+        $this->assertStringContainsString('.home-section { padding-block: 112px; }', $stylesheet);
+    }
+
     public function test_about_page_presents_verified_company_history_and_enterprise_authority(): void
     {
         $this->seed(WebsiteSeeder::class);

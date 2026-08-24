@@ -89,7 +89,7 @@
     </div>
 </section>
 
-<section class="section solutions-section" id="solutions">
+<section class="section home-section solutions-section" id="solutions">
     <div class="container">
         <div class="section-heading section-heading-grid reveal">
             <div><div class="micro-label"><span>01</span>{{ __('website.sections.solutions_eyebrow') }}</div><h2>{{ __('website.sections.solutions_title') }}</h2></div>
@@ -119,7 +119,7 @@
     </div>
 </section>
 
-<section class="section products-section" id="products">
+<section class="section home-section products-section" id="products">
     <div class="product-orbit-bg" aria-hidden="true"></div>
     <div class="container">
         <div class="section-heading section-heading-grid reveal">
@@ -151,7 +151,7 @@
     </div>
 </section>
 
-<section class="section industry-section" id="industries">
+<section class="section home-section industry-section" id="industries">
     <div class="container">
         <div class="industry-intro reveal">
             <div class="micro-label"><span>03</span>{{ __('website.sections.industries_eyebrow') }}</div>
@@ -166,7 +166,7 @@
     </div>
 </section>
 
-<section class="section process-section" id="process">
+<section class="section home-section process-section" id="process">
     <div class="container process-layout">
         <div class="process-intro reveal">
             <div class="micro-label"><span>04</span>{{ __('website.sections.process_eyebrow') }}</div>
@@ -181,5 +181,5 @@
     </div>
 </section>
 
-@include('marketing.partials.contact-section')
+@include('marketing.partials.contact-section', ['sectionClass' => 'home-section'])
 @endsection

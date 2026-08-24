@@ -5,6 +5,8 @@ const mobileNav = document.querySelector('[data-mobile-nav]');
 const languageSwitcher = document.querySelector('[data-language-switcher]');
 const languageButton = document.querySelector('[data-language-button]');
 const colorModeButton = document.querySelector('[data-color-mode-toggle]');
+const navClusters = Array.from(document.querySelectorAll('[data-nav-cluster]'));
+const mobileNavGroups = Array.from(document.querySelectorAll('.mobile-nav-group'));
 const colorModeQuery = window.matchMedia('(prefers-color-scheme: light)');
 const colorModeStorageKey = 'fida_color_mode';
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -72,6 +74,7 @@ window.addEventListener('scroll', requestScrollUpdate, { passive: true });
 
 menuButton?.addEventListener('click', () => {
     const open = menuButton.getAttribute('aria-expanded') !== 'true';
+    closeNavClusters();
     menuButton.setAttribute('aria-expanded', String(open));
     mobileNav?.classList.toggle('open', open);
 });
@@ -85,22 +88,50 @@ mobileNav?.querySelectorAll('a').forEach((link) => {
 
 languageButton?.addEventListener('click', () => {
     const open = !languageSwitcher?.classList.contains('open');
+    closeNavClusters();
     languageSwitcher?.classList.toggle('open', open);
     languageButton.setAttribute('aria-expanded', String(open));
 });
 
-document.querySelectorAll('[data-nav-cluster-button]').forEach((button) => {
+function setNavClusterOpen(cluster, open) {
+    cluster?.classList.toggle('open', open);
+    cluster?.querySelector('[data-nav-cluster-button]')?.setAttribute('aria-expanded', String(open));
+}
+
+function closeNavClusters(except = null) {
+    navClusters.forEach((cluster) => {
+        if (cluster !== except) setNavClusterOpen(cluster, false);
+    });
+}
+
+navClusters.forEach((cluster) => {
+    const button = cluster.querySelector('[data-nav-cluster-button]');
+
+    if (!button) return;
+
     button.addEventListener('click', () => {
-        const cluster = button.closest('[data-nav-cluster]');
-        const open = !cluster?.classList.contains('open');
+        const open = !cluster.classList.contains('open');
 
-        document.querySelectorAll('[data-nav-cluster].open').forEach((item) => {
-            item.classList.remove('open');
-            item.querySelector('[data-nav-cluster-button]')?.setAttribute('aria-expanded', 'false');
+        closeNavClusters(cluster);
+        setNavClusterOpen(cluster, open);
+    });
+});
+
+document.querySelector('.desktop-nav')?.addEventListener('focusin', (event) => {
+    const focusedCluster = event.target instanceof Element
+        ? event.target.closest('[data-nav-cluster]')
+        : null;
+
+    closeNavClusters(focusedCluster);
+});
+
+mobileNavGroups.forEach((group) => {
+    group.addEventListener('toggle', () => {
+        if (!group.open) return;
+
+        mobileNavGroups.forEach((item) => {
+            if (item !== group) item.removeAttribute('open');
         });
-
-        cluster?.classList.toggle('open', open);
-        button.setAttribute('aria-expanded', String(open));
     });
 });
 
@@ -110,11 +141,11 @@ document.addEventListener('click', (event) => {
         languageButton?.setAttribute('aria-expanded', 'false');
     }
 
-    document.querySelectorAll('[data-nav-cluster].open').forEach((cluster) => {
-        if (cluster.contains(event.target)) return;
-        cluster.classList.remove('open');
-        cluster.querySelector('[data-nav-cluster-button]')?.setAttribute('aria-expanded', 'false');
-    });
+    const clickedCluster = event.target instanceof Element
+        ? event.target.closest('[data-nav-cluster]')
+        : null;
+
+    if (!clickedCluster) closeNavClusters();
 });
 
 document.addEventListener('keydown', (event) => {
@@ -124,10 +155,7 @@ document.addEventListener('keydown', (event) => {
     languageButton?.setAttribute('aria-expanded', 'false');
     mobileNav?.classList.remove('open');
     menuButton?.setAttribute('aria-expanded', 'false');
-    document.querySelectorAll('[data-nav-cluster].open').forEach((cluster) => {
-        cluster.classList.remove('open');
-        cluster.querySelector('[data-nav-cluster-button]')?.setAttribute('aria-expanded', 'false');
-    });
+    closeNavClusters();
 });
 
 const revealItems = document.querySelectorAll('.reveal');

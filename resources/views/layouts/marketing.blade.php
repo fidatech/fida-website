@@ -107,7 +107,7 @@
 
             <nav class="desktop-nav" aria-label="Primary navigation">
                 <div @class(['nav-cluster', 'active' => $solutionsActive]) data-nav-cluster>
-                    <button type="button" data-nav-cluster-button aria-expanded="false"><span>01</span>{{ __('website.nav.solutions') }}<svg viewBox="0 0 16 16"><path d="m4 6 4 4 4-4"/></svg></button>
+                    <button type="button" data-nav-cluster-button aria-expanded="false">{{ __('website.nav.solutions') }}<svg viewBox="0 0 16 16"><path d="m4 6 4 4 4-4"/></svg></button>
                     <div class="nav-cluster-menu nav-mega-menu nav-mega-menu-single">
                         <section>
                             <span class="nav-cluster-heading">{{ __('website.nav.solutions') }}</span>
@@ -119,7 +119,7 @@
                     </div>
                 </div>
                 <div @class(['nav-cluster', 'active' => $industriesActive]) data-nav-cluster>
-                    <button type="button" data-nav-cluster-button aria-expanded="false"><span>02</span>{{ __('website.nav.industries') }}<svg viewBox="0 0 16 16"><path d="m4 6 4 4 4-4"/></svg></button>
+                    <button type="button" data-nav-cluster-button aria-expanded="false">{{ __('website.nav.industries') }}<svg viewBox="0 0 16 16"><path d="m4 6 4 4 4-4"/></svg></button>
                     <div class="nav-cluster-menu nav-mega-menu nav-mega-menu-single">
                         <section>
                             <span class="nav-cluster-heading">{{ __('website.nav.industries') }}</span>
@@ -131,7 +131,7 @@
                     </div>
                 </div>
                 <div @class(['nav-cluster', 'active' => $servicesActive]) data-nav-cluster>
-                    <button type="button" data-nav-cluster-button aria-expanded="false"><span>03</span>{{ __('website.nav.services') }}<svg viewBox="0 0 16 16"><path d="m4 6 4 4 4-4"/></svg></button>
+                    <button type="button" data-nav-cluster-button aria-expanded="false">{{ __('website.nav.services') }}<svg viewBox="0 0 16 16"><path d="m4 6 4 4 4-4"/></svg></button>
                     <div class="nav-cluster-menu nav-mega-menu nav-mega-menu-single">
                         <section>
                             <span class="nav-cluster-heading">{{ __('website.nav.services') }}</span>
@@ -143,7 +143,7 @@
                     </div>
                 </div>
                 <div @class(['nav-cluster', 'active' => $productsActive]) data-nav-cluster>
-                    <button type="button" data-nav-cluster-button aria-expanded="false"><span>04</span>{{ __('website.nav.products') }}<svg viewBox="0 0 16 16"><path d="m4 6 4 4 4-4"/></svg></button>
+                    <button type="button" data-nav-cluster-button aria-expanded="false">{{ __('website.nav.products') }}<svg viewBox="0 0 16 16"><path d="m4 6 4 4 4-4"/></svg></button>
                     <div class="nav-cluster-menu nav-mega-menu nav-mega-menu-single nav-mega-menu-align-right">
                         <section>
                             <span class="nav-cluster-heading">{{ __('website.nav.products') }}</span>
@@ -154,9 +154,9 @@
                         </section>
                     </div>
                 </div>
-                <a href="{{ \App\Support\LocalizedUrl::path('/case-studies') }}" @class(['active' => $caseStudiesActive])><span>05</span>{{ __('website.nav.case_studies') }}</a>
+                <a href="{{ \App\Support\LocalizedUrl::path('/case-studies') }}" @class(['active' => $caseStudiesActive])>{{ __('website.nav.case_studies') }}</a>
                 <div @class(['nav-cluster', 'active' => $articlesActive]) data-nav-cluster>
-                    <button type="button" data-nav-cluster-button aria-expanded="false"><span>06</span>{{ __('website.nav.articles') }}<svg viewBox="0 0 16 16"><path d="m4 6 4 4 4-4"/></svg></button>
+                    <button type="button" data-nav-cluster-button aria-expanded="false">{{ __('website.nav.articles') }}<svg viewBox="0 0 16 16"><path d="m4 6 4 4 4-4"/></svg></button>
                     <div class="nav-cluster-menu nav-mega-menu nav-mega-menu-single nav-mega-menu-align-right">
                         <section>
                             <span class="nav-cluster-heading">{{ __('website.nav.articles') }}</span>
@@ -167,7 +167,7 @@
                         </section>
                     </div>
                 </div>
-                <a href="{{ \App\Support\LocalizedUrl::path('/about') }}" @class(['active' => $currentSlug === 'about'])><span>07</span>{{ __('website.nav.company') }}</a>
+                <a href="{{ \App\Support\LocalizedUrl::path('/about') }}" @class(['active' => $currentSlug === 'about'])>{{ __('website.nav.company') }}</a>
             </nav>
 
             <div class="header-actions">
@@ -203,43 +203,43 @@
 
         <nav class="mobile-nav" data-mobile-nav aria-label="Mobile navigation">
             <details class="mobile-nav-group">
-                <summary><span>01</span>{{ __('website.nav.solutions') }}<i>+</i></summary>
+                <summary>{{ __('website.nav.solutions') }}<i>+</i></summary>
                 <div>
                     <a href="{{ \App\Support\LocalizedUrl::path('/solutions') }}">{{ __('website.nav.all_solutions') }}</a>
                     @foreach($navSolutions as $navPage)<a href="{{ \App\Support\LocalizedUrl::path('/'.$navPage->slug) }}">{{ $navPage->translation('title') }}</a>@endforeach
                 </div>
             </details>
             <details class="mobile-nav-group">
-                <summary><span>02</span>{{ __('website.nav.industries') }}<i>+</i></summary>
+                <summary>{{ __('website.nav.industries') }}<i>+</i></summary>
                 <div>
                     <a href="{{ \App\Support\LocalizedUrl::path('/industries') }}">{{ __('website.nav.all_industries') }}</a>
                     @foreach($navIndustries as $navPage)<a href="{{ \App\Support\LocalizedUrl::path('/'.$navPage->slug) }}">{{ $navPage->translation('title') }}</a>@endforeach
                 </div>
             </details>
             <details class="mobile-nav-group">
-                <summary><span>03</span>{{ __('website.nav.services') }}<i>+</i></summary>
+                <summary>{{ __('website.nav.services') }}<i>+</i></summary>
                 <div>
                     <a href="{{ \App\Support\LocalizedUrl::path('/services') }}">{{ __('website.nav.all_services') }}</a>
                     @foreach($navServices as $navPage)<a href="{{ \App\Support\LocalizedUrl::path('/'.$navPage->slug) }}">{{ $navPage->translation('title') }}</a>@endforeach
                 </div>
             </details>
             <details class="mobile-nav-group">
-                <summary><span>04</span>{{ __('website.nav.products') }}<i>+</i></summary>
+                <summary>{{ __('website.nav.products') }}<i>+</i></summary>
                 <div>
                     <a href="{{ \App\Support\LocalizedUrl::path('/products') }}">{{ __('website.nav.all_products') }}</a>
                     @foreach($navProducts as $navPage)<a href="{{ \App\Support\LocalizedUrl::path('/'.$navPage->slug) }}">{{ $navPage->translation('title') }}</a>@endforeach
                 </div>
             </details>
-            <a href="{{ \App\Support\LocalizedUrl::path('/case-studies') }}"><span>05</span>{{ __('website.nav.case_studies') }}</a>
+            <a href="{{ \App\Support\LocalizedUrl::path('/case-studies') }}">{{ __('website.nav.case_studies') }}</a>
             <details class="mobile-nav-group">
-                <summary><span>06</span>{{ __('website.nav.articles') }}<i>+</i></summary>
+                <summary>{{ __('website.nav.articles') }}<i>+</i></summary>
                 <div>
                     <a href="{{ \App\Support\LocalizedUrl::path('/articles') }}">{{ __('website.nav.all_articles') }}</a>
                     @foreach($navArticles as $navPage)<a href="{{ \App\Support\LocalizedUrl::path('/'.$navPage->slug) }}">{{ $navPage->translation('title') }}</a>@endforeach
                 </div>
             </details>
-            <a href="{{ \App\Support\LocalizedUrl::path('/about') }}"><span>07</span>{{ __('website.nav.company') }}</a>
-            <a href="{{ \App\Support\LocalizedUrl::path('/contact') }}"><span>08</span>{{ __('website.nav.contact') }}</a>
+            <a href="{{ \App\Support\LocalizedUrl::path('/about') }}">{{ __('website.nav.company') }}</a>
+            <a href="{{ \App\Support\LocalizedUrl::path('/contact') }}">{{ __('website.nav.contact') }}</a>
         </nav>
     </header>
 

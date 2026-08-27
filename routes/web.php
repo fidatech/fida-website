@@ -84,7 +84,6 @@ Route::prefix('admin')->name('admin.')->group(function (): void {
 
 Route::prefix('{locale}')
     ->where(['locale' => implode('|', array_keys(config('website.locales')))])
-    ->middleware('locale')
     ->group(function (): void {
         Route::get('/', HomeController::class)->name('localized.home');
         Route::get('/search', SearchController::class)->name('localized.search');

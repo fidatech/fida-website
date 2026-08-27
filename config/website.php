@@ -24,6 +24,11 @@ return [
         'ga4_measurement_id' => env('GOOGLE_ANALYTICS_ID'),
         'require_consent' => env('ANALYTICS_REQUIRE_CONSENT', true),
     ],
+    'lead_intents' => [
+        'proposal' => ['label' => 'Project proposal', 'project_type' => null],
+        'tender' => ['label' => 'Tender or RFP invitation', 'project_type' => 'tender'],
+        'company-profile' => ['label' => 'Company profile request', 'project_type' => 'company-profile'],
+    ],
     'discovery' => [
         'default_robots' => 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1',
         'robots' => [

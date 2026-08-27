@@ -275,6 +275,35 @@ class ContentPage extends Model
         ];
     }
 
+    public function callToAction(?string $locale = null): ?array
+    {
+        if (! is_array(data_get($this->metadata, 'cta'))) {
+            return null;
+        }
+
+        $locale ??= app()->getLocale();
+        $availableIntents = array_keys(config('website.lead_intents', []));
+        $primaryIntent = (string) data_get($this->metadata, 'cta.primary_intent', 'proposal');
+        $secondaryIntent = (string) data_get($this->metadata, 'cta.secondary_intent');
+
+        if (! in_array($primaryIntent, $availableIntents, true)) {
+            $primaryIntent = 'proposal';
+        }
+
+        if (! in_array($secondaryIntent, $availableIntents, true)) {
+            $secondaryIntent = null;
+        }
+
+        return [
+            'heading' => trim((string) $this->metadataTranslation('cta.heading', $locale)),
+            'description' => trim((string) $this->metadataTranslation('cta.description', $locale)),
+            'primary_label' => trim((string) $this->metadataTranslation('cta.primary_label', $locale)),
+            'primary_intent' => $primaryIntent,
+            'secondary_label' => trim((string) $this->metadataTranslation('cta.secondary_label', $locale)),
+            'secondary_intent' => $secondaryIntent,
+        ];
+    }
+
     private function localizedMetadataList(string $path, string $locale): array
     {
         return collect(data_get($this->metadata, $path, []))

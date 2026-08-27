@@ -129,6 +129,22 @@ class ContentPageController extends Controller
             ->values()
             ->all();
 
+        $cta = (array) data_get($submittedMetadata, 'cta', []);
+        $cleanCta = [
+            'heading' => $this->cleanTranslations((array) data_get($cta, 'heading', [])),
+            'description' => $this->cleanTranslations((array) data_get($cta, 'description', [])),
+            'primary_label' => $this->cleanTranslations((array) data_get($cta, 'primary_label', [])),
+            'primary_intent' => trim((string) data_get($cta, 'primary_intent', 'proposal')) ?: 'proposal',
+            'secondary_label' => $this->cleanTranslations((array) data_get($cta, 'secondary_label', [])),
+            'secondary_intent' => trim((string) data_get($cta, 'secondary_intent')) ?: null,
+        ];
+
+        if ($cleanCta['heading'] !== [] || $cleanCta['description'] !== [] || $cleanCta['primary_label'] !== [] || $cleanCta['secondary_label'] !== []) {
+            $metadata['cta'] = $cleanCta;
+        } else {
+            unset($metadata['cta']);
+        }
+
         if ($data['type'] === 'service') {
             $service = (array) data_get($submittedMetadata, 'service', []);
             $metadata['service'] = [

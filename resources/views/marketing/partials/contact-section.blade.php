@@ -19,6 +19,14 @@
                 </div>
             @endif
         </div>
+        @php
+            $projectOptions = __('website.contact.project_options');
+            $requestedProjectType = (string) request('request');
+            $requestedProjectType = is_array($projectOptions) && array_key_exists($requestedProjectType, $projectOptions)
+                ? $requestedProjectType
+                : '';
+            $selectedProjectType = old('project_type', $requestedProjectType);
+        @endphp
         <form class="lead-form" action="{{ route('leads.store') }}" method="post">
             @csrf
             <input type="hidden" name="locale" value="{{ app()->getLocale() }}">
@@ -38,7 +46,7 @@
                 <label><span>{{ __('website.contact.company') }}</span><input name="company" value="{{ old('company') }}" autocomplete="organization"></label>
                 <label><span>{{ __('website.contact.email') }}</span><input type="email" name="email" value="{{ old('email') }}" autocomplete="email" @class(['invalid' => $errors->has('email')])></label>
                 <label><span>{{ __('website.contact.phone') }}</span><input name="phone" value="{{ old('phone') }}" autocomplete="tel" dir="ltr" @class(['invalid' => $errors->has('phone')])></label>
-                <label><span>{{ __('website.contact.project_type') }}</span><select name="project_type" required @class(['invalid' => $errors->has('project_type')])><option value="">—</option>@foreach(__('website.contact.project_options') as $value => $label)<option value="{{ $value }}" @selected(old('project_type') === $value)>{{ $label }}</option>@endforeach</select></label>
+                <label><span>{{ __('website.contact.project_type') }}</span><select name="project_type" required @class(['invalid' => $errors->has('project_type')])><option value="">—</option>@foreach($projectOptions as $value => $label)<option value="{{ $value }}" @selected($selectedProjectType === $value)>{{ $label }}</option>@endforeach</select></label>
                 <label><span>{{ __('website.contact.budget') }}</span><select name="budget"><option value="">—</option>@foreach(__('website.contact.budget_options') as $value => $label)<option value="{{ $value }}" @selected(old('budget') === $value)>{{ $label }}</option>@endforeach</select></label>
                 <label class="form-wide"><span>{{ __('website.contact.message') }}</span><textarea name="message" rows="5" required @class(['invalid' => $errors->has('message')])>{{ old('message') }}</textarea></label>
             </div>

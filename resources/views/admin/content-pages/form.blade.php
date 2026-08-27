@@ -56,6 +56,15 @@
                         </div>
                     </div>
                 @endif
+                <div class="seo-box conversion-editor-box">
+                    <header><span>↗</span><div><h3>Contextual call to action</h3><p>Optional conversion copy for this page. Empty fields use the global proposal text.</p></div></header>
+                    <div class="console-form two-columns">
+                        <label class="field-wide"><span>CTA heading</span><input name="metadata[cta][heading][{{ $locale }}]" maxlength="190" value="{{ old("metadata.cta.heading.$locale", data_get($contentPage->metadata, "cta.heading.$locale")) }}" dir="{{ $config['direction'] }}"></label>
+                        <label class="field-wide"><span>CTA description</span><textarea name="metadata[cta][description][{{ $locale }}]" rows="3" maxlength="500" dir="{{ $config['direction'] }}">{{ old("metadata.cta.description.$locale", data_get($contentPage->metadata, "cta.description.$locale")) }}</textarea></label>
+                        <label><span>Primary button label</span><input name="metadata[cta][primary_label][{{ $locale }}]" maxlength="120" value="{{ old("metadata.cta.primary_label.$locale", data_get($contentPage->metadata, "cta.primary_label.$locale")) }}" dir="{{ $config['direction'] }}"></label>
+                        <label><span>Secondary button label</span><input name="metadata[cta][secondary_label][{{ $locale }}]" maxlength="120" value="{{ old("metadata.cta.secondary_label.$locale", data_get($contentPage->metadata, "cta.secondary_label.$locale")) }}" dir="{{ $config['direction'] }}"></label>
+                    </div>
+                </div>
                 <div class="seo-box">
                     <header><span>◎</span><div><h3>Search & AI discovery</h3><p>Concise facts help search engines and answer systems understand this page.</p></div></header>
                     <div class="console-form two-columns">
@@ -67,7 +76,7 @@
                 <div class="seo-box faq-editor-box">
                     <header><span>?</span><div><h3>Direct answers</h3><p>Add concise questions people may ask search engines or AI assistants. Only complete pairs are published.</p></div></header>
                     <div class="faq-editor-list">
-                        @for($faqIndex = 0; $faqIndex < 4; $faqIndex++)
+                        @for($faqIndex = 0; $faqIndex < 6; $faqIndex++)
                             <fieldset class="faq-editor-item">
                                 <legend>FAQ {{ str_pad((string) ($faqIndex + 1), 2, '0', STR_PAD_LEFT) }}</legend>
                                 <div class="console-form two-columns">
@@ -80,6 +89,14 @@
                 </div>
             </div>
         @endforeach
+
+        <section class="discovery-controls conversion-intent-controls">
+            <div class="form-section-head"><span>CTA</span><div><h2>Conversion destination</h2><p>Choose how the contextual buttons classify the request in the opportunity pipeline.</p></div></div>
+            <div class="console-form two-columns">
+                <label><span>Primary request type</span><select name="metadata[cta][primary_intent]">@foreach(config('website.lead_intents') as $intent => $definition)<option value="{{ $intent }}" @selected(old('metadata.cta.primary_intent', data_get($contentPage->metadata, 'cta.primary_intent', 'proposal')) === $intent)>{{ $definition['label'] }}</option>@endforeach</select></label>
+                <label><span>Secondary request type</span><select name="metadata[cta][secondary_intent]"><option value="">No secondary action</option>@foreach(config('website.lead_intents') as $intent => $definition)<option value="{{ $intent }}" @selected(old('metadata.cta.secondary_intent', data_get($contentPage->metadata, 'cta.secondary_intent')) === $intent)>{{ $definition['label'] }}</option>@endforeach</select><small>A localized secondary label is also required before the button appears.</small></label>
+            </div>
+        </section>
 
         @if($selectedType === 'article')
             <section class="discovery-controls editorial-controls">

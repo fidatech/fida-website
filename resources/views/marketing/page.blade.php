@@ -46,11 +46,32 @@
 <section class="page-content-section">
     <div class="container content-layout">
         <article class="prose reveal">{!! $page->translation('body') !!}</article>
+        @php
+            $primaryIntent = $callToAction['primary_intent'] ?? 'proposal';
+            $primaryParameters = ['interest' => $page->slug];
+            if ($primaryIntent !== 'proposal') {
+                $primaryParameters['request'] = $primaryIntent;
+            }
+            $primaryCtaUrl = App\Support\LocalizedUrl::path('/contact').'?'.http_build_query($primaryParameters).'#contact';
+
+            $secondaryCtaUrl = null;
+            if (($callToAction['secondary_label'] ?? '') !== '' && ($callToAction['secondary_intent'] ?? null)) {
+                $secondaryCtaUrl = App\Support\LocalizedUrl::path('/contact').'?'.http_build_query([
+                    'interest' => $page->slug,
+                    'request' => $callToAction['secondary_intent'],
+                ]).'#contact';
+            }
+        @endphp
         <aside class="page-cta reveal">
             <span>{{ config('website.name') }}</span>
-            <h2>{{ __('website.page.cta_title') }}</h2>
-            <p>{{ __('website.page.cta_description') }}</p>
-            <a class="button button-lime" href="{{ App\Support\LocalizedUrl::path('/contact') }}?interest={{ urlencode($page->slug) }}#contact" data-track-event="cta_click" data-track-label="{{ $page->slug }}">{{ __('website.page.cta') }} <span class="button-arrow">↗</span></a>
+            <h2>{{ ($callToAction['heading'] ?? '') !== '' ? $callToAction['heading'] : __('website.page.cta_title') }}</h2>
+            <p>{{ ($callToAction['description'] ?? '') !== '' ? $callToAction['description'] : __('website.page.cta_description') }}</p>
+            <div class="page-cta-actions">
+                <a class="button button-lime" href="{{ $primaryCtaUrl }}" data-track-event="cta_click" data-track-label="{{ $page->slug }}:{{ $primaryIntent }}">{{ ($callToAction['primary_label'] ?? '') !== '' ? $callToAction['primary_label'] : __('website.page.cta') }} <span class="button-arrow">↗</span></a>
+                @if($secondaryCtaUrl)
+                    <a class="button button-wire" href="{{ $secondaryCtaUrl }}" data-track-event="cta_click" data-track-label="{{ $page->slug }}:{{ $callToAction['secondary_intent'] }}">{{ $callToAction['secondary_label'] }}</a>
+                @endif
+            </div>
         </aside>
     </div>
 </section>

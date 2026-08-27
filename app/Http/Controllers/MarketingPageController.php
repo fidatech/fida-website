@@ -29,6 +29,7 @@ class MarketingPageController extends Controller
         $productProfile = $page->productProfile();
         $serviceProfile = $page->serviceProfile();
         $industryProfile = $page->industryProfile();
+        $callToAction = $page->callToAction();
         $archive = $this->archiveFor($page->type);
         $hubLayout = in_array($page->slug, [
             'about', 'services', 'projects', 'pricing', 'contact',
@@ -58,6 +59,7 @@ class MarketingPageController extends Controller
             'productProfile' => $productProfile,
             'serviceProfile' => $serviceProfile,
             'industryProfile' => $industryProfile,
+            'callToAction' => $callToAction,
             'hubLayout' => $hubLayout,
             'archive' => $archive,
             'collectionPages' => $collectionPages,

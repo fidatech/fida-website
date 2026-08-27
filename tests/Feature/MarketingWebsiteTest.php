@@ -11,6 +11,7 @@ use App\Support\DiscoveryPublisher;
 use Database\Seeders\EnterpriseAuthoritySeeder;
 use Database\Seeders\EnterpriseCoreSeeder;
 use Database\Seeders\EnterpriseErpAuthoritySeeder;
+use Database\Seeders\EnterpriseTrustSeeder;
 use Database\Seeders\ConstructionRealEstateIndustrySeeder;
 use Database\Seeders\ManufacturingHealthcareIndustrySeeder;
 use Database\Seeders\FinanceLogisticsIndustrySeeder;
@@ -375,6 +376,111 @@ class MarketingWebsiteTest extends TestCase
         $this->assertSame('Approved Logistics Page', $logistics->fresh()->translation('title', 'en'));
         $this->assertSame('<h2>Verified logistics editorial content</h2>', $logistics->fresh()->translation('body', 'en'));
         $this->assertDatabaseHas('content_pages', ['slug' => 'financial-management-software-afghanistan']);
+    }
+
+    public function test_enterprise_procurement_and_security_pages_are_localized_actionable_and_discoverable(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $procurement = ContentPage::query()->where('slug', 'software-procurement-tender-support-afghanistan')->firstOrFail();
+        $security = ContentPage::query()->where('slug', 'software-security-hosting-afghanistan')->firstOrFail();
+
+        $this->assertSame('service', $procurement->type);
+        $this->assertSame('software tender company Afghanistan', $procurement->primaryQuery('en'));
+        $this->assertCount(6, $procurement->faqs('en'));
+        $this->assertSame('tender', $procurement->callToAction('en')['primary_intent']);
+        $this->assertSame('company-profile', $procurement->callToAction('en')['secondary_intent']);
+        $this->assertSame('software security hosting Afghanistan', $security->primaryQuery('en'));
+        $this->assertCount(6, $security->faqs('en'));
+
+        $this->get('/software-procurement-tender-support-afghanistan')
+            ->assertOk()
+            ->assertSee('Procurement readiness starts before the proposal is written')
+            ->assertSee('A verified company and bid pack')
+            ->assertSee('Requirements traceability and the technical offer')
+            ->assertSee('Invite Fida to Tender')
+            ->assertSee('Request Company Profile')
+            ->assertSee('request=tender', false)
+            ->assertSee('request=company-profile', false)
+            ->assertSee('Can Fida respond to an RFP or software tender?')
+            ->assertSee('"name":"software tender company Afghanistan"', false)
+            ->assertSee('"@type":"Service"', false);
+
+        $this->get('/contact?request=tender&interest=software-procurement-tender-support-afghanistan')
+            ->assertOk()
+            ->assertSee('<option value="tender" selected>Tender or RFP invitation</option>', false)
+            ->assertSee('name="interest_slug" value="software-procurement-tender-support-afghanistan"', false);
+
+        $this->get('/fa/software-procurement-tender-support-afghanistan')
+            ->assertOk()
+            ->assertSee('<html lang="fa" dir="rtl"', false)
+            ->assertSee('آمادگی تدارکاتی پیش از نوشتن پیشنهاد آغاز می‌شود')
+            ->assertSee('دعوت فیدا به داوطلبی');
+
+        $this->get('/ps/software-security-hosting-afghanistan')
+            ->assertOk()
+            ->assertSee('<html lang="ps" dir="rtl"', false)
+            ->assertSee('امنیت د مسؤلیتونو سیسټم دی')
+            ->assertSee('بیک‌اپ، رغونه او دوام');
+
+        $this->get('/software-security-hosting-afghanistan')
+            ->assertOk()
+            ->assertSee('Security is a system of responsibilities, not a badge')
+            ->assertSee('Cloud, private hosting and on-premise options')
+            ->assertSee('Does Fida guarantee that software has no vulnerabilities?')
+            ->assertSee('href="'.url('/software-training-support-afghanistan').'"', false);
+
+        $this->get('/sitemaps/services.xml')
+            ->assertOk()
+            ->assertSee('software-procurement-tender-support-afghanistan')
+            ->assertSee('software-security-hosting-afghanistan');
+    }
+
+    public function test_enterprise_trust_release_upgrades_known_starter_pages(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $implementation = ContentPage::query()->where('slug', 'erp-implementation-services-afghanistan')->firstOrFail();
+        $support = ContentPage::query()->where('slug', 'software-training-support-afghanistan')->firstOrFail();
+
+        $this->assertCount(6, $implementation->faqs('en'));
+        $this->assertCount(6, $support->faqs('en'));
+        $this->assertStringContainsString('Governance, scope and decision owners', $implementation->translation('body', 'en'));
+        $this->assertStringContainsString('Response, restoration and resolution', $support->translation('body', 'en'));
+
+        $this->get('/erp-implementation-services-afghanistan')
+            ->assertOk()
+            ->assertSee('Implementation turns approved requirements into daily operations')
+            ->assertSee('Quality assurance and defect control')
+            ->assertSee('Who performs UAT?');
+
+        $this->get('/fa/software-training-support-afghanistan')
+            ->assertOk()
+            ->assertSee('<html lang="fa" dir="rtl"', false)
+            ->assertSee('پاسخ، بازیابی خدمت و حل');
+    }
+
+    public function test_enterprise_trust_release_preserves_admin_edited_pages(): void
+    {
+        $implementation = ContentPage::query()->create([
+            'type' => 'service', 'slug' => 'erp-implementation-services-afghanistan',
+            'title' => ['en' => 'Approved Implementation Page'],
+            'body' => ['en' => '<h2>Verified implementation editorial content</h2>'], 'status' => 'published',
+        ]);
+        $support = ContentPage::query()->create([
+            'type' => 'service', 'slug' => 'software-training-support-afghanistan',
+            'title' => ['en' => 'Approved Support Page'],
+            'body' => ['en' => '<h2>Verified support editorial content</h2>'], 'status' => 'published',
+        ]);
+
+        $this->seed(EnterpriseTrustSeeder::class);
+
+        $this->assertSame('Approved Implementation Page', $implementation->fresh()->translation('title', 'en'));
+        $this->assertSame('<h2>Verified implementation editorial content</h2>', $implementation->fresh()->translation('body', 'en'));
+        $this->assertSame('Approved Support Page', $support->fresh()->translation('title', 'en'));
+        $this->assertSame('<h2>Verified support editorial content</h2>', $support->fresh()->translation('body', 'en'));
+        $this->assertDatabaseHas('content_pages', ['slug' => 'software-procurement-tender-support-afghanistan']);
+        $this->assertDatabaseHas('content_pages', ['slug' => 'software-security-hosting-afghanistan']);
     }
 
     public function test_service_detail_uses_cms_profile_and_contextual_conversion_path(): void
@@ -1204,6 +1310,25 @@ class MarketingWebsiteTest extends TestCase
         $response->assertSessionHas('lead_success');
         $this->assertDatabaseCount('leads', 1);
         $this->assertSame('new', Lead::query()->firstOrFail()->status);
+    }
+
+    public function test_tender_and_company_profile_requests_are_recorded_as_distinct_leads(): void
+    {
+        foreach (['tender', 'company-profile'] as $projectType) {
+            $this->post('/contact/lead', [
+                'name' => 'Procurement Contact',
+                'email' => $projectType.'@example.com',
+                'company' => 'Example Institution',
+                'project_type' => $projectType,
+                'message' => 'Please review this authorized institutional procurement request.',
+                'locale' => 'en',
+                'interest_slug' => 'software-procurement-tender-support-afghanistan',
+            ])->assertRedirect()->assertSessionHas('lead_success');
+        }
+
+        $this->assertDatabaseCount('leads', 2);
+        $this->assertDatabaseHas('leads', ['project_type' => 'tender']);
+        $this->assertDatabaseHas('leads', ['project_type' => 'company-profile']);
     }
 
     public function test_honeypot_field_rejects_bot_submissions(): void

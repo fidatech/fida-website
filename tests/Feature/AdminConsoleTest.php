@@ -72,6 +72,9 @@ class AdminConsoleTest extends TestCase
         $this->assertSame('ERP Consulting Afghanistan', $page->title['en']);
         $this->assertSame('What is ERP consulting?', $page->metadata['faqs'][0]['question']['en']);
         $this->assertSame('ERP consulting in Afghanistan', $page->primary_query['en']);
+        $this->assertSame('Invite us to tender', $page->metadata['cta']['primary_label']['en']);
+        $this->assertSame('tender', $page->metadata['cta']['primary_intent']);
+        $this->assertSame('company-profile', $page->metadata['cta']['secondary_intent']);
         $this->assertSame('commercial', $page->search_intent);
         $this->assertTrue($page->sitemap_included);
         $this->assertSame('0.9', $page->sitemap_priority);
@@ -285,6 +288,8 @@ class AdminConsoleTest extends TestCase
             ->assertSee('Include in the appropriate XML sitemap')
             ->assertSee('DISCOVERY READINESS')
             ->assertSee('ERP consulting in Afghanistan')
+            ->assertSee('Contextual call to action')
+            ->assertSee('FAQ 06')
             ->assertSee('Planning field only—never printed as a meta-keywords tag.');
     }
 
@@ -370,10 +375,20 @@ class AdminConsoleTest extends TestCase
             'author_name' => 'Fida Technologies',
             'reviewer_name' => 'Fida Editorial Team',
             'reviewed_at' => now()->format('Y-m-d H:i:s'),
-            'metadata' => ['faqs' => [[
-                'question' => ['en' => 'What is ERP consulting?'],
-                'answer' => ['en' => 'It maps business workflows and turns them into a practical ERP implementation plan.'],
-            ]]],
+            'metadata' => [
+                'faqs' => [[
+                    'question' => ['en' => 'What is ERP consulting?'],
+                    'answer' => ['en' => 'It maps business workflows and turns them into a practical ERP implementation plan.'],
+                ]],
+                'cta' => [
+                    'heading' => ['en' => 'Discuss the procurement'],
+                    'description' => ['en' => 'Send the approved request and deadline.'],
+                    'primary_label' => ['en' => 'Invite us to tender'],
+                    'primary_intent' => 'tender',
+                    'secondary_label' => ['en' => 'Request our profile'],
+                    'secondary_intent' => 'company-profile',
+                ],
+            ],
             'status' => 'published',
             'featured' => '1',
             'sort_order' => 1,

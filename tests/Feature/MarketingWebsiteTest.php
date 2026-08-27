@@ -11,6 +11,7 @@ use App\Support\DiscoveryPublisher;
 use Database\Seeders\EnterpriseAuthoritySeeder;
 use Database\Seeders\EnterpriseCoreSeeder;
 use Database\Seeders\EnterpriseErpAuthoritySeeder;
+use Database\Seeders\EnterpriseInsightsSeeder;
 use Database\Seeders\EnterpriseTrustSeeder;
 use Database\Seeders\ConstructionRealEstateIndustrySeeder;
 use Database\Seeders\ManufacturingHealthcareIndustrySeeder;
@@ -999,6 +1000,89 @@ class MarketingWebsiteTest extends TestCase
             ->assertSee('چگونه یک سیستم ERP در افغانستان انتخاب کنیم')
             ->assertSee('سناریوی خود را از فروشنده بخواهید')
             ->assertSee('href="'.url('/fa/articles').'"', false);
+    }
+
+    public function test_enterprise_insight_guides_are_localized_evidence_based_and_discoverable(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $procurement = ContentPage::query()->where('slug', 'erp-procurement-tender-guide-afghanistan')->firstOrFail();
+        $migration = ContentPage::query()->where('slug', 'erp-data-migration-checklist-afghanistan')->firstOrFail();
+        $security = ContentPage::query()->where('slug', 'software-security-requirements-checklist-afghanistan')->firstOrFail();
+
+        $this->assertSame('business-software-planning', $procurement->articleCategory?->slug);
+        $this->assertSame('business-software-planning', $migration->articleCategory?->slug);
+        $this->assertSame('software-security-resilience', $security->articleCategory?->slug);
+        $this->assertSame('ERP procurement tender guide Afghanistan', $procurement->primaryQuery('en'));
+        $this->assertSame('informational', $procurement->search_intent);
+        $this->assertCount(4, $procurement->faqs('en'));
+        $this->assertCount(4, $migration->faqs('fa'));
+        $this->assertCount(4, $security->faqs('ps'));
+
+        $this->get('/erp-procurement-tender-guide-afghanistan')
+            ->assertOk()
+            ->assertSee('ERP procurement starts with an operating problem, not a product name')
+            ->assertSee('Build a traceable requirements matrix')
+            ->assertSee('World Bank Procurement Regulations for IPF Borrowers, sixth edition')
+            ->assertSee('Can this guide replace procurement law or donor rules?')
+            ->assertSee('href="'.url('/software-procurement-tender-support-afghanistan').'"', false)
+            ->assertSee('"@type":"Article"', false)
+            ->assertSee('"@type":"FAQPage"', false);
+
+        $this->get('/fa/erp-data-migration-checklist-afghanistan')
+            ->assertOk()
+            ->assertSee('<html lang="fa" dir="rtl"', false)
+            ->assertSee('انتقال معلومات یک تصمیم کنترول‌شده تجارتی است')
+            ->assertSee('ساختار، تعداد و ارزش را reconciliation کنید')
+            ->assertSee('چک‌لیست مدیریت معلومات');
+
+        $this->get('/ps/software-security-requirements-checklist-afghanistan')
+            ->assertOk()
+            ->assertSee('<html lang="ps" dir="rtl"', false)
+            ->assertSee('امنیتي اړتیا باید سیسټم او خطر تشریح کړي')
+            ->assertSee('هغه شواهد چې پېرودونکی یې غوښتلی شي')
+            ->assertSee('Secure by Demand لارښود');
+
+        $this->get('/articles')
+            ->assertOk()
+            ->assertSee('ERP Procurement &amp; Tender Guide for Organizations in Afghanistan', false)
+            ->assertSee('ERP Data Migration Checklist: From Legacy Records to Go-Live')
+            ->assertSee('Software Security Requirements Checklist for Business Systems');
+
+        $this->get('/sitemaps/insights.xml')
+            ->assertOk()
+            ->assertSee('erp-procurement-tender-guide-afghanistan')
+            ->assertSee('erp-data-migration-checklist-afghanistan')
+            ->assertSee('software-security-requirements-checklist-afghanistan')
+            ->assertSee('/articles/category/software-security-resilience');
+    }
+
+    public function test_enterprise_insight_seeder_preserves_cms_edits(): void
+    {
+        $category = ArticleCategory::query()->create([
+            'slug' => 'software-security-resilience',
+            'name' => ['en' => 'Approved Security Editorial'],
+            'description' => ['en' => 'CMS-approved category description.'],
+            'active' => true,
+        ]);
+
+        $article = ContentPage::query()->create([
+            'type' => 'article',
+            'article_category_id' => $category->id,
+            'slug' => 'software-security-requirements-checklist-afghanistan',
+            'title' => ['en' => 'Approved Security Article'],
+            'body' => ['en' => '<h2>Verified CMS editorial copy</h2>'],
+            'status' => 'published',
+            'published_at' => now(),
+        ]);
+
+        $this->seed(EnterpriseInsightsSeeder::class);
+
+        $this->assertSame('Approved Security Editorial', $category->fresh()->translation('name', 'en'));
+        $this->assertSame('Approved Security Article', $article->fresh()->translation('title', 'en'));
+        $this->assertSame('<h2>Verified CMS editorial copy</h2>', $article->fresh()->translation('body', 'en'));
+        $this->assertDatabaseHas('content_pages', ['slug' => 'erp-procurement-tender-guide-afghanistan']);
+        $this->assertDatabaseHas('content_pages', ['slug' => 'erp-data-migration-checklist-afghanistan']);
     }
 
     public function test_marketing_seeder_does_not_overwrite_content_edited_in_admin(): void

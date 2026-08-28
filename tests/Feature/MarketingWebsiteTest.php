@@ -15,6 +15,7 @@ use Database\Seeders\EnterpriseInsightsSeeder;
 use Database\Seeders\EnterpriseSolutionLibrarySeeder;
 use Database\Seeders\EnterpriseTrustSeeder;
 use Database\Seeders\ConstructionRealEstateIndustrySeeder;
+use Database\Seeders\EducationLaboratorySolutionSeeder;
 use Database\Seeders\ManufacturingHealthcareIndustrySeeder;
 use Database\Seeders\FinanceLogisticsIndustrySeeder;
 use Database\Seeders\OperationsRelationshipSolutionSeeder;
@@ -1689,5 +1690,90 @@ class MarketingWebsiteTest extends TestCase
         $this->assertDatabaseCount('content_pages', 3);
         $this->assertDatabaseHas('content_pages', ['slug' => 'asset-maintenance-management-software-afghanistan']);
         $this->assertDatabaseHas('content_pages', ['slug' => 'project-management-software-afghanistan']);
+    }
+
+    public function test_education_laboratory_solution_cluster_is_localized_profiled_and_discoverable(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $slugs = [
+            'laboratory-information-system-afghanistan',
+            'school-management-erp-afghanistan',
+            'university-management-information-system-afghanistan',
+        ];
+
+        $pages = ContentPage::query()->whereIn('slug', $slugs)->get()->keyBy('slug');
+
+        $this->assertCount(3, $pages);
+
+        foreach ($slugs as $slug) {
+            $page = $pages->get($slug);
+
+            $this->assertNotNull($page);
+            $this->assertSame('solution', $page->type);
+            $this->assertSame('published', $page->status);
+            $this->assertCount(6, $page->faqs('en'));
+            $this->assertCount(6, $page->faqs('fa'));
+            $this->assertCount(6, $page->faqs('ps'));
+            $this->assertNotEmpty($page->translation('body', 'fa'));
+            $this->assertNotEmpty($page->translation('body', 'ps'));
+            $this->assertCount(6, $page->solutionProfile('en')['capabilities']);
+        }
+
+        $laboratory = $pages->get('laboratory-information-system-afghanistan');
+        $school = $pages->get('school-management-erp-afghanistan');
+
+        $this->assertStringContainsString('protect the chain from request to authorized result', $laboratory->translation('body', 'en'));
+        $this->assertStringContainsString('A school ERP manages daily institutional operations', $school->translation('body', 'en'));
+        $this->assertSame('Identity, accession, quality review, release and amendment', $laboratory->solutionProfile('en')['control']);
+
+        $this->get('/laboratory-information-system-afghanistan')
+            ->assertOk()
+            ->assertSee('solution-profile-section', false)
+            ->assertSee('Result review, critical notification and amendment')
+            ->assertSee('Does the system automatically authorize clinical results?')
+            ->assertSee('/hospital-management-system-afghanistan', false)
+            ->assertSee('Laboratory Quality Management System handbook')
+            ->assertSee('"@type":"Service"', false)
+            ->assertSee('"@type":"FAQPage"', false);
+
+        $this->get('/fa/laboratory-information-system-afghanistan')
+            ->assertOk()
+            ->assertSee('LIS باید زنجیره درخواست تا نتیجه مجاز را محافظت کند');
+
+        $this->get('/ps/school-management-erp-afghanistan')
+            ->assertOk()
+            ->assertSee('د ښوونځي سیسټم باید هر learner record له حساب‌ورکوونکو عملیاتو سره ونښلوي');
+
+        $this->get('/fa/university-management-information-system-afghanistan')
+            ->assertOk()
+            ->assertSee('University MIS باید authority پشت هر academic record را حفظ کند');
+
+        $solutionArchive = $this->get('/solutions')->assertOk();
+        $solutionSitemap = $this->get('/sitemaps/solutions.xml')->assertOk();
+
+        foreach ($slugs as $slug) {
+            $solutionArchive->assertSee('/'.$slug, false);
+            $solutionSitemap->assertSee('/'.$slug, false);
+        }
+    }
+
+    public function test_education_laboratory_solution_seeder_preserves_cms_content(): void
+    {
+        $laboratory = ContentPage::query()->create([
+            'type' => 'solution',
+            'slug' => 'laboratory-information-system-afghanistan',
+            'title' => ['en' => 'Editor-owned LIS page'],
+            'body' => ['en' => '<h2>Approved laboratory editorial</h2>'],
+            'status' => 'published',
+        ]);
+
+        $this->seed(EducationLaboratorySolutionSeeder::class);
+
+        $this->assertSame('Editor-owned LIS page', $laboratory->fresh()->translation('title', 'en'));
+        $this->assertSame('<h2>Approved laboratory editorial</h2>', $laboratory->fresh()->translation('body', 'en'));
+        $this->assertDatabaseCount('content_pages', 3);
+        $this->assertDatabaseHas('content_pages', ['slug' => 'school-management-erp-afghanistan']);
+        $this->assertDatabaseHas('content_pages', ['slug' => 'university-management-information-system-afghanistan']);
     }
 }

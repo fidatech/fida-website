@@ -28,6 +28,7 @@ class WebsiteSeeder extends Seeder
         $this->call(EnterpriseSolutionLibrarySeeder::class);
         $this->call(ProgrammeAccountabilitySolutionSeeder::class);
         $this->call(OperationsRelationshipSolutionSeeder::class);
+        $this->call(EducationLaboratorySolutionSeeder::class);
     }
 
     private function pages(): array

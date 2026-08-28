@@ -22,6 +22,7 @@ use Database\Seeders\OperationsRelationshipSolutionSeeder;
 use Database\Seeders\PriorityIndustrySeeder;
 use Database\Seeders\ProgrammeAccountabilitySolutionSeeder;
 use Database\Seeders\RegulatedCommerceIndustrySeeder;
+use Database\Seeders\ResourceInfrastructureIndustrySeeder;
 use Database\Seeders\WebsiteSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
@@ -1859,5 +1860,82 @@ class MarketingWebsiteTest extends TestCase
         $this->assertDatabaseCount('content_pages', 3);
         $this->assertDatabaseHas('content_pages', ['slug' => 'sarafi-remittance-software-afghanistan']);
         $this->assertDatabaseHas('content_pages', ['slug' => 'wholesale-retail-software-afghanistan']);
+    }
+
+    public function test_resource_and_infrastructure_industries_are_localized_profiled_and_discoverable(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $slugs = [
+            'mining-extractives-software-afghanistan',
+            'energy-utilities-management-software-afghanistan',
+            'agriculture-agribusiness-software-afghanistan',
+        ];
+
+        $pages = ContentPage::query()->whereIn('slug', $slugs)->get()->keyBy('slug');
+
+        $this->assertCount(3, $pages);
+
+        foreach ($slugs as $slug) {
+            $page = $pages->get($slug);
+
+            $this->assertNotNull($page);
+            $this->assertSame('industry', $page->type);
+            $this->assertSame('published', $page->status);
+            $this->assertCount(6, $page->faqs('en'));
+            $this->assertCount(6, $page->faqs('fa'));
+            $this->assertCount(6, $page->faqs('ps'));
+            $this->assertNotEmpty($page->translation('body', 'fa'));
+            $this->assertNotEmpty($page->translation('body', 'ps'));
+            $this->assertCount(8, $page->industryProfile('en')['capabilities']);
+        }
+
+        $this->assertStringContainsString('connect authorized rights to measured operations and accountable payments', $pages->get($slugs[0])->translation('body', 'en'));
+        $this->assertStringContainsString('connect assets, service and meter-to-billing accountability', $pages->get($slugs[1])->translation('body', 'en'));
+        $this->assertStringContainsString('preserve the chain from farm activity to sale', $pages->get($slugs[2])->translation('body', 'en'));
+
+        $this->get('/mining-extractives-software-afghanistan')
+            ->assertOk()
+            ->assertSee('industry-profile-section', false)
+            ->assertSee('Royalties, taxes, fees and other payments')
+            ->assertSee('Can production, stockpiles and dispatch be reconciled?')
+            ->assertSee('2023 EITI Requirements')
+            ->assertSee('href="'.url('/erp-systems-afghanistan').'"', false)
+            ->assertSee('"@type":"FAQPage"', false);
+
+        $this->get('/fa/energy-utilities-management-software-afghanistan')
+            ->assertOk()
+            ->assertSee('نرم‌افزار energy باید asset، service و accountability از meter تا billing را وصل کند')
+            ->assertSee('SCADA');
+
+        $this->get('/ps/agriculture-agribusiness-software-afghanistan')
+            ->assertOk()
+            ->assertSee('agriculture سافټویر باید له farm activity څخه تر sale پورې زنځیر وساتي')
+            ->assertSee('harvest lot');
+
+        $industrySitemap = $this->get('/sitemaps/industries.xml')->assertOk();
+
+        foreach ($slugs as $slug) {
+            $industrySitemap->assertSee('/'.$slug, false);
+        }
+    }
+
+    public function test_resource_and_infrastructure_seeder_preserves_cms_content(): void
+    {
+        $mining = ContentPage::query()->create([
+            'type' => 'industry',
+            'slug' => 'mining-extractives-software-afghanistan',
+            'title' => ['en' => 'Editor-owned mining page'],
+            'body' => ['en' => '<h2>Approved mining editorial</h2>'],
+            'status' => 'published',
+        ]);
+
+        $this->seed(ResourceInfrastructureIndustrySeeder::class);
+
+        $this->assertSame('Editor-owned mining page', $mining->fresh()->translation('title', 'en'));
+        $this->assertSame('<h2>Approved mining editorial</h2>', $mining->fresh()->translation('body', 'en'));
+        $this->assertDatabaseCount('content_pages', 3);
+        $this->assertDatabaseHas('content_pages', ['slug' => 'energy-utilities-management-software-afghanistan']);
+        $this->assertDatabaseHas('content_pages', ['slug' => 'agriculture-agribusiness-software-afghanistan']);
     }
 }

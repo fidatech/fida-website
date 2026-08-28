@@ -12,6 +12,7 @@ use Database\Seeders\EnterpriseAuthoritySeeder;
 use Database\Seeders\EnterpriseCoreSeeder;
 use Database\Seeders\EnterpriseErpAuthoritySeeder;
 use Database\Seeders\EnterpriseInsightsSeeder;
+use Database\Seeders\EnterpriseSolutionLibrarySeeder;
 use Database\Seeders\EnterpriseTrustSeeder;
 use Database\Seeders\ConstructionRealEstateIndustrySeeder;
 use Database\Seeders\ManufacturingHealthcareIndustrySeeder;
@@ -1426,5 +1427,95 @@ class MarketingWebsiteTest extends TestCase
         ])->assertSessionHasErrors('website');
 
         $this->assertDatabaseCount('leads', 0);
+    }
+
+    public function test_priority_enterprise_solution_library_is_localized_profiled_and_discoverable(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $slugs = [
+            'hrmis-payroll-software-afghanistan',
+            'procurement-inventory-management-software-afghanistan',
+            'document-management-workflow-system-afghanistan',
+            'business-intelligence-reporting-afghanistan',
+        ];
+
+        $pages = ContentPage::query()->whereIn('slug', $slugs)->get()->keyBy('slug');
+
+        $this->assertCount(4, $pages);
+
+        foreach ($slugs as $slug) {
+            $page = $pages->get($slug);
+
+            $this->assertNotNull($page);
+            $this->assertSame('solution', $page->type);
+            $this->assertSame('published', $page->status);
+            $this->assertCount(6, $page->faqs('en'));
+            $this->assertNotEmpty($page->translation('body', 'fa'));
+            $this->assertNotEmpty($page->translation('body', 'ps'));
+            $this->assertCount(6, $page->solutionProfile('en')['capabilities']);
+        }
+
+        $this->assertSame(
+            'Approved employment-to-payroll changes',
+            $pages->get('hrmis-payroll-software-afghanistan')->solutionProfile('en')['control'],
+        );
+
+        $this->get('/hrmis-payroll-software-afghanistan')
+            ->assertOk()
+            ->assertSee('solution-profile-section', false)
+            ->assertSee('Controlled payroll preparation')
+            ->assertSee('Attendance &amp; leave', false)
+            ->assertSee('Can fingerprint attendance be integrated?')
+            ->assertSee('/government-public-sector-software-afghanistan', false)
+            ->assertSee('"@type":"Service"', false)
+            ->assertSee('"@type":"FAQPage"', false);
+
+        $this->get('/fa/hrmis-payroll-software-afghanistan')
+            ->assertOk()
+            ->assertSee('آماده‌سازی کنترول‌شده معاش');
+
+        $this->get('/ps/procurement-inventory-management-software-afghanistan')
+            ->assertOk()
+            ->assertSee('د ګدام او موجودۍ کنټرول');
+
+        $this->get('/fa/document-management-workflow-system-afghanistan')
+            ->assertOk()
+            ->assertSee('کنترول نسخه و دسترسی');
+
+        $this->get('/ps/business-intelligence-reporting-afghanistan')
+            ->assertOk()
+            ->assertSee('سوداګریز هوښیارتیا له پرېکړې پیلېږي');
+
+        $solutionArchive = $this->get('/solutions')->assertOk();
+        $solutionSitemap = $this->get('/sitemaps/solutions.xml')->assertOk();
+
+        foreach ($slugs as $slug) {
+            $solutionArchive->assertSee('/'.$slug, false);
+            $solutionSitemap->assertSee('/'.$slug, false);
+        }
+    }
+
+    public function test_solution_library_seeder_preserves_existing_cms_content(): void
+    {
+        ContentPage::query()->create([
+            'type' => 'solution',
+            'slug' => 'hrmis-payroll-software-afghanistan',
+            'title' => ['en' => 'Editor-owned HR platform'],
+            'body' => ['en' => '<h2>Approved editor content</h2><p>This record must stay unchanged.</p>'],
+            'status' => 'published',
+        ]);
+
+        $this->seed(EnterpriseSolutionLibrarySeeder::class);
+
+        $hrmis = ContentPage::query()->where('slug', 'hrmis-payroll-software-afghanistan')->firstOrFail();
+
+        $this->assertSame('Editor-owned HR platform', $hrmis->translation('title', 'en'));
+        $this->assertStringContainsString('Approved editor content', $hrmis->translation('body', 'en'));
+        $this->assertDatabaseCount('content_pages', 4);
+        $this->assertDatabaseHas('content_pages', [
+            'slug' => 'business-intelligence-reporting-afghanistan',
+            'status' => 'published',
+        ]);
     }
 }

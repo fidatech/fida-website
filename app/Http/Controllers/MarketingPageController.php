@@ -28,6 +28,7 @@ class MarketingPageController extends Controller
         $faqs = $page->faqs();
         $productProfile = $page->productProfile();
         $serviceProfile = $page->serviceProfile();
+        $solutionProfile = $page->solutionProfile();
         $industryProfile = $page->industryProfile();
         $callToAction = $page->callToAction();
         $archive = $this->archiveFor($page->type);
@@ -46,6 +47,7 @@ class MarketingPageController extends Controller
             : collect();
         $detailView = match ($page->type) {
             'service' => 'marketing.service',
+            'solution' => 'marketing.solution',
             'product' => 'marketing.product',
             'industry' => 'marketing.industry',
             'article' => 'marketing.article',
@@ -58,6 +60,7 @@ class MarketingPageController extends Controller
             'faqs' => $faqs,
             'productProfile' => $productProfile,
             'serviceProfile' => $serviceProfile,
+            'solutionProfile' => $solutionProfile,
             'industryProfile' => $industryProfile,
             'callToAction' => $callToAction,
             'hubLayout' => $hubLayout,

@@ -106,6 +106,8 @@ return [
         'author_title' => 'Articles by :author | :company', 'published_articles' => 'Published articles',
         'service_profile' => 'Service profile', 'service_profile_title' => 'A clear path from scope to handover.',
         'service_engagement' => 'Engagement', 'service_delivery' => 'Delivery', 'service_handover' => 'Handover',
+        'solution_profile' => 'Solution operating model', 'solution_profile_title' => 'Connect outcomes, control and decisions.',
+        'solution_outcomes' => 'Outcomes', 'solution_control' => 'Control', 'solution_decisions' => 'Decisions',
         'industry_profile' => 'Industry operating model', 'industry_profile_title' => 'Connect operations, control and decisions.',
         'industry_operations' => 'Operations', 'industry_control' => 'Control', 'industry_decisions' => 'Decisions',
     ],

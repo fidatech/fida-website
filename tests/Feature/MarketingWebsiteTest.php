@@ -935,7 +935,7 @@ class MarketingWebsiteTest extends TestCase
             ->assertSee('<h1>Software &amp; Technology Services</h1>', false)
             ->assertSee('ERP Systems in Afghanistan')
             ->assertSee('ERP Implementation Services in Afghanistan')
-            ->assertSee('Accounting Software in Afghanistan')
+            ->assertSee('Accounting &amp; Financial Management Software in Afghanistan', false)
             ->assertSee('"@type":"CollectionPage"', false);
 
         $this->get('/projects')

@@ -18,6 +18,7 @@ use Database\Seeders\ConstructionRealEstateIndustrySeeder;
 use Database\Seeders\ManufacturingHealthcareIndustrySeeder;
 use Database\Seeders\FinanceLogisticsIndustrySeeder;
 use Database\Seeders\PriorityIndustrySeeder;
+use Database\Seeders\ProgrammeAccountabilitySolutionSeeder;
 use Database\Seeders\WebsiteSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
@@ -1517,5 +1518,95 @@ class MarketingWebsiteTest extends TestCase
             'slug' => 'business-intelligence-reporting-afghanistan',
             'status' => 'published',
         ]);
+    }
+
+    public function test_programme_accountability_solution_cluster_is_localized_profiled_and_discoverable(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $slugs = [
+            'accounting-software-afghanistan',
+            'grant-management-system-afghanistan',
+            'monitoring-evaluation-meal-system-afghanistan',
+            'beneficiary-case-management-system-afghanistan',
+        ];
+
+        $pages = ContentPage::query()->whereIn('slug', $slugs)->get()->keyBy('slug');
+
+        $this->assertCount(4, $pages);
+
+        foreach ($slugs as $slug) {
+            $page = $pages->get($slug);
+
+            $this->assertNotNull($page);
+            $this->assertSame('solution', $page->type);
+            $this->assertSame('published', $page->status);
+            $this->assertCount(6, $page->faqs('en'));
+            $this->assertNotEmpty($page->translation('body', 'fa'));
+            $this->assertNotEmpty($page->translation('body', 'ps'));
+            $this->assertCount(6, $page->solutionProfile('en')['capabilities']);
+        }
+
+        $accounting = $pages->get('accounting-software-afghanistan');
+        $this->assertStringContainsString('Accounting software should explain every material balance', $accounting->translation('body', 'en'));
+        $this->assertSame('Approved entries, reconciliation and close', $accounting->solutionProfile('en')['control']);
+
+        $this->get('/accounting-software-afghanistan')
+            ->assertOk()
+            ->assertSee('solution-profile-section', false)
+            ->assertSee('Reconciliation and period close')
+            ->assertSee('Does the system determine accounting or tax policy?')
+            ->assertSee('/procurement-inventory-management-software-afghanistan', false)
+            ->assertSee('"@type":"Service"', false)
+            ->assertSee('"@type":"FAQPage"', false);
+
+        $this->get('/fa/grant-management-system-afghanistan')
+            ->assertOk()
+            ->assertSee('مدیریت grant باید دوره حساب‌ده award را حفظ کند');
+
+        $this->get('/ps/monitoring-evaluation-meal-system-afghanistan')
+            ->assertOk()
+            ->assertSee('د M&E سیسټم باید راپور شوې پایله', false);
+
+        $this->get('/fa/beneficiary-case-management-system-afghanistan')
+            ->assertOk()
+            ->assertSee('سیستم مستفیدشونده تنها معلومات لازم');
+
+        $solutionArchive = $this->get('/solutions')->assertOk();
+        $solutionSitemap = $this->get('/sitemaps/solutions.xml')->assertOk();
+
+        foreach ($slugs as $slug) {
+            $solutionArchive->assertSee('/'.$slug, false);
+            $solutionSitemap->assertSee('/'.$slug, false);
+        }
+    }
+
+    public function test_programme_accountability_seeder_preserves_cms_content(): void
+    {
+        $accounting = ContentPage::query()->create([
+            'type' => 'solution',
+            'slug' => 'accounting-software-afghanistan',
+            'title' => ['en' => 'Editor-owned accounting page'],
+            'body' => ['en' => '<h2>Approved accounting editorial</h2>'],
+            'status' => 'published',
+        ]);
+
+        $grant = ContentPage::query()->create([
+            'type' => 'solution',
+            'slug' => 'grant-management-system-afghanistan',
+            'title' => ['en' => 'Editor-owned grant page'],
+            'body' => ['en' => '<h2>Approved grant editorial</h2>'],
+            'status' => 'published',
+        ]);
+
+        $this->seed(ProgrammeAccountabilitySolutionSeeder::class);
+
+        $this->assertSame('Editor-owned accounting page', $accounting->fresh()->translation('title', 'en'));
+        $this->assertSame('<h2>Approved accounting editorial</h2>', $accounting->fresh()->translation('body', 'en'));
+        $this->assertSame('Editor-owned grant page', $grant->fresh()->translation('title', 'en'));
+        $this->assertSame('<h2>Approved grant editorial</h2>', $grant->fresh()->translation('body', 'en'));
+        $this->assertDatabaseCount('content_pages', 4);
+        $this->assertDatabaseHas('content_pages', ['slug' => 'monitoring-evaluation-meal-system-afghanistan']);
+        $this->assertDatabaseHas('content_pages', ['slug' => 'beneficiary-case-management-system-afghanistan']);
     }
 }

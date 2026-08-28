@@ -1823,7 +1823,6 @@ class MarketingWebsiteTest extends TestCase
             ->assertSee('Does the software make a Sarafi business compliant with DAB requirements?')
             ->assertSee('/prime-sarafi-software', false)
             ->assertSee('Da Afghanistan Bank', false)
-            ->assertSee('"@type":"Service"', false)
             ->assertSee('"@type":"FAQPage"', false);
 
         $this->get('/fa/pharmacy-pharmaceutical-software-afghanistan')

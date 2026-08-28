@@ -21,6 +21,7 @@ use Database\Seeders\FinanceLogisticsIndustrySeeder;
 use Database\Seeders\OperationsRelationshipSolutionSeeder;
 use Database\Seeders\PriorityIndustrySeeder;
 use Database\Seeders\ProgrammeAccountabilitySolutionSeeder;
+use Database\Seeders\RegulatedCommerceIndustrySeeder;
 use Database\Seeders\WebsiteSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
@@ -1775,5 +1776,89 @@ class MarketingWebsiteTest extends TestCase
         $this->assertDatabaseCount('content_pages', 3);
         $this->assertDatabaseHas('content_pages', ['slug' => 'school-management-erp-afghanistan']);
         $this->assertDatabaseHas('content_pages', ['slug' => 'university-management-information-system-afghanistan']);
+    }
+
+    public function test_regulated_commerce_industries_are_upgraded_localized_profiled_and_discoverable(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $slugs = [
+            'sarafi-remittance-software-afghanistan',
+            'pharmacy-pharmaceutical-software-afghanistan',
+            'wholesale-retail-software-afghanistan',
+        ];
+
+        $pages = ContentPage::query()->whereIn('slug', $slugs)->get()->keyBy('slug');
+
+        $this->assertCount(3, $pages);
+
+        foreach ($slugs as $slug) {
+            $page = $pages->get($slug);
+
+            $this->assertNotNull($page);
+            $this->assertSame('industry', $page->type);
+            $this->assertSame('published', $page->status);
+            $this->assertCount(6, $page->faqs('en'));
+            $this->assertCount(6, $page->faqs('fa'));
+            $this->assertCount(6, $page->faqs('ps'));
+            $this->assertNotEmpty($page->translation('body', 'fa'));
+            $this->assertNotEmpty($page->translation('body', 'ps'));
+            $this->assertCount(8, $page->industryProfile('en')['capabilities']);
+        }
+
+        $sarafi = $pages->get('sarafi-remittance-software-afghanistan');
+        $pharmaceutical = $pages->get('pharmacy-pharmaceutical-software-afghanistan');
+        $wholesale = $pages->get('wholesale-retail-software-afghanistan');
+
+        $this->assertStringContainsString('make every movement of value explainable', $sarafi->translation('body', 'en'));
+        $this->assertStringContainsString('preserve product quality and accountability', $pharmaceutical->translation('body', 'en'));
+        $this->assertStringContainsString('keep product, stock, customer and money in agreement', $wholesale->translation('body', 'en'));
+        $this->assertDatabaseHas('content_pages', ['slug' => 'prime-sarafi-software', 'type' => 'product']);
+        $this->assertDatabaseHas('content_pages', ['slug' => 'darmal-pharmacy-erp', 'type' => 'product']);
+
+        $this->get('/sarafi-remittance-software-afghanistan')
+            ->assertOk()
+            ->assertSee('industry-profile-section', false)
+            ->assertSee('AML/CFT evidence and regulatory reporting')
+            ->assertSee('Does the software make a Sarafi business compliant with DAB requirements?')
+            ->assertSee('/prime-sarafi-software', false)
+            ->assertSee('Da Afghanistan Bank', false)
+            ->assertSee('"@type":"Service"', false)
+            ->assertSee('"@type":"FAQPage"', false);
+
+        $this->get('/fa/pharmacy-pharmaceutical-software-afghanistan')
+            ->assertOk()
+            ->assertSee('نرم‌افزار pharmaceutical باید quality و accountability دوا را در supply chain حفظ کند')
+            ->assertSee('Darmal ERP');
+
+        $this->get('/ps/wholesale-retail-software-afghanistan')
+            ->assertOk()
+            ->assertSee('commerce سافټویر باید product، stock، customer او money په توافق کې وساتي')
+            ->assertSee('retail POS');
+
+        $industrySitemap = $this->get('/sitemaps/industries.xml')->assertOk();
+
+        foreach ($slugs as $slug) {
+            $industrySitemap->assertSee('/'.$slug, false);
+        }
+    }
+
+    public function test_regulated_commerce_release_seeder_preserves_cms_content(): void
+    {
+        $pharmaceutical = ContentPage::query()->create([
+            'type' => 'industry',
+            'slug' => 'pharmacy-pharmaceutical-software-afghanistan',
+            'title' => ['en' => 'Editor-owned pharmaceutical page'],
+            'body' => ['en' => '<h2>Approved pharmaceutical editorial</h2>'],
+            'status' => 'published',
+        ]);
+
+        $this->seed(RegulatedCommerceIndustrySeeder::class);
+
+        $this->assertSame('Editor-owned pharmaceutical page', $pharmaceutical->fresh()->translation('title', 'en'));
+        $this->assertSame('<h2>Approved pharmaceutical editorial</h2>', $pharmaceutical->fresh()->translation('body', 'en'));
+        $this->assertDatabaseCount('content_pages', 3);
+        $this->assertDatabaseHas('content_pages', ['slug' => 'sarafi-remittance-software-afghanistan']);
+        $this->assertDatabaseHas('content_pages', ['slug' => 'wholesale-retail-software-afghanistan']);
     }
 }

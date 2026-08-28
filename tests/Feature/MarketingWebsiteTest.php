@@ -17,6 +17,7 @@ use Database\Seeders\EnterpriseTrustSeeder;
 use Database\Seeders\ConstructionRealEstateIndustrySeeder;
 use Database\Seeders\ManufacturingHealthcareIndustrySeeder;
 use Database\Seeders\FinanceLogisticsIndustrySeeder;
+use Database\Seeders\OperationsRelationshipSolutionSeeder;
 use Database\Seeders\PriorityIndustrySeeder;
 use Database\Seeders\ProgrammeAccountabilitySolutionSeeder;
 use Database\Seeders\WebsiteSeeder;
@@ -1608,5 +1609,85 @@ class MarketingWebsiteTest extends TestCase
         $this->assertDatabaseCount('content_pages', 4);
         $this->assertDatabaseHas('content_pages', ['slug' => 'monitoring-evaluation-meal-system-afghanistan']);
         $this->assertDatabaseHas('content_pages', ['slug' => 'beneficiary-case-management-system-afghanistan']);
+    }
+
+    public function test_operations_relationship_solution_cluster_is_localized_profiled_and_discoverable(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $slugs = [
+            'crm-customer-service-software-afghanistan',
+            'asset-maintenance-management-software-afghanistan',
+            'project-management-software-afghanistan',
+        ];
+
+        $pages = ContentPage::query()->whereIn('slug', $slugs)->get()->keyBy('slug');
+
+        $this->assertCount(3, $pages);
+
+        foreach ($slugs as $slug) {
+            $page = $pages->get($slug);
+
+            $this->assertNotNull($page);
+            $this->assertSame('solution', $page->type);
+            $this->assertSame('published', $page->status);
+            $this->assertCount(6, $page->faqs('en'));
+            $this->assertNotEmpty($page->translation('body', 'fa'));
+            $this->assertNotEmpty($page->translation('body', 'ps'));
+            $this->assertCount(6, $page->solutionProfile('en')['capabilities']);
+        }
+
+        $crm = $pages->get('crm-customer-service-software-afghanistan');
+        $this->assertStringContainsString('CRM should preserve one accountable customer relationship', $crm->translation('body', 'en'));
+        $this->assertSame('Qualification, pricing, handover, cases and commitments', $crm->solutionProfile('en')['control']);
+
+        $this->get('/crm-customer-service-software-afghanistan')
+            ->assertOk()
+            ->assertSee('solution-profile-section', false)
+            ->assertSee('Customer service cases and queues')
+            ->assertSee('Can cases be measured against service commitments?')
+            ->assertSee('/accounting-software-afghanistan', false)
+            ->assertSee('Microsoft', false)
+            ->assertSee('"@type":"Service"', false)
+            ->assertSee('"@type":"FAQPage"', false);
+
+        $this->get('/fa/crm-customer-service-software-afghanistan')
+            ->assertOk()
+            ->assertSee('CRM باید یک ارتباط حساب‌ده مشتری را حفظ کند');
+
+        $this->get('/ps/asset-maintenance-management-software-afghanistan')
+            ->assertOk()
+            ->assertSee('د asset مدیریت مالکیت، condition، work او cost نښلوي');
+
+        $this->get('/fa/project-management-software-afghanistan')
+            ->assertOk()
+            ->assertSee('نرم‌افزار پروژه باید plan مجاز را به delivery evidence وصل کند');
+
+        $solutionArchive = $this->get('/solutions')->assertOk();
+        $solutionSitemap = $this->get('/sitemaps/solutions.xml')->assertOk();
+
+        foreach ($slugs as $slug) {
+            $solutionArchive->assertSee('/'.$slug, false);
+            $solutionSitemap->assertSee('/'.$slug, false);
+        }
+    }
+
+    public function test_operations_relationship_solution_seeder_preserves_cms_content(): void
+    {
+        $crm = ContentPage::query()->create([
+            'type' => 'solution',
+            'slug' => 'crm-customer-service-software-afghanistan',
+            'title' => ['en' => 'Editor-owned CRM page'],
+            'body' => ['en' => '<h2>Approved customer editorial</h2>'],
+            'status' => 'published',
+        ]);
+
+        $this->seed(OperationsRelationshipSolutionSeeder::class);
+
+        $this->assertSame('Editor-owned CRM page', $crm->fresh()->translation('title', 'en'));
+        $this->assertSame('<h2>Approved customer editorial</h2>', $crm->fresh()->translation('body', 'en'));
+        $this->assertDatabaseCount('content_pages', 3);
+        $this->assertDatabaseHas('content_pages', ['slug' => 'asset-maintenance-management-software-afghanistan']);
+        $this->assertDatabaseHas('content_pages', ['slug' => 'project-management-software-afghanistan']);
     }
 }

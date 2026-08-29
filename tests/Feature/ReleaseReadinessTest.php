@@ -113,6 +113,7 @@ class ReleaseReadinessTest extends TestCase
     {
         config()->set('website.indexable', false);
         config()->set('website.url', 'http://stage.fida.af');
+        config()->set('website.social_image', 'http://stage.fida.af/images/fida-social-preview.png');
         config()->set('app.debug', true);
 
         $report = app(WebsiteReleaseAudit::class)->run(production: true);

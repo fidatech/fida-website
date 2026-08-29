@@ -32,6 +32,7 @@ REMOTE_MAIN="$(git -C "$STAGING_REPO" rev-parse origin/main)"
 [[ "$REMOTE_MAIN" == "$APPROVED_SHA" ]] || fail "origin/main is $REMOTE_MAIN, not the approved $APPROVED_SHA."
 
 RESUME_PRODUCTION_REPO=false
+RESUME_ENV_PRESENT=false
 
 if [[ -e "$PRODUCTION_REPO" ]]; then
     [[ -d "$PRODUCTION_REPO" ]] || fail "Production repository path is not a directory: $PRODUCTION_REPO"
@@ -48,8 +49,27 @@ if [[ -e "$PRODUCTION_REPO" ]]; then
         || fail 'The existing production worktree is not an ancestor of the approved commit.'
     [[ -z "$(git -C "$PRODUCTION_REPO" status --porcelain --untracked-files=no)" ]] \
         || fail 'The existing production worktree has tracked changes. Stop for review.'
-    [[ ! -e "$PRODUCTION_REPO/.env" ]] \
-        || fail 'The existing production worktree is already configured. Stop for review instead of resuming.'
+
+    if [[ -e "$PRODUCTION_REPO/.env" ]]; then
+        [[ -f "$PRODUCTION_REPO/.env" && ! -L "$PRODUCTION_REPO/.env" ]] \
+            || fail 'The existing production .env is not a regular file.'
+
+        for expected_setting in \
+            'APP_ENV=production' \
+            'APP_DEBUG=false' \
+            'APP_URL=https://fida.af' \
+            'WEBSITE_INDEXABLE=true' \
+            'DB_DATABASE=fida_website_prod' \
+            'DB_USERNAME=fida_webprod'; do
+            grep -Fxq "$expected_setting" "$PRODUCTION_REPO/.env" \
+                || fail "The incomplete production .env failed validation: $expected_setting"
+        done
+
+        grep -Eq '^APP_KEY=base64:[A-Za-z0-9+/=]+$' "$PRODUCTION_REPO/.env" \
+            || fail 'The incomplete production .env does not contain a generated application key.'
+
+        RESUME_ENV_PRESENT=true
+    fi
 
     RESUME_PRODUCTION_REPO=true
 fi
@@ -108,6 +128,10 @@ FIDA_PRODUCTION_DATABASE_PASSWORD="$PRODUCTION_DATABASE_PASSWORD" php -r '
 
 PRODUCTION_TABLES="$(mariadb --defaults-extra-file="$PRODUCTION_CLIENT_FILE" --batch --skip-column-names --database="$PRODUCTION_DATABASE" --execute="SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = DATABASE();")"
 [[ "$PRODUCTION_TABLES" == '0' ]] || fail "The production database already contains $PRODUCTION_TABLES tables. Stop for review."
+
+if [[ "$RESUME_ENV_PRESENT" == true ]]; then
+    printf 'Verified the incomplete production configuration against the empty production database.\n'
+fi
 
 if [[ "$RESUME_PRODUCTION_REPO" == true ]]; then
     printf 'Resuming the verified production worktree at %s.\n' "$PRODUCTION_REPO"
@@ -202,8 +226,9 @@ FIDA_PRODUCTION_DATABASE_PASSWORD="$PRODUCTION_DATABASE_PASSWORD" php -r '
 
 (
     cd "$PRODUCTION_REPO"
+    php artisan config:clear
     php artisan key:generate --force
-    php artisan optimize:clear
+    CACHE_STORE=array php artisan optimize:clear
 )
 
 STAGING_DATABASE="$(php -r '

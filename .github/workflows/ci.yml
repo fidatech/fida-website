@@ -41,6 +41,7 @@ jobs:
           bash -n scripts/cutover-cpanel-production.sh
           bash -n scripts/rollback-cpanel-production.sh
           grep -Fq 'APP_KEY="$TEST_APP_KEY"' scripts/prepare-cpanel-production.sh
+          grep -Fq 'APP_URL=http://localhost' scripts/prepare-cpanel-production.sh
           php -l deployment/cpanel-main-root/index.php
 
       - name: Install PHP dependencies

@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(WebsiteSeeder::class);
         $this->call(EnterpriseAuthoritySeeder::class);
         $this->call(EnterpriseCoreSeeder::class);
+        $this->call(ReleaseDiscoveryCleanupSeeder::class);
     }
 }

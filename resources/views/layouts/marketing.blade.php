@@ -65,7 +65,11 @@
     <meta name="twitter:description" content="{{ $seo['description'] }}">
     @if($seo['image'] ?? config('website.social_image'))
         <meta property="og:image" content="{{ $seo['image'] ?? config('website.social_image') }}">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta property="og:image:alt" content="{{ __('website.seo.social_image_alt') }}">
         <meta name="twitter:image" content="{{ $seo['image'] ?? config('website.social_image') }}">
+        <meta name="twitter:image:alt" content="{{ __('website.seo.social_image_alt') }}">
     @endif
     @if($seo['author'] ?? null)<meta name="author" content="{{ $seo['author'] }}">@endif
 

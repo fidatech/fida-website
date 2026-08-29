@@ -6,6 +6,7 @@ return [
             'title' => 'Enterprise Software, ERP & Digital Transformation Afghanistan | Fida',
             'description' => 'Fida Technologies delivers enterprise software, ERP, MIS, system integration and digital transformation for organizations in Afghanistan.',
         ],
+        'social_image_alt' => 'Fida Technologies — enterprise software, ERP and digital transformation in Afghanistan',
     ],
     'nav' => [
         'home' => 'Home', 'about' => 'About', 'company' => 'Company', 'services' => 'Services', 'projects' => 'Projects',

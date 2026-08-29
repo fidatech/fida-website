@@ -47,7 +47,7 @@ jobs:
       - name: Validate database and test suite
         run: |
           php artisan migrate --seed --force
-          php artisan website:release-audit
+          php artisan website:release-audit --show-warnings
           php artisan test
 
       - name: Build frontend assets

@@ -6,6 +6,7 @@ use App\Models\ContentPage;
 use App\Support\LocalizedUrl;
 use App\Support\WebsiteReleaseAudit;
 use Database\Seeders\DatabaseSeeder;
+use Database\Seeders\ReleaseDiscoveryCleanupSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -30,6 +31,8 @@ class ReleaseReadinessTest extends TestCase
         $this->assertSame([], $blockers, json_encode($blockers, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
         $this->assertTrue($report['ready']);
         $this->assertSame([], $report['summary']['blocker_codes']);
+        $this->assertArrayNotHasKey('missing-primary-query', $report['summary']['warning_codes']);
+        $this->assertArrayNotHasKey('missing-social-image', $report['summary']['warning_codes']);
         $this->assertGreaterThan(0, $report['summary']['public_pages']);
         $this->assertSame(
             $report['summary']['public_pages'] * count(config('website.locales')),
@@ -39,6 +42,32 @@ class ReleaseReadinessTest extends TestCase
         $this->artisan('website:release-audit')
             ->expectsOutputToContain('Release audit passed with no blockers.')
             ->assertSuccessful();
+    }
+
+    public function test_discovery_cleanup_fills_only_missing_localized_primary_topics(): void
+    {
+        $page = ContentPage::query()->create([
+            'type' => 'solution',
+            'slug' => 'discovery-cleanup-fixture',
+            'title' => [
+                'en' => 'Localized fixture title',
+                'fa' => 'عنوان محلی آزمایشی',
+                'ps' => 'ځايي ازمایښتي سرلیک',
+            ],
+            'primary_query' => [
+                'en' => 'Editor-selected primary topic',
+                'fa' => '',
+            ],
+            'status' => 'published',
+            'published_at' => now(),
+        ]);
+
+        $this->seed(ReleaseDiscoveryCleanupSeeder::class);
+        $page->refresh();
+
+        $this->assertSame('Editor-selected primary topic', $page->primary_query['en']);
+        $this->assertSame('عنوان محلی آزمایشی', $page->primary_query['fa']);
+        $this->assertSame('ځايي ازمایښتي سرلیک', $page->primary_query['ps']);
     }
 
     public function test_release_audit_blocks_missing_localization_broken_links_and_discovery_conflicts(): void
@@ -99,11 +128,16 @@ class ReleaseReadinessTest extends TestCase
                     : '/'.$locale.'/'.$page->slug;
                 $canonical = LocalizedUrl::path('/'.$page->slug, $locale);
                 $skipLabel = trans('website.accessibility.skip_to_content', [], $locale);
+                $socialImageAlt = trans('website.seo.social_image_alt', [], $locale);
 
                 $this->get($path)
                     ->assertOk()
                     ->assertSee('<html lang="'.$locale.'" dir="'.$definition['direction'].'"', false)
                     ->assertSee('<link rel="canonical" href="'.$canonical.'">', false)
+                    ->assertSee('<meta property="og:image" content="'.config('website.social_image').'">', false)
+                    ->assertSee('<meta property="og:image:width" content="1200">', false)
+                    ->assertSee('<meta property="og:image:height" content="630">', false)
+                    ->assertSee('<meta property="og:image:alt" content="'.$socialImageAlt.'">', false)
                     ->assertSee('href="#main">'.$skipLabel, false)
                     ->assertSee('<main id="main">', false);
 

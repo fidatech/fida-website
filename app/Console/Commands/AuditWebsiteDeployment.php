@@ -241,7 +241,7 @@ class AuditWebsiteDeployment extends Command
                 ->withOptions(['allow_redirects' => false])
                 ->get($url);
         } catch (Throwable $exception) {
-            $this->fail($url, 'Request completes successfully', $exception->getMessage());
+            $this->recordFailure($url, 'Request completes successfully', $exception->getMessage());
             $this->responses[$url] = null;
 
             return null;
@@ -280,7 +280,7 @@ class AuditWebsiteDeployment extends Command
         }
     }
 
-    private function fail(string $url, string $check, string $observed): void
+    private function recordFailure(string $url, string $check, string $observed): void
     {
         $this->checks++;
         $this->failures[] = compact('url', 'check', 'observed');

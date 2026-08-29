@@ -122,16 +122,16 @@ svg { display: block; }
 .nav-mega-menu-products { width: min(570px, calc(100vw - 40px)); }
 .nav-mega-menu-single { width: min(430px, calc(100vw - 40px)); grid-template-columns: 1fr; }
 .nav-mega-menu-columns { width: min(760px, calc(100vw - 48px)); max-height: min(72vh, 620px); grid-template-columns: 1fr; overflow-x: hidden; overflow-y: auto; scrollbar-color: rgba(var(--accent-rgb), .35) transparent; scrollbar-width: thin; }
-.nav-mega-menu-columns-3 { width: min(880px, calc(100vw - 48px)); }
 .nav-mega-link-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3px; }
-.nav-mega-menu-columns-3 .nav-mega-link-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.nav-mega-link-grid a { min-width: 0; }
+.nav-mega-menu-industries { width: min(880px, calc(100vw - 48px)); }
+.nav-mega-link-grid a { min-width: 0; min-height: 52px; align-items: center; padding: 10px 12px; white-space: normal; }
+.nav-mega-link-grid a small { margin-inline-start: auto; }
 .nav-mega-menu-projects { width: min(660px, calc(100vw - 48px)); grid-template-columns: minmax(210px, .72fr) minmax(300px, 1.28fr); }
 .nav-mega-menu-company { width: min(430px, calc(100vw - 48px)); max-height: min(72vh, 620px); grid-template-columns: 1fr; overflow-x: hidden; overflow-y: auto; }
 .nav-mega-menu section { min-width: 0; padding: 7px; }
 .nav-mega-menu section + section { border-inline-start: 1px solid var(--line); padding-inline-start: 18px; }
 .nav-cluster-heading { display: block; margin: 3px 12px 10px; color: #777b85; font: 10px ui-monospace, monospace; letter-spacing: .13em; text-transform: uppercase; }
-.nav-mega-menu a { min-height: 40px; align-items: center; gap: 13px; padding-block: 8px; line-height: 1.35; }
+.nav-mega-menu a { min-height: 40px; align-items: center; gap: 13px; padding-block: 8px; line-height: 1.35; white-space: normal; }
 .nav-mega-menu a small { flex: 0 0 auto; }
 .nav-mega-menu .nav-cluster-overview { margin-bottom: 6px; color: var(--lime); border-color: rgba(var(--accent-rgb),.1); background: linear-gradient(90deg, rgba(var(--accent-rgb),.075), rgba(var(--accent-rgb),.025)); }
 .nav-cluster-menu.nav-mega-menu-align-right { left: auto; right: 0; transform: translateY(-7px) scale(.985); transform-origin: top right; }

@@ -8,6 +8,7 @@ use App\Models\ArticleCategory;
 use App\Models\ContentPage;
 use App\Models\Lead;
 use App\Support\DiscoveryPublisher;
+use Database\Seeders\DatabaseSeeder;
 use Database\Seeders\EnterpriseAuthoritySeeder;
 use Database\Seeders\EnterpriseCoreSeeder;
 use Database\Seeders\EnterpriseErpAuthoritySeeder;
@@ -1942,7 +1943,7 @@ class MarketingWebsiteTest extends TestCase
 
     public function test_trade_and_telecommunications_industries_are_localized_profiled_and_link_complete(): void
     {
-        $this->seed(WebsiteSeeder::class);
+        $this->seed(DatabaseSeeder::class);
 
         $slugs = [
             'import-export-trade-management-software-afghanistan',

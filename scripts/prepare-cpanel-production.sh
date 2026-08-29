@@ -28,7 +28,7 @@ for command_name in git php composer npm mariadb mariadb-dump; do
     require_command "$command_name"
 done
 
-git -C "$STAGING_REPO" fetch origin main
+git -C "$STAGING_REPO" fetch origin main:refs/remotes/origin/main
 REMOTE_MAIN="$(git -C "$STAGING_REPO" rev-parse origin/main)"
 [[ "$REMOTE_MAIN" == "$APPROVED_SHA" ]] || fail "origin/main is $REMOTE_MAIN, not the approved $APPROVED_SHA."
 

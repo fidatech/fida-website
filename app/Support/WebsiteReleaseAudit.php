@@ -174,7 +174,7 @@ final class WebsiteReleaseAudit
 
     private function auditProductionEnvironment(array &$findings): void
     {
-        if (! app()->environment('production')) {
+        if (config('app.env') !== 'production') {
             $this->add($findings, 'blocker', 'production-environment', null, 'APP_ENV must be production for a production release.');
         }
 

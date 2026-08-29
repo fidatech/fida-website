@@ -17,7 +17,7 @@ class AddSecurityHeaders
         $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
         $response->headers->set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
 
-        if (app()->environment('production') && $request->isSecure()) {
+        if (config('app.env') === 'production' && $request->isSecure()) {
             $response->headers->set('Strict-Transport-Security', 'max-age=31536000');
         }
 

@@ -43,8 +43,9 @@ if [[ -e "$PRODUCTION_REPO" ]]; then
 
     [[ "$PRODUCTION_COMMON_GIT_DIR" == "$STAGING_COMMON_GIT_DIR" ]] \
         || fail 'The existing production directory does not belong to the staging repository worktree set.'
-    [[ "$(git -C "$PRODUCTION_REPO" rev-parse HEAD)" == "$APPROVED_SHA" ]] \
-        || fail 'The existing production worktree is not on the approved commit.'
+    EXISTING_PRODUCTION_SHA="$(git -C "$PRODUCTION_REPO" rev-parse HEAD)"
+    git -C "$STAGING_REPO" merge-base --is-ancestor "$EXISTING_PRODUCTION_SHA" "$APPROVED_SHA" \
+        || fail 'The existing production worktree is not an ancestor of the approved commit.'
     [[ -z "$(git -C "$PRODUCTION_REPO" status --porcelain --untracked-files=no)" ]] \
         || fail 'The existing production worktree has tracked changes. Stop for review.'
     [[ ! -e "$PRODUCTION_REPO/.env" ]] \
@@ -110,6 +111,9 @@ PRODUCTION_TABLES="$(mariadb --defaults-extra-file="$PRODUCTION_CLIENT_FILE" --b
 
 if [[ "$RESUME_PRODUCTION_REPO" == true ]]; then
     printf 'Resuming the verified production worktree at %s.\n' "$PRODUCTION_REPO"
+    if [[ "$EXISTING_PRODUCTION_SHA" != "$APPROVED_SHA" ]]; then
+        git -C "$PRODUCTION_REPO" switch --detach "$APPROVED_SHA"
+    fi
 else
     git -C "$STAGING_REPO" worktree add --detach "$PRODUCTION_REPO" "$APPROVED_SHA"
 fi

@@ -770,7 +770,7 @@ class MarketingWebsiteTest extends TestCase
             ->assertSee('data-nav-cluster-button aria-expanded="false">Solutions<svg', false)
             ->assertSee('data-nav-cluster-button aria-expanded="false">Projects<svg', false)
             ->assertSee('class="nav-cluster-menu nav-mega-menu nav-mega-menu-columns nav-mega-menu-columns-2"', false)
-            ->assertSee('class="nav-cluster-menu nav-mega-menu nav-mega-menu-columns nav-mega-menu-columns-3"', false)
+            ->assertSee('class="nav-cluster-menu nav-mega-menu nav-mega-menu-columns nav-mega-menu-columns-2 nav-mega-menu-industries"', false)
             ->assertSee('class="nav-mega-link-grid"', false)
             ->assertSee('class="mobile-nav-priority"', false)
             ->assertSee('href="'.url('/pricing').'"', false)
@@ -790,7 +790,8 @@ class MarketingWebsiteTest extends TestCase
         $this->assertStringContainsString('closeNavClusters(cluster);', $navigationScript);
         $this->assertStringContainsString("group.addEventListener('toggle'", $navigationScript);
         $this->assertStringContainsString('.nav-cluster.open .nav-cluster-menu', $stylesheet);
-        $this->assertStringContainsString('.nav-mega-menu-columns-3 .nav-mega-link-grid', $stylesheet);
+        $this->assertStringContainsString('.nav-mega-menu-industries', $stylesheet);
+        $this->assertStringContainsString('white-space: normal;', $stylesheet);
         $this->assertStringContainsString('.mobile-nav-priority', $stylesheet);
         $this->assertStringContainsString('@media (max-width: 1180px)', $stylesheet);
         $this->assertStringNotContainsString('.nav-cluster:hover .nav-cluster-menu', $stylesheet);

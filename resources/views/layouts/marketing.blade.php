@@ -143,7 +143,7 @@
                 </div>
                 <div @class(['nav-cluster', 'nav-cluster-wide', 'active' => $industriesActive]) data-nav-cluster>
                     <button type="button" data-nav-cluster-button aria-expanded="false">{{ __('website.nav.industries') }}<svg viewBox="0 0 16 16"><path d="m4 6 4 4 4-4"/></svg></button>
-                    <div class="nav-cluster-menu nav-mega-menu nav-mega-menu-columns nav-mega-menu-columns-3">
+                    <div class="nav-cluster-menu nav-mega-menu nav-mega-menu-columns nav-mega-menu-columns-2 nav-mega-menu-industries">
                         <section>
                             <span class="nav-cluster-heading">{{ __('website.nav.industries') }}</span>
                             <a class="nav-cluster-overview" href="{{ \App\Support\LocalizedUrl::path('/industries') }}">{{ __('website.nav.all_industries') }}<small>↗</small></a>

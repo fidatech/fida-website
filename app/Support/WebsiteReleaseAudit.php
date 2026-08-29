@@ -146,6 +146,8 @@ final class WebsiteReleaseAudit
 
         $blockers = collect($findings)->where('severity', 'blocker')->count();
         $warnings = collect($findings)->where('severity', 'warning')->count();
+        $blockerCodes = collect($findings)->where('severity', 'blocker')->countBy('code')->sortKeys()->all();
+        $warningCodes = collect($findings)->where('severity', 'warning')->countBy('code')->sortKeys()->all();
 
         return [
             'ready' => $blockers === 0,
@@ -157,6 +159,8 @@ final class WebsiteReleaseAudit
                 'related_links' => $relatedLinks,
                 'blockers' => $blockers,
                 'warnings' => $warnings,
+                'blocker_codes' => $blockerCodes,
+                'warning_codes' => $warningCodes,
                 'production_checks' => $production,
             ],
             'findings' => $findings,

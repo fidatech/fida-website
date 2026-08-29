@@ -49,6 +49,10 @@ class AuditWebsiteRelease extends Command
         ));
 
         if ($summary['warnings'] > 0 && ! $this->option('show-warnings')) {
+            $warningSummary = collect($summary['warning_codes'])
+                ->map(fn (int $count, string $code): string => "{$code}={$count}")
+                ->implode(', ');
+            $this->comment('Warning summary: '.$warningSummary.'.');
             $this->comment('Run with --show-warnings or --json to review non-blocking findings.');
         }
 

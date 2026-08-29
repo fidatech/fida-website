@@ -29,6 +29,7 @@ class ReleaseReadinessTest extends TestCase
 
         $this->assertSame([], $blockers, json_encode($blockers, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
         $this->assertTrue($report['ready']);
+        $this->assertSame([], $report['summary']['blocker_codes']);
         $this->assertGreaterThan(0, $report['summary']['public_pages']);
         $this->assertSame(
             $report['summary']['public_pages'] * count(config('website.locales')),

@@ -44,6 +44,8 @@ jobs:
           grep -Fq 'APP_URL=http://localhost' scripts/prepare-cpanel-production.sh
           grep -Fq 'SESSION_SECURE_COOKIE=false' scripts/prepare-cpanel-production.sh
           grep -Fq 'CACHE_STORE=array php artisan optimize:clear' scripts/prepare-cpanel-production.sh
+          grep -Fq 'chmod 0644' scripts/cutover-cpanel-production.sh
+          grep -Fq 'rollback-completed' scripts/cutover-cpanel-production.sh
           php -l deployment/cpanel-main-root/index.php
 
       - name: Install PHP dependencies

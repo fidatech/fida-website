@@ -1286,6 +1286,8 @@ class MarketingWebsiteTest extends TestCase
 
     public function test_search_verification_and_crawler_controls_are_configurable(): void
     {
+        $this->assertFileDoesNotExist(public_path('robots.txt'));
+
         config()->set('website.indexable', true);
         config()->set('website.search_verification.google', 'google-token');
         config()->set('website.search_verification.bing', 'bing-token');

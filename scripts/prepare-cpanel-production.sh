@@ -22,7 +22,6 @@ APPROVED_SHA="${1:-}"
 [[ "$APPROVED_SHA" =~ ^[0-9a-f]{40}$ ]] || fail 'Pass the approved 40-character main commit SHA.'
 [[ "$(id -un)" == 'fida' ]] || fail 'Run this script as the fida account.'
 [[ -d "$STAGING_REPO/.git" ]] || fail "Staging repository was not found at $STAGING_REPO."
-[[ ! -e "$PRODUCTION_REPO" ]] || fail "Production repository already exists at $PRODUCTION_REPO. Stop for review."
 
 for command_name in git php composer npm mariadb mariadb-dump; do
     require_command "$command_name"
@@ -31,6 +30,28 @@ done
 git -C "$STAGING_REPO" fetch origin main:refs/remotes/origin/main
 REMOTE_MAIN="$(git -C "$STAGING_REPO" rev-parse origin/main)"
 [[ "$REMOTE_MAIN" == "$APPROVED_SHA" ]] || fail "origin/main is $REMOTE_MAIN, not the approved $APPROVED_SHA."
+
+RESUME_PRODUCTION_REPO=false
+
+if [[ -e "$PRODUCTION_REPO" ]]; then
+    [[ -d "$PRODUCTION_REPO" ]] || fail "Production repository path is not a directory: $PRODUCTION_REPO"
+
+    STAGING_COMMON_GIT_DIR="$(git -C "$STAGING_REPO" rev-parse --path-format=absolute --git-common-dir 2>/dev/null)" \
+        || fail 'Could not resolve the staging Git directory.'
+    PRODUCTION_COMMON_GIT_DIR="$(git -C "$PRODUCTION_REPO" rev-parse --path-format=absolute --git-common-dir 2>/dev/null)" \
+        || fail "The existing production directory is not a Git worktree: $PRODUCTION_REPO"
+
+    [[ "$PRODUCTION_COMMON_GIT_DIR" == "$STAGING_COMMON_GIT_DIR" ]] \
+        || fail 'The existing production directory does not belong to the staging repository worktree set.'
+    [[ "$(git -C "$PRODUCTION_REPO" rev-parse HEAD)" == "$APPROVED_SHA" ]] \
+        || fail 'The existing production worktree is not on the approved commit.'
+    [[ -z "$(git -C "$PRODUCTION_REPO" status --porcelain --untracked-files=no)" ]] \
+        || fail 'The existing production worktree has tracked changes. Stop for review.'
+    [[ ! -e "$PRODUCTION_REPO/.env" ]] \
+        || fail 'The existing production worktree is already configured. Stop for review instead of resuming.'
+
+    RESUME_PRODUCTION_REPO=true
+fi
 
 read -r -s -p 'Production database password: ' PRODUCTION_DATABASE_PASSWORD
 printf '\n'
@@ -87,21 +108,30 @@ FIDA_PRODUCTION_DATABASE_PASSWORD="$PRODUCTION_DATABASE_PASSWORD" php -r '
 PRODUCTION_TABLES="$(mariadb --defaults-extra-file="$PRODUCTION_CLIENT_FILE" --batch --skip-column-names --database="$PRODUCTION_DATABASE" --execute="SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = DATABASE();")"
 [[ "$PRODUCTION_TABLES" == '0' ]] || fail "The production database already contains $PRODUCTION_TABLES tables. Stop for review."
 
-git -C "$STAGING_REPO" worktree add --detach "$PRODUCTION_REPO" "$APPROVED_SHA"
+if [[ "$RESUME_PRODUCTION_REPO" == true ]]; then
+    printf 'Resuming the verified production worktree at %s.\n' "$PRODUCTION_REPO"
+else
+    git -C "$STAGING_REPO" worktree add --detach "$PRODUCTION_REPO" "$APPROVED_SHA"
+fi
 
 composer --working-dir="$PRODUCTION_REPO" install --prefer-dist --optimize-autoloader --no-interaction
 npm --prefix "$PRODUCTION_REPO" ci --ignore-scripts
 npm --prefix "$PRODUCTION_REPO" run build
 npm --prefix "$PRODUCTION_REPO" run audit:assets
 
+TEST_APP_KEY="$(php -r 'echo "base64:".base64_encode(random_bytes(32));')"
+
 (
     cd "$PRODUCTION_REPO"
     APP_ENV=testing \
+    APP_KEY="$TEST_APP_KEY" \
     DB_CONNECTION=sqlite \
     DB_DATABASE=':memory:' \
     WEBSITE_INDEXABLE=true \
         ./vendor/bin/phpunit
 )
+
+unset TEST_APP_KEY
 
 FIDA_PRODUCTION_DATABASE_PASSWORD="$PRODUCTION_DATABASE_PASSWORD" php -r '
     $target = $argv[1];

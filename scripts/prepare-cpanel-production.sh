@@ -156,6 +156,7 @@ TEST_APP_KEY="$(php -r 'echo "base64:".base64_encode(random_bytes(32));')"
     APP_URL=http://localhost \
     DB_CONNECTION=sqlite \
     DB_DATABASE=':memory:' \
+    SESSION_SECURE_COOKIE=false \
     WEBSITE_INDEXABLE=true \
         ./vendor/bin/phpunit
 )

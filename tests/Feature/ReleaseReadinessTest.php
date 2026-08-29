@@ -115,6 +115,7 @@ class ReleaseReadinessTest extends TestCase
         config()->set('website.url', 'http://stage.fida.af');
         config()->set('website.social_image', 'http://stage.fida.af/images/fida-social-preview.png');
         config()->set('app.debug', true);
+        config()->set('session.secure', false);
 
         $report = app(WebsiteReleaseAudit::class)->run(production: true);
         $codes = collect($report['findings'])->where('severity', 'blocker')->pluck('code');

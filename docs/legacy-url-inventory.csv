@@ -1,0 +1,7 @@
+source_url,target_url,handling,evidence,status
+https://fida.af/,https://fida.af/,preserved,Public live crawl on 2026-08-29,verified
+https://www.fida.af/,https://fida.af/,301 canonical-host redirect,Public live crawl on 2026-08-29,implemented
+https://fida.af/#services,https://fida.af/#services,preserved fragment anchor,Current homepage navigation on 2026-08-29,implemented
+https://fida.af/#projects,https://fida.af/#projects,preserved fragment anchor,Current homepage navigation on 2026-08-29,implemented
+https://fida.af/#process,https://fida.af/#process,preserved fragment anchor,Current homepage navigation on 2026-08-29,implemented
+https://fida.af/#contact,https://fida.af/#contact,preserved fragment anchor,Current homepage navigation on 2026-08-29,implemented

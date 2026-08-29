@@ -1,0 +1,47 @@
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php84” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php84___lsphp .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Consolidate only the Fida website's www hostname. Client subdomains do
+    # not match this condition and are never redirected by this file.
+    RewriteCond %{HTTP_HOST} ^www\.fida\.af$ [NC]
+    RewriteRule ^ https://fida.af%{REQUEST_URI} [R=301,L,NE]
+
+    # Preserve cPanel-managed paths on the apex host.
+    RewriteCond %{HTTP_HOST} ^fida\.af$ [NC]
+    RewriteCond %{REQUEST_URI} ^/(?:\.well-known|cgi-bin|download-mail)(?:/|$) [NC]
+    RewriteRule ^ - [L]
+
+    # Serve only known public website assets directly. The legacy assets
+    # directory remains available during rollback and URL monitoring.
+    RewriteCond %{HTTP_HOST} ^fida\.af$ [NC]
+    RewriteCond %{REQUEST_URI} ^/(?:build|images|storage|assets)(?:/|$) [NC]
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ - [L]
+
+    RewriteCond %{HTTP_HOST} ^fida\.af$ [NC]
+    RewriteCond %{REQUEST_URI} ^/(?:favicon\.svg|index\.php)$ [NC]
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ - [L]
+
+    # Forward authentication headers only for the apex application.
+    RewriteCond %{HTTP_HOST} ^fida\.af$ [NC]
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    RewriteCond %{HTTP_HOST} ^fida\.af$ [NC]
+    RewriteCond %{HTTP:x-xsrf-token} .
+    RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
+
+    # Route every remaining apex request through Laravel, even when a
+    # same-named client directory exists below public_html. Requests made to
+    # client subdomain hosts do not match and retain their existing behavior.
+    RewriteCond %{HTTP_HOST} ^fida\.af$ [NC]
+    RewriteRule ^ index.php [L]
+</IfModule>

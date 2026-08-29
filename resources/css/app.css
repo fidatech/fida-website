@@ -26,6 +26,13 @@
 
 html { scroll-behavior: smooth; background: var(--ink); }
 
+.legacy-anchor {
+    display: block;
+    height: 0;
+    scroll-margin-top: 6rem;
+    visibility: hidden;
+}
+
 body {
     margin: 0;
     min-width: 320px;

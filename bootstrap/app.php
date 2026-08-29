@@ -1,8 +1,10 @@
 <?php
 
+use App\Console\Commands\AuditWebsiteDeployment;
 use App\Console\Commands\AuditWebsiteRelease;
 use App\Console\Commands\CreateAdminUser;
 use App\Console\Commands\SubmitIndexNow;
+use App\Http\Middleware\AddSecurityHeaders;
 use App\Http\Middleware\EnsureAdminAccess;
 use App\Http\Middleware\EnsureCapability;
 use App\Http\Middleware\EnforceCanonicalHost;
@@ -22,12 +24,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withCommands([
+        AuditWebsiteDeployment::class,
         AuditWebsiteRelease::class,
         CreateAdminUser::class,
         SubmitIndexNow::class,
     ])
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->web(prepend: [RedirectLegacyUrls::class]);
+        $middleware->web(prepend: [AddSecurityHeaders::class, RedirectLegacyUrls::class]);
         $middleware->web(append: [SetLocale::class, ApplyWebsiteSettings::class, EnforceCanonicalHost::class, ProtectNonIndexableEnvironment::class]);
 
         $middleware->redirectGuestsTo(fn (Request $request) => route('admin.login'));

@@ -19,6 +19,7 @@ class PageRedirect extends Model
     {
         return [
             'active' => 'boolean',
+            'status_code' => 'integer',
             'hits' => 'integer',
             'last_hit_at' => 'datetime',
         ];

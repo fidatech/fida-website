@@ -89,6 +89,7 @@
     </div>
 </section>
 
+<span class="legacy-anchor" id="services" aria-hidden="true"></span>
 <section class="section home-section solutions-section" id="solutions">
     <div class="container">
         <div class="section-heading section-heading-grid reveal">
@@ -119,6 +120,7 @@
     </div>
 </section>
 
+<span class="legacy-anchor" id="projects" aria-hidden="true"></span>
 <section class="section home-section products-section" id="products">
     <div class="product-orbit-bg" aria-hidden="true"></div>
     <div class="container">

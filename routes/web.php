@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\LeadController as AdminLeadController;
 use App\Http\Controllers\Admin\PageRedirectController as AdminPageRedirectController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\WebsiteSettingsController as AdminWebsiteSettingsController;
+use App\Http\Controllers\DefaultLocaleRedirectController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ArticleTaxonomyController;
 use App\Http\Controllers\IndexNowKeyController;
@@ -32,6 +33,13 @@ Route::get('/search', SearchController::class)->name('search');
 Route::post('/contact/lead', LeadController::class)
     ->middleware('throttle:5,1')
     ->name('leads.store');
+
+Route::get('/{defaultLocale}/{path?}', DefaultLocaleRedirectController::class)
+    ->where([
+        'defaultLocale' => preg_quote((string) config('website.default_locale'), '/'),
+        'path' => '.*',
+    ])
+    ->name('default-locale.redirect');
 
 Route::prefix('admin')->name('admin.')->group(function (): void {
     Route::middleware('guest')->group(function (): void {

@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\ContentPage;
+use App\Models\PageRedirect;
 use App\Support\LocalizedUrl;
 use App\Support\WebsiteReleaseAudit;
 use Database\Seeders\DatabaseSeeder;
@@ -121,6 +122,49 @@ class ReleaseReadinessTest extends TestCase
         $this->assertContains('production-debug', $codes);
         $this->assertContains('production-indexing', $codes);
         $this->assertContains('production-canonical-url', $codes);
+        $this->assertContains('production-canonical-host', $codes);
+        $this->assertContains('production-session-cookie', $codes);
+        $this->assertContains('production-social-image', $codes);
+    }
+
+    public function test_production_audit_accepts_the_approved_secure_launch_configuration(): void
+    {
+        config()->set('app.env', 'production');
+        config()->set('app.debug', false);
+        config()->set('app.key', 'base64:'.base64_encode(str_repeat('a', 32)));
+        config()->set('website.indexable', true);
+        config()->set('website.url', 'https://fida.af');
+        config()->set('website.production_host', 'fida.af');
+        config()->set('website.social_image', 'https://fida.af/images/fida-social-preview.png');
+        config()->set('session.secure', true);
+        config()->set('session.http_only', true);
+
+        $report = app(WebsiteReleaseAudit::class)->run(production: true);
+        $blockers = collect($report['findings'])->where('severity', 'blocker')->values()->all();
+
+        $this->assertSame([], $blockers, json_encode($blockers, JSON_PRETTY_PRINT));
+    }
+
+    public function test_release_audit_blocks_redirect_chains_conflicts_reserved_paths_and_missing_targets(): void
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        PageRedirect::query()->insert([
+            ['source_path' => '/erp-systems-afghanistan', 'target_path' => '/contact', 'status_code' => 301, 'active' => true, 'hits' => 0, 'created_at' => now(), 'updated_at' => now()],
+            ['source_path' => '/old-a', 'target_path' => '/old-b', 'status_code' => 301, 'active' => true, 'hits' => 0, 'created_at' => now(), 'updated_at' => now()],
+            ['source_path' => '/old-b', 'target_path' => '/contact', 'status_code' => 301, 'active' => true, 'hits' => 0, 'created_at' => now(), 'updated_at' => now()],
+            ['source_path' => '/old-missing', 'target_path' => '/not-a-public-page', 'status_code' => 301, 'active' => true, 'hits' => 0, 'created_at' => now(), 'updated_at' => now()],
+            ['source_path' => '/admin/legacy', 'target_path' => '/contact', 'status_code' => 301, 'active' => true, 'hits' => 0, 'created_at' => now(), 'updated_at' => now()],
+        ]);
+
+        $report = app(WebsiteReleaseAudit::class)->run();
+        $codes = collect($report['findings'])->where('severity', 'blocker')->pluck('code');
+
+        $this->assertContains('redirect-source-conflict', $codes);
+        $this->assertContains('redirect-chain', $codes);
+        $this->assertContains('redirect-target-missing', $codes);
+        $this->assertContains('redirect-reserved-source', $codes);
+        $this->assertSame(5, $report['summary']['active_redirects']);
     }
 
     public function test_every_public_page_renders_in_every_locale_with_accessibility_and_discovery_markup(): void

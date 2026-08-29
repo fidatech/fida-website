@@ -4,6 +4,7 @@ return [
     'name' => 'Fida Technologies',
     'legal_name' => 'Fida Technologies & Marketing Services',
     'url' => env('APP_URL', 'https://fida.af'),
+    'production_host' => env('WEBSITE_PRODUCTION_HOST', 'fida.af'),
     'indexable' => env(
         'WEBSITE_INDEXABLE',
         ! str_starts_with((string) parse_url(env('APP_URL', 'https://fida.af'), PHP_URL_HOST), 'stage.'),

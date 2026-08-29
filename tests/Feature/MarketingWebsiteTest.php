@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Http\Middleware\AddSecurityHeaders;
 use App\Http\Middleware\EnforceCanonicalHost;
 use App\Models\ArticleAuthor;
 use App\Models\ArticleCategory;
@@ -55,7 +56,45 @@ class MarketingWebsiteTest extends TestCase
             ->assertSee('formally licensed in 2024')
             ->assertDontSee('2027 READY')
             ->assertDontSee('70+')
+            ->assertSee('<span class="legacy-anchor" id="services" aria-hidden="true"></span>', false)
+            ->assertSee('<span class="legacy-anchor" id="projects" aria-hidden="true"></span>', false)
             ->assertSee('ERP &amp; MIS Systems', false);
+    }
+
+    public function test_default_locale_prefix_redirects_directly_to_the_canonical_english_url(): void
+    {
+        config()->set('website.url', 'https://fida.af');
+
+        $this->get('/en')
+            ->assertStatus(301)
+            ->assertRedirect('https://fida.af/');
+
+        $this->get('/en/erp-systems-afghanistan?utm_source=legacy')
+            ->assertStatus(301)
+            ->assertRedirect('https://fida.af/erp-systems-afghanistan?utm_source=legacy');
+    }
+
+    public function test_public_responses_include_baseline_security_headers(): void
+    {
+        $this->get('/')
+            ->assertOk()
+            ->assertHeader('X-Content-Type-Options', 'nosniff')
+            ->assertHeader('X-Frame-Options', 'SAMEORIGIN')
+            ->assertHeader('Referrer-Policy', 'strict-origin-when-cross-origin')
+            ->assertHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+    }
+
+    public function test_secure_production_responses_include_strict_transport_security(): void
+    {
+        config()->set('app.env', 'production');
+        $request = Request::create('https://fida.af/', 'GET');
+
+        $response = app(AddSecurityHeaders::class)->handle(
+            $request,
+            fn () => response('ok'),
+        );
+
+        $this->assertSame('max-age=31536000', $response->headers->get('Strict-Transport-Security'));
     }
 
     public function test_localized_homepage_uses_rtl_markup(): void

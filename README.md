@@ -82,6 +82,9 @@ GOOGLE_ANALYTICS_ID=G-XXXXXXXXXX
 ANALYTICS_REQUIRE_CONSENT=true
 WEBSITE_SOCIAL_IMAGE=https://fida.af/path/to/a-1200x630-image.jpg
 WEBSITE_INDEXABLE=true
+WEBSITE_PRODUCTION_HOST=fida.af
+SESSION_SECURE_COOKIE=true
+SESSION_HTTP_ONLY=true
 ```
 
 GA4 is not requested from the browser until the visitor accepts analytics. The public site records configured CTA clicks, product-profile visits and a `generate_lead` event after a successful project-form submission; it does not send form field values to analytics.
@@ -108,21 +111,11 @@ Before changing the production document root:
 3. For every verified legacy URL, choose the closest new equivalent and add a direct one-hop `301`; do not redirect unrelated URLs to the homepage.
 4. Back up the current files, database and `.env`, then deploy the reviewed `main` commit to a fresh release directory.
 5. Set `APP_URL=https://fida.af`, `APP_ENV=production`, `APP_DEBUG=false` and `WEBSITE_INDEXABLE=true`; configure the verification, analytics and IndexNow values.
-6. Run the production install, migration, build, test and optimization commands below, then point the domain document root to the release `public` directory.
+6. Follow `docs/production-launch-runbook.md`: build and test with development dependencies before maintenance mode, deploy to a new release directory, then install production-only dependencies.
 7. Verify HTTPS, redirects, canonical tags, robots, sitemap, localized pages, the lead form and admin login before submitting the sitemap and IndexNow URLs.
 8. Monitor Search Console indexing, Page indexing, Core Web Vitals and 404 logs weekly after launch. Keep verified legacy redirects for at least one year.
 
-```bash
-composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
-php artisan optimize:clear
-php artisan migrate --force
-php artisan storage:link
-npm ci --ignore-scripts
-npm run build
-php artisan test
-php artisan optimize
-php artisan website:indexnow
-```
+Run `php artisan website:deployment-audit https://stage.fida.af --mode=staging` before cutover. After the approved production cutover, run `php artisan website:deployment-audit https://fida.af --mode=production` before submitting the sitemap or IndexNow URLs.
 
 Search Console and Bing verification are ownership and diagnostic tools; they do not guarantee rankings. Product pages and case studies should be updated only with accurate, supportable information.
 

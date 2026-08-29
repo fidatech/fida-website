@@ -31,6 +31,7 @@ class WebsiteSeeder extends Seeder
         $this->call(EducationLaboratorySolutionSeeder::class);
         $this->call(RegulatedCommerceIndustrySeeder::class);
         $this->call(ResourceInfrastructureIndustrySeeder::class);
+        $this->call(TradeTelecommunicationsIndustrySeeder::class);
     }
 
     private function pages(): array

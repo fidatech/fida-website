@@ -12,6 +12,41 @@ class ResourceInfrastructureIndustrySeeder extends Seeder
         foreach ([$this->mining(), $this->energy(), $this->agriculture()] as $page) {
             ContentPage::query()->firstOrCreate(['slug' => $page['slug']], $page);
         }
+
+        $this->replaceRelatedSlug(
+            'energy-utilities-management-software-afghanistan',
+            'business-intelligence-analytics-afghanistan',
+            'business-intelligence-reporting-afghanistan',
+        );
+        $this->replaceRelatedSlug(
+            'energy-utilities-management-software-afghanistan',
+            'security-hosting-data-protection-afghanistan',
+            'software-security-hosting-afghanistan',
+        );
+    }
+
+    private function replaceRelatedSlug(string $pageSlug, string $obsoleteSlug, string $currentSlug): void
+    {
+        $page = ContentPage::query()->where('slug', $pageSlug)->first();
+
+        if (! $page) {
+            return;
+        }
+
+        $metadata = (array) $page->metadata;
+        $relatedSlugs = collect($metadata['related_slugs'] ?? []);
+
+        if (! $relatedSlugs->contains($obsoleteSlug)) {
+            return;
+        }
+
+        $metadata['related_slugs'] = $relatedSlugs
+            ->map(fn (string $slug): string => $slug === $obsoleteSlug ? $currentSlug : $slug)
+            ->unique()
+            ->values()
+            ->all();
+
+        $page->update(['metadata' => $metadata]);
     }
 
     private function mining(): array
@@ -155,7 +190,7 @@ HTML,
                 'capabilities' => $this->capabilities([['Asset register', 'asset register', 'asset register'], ['Maintenance', 'maintenance', 'maintenance'], ['Connections & service', 'connection و service', 'connection او service'], ['Metering', 'metering', 'metering'], ['Billing & collections', 'billing و collection', 'billing او collection'], ['Outage & field work', 'outage و field work', 'outage او field work'], ['Energy balance', 'energy balance', 'energy balance'], ['Projects & procurement', 'project و procurement', 'project او procurement']]),
             ],
             faqs: $this->energyFaqs(),
-            relatedSlugs: ['asset-maintenance-management-software-afghanistan', 'accounting-software-afghanistan', 'business-intelligence-analytics-afghanistan', 'project-management-software-afghanistan', 'procurement-inventory-management-software-afghanistan', 'security-hosting-data-protection-afghanistan'],
+            relatedSlugs: ['asset-maintenance-management-software-afghanistan', 'accounting-software-afghanistan', 'business-intelligence-reporting-afghanistan', 'project-management-software-afghanistan', 'procurement-inventory-management-software-afghanistan', 'software-security-hosting-afghanistan'],
             sortOrder: 80,
         );
     }

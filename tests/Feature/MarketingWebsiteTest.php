@@ -23,6 +23,7 @@ use Database\Seeders\PriorityIndustrySeeder;
 use Database\Seeders\ProgrammeAccountabilitySolutionSeeder;
 use Database\Seeders\RegulatedCommerceIndustrySeeder;
 use Database\Seeders\ResourceInfrastructureIndustrySeeder;
+use Database\Seeders\TradeTelecommunicationsIndustrySeeder;
 use Database\Seeders\WebsiteSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
@@ -1937,5 +1938,128 @@ class MarketingWebsiteTest extends TestCase
         $this->assertDatabaseCount('content_pages', 3);
         $this->assertDatabaseHas('content_pages', ['slug' => 'energy-utilities-management-software-afghanistan']);
         $this->assertDatabaseHas('content_pages', ['slug' => 'agriculture-agribusiness-software-afghanistan']);
+    }
+
+    public function test_trade_and_telecommunications_industries_are_localized_profiled_and_link_complete(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $slugs = [
+            'import-export-trade-management-software-afghanistan',
+            'telecommunications-oss-bss-software-afghanistan',
+        ];
+
+        $pages = ContentPage::query()->whereIn('slug', $slugs)->get()->keyBy('slug');
+
+        $this->assertCount(2, $pages);
+
+        foreach ($slugs as $slug) {
+            $page = $pages->get($slug);
+
+            $this->assertNotNull($page);
+            $this->assertSame('industry', $page->type);
+            $this->assertSame('published', $page->status);
+            $this->assertCount(6, $page->faqs('en'));
+            $this->assertCount(6, $page->faqs('fa'));
+            $this->assertCount(6, $page->faqs('ps'));
+            $this->assertNotEmpty($page->translation('body', 'fa'));
+            $this->assertNotEmpty($page->translation('body', 'ps'));
+            $this->assertCount(8, $page->industryProfile('en')['capabilities']);
+        }
+
+        $trade = $pages->get($slugs[0]);
+        $telecommunications = $pages->get($slugs[1]);
+
+        $this->assertStringContainsString('connect the commercial order to cross-border evidence and landed cost', $trade->translation('body', 'en'));
+        $this->assertStringContainsString('connect service intent to activation, experience and revenue', $telecommunications->translation('body', 'en'));
+
+        $this->get('/import-export-trade-management-software-afghanistan')
+            ->assertOk()
+            ->assertSee('industry-profile-section', false)
+            ->assertSee('Customs declarations and ASYCUDA boundary')
+            ->assertSee('Is this software a replacement for ASYCUDA or a customs broker?')
+            ->assertSee('WCO Data Model')
+            ->assertSee('href="'.url('/transport-logistics-software-afghanistan').'"', false)
+            ->assertSee('"@type":"FAQPage"', false);
+
+        $this->get('/fa/telecommunications-oss-bss-software-afghanistan')
+            ->assertOk()
+            ->assertSee('نرم‌افزار telecommunications باید service intent را به activation، experience و revenue وصل کند')
+            ->assertSee('mobile core')
+            ->assertSee('ATRA');
+
+        $this->get('/ps/telecommunications-oss-bss-software-afghanistan')
+            ->assertOk()
+            ->assertSee('telecommunications سافټویر باید service intent له activation، experience او revenue سره ونښلوي');
+
+        $industrySitemap = $this->get('/sitemaps/industries.xml')->assertOk();
+
+        foreach ($slugs as $slug) {
+            $industrySitemap->assertSee('/'.$slug, false);
+        }
+
+        $allSlugs = ContentPage::query()->pluck('slug')->all();
+
+        ContentPage::query()->get()->each(function (ContentPage $page) use ($allSlugs): void {
+            foreach ((array) data_get($page->metadata, 'related_slugs', []) as $relatedSlug) {
+                $this->assertContains(
+                    $relatedSlug,
+                    $allSlugs,
+                    "The related-content target [{$relatedSlug}] referenced by [{$page->slug}] must exist.",
+                );
+            }
+        });
+
+        $energyRelated = ContentPage::query()
+            ->where('slug', 'energy-utilities-management-software-afghanistan')
+            ->firstOrFail()
+            ->metadata['related_slugs'];
+
+        $this->assertContains('business-intelligence-reporting-afghanistan', $energyRelated);
+        $this->assertContains('software-security-hosting-afghanistan', $energyRelated);
+        $this->assertNotContains('business-intelligence-analytics-afghanistan', $energyRelated);
+        $this->assertNotContains('security-hosting-data-protection-afghanistan', $energyRelated);
+    }
+
+    public function test_trade_release_preserves_cms_content_and_resource_release_repairs_obsolete_links(): void
+    {
+        $trade = ContentPage::query()->create([
+            'type' => 'industry',
+            'slug' => 'import-export-trade-management-software-afghanistan',
+            'title' => ['en' => 'Editor-owned trade page'],
+            'body' => ['en' => '<h2>Approved trade editorial</h2>'],
+            'status' => 'published',
+        ]);
+
+        $this->seed(TradeTelecommunicationsIndustrySeeder::class);
+
+        $this->assertSame('Editor-owned trade page', $trade->fresh()->translation('title', 'en'));
+        $this->assertSame('<h2>Approved trade editorial</h2>', $trade->fresh()->translation('body', 'en'));
+        $this->assertDatabaseCount('content_pages', 2);
+        $this->assertDatabaseHas('content_pages', ['slug' => 'telecommunications-oss-bss-software-afghanistan']);
+
+        $energy = ContentPage::query()->create([
+            'type' => 'industry',
+            'slug' => 'energy-utilities-management-software-afghanistan',
+            'title' => ['en' => 'Editor-owned energy page'],
+            'body' => ['en' => '<h2>Approved energy editorial</h2>'],
+            'metadata' => ['related_slugs' => [
+                'business-intelligence-analytics-afghanistan',
+                'security-hosting-data-protection-afghanistan',
+            ]],
+            'status' => 'published',
+        ]);
+
+        $this->seed(ResourceInfrastructureIndustrySeeder::class);
+
+        $energy->refresh();
+
+        $this->assertSame('Editor-owned energy page', $energy->translation('title', 'en'));
+        $this->assertSame('<h2>Approved energy editorial</h2>', $energy->translation('body', 'en'));
+        $this->assertSame([
+            'business-intelligence-reporting-afghanistan',
+            'software-security-hosting-afghanistan',
+        ], $energy->metadata['related_slugs']);
+        $this->assertDatabaseCount('content_pages', 5);
     }
 }

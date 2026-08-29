@@ -129,6 +129,7 @@ TEST_APP_KEY="$(php -r 'echo "base64:".base64_encode(random_bytes(32));')"
     cd "$PRODUCTION_REPO"
     APP_ENV=testing \
     APP_KEY="$TEST_APP_KEY" \
+    APP_URL=http://localhost \
     DB_CONNECTION=sqlite \
     DB_DATABASE=':memory:' \
     WEBSITE_INDEXABLE=true \

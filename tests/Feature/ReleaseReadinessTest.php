@@ -27,12 +27,13 @@ class ReleaseReadinessTest extends TestCase
 
         $report = app(WebsiteReleaseAudit::class)->run();
         $blockers = collect($report['findings'])->where('severity', 'blocker')->values()->all();
+        $warnings = collect($report['findings'])->where('severity', 'warning')->values()->all();
 
         $this->assertSame([], $blockers, json_encode($blockers, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+        $this->assertSame([], $warnings, json_encode($warnings, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
         $this->assertTrue($report['ready']);
         $this->assertSame([], $report['summary']['blocker_codes']);
-        $this->assertArrayNotHasKey('missing-primary-query', $report['summary']['warning_codes']);
-        $this->assertArrayNotHasKey('missing-social-image', $report['summary']['warning_codes']);
+        $this->assertSame([], $report['summary']['warning_codes']);
         $this->assertGreaterThan(0, $report['summary']['public_pages']);
         $this->assertSame(
             $report['summary']['public_pages'] * count(config('website.locales')),
@@ -48,7 +49,7 @@ class ReleaseReadinessTest extends TestCase
     {
         $page = ContentPage::query()->create([
             'type' => 'solution',
-            'slug' => 'discovery-cleanup-fixture',
+            'slug' => 'professional-services-software-afghanistan',
             'title' => [
                 'en' => 'Localized fixture title',
                 'fa' => 'عنوان محلی آزمایشی',
@@ -57,6 +58,11 @@ class ReleaseReadinessTest extends TestCase
             'primary_query' => [
                 'en' => 'Editor-selected primary topic',
                 'fa' => '',
+            ],
+            'meta_description' => [
+                'en' => 'Connect clients, projects, tasks, billing and team accountability.',
+                'fa' => 'توضیح اختصاصی و تأییدشده مدیر محتوا باید بدون تغییر باقی بماند.',
+                'ps' => 'مشتریان، پروژې، دندې، بلونه او د ټیم حساب ورکونه ونښلوئ.',
             ],
             'status' => 'published',
             'published_at' => now(),
@@ -68,6 +74,9 @@ class ReleaseReadinessTest extends TestCase
         $this->assertSame('Editor-selected primary topic', $page->primary_query['en']);
         $this->assertSame('عنوان محلی آزمایشی', $page->primary_query['fa']);
         $this->assertSame('ځايي ازمایښتي سرلیک', $page->primary_query['ps']);
+        $this->assertSame('Professional services software in Afghanistan for connected clients, projects, tasks, billing and accountable team delivery.', $page->meta_description['en']);
+        $this->assertSame('توضیح اختصاصی و تأییدشده مدیر محتوا باید بدون تغییر باقی بماند.', $page->meta_description['fa']);
+        $this->assertSame('په افغانستان کې د مسلکي خدمتونو سافټویر؛ مشتریان، پروژې، دندې، بلونه او د ټیم حساب ورکونه یوځای اداره کړئ.', $page->meta_description['ps']);
     }
 
     public function test_release_audit_blocks_missing_localization_broken_links_and_discovery_conflicts(): void

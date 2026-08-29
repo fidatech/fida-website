@@ -101,6 +101,11 @@ rollback() {
     set +e
 
     if [[ "$rollback_required" == true ]]; then
+        if [[ -f "$CUTOVER_BACKUP/rollback-completed" ]]; then
+            printf 'The previous static website was already restored from %s\n' "$CUTOVER_BACKUP" >&2
+            exit "$exit_code"
+        fi
+
         printf 'Cutover verification failed; restoring the previous static website...\n' >&2
 
         for deployed_path in .htaccess index.php build images storage favicon.svg; do
@@ -116,6 +121,7 @@ rollback() {
             cp -a "$CUTOVER_BACKUP/original/$original_path" "$PUBLIC_ROOT/$original_path"
         done
 
+        touch "$CUTOVER_BACKUP/rollback-completed"
         printf 'Previous main website restored from %s\n' "$CUTOVER_BACKUP" >&2
     fi
 
@@ -132,6 +138,28 @@ ln -s "$PRODUCTION_REPO/storage/app/public" "$PUBLIC_ROOT/storage"
 cp -a "$PRODUCTION_REPO/deployment/cpanel-main-root/index.php" "$PUBLIC_ROOT/index.php"
 cp -a "$PRODUCTION_REPO/deployment/cpanel-main-root/.htaccess" "$PUBLIC_ROOT/.htaccess.next"
 
+# Git created the prepared worktree under umask 077. Publish only the apex
+# entry points and static assets with web-readable modes; client directories
+# are deliberately excluded from every permission change.
+chmod 0644 \
+    "$PUBLIC_ROOT/index.php" \
+    "$PUBLIC_ROOT/favicon.svg" \
+    "$PUBLIC_ROOT/.htaccess.next"
+
+for public_asset_tree in "$PUBLIC_ROOT/build" "$PUBLIC_ROOT/images"; do
+    find "$public_asset_tree" -type d -exec chmod 0755 {} +
+    find "$public_asset_tree" -type f -exec chmod 0644 {} +
+done
+
+# Apache must be able to traverse the storage symlink target. Application
+# source remains non-listable, and PHP continues to execute as the fida user.
+chmod 0711 \
+    "$PRODUCTION_REPO" \
+    "$PRODUCTION_REPO/storage" \
+    "$PRODUCTION_REPO/storage/app"
+find "$PRODUCTION_REPO/storage/app/public" -type d -exec chmod 0755 {} +
+find "$PRODUCTION_REPO/storage/app/public" -type f -exec chmod 0644 {} +
+
 mv "$PUBLIC_ROOT/robots.txt" "$CUTOVER_BACKUP/original/robots.txt.live"
 mv "$PUBLIC_ROOT/sitemap.xml" "$CUTOVER_BACKUP/original/sitemap.xml.live"
 mv "$PUBLIC_ROOT/.htaccess" "$CUTOVER_BACKUP/original/.htaccess.live"
@@ -139,6 +167,7 @@ mv "$PUBLIC_ROOT/.htaccess.next" "$PUBLIC_ROOT/.htaccess"
 mv "$PUBLIC_ROOT/index.html" "$CUTOVER_BACKUP/original/index.html.live"
 
 (
+    trap - ERR
     cd "$PRODUCTION_REPO"
     php artisan website:deployment-audit https://fida.af --mode=production
 )

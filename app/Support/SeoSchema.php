@@ -194,7 +194,7 @@ final class SeoSchema
             }
         }
 
-        if ($page->type === 'article') {
+        if (in_array($page->type, ['article', 'case-study'], true)) {
             $graph[$webPageIndex]['mainEntity'] = ['@id' => $articleId];
             $author = $page->byline()
                 ? array_filter([
@@ -219,7 +219,7 @@ final class SeoSchema
                 'publisher' => ['@id' => url('/').'#organization'],
             ];
 
-            if ($page->articleCategory?->active) {
+            if ($page->type === 'article' && $page->articleCategory?->active) {
                 $graph[array_key_last($graph)]['articleSection'] = $page->articleCategory->translation('name');
             }
 

@@ -16,9 +16,19 @@ class ContentPageRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        $this->merge([
-            'featured' => $this->boolean('featured'),
-        ]);
+        $prepared = ['featured' => $this->boolean('featured')];
+
+        if ((string) $this->input('type') === 'case-study') {
+            $metadata = (array) $this->input('metadata', []);
+
+            foreach (array_keys(ContentPage::CASE_STUDY_EVIDENCE_CHECKS) as $key) {
+                data_set($metadata, "case_study.{$key}", $this->boolean("metadata.case_study.{$key}"));
+            }
+
+            $prepared['metadata'] = $metadata;
+        }
+
+        $this->merge($prepared);
     }
 
     public function rules(): array
@@ -109,6 +119,16 @@ class ContentPageRequest extends FormRequest
             'metadata.product.features' => ['nullable', 'array', 'max:10'],
             'metadata.product.features.*' => ['nullable', 'array'],
             'metadata.product.features.*.*' => ['nullable', 'string', 'max:190'],
+            'metadata.case_study' => ['nullable', 'array'],
+            'metadata.case_study.client_identity_confirmed' => ['nullable', 'boolean'],
+            'metadata.case_study.publication_permission_recorded' => ['nullable', 'boolean'],
+            'metadata.case_study.implementation_scope_verified' => ['nullable', 'boolean'],
+            'metadata.case_study.visual_assets_approved' => ['nullable', 'boolean'],
+            'metadata.case_study.outcomes_evidence_verified' => ['nullable', 'boolean'],
+            'metadata.case_study.final_client_approval_recorded' => ['nullable', 'boolean'],
+            'metadata.case_study.evidence_owner' => ['nullable', 'string', 'max:120'],
+            'metadata.case_study.approval_reference' => ['nullable', 'string', 'max:190'],
+            'metadata.case_study.approved_at' => ['nullable', 'date'],
             'status' => ['required', Rule::in(['draft', 'review', 'published'])],
             'featured' => ['required', 'boolean'],
             'sort_order' => ['required', 'integer', 'min:0', 'max:9999'],
@@ -141,6 +161,34 @@ class ContentPageRequest extends FormRequest
 
                 if (in_array((string) $this->input('slug'), (array) $this->input('metadata.related_slugs', []), true)) {
                     $validator->errors()->add('metadata.related_slugs', 'A page cannot link to itself as related content.');
+                }
+
+                if ((string) $this->input('type') === 'case-study' && (string) $this->input('status') === 'published') {
+                    foreach (ContentPage::CASE_STUDY_EVIDENCE_CHECKS as $key => $label) {
+                        if (! $this->boolean("metadata.case_study.{$key}")) {
+                            $validator->errors()->add("metadata.case_study.{$key}", $label);
+                        }
+                    }
+
+                    foreach (['evidence_owner', 'approval_reference', 'approved_at'] as $field) {
+                        if (! $this->filled("metadata.case_study.{$field}")) {
+                            $validator->errors()->add(
+                                "metadata.case_study.{$field}",
+                                'Complete the internal approval record before publishing a case study.',
+                            );
+                        }
+                    }
+
+                    foreach (array_keys(config('website.locales')) as $locale) {
+                        foreach (['title', 'summary', 'body', 'meta_title', 'meta_description', 'primary_query'] as $field) {
+                            if (! $this->filled("{$field}.{$locale}")) {
+                                $validator->errors()->add(
+                                    "{$field}.{$locale}",
+                                    'Complete every case-study language before publication.',
+                                );
+                            }
+                        }
+                    }
                 }
             },
         ];

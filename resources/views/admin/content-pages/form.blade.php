@@ -118,6 +118,30 @@
             </section>
         @endif
 
+        @if($selectedType === 'case-study')
+            @php($caseStudyReadiness = $contentPage->caseStudyReadiness())
+            <section class="discovery-controls editorial-controls case-study-evidence-controls">
+                <div class="form-section-head"><span>EV</span><div><h2>Case-study evidence and client approval</h2><p>These internal records must all be complete before a case study can appear publicly.</p></div></div>
+                <div class="console-form">
+                    @foreach(\App\Models\ContentPage::CASE_STUDY_EVIDENCE_CHECKS as $evidenceKey => $evidenceLabel)
+                        <label class="checkbox-row">
+                            <input type="hidden" name="metadata[case_study][{{ $evidenceKey }}]" value="0">
+                            <input type="checkbox" name="metadata[case_study][{{ $evidenceKey }}]" value="1" @checked(old("metadata.case_study.$evidenceKey", data_get($contentPage->metadata, "case_study.$evidenceKey", false)))>
+                            <span>{{ $evidenceLabel }}</span>
+                        </label>
+                    @endforeach
+                </div>
+                <div class="console-form two-columns">
+                    <label><span>Evidence owner</span><input name="metadata[case_study][evidence_owner]" maxlength="120" value="{{ old('metadata.case_study.evidence_owner', data_get($contentPage->metadata, 'case_study.evidence_owner')) }}" placeholder="Responsible Fida team member"><small>Internal only; not shown on the public page.</small></label>
+                    <label><span>Approval reference</span><input name="metadata[case_study][approval_reference]" maxlength="190" value="{{ old('metadata.case_study.approval_reference', data_get($contentPage->metadata, 'case_study.approval_reference')) }}" placeholder="Signed letter, email thread or record ID"><small>Store the evidence securely; enter only a safe internal reference here.</small></label>
+                    <label><span>Final approval date</span><input type="date" name="metadata[case_study][approved_at]" value="{{ old('metadata.case_study.approved_at', data_get($contentPage->metadata, 'case_study.approved_at')) }}"></label>
+                </div>
+                <div class="audit-ready">
+                    {{ $caseStudyReadiness['passed'] ?? 0 }} of {{ $caseStudyReadiness['total'] ?? count(\App\Models\ContentPage::CASE_STUDY_EVIDENCE_CHECKS) }} evidence checks recorded{{ ($caseStudyReadiness['records_complete'] ?? false) ? ', with the internal approval record complete.' : '; the internal approval record is incomplete.' }}
+                </div>
+            </section>
+        @endif
+
         <section class="discovery-controls">
             <div class="form-section-head"><span>AI</span><div><h2>Search, answer and generative discovery</h2><p>These controls apply consistently to classic search, AI results and shared previews.</p></div></div>
             <div class="console-form two-columns">

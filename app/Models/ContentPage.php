@@ -8,6 +8,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ContentPage extends Model
 {
+    public const CASE_STUDY_EVIDENCE_CHECKS = [
+        'client_identity_confirmed' => 'Client or business identity is confirmed for public use.',
+        'publication_permission_recorded' => 'Written permission to publish is retained.',
+        'implementation_scope_verified' => 'Scope, modules and implementation period are fact-checked.',
+        'visual_assets_approved' => 'Public screenshots are approved and safely redacted.',
+        'outcomes_evidence_verified' => 'Measurable outcomes are supported by retained evidence.',
+        'final_client_approval_recorded' => 'The client approved the final public copy.',
+    ];
+
     protected $fillable = [
         'type',
         'article_category_id',
@@ -65,6 +74,15 @@ class ContentPage extends Model
             ->where('status', 'published')
             ->where(function (Builder $query): void {
                 $query->whereNull('published_at')->orWhere('published_at', '<=', now());
+            })
+            ->where(function (Builder $query): void {
+                $query
+                    ->where('type', '!=', 'case-study')
+                    ->orWhere(function (Builder $query): void {
+                        $query
+                            ->where('type', 'case-study')
+                            ->where('metadata->case_study->publication_approved', true);
+                    });
             });
     }
 
@@ -194,6 +212,58 @@ class ContentPage extends Model
         }
 
         return (string) ($this->status ?: 'draft');
+    }
+
+    public function isPubliclyVisible(): bool
+    {
+        return $this->status === 'published'
+            && (! $this->published_at || $this->published_at->isPast())
+            && ($this->type !== 'case-study' || $this->caseStudyPublicationApproved());
+    }
+
+    public function caseStudyReadiness(): ?array
+    {
+        if ($this->type !== 'case-study') {
+            return null;
+        }
+
+        $evidence = (array) data_get($this->metadata, 'case_study', []);
+        $checks = collect(self::CASE_STUDY_EVIDENCE_CHECKS)
+            ->map(fn (string $label, string $key): array => [
+                'key' => $key,
+                'label' => $label,
+                'passed' => filter_var(data_get($evidence, $key, false), FILTER_VALIDATE_BOOL),
+            ])
+            ->values()
+            ->all();
+        $records = [
+            'evidence_owner' => trim((string) data_get($evidence, 'evidence_owner')),
+            'approval_reference' => trim((string) data_get($evidence, 'approval_reference')),
+            'approved_at' => trim((string) data_get($evidence, 'approved_at')),
+        ];
+        $passed = collect($checks)->where('passed', true)->count();
+        $recordsComplete = ! in_array('', $records, true);
+
+        return [
+            'ready' => $passed === count($checks) && $recordsComplete,
+            'passed' => $passed,
+            'total' => count($checks),
+            'checks' => $checks,
+            'records' => $records,
+            'records_complete' => $recordsComplete,
+        ];
+    }
+
+    public function caseStudyPublicationApproved(): bool
+    {
+        if ($this->type !== 'case-study') {
+            return true;
+        }
+
+        $readiness = $this->caseStudyReadiness();
+
+        return $readiness['ready']
+            && filter_var(data_get($this->metadata, 'case_study.publication_approved', false), FILTER_VALIDATE_BOOL);
     }
 
     public function relatedSlugs(): array

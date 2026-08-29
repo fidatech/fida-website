@@ -40,6 +40,22 @@ final class DiscoveryAudit
             $checks[] = $this->check('review', filled($page->reviewer_name) && $page->reviewed_at !== null, 'Editorial review is recorded.');
         }
 
+        if (($caseStudyReadiness = $page->caseStudyReadiness()) !== null) {
+            foreach ($caseStudyReadiness['checks'] as $evidenceCheck) {
+                $checks[] = $this->check(
+                    'case-study:'.$evidenceCheck['key'],
+                    $evidenceCheck['passed'],
+                    $evidenceCheck['label'],
+                );
+            }
+
+            $checks[] = $this->check(
+                'case-study:approval-record',
+                $caseStudyReadiness['records_complete'],
+                'Evidence owner, approval reference and approval date are recorded.',
+            );
+        }
+
         $passed = collect($checks)->where('passed', true)->count();
         $total = count($checks);
         $score = $total === 0 ? 0 : (int) round(($passed / $total) * 100);

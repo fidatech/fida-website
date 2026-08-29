@@ -1160,7 +1160,41 @@ class MarketingWebsiteTest extends TestCase
 
         $this->assertSame(4, ContentPage::query()->where('type', 'case-study')->where('status', 'draft')->count());
 
+        $caseStudy = ContentPage::query()->where('slug', 'realist-erp-case-study')->firstOrFail();
+        $caseStudy->update([
+            'status' => 'published',
+            'published_at' => now()->subMinute(),
+        ]);
+
+        $this->assertFalse($caseStudy->fresh()->caseStudyPublicationApproved());
+        $this->assertFalse(ContentPage::published()->whereKey($caseStudy)->exists());
         $this->get('/realist-erp-case-study')->assertNotFound();
+
+        config()->set('website.indexable', true);
+        $this->get('/sitemaps/case-studies.xml')->assertNotFound();
+
+        $metadata = (array) $caseStudy->metadata;
+        $metadata['case_study'] = collect(ContentPage::CASE_STUDY_EVIDENCE_CHECKS)
+            ->mapWithKeys(fn (string $label, string $key): array => [$key => true])
+            ->merge([
+                'evidence_owner' => 'Fida Delivery Lead',
+                'approval_reference' => 'CLIENT-APPROVAL-2026-001',
+                'approved_at' => '2026-08-29',
+                'publication_approved' => true,
+            ])
+            ->all();
+        $caseStudy->update(['metadata' => $metadata]);
+
+        $this->assertTrue($caseStudy->fresh()->caseStudyPublicationApproved());
+        $this->assertTrue(ContentPage::published()->whereKey($caseStudy)->exists());
+        $this->get('/realist-erp-case-study')
+            ->assertOk()
+            ->assertSee('property="og:type" content="article"', false)
+            ->assertSee('"@type":"Article"', false)
+            ->assertDontSee('CLIENT-APPROVAL-2026-001');
+        $this->get('/sitemaps/case-studies.xml')
+            ->assertOk()
+            ->assertSee('realist-erp-case-study');
     }
 
     public function test_homepage_exposes_organization_and_website_entities(): void

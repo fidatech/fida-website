@@ -168,6 +168,35 @@ class ContentPageController extends Controller
             ];
         }
 
+        if ($data['type'] === 'case-study') {
+            $caseStudy = (array) data_get($submittedMetadata, 'case_study', []);
+            $evidence = collect(array_keys(ContentPage::CASE_STUDY_EVIDENCE_CHECKS))
+                ->mapWithKeys(fn (string $key): array => [
+                    $key => filter_var(data_get($caseStudy, $key, false), FILTER_VALIDATE_BOOL),
+                ])
+                ->all();
+            $evidence['evidence_owner'] = trim((string) data_get($caseStudy, 'evidence_owner'));
+            $evidence['approval_reference'] = trim((string) data_get($caseStudy, 'approval_reference'));
+            $evidence['approved_at'] = trim((string) data_get($caseStudy, 'approved_at')) ?: null;
+            $approvedContentHash = trim((string) data_get($existingMetadata, 'case_study.approved_content_hash'));
+            $currentContentHash = $this->caseStudyContentHash($data, $metadata);
+            $approvedCopyChanged = $approvedContentHash !== ''
+                && ! hash_equals($approvedContentHash, $currentContentHash);
+
+            if ($approvedCopyChanged) {
+                $evidence['final_client_approval_recorded'] = false;
+                $data['status'] = 'review';
+            }
+
+            $evidence['publication_approved'] = ! $approvedCopyChanged
+                && ! in_array(false, array_intersect_key($evidence, ContentPage::CASE_STUDY_EVIDENCE_CHECKS), true)
+                && $evidence['evidence_owner'] !== ''
+                && $evidence['approval_reference'] !== ''
+                && $evidence['approved_at'] !== null;
+            $evidence['approved_content_hash'] = $evidence['publication_approved'] ? $currentContentHash : null;
+            $metadata['case_study'] = $evidence;
+        }
+
         $data['metadata'] = $metadata;
         $data['article_category_id'] = $data['type'] === 'article' ? ($data['article_category_id'] ?? null) : null;
         $data['article_author_id'] = $data['type'] === 'article' ? ($data['article_author_id'] ?? null) : null;
@@ -210,5 +239,26 @@ class ContentPageController extends Controller
             ->filter()
             ->values()
             ->all();
+    }
+
+    private function caseStudyContentHash(array $data, array $metadata): string
+    {
+        $publicContent = collect([
+            'title',
+            'eyebrow',
+            'summary',
+            'body',
+            'meta_title',
+            'meta_description',
+            'primary_query',
+            'social_image_url',
+            'author_name',
+            'reviewer_name',
+        ])->mapWithKeys(fn (string $field): array => [$field => $data[$field] ?? null])->all();
+        $publicContent['faqs'] = data_get($metadata, 'faqs', []);
+        $publicContent['cta'] = data_get($metadata, 'cta', []);
+        $publicContent['related_slugs'] = data_get($metadata, 'related_slugs', []);
+
+        return hash('sha256', json_encode($publicContent, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
     }
 }

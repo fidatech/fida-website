@@ -262,6 +262,77 @@ class AdminConsoleTest extends TestCase
             ->assertSee('Realist ERP case study');
     }
 
+    public function test_case_study_publication_requires_complete_evidence_and_client_approval(): void
+    {
+        $editor = User::factory()->admin('editor')->create();
+        $payload = $this->pagePayload();
+        $payload['type'] = 'case-study';
+        $payload['slug'] = 'verified-implementation-case-study';
+        $payload['title'] = [
+            'en' => 'Verified implementation case study',
+            'fa' => 'مطالعه موردی تطبیق تأییدشده',
+            'ps' => 'د تایید شوې پلي کېدو قضیوي مطالعه',
+        ];
+
+        $this->actingAs($editor)
+            ->post(route('admin.content-pages.store'), $payload)
+            ->assertSessionHasErrors([
+                'metadata.case_study.client_identity_confirmed',
+                'metadata.case_study.approval_reference',
+                'summary.fa',
+                'body.ps',
+            ]);
+
+        $this->assertDatabaseMissing('content_pages', ['slug' => 'verified-implementation-case-study']);
+
+        foreach (['summary', 'body', 'meta_title', 'meta_description'] as $field) {
+            $payload[$field]['fa'] = $payload[$field]['en'].' FA';
+            $payload[$field]['ps'] = $payload[$field]['en'].' PS';
+        }
+
+        $payload['metadata']['case_study'] = collect(ContentPage::CASE_STUDY_EVIDENCE_CHECKS)
+            ->mapWithKeys(fn (string $label, string $key): array => [$key => '1'])
+            ->merge([
+                'evidence_owner' => 'Fida Delivery Lead',
+                'approval_reference' => 'CLIENT-APPROVAL-2026-001',
+                'approved_at' => '2026-08-29',
+            ])
+            ->all();
+
+        $response = $this->actingAs($editor)->post(route('admin.content-pages.store'), $payload);
+        $caseStudy = ContentPage::query()->where('slug', 'verified-implementation-case-study')->firstOrFail();
+
+        $response->assertRedirect(route('admin.content-pages.edit', $caseStudy));
+        $this->assertTrue($caseStudy->caseStudyPublicationApproved());
+        $this->assertTrue((bool) data_get($caseStudy->metadata, 'case_study.publication_approved'));
+        $this->assertTrue(ContentPage::published()->whereKey($caseStudy)->exists());
+        $this->get('/verified-implementation-case-study')->assertOk();
+
+        $payload['body']['en'] = '<h2>Revised implementation account</h2><p>This public copy now requires renewed client approval.</p>';
+        $this->actingAs($editor)
+            ->put(route('admin.content-pages.update', $caseStudy), $payload)
+            ->assertRedirect();
+
+        $caseStudy->refresh();
+        $this->assertSame('review', $caseStudy->status);
+        $this->assertFalse($caseStudy->caseStudyPublicationApproved());
+        $this->assertFalse((bool) data_get($caseStudy->metadata, 'case_study.final_client_approval_recorded'));
+        $this->get('/verified-implementation-case-study')->assertNotFound();
+    }
+
+    public function test_case_study_editor_explains_the_evidence_gate(): void
+    {
+        $editor = User::factory()->admin('editor')->create();
+
+        $this->actingAs($editor)
+            ->get(route('admin.content-pages.create', ['type' => 'case-study']))
+            ->assertOk()
+            ->assertSee('Case-study evidence and client approval')
+            ->assertSee('Written permission to publish is retained.')
+            ->assertSee('Approval reference')
+            ->assertSee('0 of 6 evidence checks recorded');
+    }
+
     public function test_type_specific_create_link_prefills_the_editor(): void
     {
         $editor = User::factory()->admin('editor')->create();

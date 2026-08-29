@@ -35,6 +35,13 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Validate cPanel launch safeguards
+        run: |
+          bash -n scripts/prepare-cpanel-production.sh
+          bash -n scripts/cutover-cpanel-production.sh
+          bash -n scripts/rollback-cpanel-production.sh
+          php -l deployment/cpanel-main-root/index.php
+
       - name: Install PHP dependencies
         run: composer install --no-interaction --prefer-dist --no-progress
 

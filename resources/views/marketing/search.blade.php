@@ -55,7 +55,7 @@
             </div>
 
             @if($pages->hasPages())
-                <nav class="search-pagination" aria-label="Pagination">
+                <nav class="search-pagination" aria-label="{{ __('website.accessibility.pagination') }}">
                     @if($pages->onFirstPage())
                         <span aria-disabled="true">← {{ __('website.search.previous') }}</span>
                     @else

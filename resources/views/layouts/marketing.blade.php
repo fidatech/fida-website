@@ -83,7 +83,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="marketing-body theme-{{ config('website.appearance.current_theme', 'midnight') }} palette-{{ config('website.appearance.current_palette', 'fida') }}">
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#main">{{ __('website.accessibility.skip_to_content') }}</a>
     <div class="page-noise" aria-hidden="true"></div>
     <div class="page-aurora page-aurora-one" aria-hidden="true"></div>
     <div class="page-aurora page-aurora-two" aria-hidden="true"></div>
@@ -91,7 +91,7 @@
 
     <header class="site-header" data-header>
         <div class="container header-shell">
-            <a class="brand" href="{{ \App\Support\LocalizedUrl::path('/') }}" aria-label="{{ config('website.name') }} home">
+            <a class="brand" href="{{ \App\Support\LocalizedUrl::path('/') }}" aria-label="{{ __('website.accessibility.home', ['company' => config('website.name')]) }}">
                 @if(config('website.branding.logo_url'))
                     <span class="brand-logo"><img src="{{ config('website.branding.logo_url') }}" alt="" width="42" height="42"></span>
                 @else
@@ -105,7 +105,7 @@
                 <span class="brand-copy"><strong>{{ config('website.branding.name') }}</strong><small>{{ config('website.branding.tagline') }}</small></span>
             </a>
 
-            <nav class="desktop-nav" aria-label="Primary navigation">
+            <nav class="desktop-nav" aria-label="{{ __('website.accessibility.primary_navigation') }}">
                 <div @class(['nav-cluster', 'active' => $solutionsActive]) data-nav-cluster>
                     <button type="button" data-nav-cluster-button aria-expanded="false">{{ __('website.nav.solutions') }}<svg viewBox="0 0 16 16"><path d="m4 6 4 4 4-4"/></svg></button>
                     <div class="nav-cluster-menu nav-mega-menu nav-mega-menu-single">
@@ -179,7 +179,7 @@
                     <svg class="mode-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 15.1A8.5 8.5 0 0 1 8.9 3.5 8.5 8.5 0 1 0 20.5 15.1Z"/></svg>
                 </button>
                 <div class="language-switcher" data-language-switcher>
-                    <button type="button" class="language-button" data-language-button aria-expanded="false" aria-label="Change language">
+                    <button type="button" class="language-button" data-language-button aria-expanded="false" aria-label="{{ __('website.accessibility.change_language') }}">
                         <span class="language-signal"></span>
                         <b>{{ strtoupper($locale) }}</b>
                         <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg>
@@ -201,7 +201,7 @@
             </div>
         </div>
 
-        <nav class="mobile-nav" data-mobile-nav aria-label="Mobile navigation">
+        <nav class="mobile-nav" data-mobile-nav aria-label="{{ __('website.accessibility.mobile_navigation') }}">
             <details class="mobile-nav-group">
                 <summary>{{ __('website.nav.solutions') }}<i>+</i></summary>
                 <div>

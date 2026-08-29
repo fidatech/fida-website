@@ -3,6 +3,7 @@
 return [
     'seo' => ['home' => ['title' => 'سازماني سافټویر، ERP او ډیجیټل بدلون افغانستان | Fida', 'description' => 'Fida Technologies د افغانستان ادارو ته سازماني سافټویر، ERP، MIS، سیسټم ادغام او ډیجیټل بدلون وړاندې کوي.']],
     'nav' => ['home' => 'کور', 'about' => 'زموږ په اړه', 'company' => 'شرکت', 'services' => 'خدمتونه', 'projects' => 'پروژې', 'pricing' => 'بیې', 'contact' => 'اړیکه', 'solutions' => 'حللارې', 'products' => 'محصولات', 'industries' => 'سکتورونه', 'case_studies' => 'قضیوي مطالعې', 'articles' => 'لیدلوري', 'process' => 'کاري بهیر', 'proposal' => 'د وړاندیز غوښتنه', 'menu' => 'مېنو پرانیستل', 'light_mode' => 'ورځنی حالت', 'dark_mode' => 'شپنی حالت', 'all_services' => 'ټول خدمتونه', 'all_solutions' => 'ټولې حللارې', 'all_products' => 'ټول محصولات', 'all_industries' => 'ټول سکتورونه', 'all_articles' => 'ټول لیدلوري'],
+    'accessibility' => ['skip_to_content' => 'اصلي منځپانګې ته لاړ شئ', 'home' => 'د :company کورپاڼه', 'primary_navigation' => 'اصلي مېنو', 'change_language' => 'ژبه بدله کړئ', 'mobile_navigation' => 'د موبایل مېنو', 'pagination' => 'پاڼه بندي', 'technology_core' => 'د فیدا د سوداګریزې ټکنالوژۍ هسته', 'capabilities' => 'د فیدا وړتیاوې'],
     'hero' => [
         'eyebrow' => 'Fida Technologies · افغانستان', 'title_before' => 'سازماني سافټویر، ERP او', 'title_emphasis' => 'ډیجیټل بدلون.',
         'description' => 'په افغانستان کې د دولت، نادولتي موسسو، ادارو او پېچلو سازمانونو لپاره ERP، MIS، مالي سیسټمونه، ادغامونه او ځانګړي سازماني اپلېکېشنونه طرحه او پلي کوو.',

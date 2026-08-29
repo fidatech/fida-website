@@ -16,6 +16,16 @@ return [
         'all_services' => 'Explore all services', 'all_solutions' => 'Explore all solutions',
         'all_products' => 'Explore all products', 'all_industries' => 'Explore all industries', 'all_articles' => 'View all insights',
     ],
+    'accessibility' => [
+        'skip_to_content' => 'Skip to content',
+        'home' => ':company home',
+        'primary_navigation' => 'Primary navigation',
+        'change_language' => 'Change language',
+        'mobile_navigation' => 'Mobile navigation',
+        'pagination' => 'Pagination',
+        'technology_core' => 'Fida business technology core',
+        'capabilities' => 'Fida capabilities',
+    ],
     'hero' => [
         'eyebrow' => 'Fida Technologies · Afghanistan',
         'title_before' => 'Enterprise software, ERP &', 'title_emphasis' => 'digital transformation.',

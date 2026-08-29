@@ -3,6 +3,7 @@
     "private": true,
     "type": "module",
     "scripts": {
+        "audit:assets": "node scripts/check-build-budget.mjs",
         "build": "vite build",
         "dev": "vite"
     },
@@ -17,4 +18,3 @@
         "@laravel/multiplex": "^0.4.1"
     }
 }
-

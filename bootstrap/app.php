@@ -1,5 +1,6 @@
 <?php
 
+use App\Console\Commands\AuditWebsiteRelease;
 use App\Console\Commands\CreateAdminUser;
 use App\Console\Commands\SubmitIndexNow;
 use App\Http\Middleware\EnsureAdminAccess;
@@ -21,6 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withCommands([
+        AuditWebsiteRelease::class,
         CreateAdminUser::class,
         SubmitIndexNow::class,
     ])

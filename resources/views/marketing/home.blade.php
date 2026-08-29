@@ -20,7 +20,7 @@
             </div>
         </div>
 
-        <div class="core-stage reveal" data-core-stage aria-label="Fida business technology core">
+        <div class="core-stage reveal" data-core-stage aria-label="{{ __('website.accessibility.technology_core') }}">
             <div class="stage-readout stage-readout-top"><span>FIDA TECHNOLOGIES</span><b>AFGHANISTAN</b></div>
             <div class="core-scene" data-core-scene>
                 <div class="scene-shadow"></div>
@@ -62,7 +62,7 @@
     </div>
 </section>
 
-<section class="ticker" aria-label="Fida capabilities">
+<section class="ticker" aria-label="{{ __('website.accessibility.capabilities') }}">
     <div class="ticker-track">
         @for($i = 0; $i < 2; $i++)
             <span>ENTERPRISE SOFTWARE <b>✦</b> ERP & MIS <b>✦</b> SYSTEM INTEGRATION <b>✦</b> FINANCIAL SYSTEMS <b>✦</b> DATA ENGINEERING <b>✦</b> AI AUTOMATION <b>✦</b></span>

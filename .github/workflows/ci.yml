@@ -46,6 +46,7 @@ jobs:
           grep -Fq 'CACHE_STORE=array php artisan optimize:clear' scripts/prepare-cpanel-production.sh
           grep -Fq 'chmod 0644' scripts/cutover-cpanel-production.sh
           grep -Fq 'rollback-completed' scripts/cutover-cpanel-production.sh
+          grep -Fq 'BingSiteAuth\.xml' deployment/cpanel-main-root/.htaccess
           php -l deployment/cpanel-main-root/index.php
 
       - name: Install PHP dependencies

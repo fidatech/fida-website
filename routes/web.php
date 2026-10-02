@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ArticleAuthorController as AdminArticleAuthorController;
 use App\Http\Controllers\Admin\ArticleCategoryController as AdminArticleCategoryController;
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\AnalyticsController as AdminAnalyticsController;
 use App\Http\Controllers\Admin\ContentPageController as AdminContentPageController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\LeadController as AdminLeadController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Admin\WebsiteSettingsController as AdminWebsiteSettings
 use App\Http\Controllers\DefaultLocaleRedirectController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ArticleTaxonomyController;
+use App\Http\Controllers\AnalyticsEventController;
 use App\Http\Controllers\IndexNowKeyController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\MarketingPageController;
@@ -34,6 +36,10 @@ Route::post('/contact/lead', LeadController::class)
     ->middleware('throttle:5,1')
     ->name('leads.store');
 
+Route::post('/analytics/event', AnalyticsEventController::class)
+    ->middleware('throttle:60,1')
+    ->name('analytics.event');
+
 Route::get('/{defaultLocale}/{path?}', DefaultLocaleRedirectController::class)
     ->where([
         'defaultLocale' => preg_quote((string) config('website.default_locale'), '/'),
@@ -51,6 +57,12 @@ Route::prefix('admin')->name('admin.')->group(function (): void {
 
     Route::middleware(['auth', 'admin'])->group(function (): void {
         Route::get('/', AdminDashboardController::class)->name('dashboard');
+        Route::get('/analytics', [AdminAnalyticsController::class, 'index'])
+            ->middleware('capability:analytics.view')
+            ->name('analytics.index');
+        Route::post('/analytics/search-console', [AdminAnalyticsController::class, 'importSearchConsole'])
+            ->middleware('capability:analytics.view')
+            ->name('analytics.search-console.import');
         Route::post('/logout', [AdminAuthController::class, 'destroy'])->name('logout');
 
         Route::resource('content-pages', AdminContentPageController::class)

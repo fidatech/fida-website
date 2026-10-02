@@ -135,6 +135,30 @@
                     </div>
                 </section>
 
+                <section class="console-card settings-panel lead-notification-panel">
+                    <header>
+                        <div><small>LEAD NOTIFICATIONS</small><h2>Instant lead alerts</h2></div>
+                        <span class="settings-state">{{ $leadNotificationSettings['email_enabled'] ? 'EMAIL ON' : 'EMAIL OFF' }}</span>
+                    </header>
+                    <div class="settings-panel-body console-form">
+                        <p class="settings-help">Send an immediate email whenever a new lead is submitted from the website, so you do not need to check the admin panel every day.</p>
+                        <input type="hidden" name="lead_email_enabled" value="0">
+                        <label class="checkbox-row">
+                            <input type="checkbox" name="lead_email_enabled" value="1" @checked(old('lead_email_enabled', $leadNotificationSettings['email_enabled']))>
+                            <span>Send email for every new website lead</span>
+                        </label>
+                        <label>
+                            <span>Notification email</span>
+                            <input type="email" name="lead_email_recipient" maxlength="190" value="{{ old('lead_email_recipient', $leadNotificationSettings['email_recipient']) }}" placeholder="{{ $settings['email'] }}">
+                            <small>The email includes the lead details, source page, and a direct link to the lead in admin.</small>
+                        </label>
+                        <div class="ai-provider-note">
+                            <strong>WhatsApp option</strong>
+                            <p>For automatic WhatsApp alerts, use the official WhatsApp Business Cloud API. It needs a business number, access token and an approved notification template. Email is enabled first because it works without another paid messaging provider.</p>
+                        </div>
+                    </div>
+                </section>
+
                 <section class="console-card settings-panel ai-settings-panel">
                     <header>
                         <div><small>AI ASSISTANT</small><h2>Growth advisor</h2></div>

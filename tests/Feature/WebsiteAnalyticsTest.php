@@ -3,10 +3,14 @@
 namespace Tests\Feature;
 
 use App\Models\SearchConsoleMetric;
+use App\Models\SiteSetting;
+use App\Services\AnalyticsAiAdvisor;
 use App\Models\User;
 use App\Models\WebsiteAnalyticsEvent;
 use App\Models\WebsitePageView;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 class WebsiteAnalyticsTest extends TestCase
@@ -96,6 +100,42 @@ class WebsiteAnalyticsTest extends TestCase
         ]);
     }
 
+    public function test_ai_advisor_strips_model_thinking_and_returns_structured_decisions(): void
+    {
+        SiteSetting::query()->create([
+            'key' => 'analytics.ai',
+            'group' => 'analytics',
+            'value' => [
+                'provider' => 'openrouter',
+                'model' => 'openrouter/free',
+                'api_key' => Crypt::encryptString('test-key'),
+            ],
+            'type' => 'json',
+            'is_public' => false,
+        ]);
+
+        Http::fake([
+            'openrouter.ai/*' => Http::response([
+                'choices' => [[
+                    'message' => [
+                        'content' => 'Here is my thinking process. '.$this->validDecisionJson(),
+                    ],
+                ]],
+            ], 200),
+        ]);
+
+        $result = app(AnalyticsAiAdvisor::class)->generate([
+            'real_traffic' => ['visitors' => 48],
+            'google_search_console' => ['top_pages' => []],
+            'existing_website_inventory' => [],
+        ]);
+
+        $this->assertSame('Improve the pages already closest to revenue.', $result['decision']['headline']);
+        $this->assertCount(1, $result['decision']['priorities']);
+        $this->assertStringNotContainsString('thinking process', $result['content']);
+        $this->assertJson($result['content']);
+    }
+
     public function test_initial_search_console_snapshot_is_available(): void
     {
         $this->assertGreaterThan(0, SearchConsoleMetric::query()->where('metric_type', 'query')->count());
@@ -115,4 +155,24 @@ class WebsiteAnalyticsTest extends TestCase
             ->assertSee('ERP and management information systems')
             ->assertSee('Sitemap:');
     }
+    private function validDecisionJson(): string
+    {
+        return json_encode([
+            'headline' => 'Improve the pages already closest to revenue.',
+            'summary' => 'Do not build a new ERP from this small sample. Improve conversion and validate demand first.',
+            'priorities' => [[
+                'type' => 'Conversion',
+                'title' => 'Turn high-intent pages into lead pages',
+                'decision' => 'Improve the strongest existing ERP landing pages before creating new products.',
+                'business_reason' => 'The site has traffic but no recorded business actions.',
+                'evidence' => ['48 real visitors', '0 business actions'],
+                'next_steps' => ['Add a stronger WhatsApp CTA', 'Add proof and pricing guidance', 'Review conversions after 30 days'],
+                'confidence' => 'high',
+            ]],
+            'watchlist' => [],
+            'do_not_prioritize' => ['Do not enter a new country based on impressions alone.'],
+            'data_quality_notes' => ['Traffic volume is still small.'],
+        ], JSON_UNESCAPED_SLASHES);
+    }
+
 }

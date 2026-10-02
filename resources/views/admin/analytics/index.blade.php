@@ -58,7 +58,7 @@
             @forelse($daily as $point)
                 <div class="analytics-bar-column" title="{{ $point->day }} · {{ $point->views }} views · {{ $point->visitors }} visitors">
                     <i style="height: {{ max(4, round(($point->views / $maxDailyViews) * 100)) }}%"></i>
-                    <small>{{ IlluminateSupportCarbon::parse($point->day)->format('d') }}</small>
+                    <small>{{ date('d', strtotime((string) $point->day)) }}</small>
                 </div>
             @empty
                 <div class="empty-state"><i>↗</i><strong>Tracking starts now</strong><p>Human page views will begin appearing after this release is deployed.</p></div>

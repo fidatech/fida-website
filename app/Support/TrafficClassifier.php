@@ -72,6 +72,10 @@ class TrafficClassifier
             'claudebot' => 'ClaudeBot', 'claude-web' => 'Claude', 'perplexitybot' => 'Perplexity',
             'bytespider' => 'ByteDance', 'semrushbot' => 'Semrush', 'ahrefsbot' => 'Ahrefs',
             'mj12bot' => 'Majestic', 'crawler' => 'Crawler', 'spider' => 'Spider', 'bot/' => 'Bot',
+            'guzzlehttp/' => 'Automated HTTP client', 'curl/' => 'cURL', 'wget/' => 'Wget',
+            'python-requests/' => 'Python requests', 'postmanruntime/' => 'Postman', 'okhttp/' => 'OkHttp',
+            'axios/' => 'Axios', 'headlesschrome/' => 'Headless Chrome', 'lighthouse' => 'Lighthouse',
+            'pagespeed' => 'PageSpeed',
         ];
 
         foreach ($bots as $needle => $name) {

@@ -132,3 +132,156 @@ document.addEventListener('keydown', (event) => {
     setSidebar(false);
     profileMenu?.classList.remove('open');
 });
+
+
+/* Collapsible admin navigation */
+document.querySelectorAll('[data-nav-group]').forEach((group) => {
+    const toggle = group.querySelector('[data-nav-group-toggle]');
+    const menu = group.querySelector('[data-nav-group-menu]');
+    if (!toggle || !menu) return;
+
+    const setOpen = (open) => {
+        group.classList.toggle('open', open);
+        toggle.setAttribute('aria-expanded', String(open));
+    };
+
+    toggle.addEventListener('click', () => setOpen(!group.classList.contains('open')));
+});
+
+/* Lightweight sortable, searchable, paginated analytics tables */
+document.querySelectorAll('[data-datatable]').forEach((table, tableIndex) => {
+    const body = table.tBodies[0];
+    if (!body) return;
+
+    const originalRows = Array.from(body.rows);
+    if (!originalRows.length || originalRows.every((row) => row.cells.length === 1 && row.cells[0].colSpan > 1)) return;
+
+    let rows = [...originalRows];
+    let filteredRows = [...rows];
+    let page = 1;
+    let pageSize = Number(table.dataset.pageSize || 10);
+    let sortIndex = -1;
+    let sortDirection = 1;
+
+    const wrap = table.closest('.analytics-table-wrap');
+    if (!wrap) return;
+
+    const toolbar = document.createElement('div');
+    toolbar.className = 'analytics-table-toolbar';
+    toolbar.innerHTML = `
+        <div class="analytics-table-search">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"></circle><path d="m16 16 4 4"></path></svg>
+            <input type="search" placeholder="Search table..." aria-label="Search table">
+        </div>
+        <label class="analytics-page-size">
+            <span>Rows</span>
+            <select aria-label="Rows per page">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+            </select>
+        </label>
+    `;
+
+    const footer = document.createElement('div');
+    footer.className = 'analytics-table-footer';
+    footer.innerHTML = `
+        <span class="analytics-table-info"></span>
+        <div class="analytics-pager">
+            <button type="button" data-page-prev aria-label="Previous page">‹</button>
+            <span data-page-label></span>
+            <button type="button" data-page-next aria-label="Next page">›</button>
+        </div>
+    `;
+
+    wrap.parentNode.insertBefore(toolbar, wrap);
+    wrap.parentNode.insertBefore(footer, wrap.nextSibling);
+
+    const search = toolbar.querySelector('input');
+    const sizeSelect = toolbar.querySelector('select');
+    const info = footer.querySelector('.analytics-table-info');
+    const pageLabel = footer.querySelector('[data-page-label]');
+    const prev = footer.querySelector('[data-page-prev]');
+    const next = footer.querySelector('[data-page-next]');
+    sizeSelect.value = String(pageSize);
+
+    const valueOf = (row, index) => {
+        const cell = row.cells[index];
+        if (!cell) return '';
+        const explicit = cell.dataset.value;
+        const raw = explicit ?? cell.textContent.trim();
+        const numeric = Number(String(raw).replace(/[,%]/g, ''));
+        return raw !== '' && Number.isFinite(numeric) ? numeric : String(raw).toLocaleLowerCase();
+    };
+
+    const render = () => {
+        const total = filteredRows.length;
+        const pages = Math.max(1, Math.ceil(total / pageSize));
+        page = Math.min(page, pages);
+        const start = (page - 1) * pageSize;
+        const end = Math.min(start + pageSize, total);
+
+        body.innerHTML = '';
+        filteredRows.slice(start, end).forEach((row) => body.appendChild(row));
+
+        info.textContent = total ? `Showing ${start + 1}–${end} of ${total}` : 'No matching rows';
+        pageLabel.textContent = `Page ${page} of ${pages}`;
+        prev.disabled = page <= 1;
+        next.disabled = page >= pages;
+    };
+
+    const applyFilter = () => {
+        const term = search.value.trim().toLocaleLowerCase();
+        filteredRows = term
+            ? rows.filter((row) => row.textContent.toLocaleLowerCase().includes(term))
+            : [...rows];
+        page = 1;
+        render();
+    };
+
+    search.addEventListener('input', applyFilter);
+    sizeSelect.addEventListener('change', () => {
+        pageSize = Number(sizeSelect.value);
+        page = 1;
+        render();
+    });
+    prev.addEventListener('click', () => { if (page > 1) { page -= 1; render(); } });
+    next.addEventListener('click', () => {
+        const pages = Math.max(1, Math.ceil(filteredRows.length / pageSize));
+        if (page < pages) { page += 1; render(); }
+    });
+
+    table.querySelectorAll('th[data-sort]').forEach((header, index) => {
+        header.setAttribute('tabindex', '0');
+        header.setAttribute('role', 'button');
+
+        const sort = () => {
+            if (sortIndex === index) sortDirection *= -1;
+            else {
+                sortIndex = index;
+                sortDirection = 1;
+            }
+
+            table.querySelectorAll('th[data-sort]').forEach((item) => item.classList.remove('sort-asc', 'sort-desc'));
+            header.classList.add(sortDirection === 1 ? 'sort-asc' : 'sort-desc');
+
+            rows.sort((a, b) => {
+                const av = valueOf(a, index);
+                const bv = valueOf(b, index);
+                if (typeof av === 'number' && typeof bv === 'number') return (av - bv) * sortDirection;
+                return String(av).localeCompare(String(bv), undefined, { numeric: true, sensitivity: 'base' }) * sortDirection;
+            });
+            applyFilter();
+        };
+
+        header.addEventListener('click', sort);
+        header.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                sort();
+            }
+        });
+    });
+
+    render();
+});

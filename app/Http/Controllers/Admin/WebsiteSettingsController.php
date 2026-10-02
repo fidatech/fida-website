@@ -8,6 +8,7 @@ use App\Models\SiteSetting;
 use App\Support\WebsiteSettings;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use RuntimeException;
@@ -21,6 +22,7 @@ class WebsiteSettingsController extends Controller
             'settings' => $settings->formData(),
             'themes' => config('website.appearance.themes'),
             'palettes' => config('website.appearance.palettes'),
+            'aiSettings' => $this->aiSettings(),
         ]);
     }
 
@@ -71,6 +73,32 @@ class WebsiteSettingsController extends Controller
                     'secondary_color' => strtolower($data['secondary_color']),
                     'highlight_color' => strtolower($data['highlight_color']),
                 ]);
+
+                $existingAi = SiteSetting::query()->where('key', 'analytics.ai')->first();
+                $existing = is_array($existingAi?->value) ? $existingAi->value : [];
+                $encryptedKey = $existing['api_key'] ?? null;
+
+                if (($data['remove_ai_api_key'] ?? false) === true) {
+                    $encryptedKey = null;
+                }
+
+                if (filled($data['ai_api_key'] ?? null)) {
+                    $encryptedKey = Crypt::encryptString(trim((string) $data['ai_api_key']));
+                }
+
+                SiteSetting::query()->updateOrCreate(
+                    ['key' => 'analytics.ai'],
+                    [
+                        'group' => 'analytics',
+                        'value' => [
+                            'provider' => $data['ai_provider'] ?? ($existing['provider'] ?? 'gemini'),
+                            'model' => trim((string) ($data['ai_model'] ?? ($existing['model'] ?? 'gemini-3.8-flash'))),
+                            'api_key' => $encryptedKey,
+                        ],
+                        'type' => 'json',
+                        'is_public' => false,
+                    ],
+                );
             });
         } catch (Throwable $exception) {
             if ($uploadedPath !== null) {
@@ -85,6 +113,18 @@ class WebsiteSettingsController extends Controller
         }
 
         return back()->with('success', 'Website settings updated.');
+    }
+
+    private function aiSettings(): array
+    {
+        $setting = SiteSetting::query()->where('key', 'analytics.ai')->first();
+        $value = is_array($setting?->value) ? $setting->value : [];
+
+        return [
+            'provider' => in_array(($value['provider'] ?? null), ['gemini', 'openrouter'], true) ? $value['provider'] : 'gemini',
+            'model' => trim((string) ($value['model'] ?? 'gemini-3.8-flash')),
+            'has_api_key' => filled($value['api_key'] ?? null),
+        ];
     }
 
     /** @param array<string, mixed> $value */

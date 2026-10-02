@@ -65,6 +65,9 @@ Route::prefix('admin')->name('admin.')->group(function (): void {
         Route::post('/analytics/search-console', [AdminAnalyticsController::class, 'importSearchConsole'])
             ->middleware('capability:analytics.view')
             ->name('analytics.search-console.import');
+        Route::post('/analytics/ai-insight', [AdminAnalyticsController::class, 'generateAiInsight'])
+            ->middleware('capability:analytics.view')
+            ->name('analytics.ai-insight');
         Route::post('/logout', [AdminAuthController::class, 'destroy'])->name('logout');
 
         Route::resource('content-pages', AdminContentPageController::class)

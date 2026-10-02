@@ -27,7 +27,9 @@ use Database\Seeders\RegulatedCommerceIndustrySeeder;
 use Database\Seeders\ResourceInfrastructureIndustrySeeder;
 use Database\Seeders\TradeTelecommunicationsIndustrySeeder;
 use Database\Seeders\WebsiteSeeder;
+use App\Mail\NewLeadNotificationMail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
@@ -807,6 +809,7 @@ class MarketingWebsiteTest extends TestCase
         $this->assertStringContainsString('.nav-mega-menu-industries', $stylesheet);
         $this->assertStringContainsString('white-space: normal;', $stylesheet);
         $this->assertStringContainsString('.mobile-nav-priority', $stylesheet);
+        $this->assertStringContainsString('text-transform: uppercase', $stylesheet);
         $this->assertStringContainsString('@media (max-width: 1180px)', $stylesheet);
         $this->assertStringNotContainsString('.nav-cluster:hover .nav-cluster-menu', $stylesheet);
         $this->assertStringNotContainsString('.nav-cluster:focus-within .nav-cluster-menu', $stylesheet);
@@ -1482,6 +1485,28 @@ class MarketingWebsiteTest extends TestCase
         $this->assertStringContainsString('From discovery to deployment', $customSoftware->translation('body', 'en'));
         $this->assertSame('Admin-selected technology topic', $technologyCompany->primaryQuery('en'));
         $this->assertSame('commercial', $technologyCompany->search_intent);
+    }
+
+    public function test_new_website_lead_sends_owner_email_notification(): void
+    {
+        Mail::fake();
+
+        $this->post('/contact/lead', [
+            'name' => 'Prospective Client',
+            'email' => 'client@example.com',
+            'phone' => '+93700000000',
+            'company' => 'Example Co',
+            'project_type' => 'erp',
+            'budget' => '5000-10000',
+            'message' => 'We need an ERP proposal.',
+            'locale' => 'en',
+            'source_url' => url('/erp-systems-afghanistan'),
+        ])->assertRedirect();
+
+        Mail::assertSent(NewLeadNotificationMail::class, function (NewLeadNotificationMail $mail): bool {
+            return $mail->hasTo(config('website.email'))
+                && $mail->lead->name === 'Prospective Client';
+        });
     }
 
     public function test_valid_project_request_is_recorded_as_a_lead(): void

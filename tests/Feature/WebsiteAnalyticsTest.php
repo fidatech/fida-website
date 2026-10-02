@@ -59,7 +59,7 @@ class WebsiteAnalyticsTest extends TestCase
             ->assertOk()
             ->assertSee('Website intelligence')
             ->assertSee('Google Search Console')
-            ->assertSee('Search & AI bots');
+            ->assertSee('Search & AI bots', false);
 
         $this->actingAs($editor)
             ->get(route('admin.analytics.index'))

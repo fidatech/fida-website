@@ -11,6 +11,7 @@ use App\Models\SiteSetting;
 use App\Models\User;
 use Database\Seeders\WebsiteSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Crypt;
 use Tests\TestCase;
 
 class AdminConsoleTest extends TestCase
@@ -197,7 +198,7 @@ class AdminConsoleTest extends TestCase
             ->put(route('admin.settings.update'), $this->settingsPayload())
             ->assertRedirect();
 
-        $this->assertDatabaseCount('site_settings', 3);
+        $this->assertDatabaseCount('site_settings', 4);
         $this->assertSame(
             'Fida Technology Group',
             SiteSetting::query()->where('key', 'website.general')->firstOrFail()->value['company_name'],
@@ -210,6 +211,28 @@ class AdminConsoleTest extends TestCase
             ->assertSee('--ink:#050914', false)
             ->assertSee('--lime:#55a7ff', false)
             ->assertSee('theme-deep_navy palette-electric', false);
+    }
+
+
+    public function test_super_administrator_can_store_ai_provider_key_encrypted(): void
+    {
+        $admin = User::factory()->admin()->create();
+        $payload = $this->settingsPayload();
+        $payload['ai_provider'] = 'gemini';
+        $payload['ai_model'] = 'gemini-3.8-flash';
+        $payload['ai_api_key'] = 'test-secret-api-key';
+        $payload['remove_ai_api_key'] = '0';
+
+        $this->actingAs($admin)
+            ->put(route('admin.settings.update'), $payload)
+            ->assertRedirect();
+
+        $value = SiteSetting::query()->where('key', 'analytics.ai')->firstOrFail()->value;
+
+        $this->assertSame('gemini', $value['provider']);
+        $this->assertSame('gemini-3.8-flash', $value['model']);
+        $this->assertNotSame('test-secret-api-key', $value['api_key']);
+        $this->assertSame('test-secret-api-key', Crypt::decryptString($value['api_key']));
     }
 
     public function test_website_settings_reject_unsafe_map_provider(): void

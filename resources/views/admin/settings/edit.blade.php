@@ -10,7 +10,7 @@
 
         <section class="editor-heading settings-heading">
             <div>
-                <small class="section-code">01 / WEBSITE CONTROL</small>
+                <small class="section-code">WEBSITE CONTROL</small>
                 <h1>Your identity, from one place.</h1>
                 <p>Manage company details, the public logo, surface theme and color system.</p>
             </div>
@@ -24,7 +24,7 @@
             <div class="website-settings-main">
                 <section class="console-card settings-panel brand-settings-panel">
                     <header>
-                        <div><small>02 / BRAND IDENTITY</small><h2>Logo and signature</h2></div>
+                        <div><small>BRAND IDENTITY</small><h2>Logo and signature</h2></div>
                         <span class="settings-state">PUBLIC</span>
                     </header>
                     <div class="settings-panel-body brand-settings-grid">
@@ -66,7 +66,7 @@
 
                 <section class="console-card settings-panel appearance-panel">
                     <header>
-                        <div><small>03 / SURFACE THEME</small><h2>Choose the atmosphere</h2></div>
+                        <div><small>SURFACE THEME</small><h2>Choose the atmosphere</h2></div>
                         <span class="settings-state">3 OPTIONS</span>
                     </header>
                     <div class="settings-panel-body">
@@ -85,7 +85,7 @@
 
                 <section class="console-card settings-panel palette-panel">
                     <header>
-                        <div><small>04 / COLOR SYSTEM</small><h2>Select the energy</h2></div>
+                        <div><small>COLOR SYSTEM</small><h2>Select the energy</h2></div>
                         <span class="settings-state">LIVE ACCENT</span>
                     </header>
                     <div class="settings-panel-body">
@@ -118,7 +118,7 @@
 
             <aside class="website-settings-side">
                 <section class="console-card settings-panel company-settings-panel">
-                    <header><div><small>05 / COMPANY PROFILE</small><h2>Public information</h2></div></header>
+                    <header><div><small>COMPANY PROFILE</small><h2>Public information</h2></div></header>
                     <div class="settings-panel-body console-form">
                         <label><span>Company name</span><input name="company_name" maxlength="160" required value="{{ old('company_name', $settings['company_name']) }}"></label>
                         <label><span>Legal name</span><input name="legal_name" maxlength="190" required value="{{ old('legal_name', $settings['legal_name']) }}"></label>
@@ -132,6 +132,45 @@
                         </div>
                         <label><span>Country code <b>ISO 2</b></span><input name="country_code" maxlength="2" required value="{{ old('country_code', $settings['country_code']) }}" style="text-transform:uppercase"></label>
                         <label><span>Map embed URL</span><textarea name="map_embed_url" rows="4" maxlength="2048" dir="ltr" placeholder="https://www.google.com/maps/embed?...">{{ old('map_embed_url', $settings['map_embed_url']) }}</textarea><small>Paste the HTTPS embed URL from Google Maps or OpenStreetMap—not custom iframe code.</small></label>
+                    </div>
+                </section>
+
+                <section class="console-card settings-panel ai-settings-panel">
+                    <header>
+                        <div><small>AI ASSISTANT</small><h2>Growth advisor</h2></div>
+                        <span class="settings-state">{{ $aiSettings['has_api_key'] ? 'CONNECTED' : 'NOT CONNECTED' }}</span>
+                    </header>
+                    <div class="settings-panel-body console-form">
+                        <p class="settings-help">Used only from the private Analytics page to turn aggregated visitor and Search Console data into ERP, content and conversion recommendations. The API key is encrypted before it is stored.</p>
+                        <label>
+                            <span>Provider</span>
+                            <select name="ai_provider" data-ai-provider>
+                                <option value="gemini" @selected(old('ai_provider', $aiSettings['provider']) === 'gemini')>Google Gemini</option>
+                                <option value="openrouter" @selected(old('ai_provider', $aiSettings['provider']) === 'openrouter')>OpenRouter</option>
+                            </select>
+                        </label>
+                        <label>
+                            <span>Model</span>
+                            <input name="ai_model" maxlength="120" value="{{ old('ai_model', $aiSettings['model']) }}" placeholder="gemini-3.8-flash" required>
+                            <small>Recommended starting point: Gemini 3.8 Flash. For OpenRouter you can use a free model ID or <code>openrouter/free</code>.</small>
+                        </label>
+                        <label>
+                            <span>API key @if($aiSettings['has_api_key'])<b>Configured</b>@endif</span>
+                            <input type="password" name="ai_api_key" maxlength="500" autocomplete="new-password" placeholder="{{ $aiSettings['has_api_key'] ? 'Leave blank to keep the current key' : 'Paste API key' }}">
+                            <small>The saved key is never shown back in the admin panel.</small>
+                        </label>
+                        @if($aiSettings['has_api_key'])
+                            <label class="checkbox-row">
+                                <input type="checkbox" name="remove_ai_api_key" value="1">
+                                <span>Remove the saved AI API key</span>
+                            </label>
+                        @else
+                            <input type="hidden" name="remove_ai_api_key" value="0">
+                        @endif
+                        <div class="ai-provider-note">
+                            <strong>Free option</strong>
+                            <p>Gemini has a developer free tier for supported models. OpenRouter is useful when you want one key for multiple free models, but its free plan has a lower daily request allowance.</p>
+                        </div>
                     </div>
                 </section>
 

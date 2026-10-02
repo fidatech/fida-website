@@ -16,6 +16,7 @@ use App\Http\Controllers\ArticleTaxonomyController;
 use App\Http\Controllers\AnalyticsEventController;
 use App\Http\Controllers\IndexNowKeyController;
 use App\Http\Controllers\LeadController;
+use App\Http\Controllers\LlmDiscoveryController;
 use App\Http\Controllers\MarketingPageController;
 use App\Http\Controllers\RobotsController;
 use App\Http\Controllers\SearchController;
@@ -29,6 +30,7 @@ Route::get('/sitemaps/{group}.xml', [SitemapController::class, 'show'])
     ->where('group', '[a-z-]+')
     ->name('sitemap.group');
 Route::get('/robots.txt', RobotsController::class)->name('robots');
+Route::get('/llms.txt', LlmDiscoveryController::class)->name('llms');
 Route::get('/indexnow-key.txt', IndexNowKeyController::class)->name('indexnow.key');
 Route::get('/search', SearchController::class)->name('search');
 

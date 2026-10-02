@@ -11,6 +11,8 @@
         $searchImpressions = (int) ($searchTotals?->impressions ?? 0);
         $searchCtr = $searchImpressions > 0 ? ($searchClicks / $searchImpressions) * 100 : 0;
         $conversionRate = $summary['visitors'] > 0 ? ($summary['conversions'] / $summary['visitors']) * 100 : 0;
+        $aiDecision = $latestInsight ? json_decode((string) $latestInsight->content, true) : null;
+        $aiDecision = is_array($aiDecision) && !empty($aiDecision['priorities']) ? $aiDecision : null;
     @endphp
 
     <section class="analytics-hero">
@@ -223,17 +225,93 @@
             <article class="ai-response-card">
                 <div class="ai-response-head">
                     <div>
-                        <span class="ai-kicker">AI ANALYSIS</span>
-                        <h3>{{ $latestInsight ? 'Latest growth recommendation' : 'Connect an AI provider' }}</h3>
+                        <span class="ai-kicker">OWNER DECISION BRIEF</span>
+                        <h3>{{ $aiDecision['headline'] ?? ($latestInsight ? 'Regenerate the old recommendation' : 'Connect an AI provider') }}</h3>
                     </div>
                     @if($latestInsight)
                         <small>{{ strtoupper($latestInsight->provider) }} · {{ $latestInsight->model }} · {{ $latestInsight->created_at->diffForHumans() }}</small>
                     @endif
                 </div>
-                @if($latestInsight)
-                    <div class="ai-response-copy">{{ $latestInsight->content }}</div>
+
+                @if($aiDecision)
+                    @if(!empty($aiDecision['summary']))
+                        <p class="ai-executive-summary">{{ $aiDecision['summary'] }}</p>
+                    @endif
+
+                    <div class="ai-priority-list">
+                        @foreach($aiDecision['priorities'] as $index => $priority)
+                            <article class="ai-priority-card">
+                                <div class="ai-priority-topline">
+                                    <div>
+                                        <span class="ai-priority-rank">{{ $index + 1 }}</span>
+                                        <span class="ai-priority-type">{{ $priority['type'] ?? 'Action' }}</span>
+                                    </div>
+                                    <span @class(['ai-confidence', 'high' => ($priority['confidence'] ?? '') === 'high', 'medium' => ($priority['confidence'] ?? '') === 'medium', 'low' => ($priority['confidence'] ?? '') === 'low'])>
+                                        {{ ucfirst($priority['confidence'] ?? 'low') }} confidence
+                                    </span>
+                                </div>
+                                <h4>{{ $priority['title'] ?? 'Next action' }}</h4>
+                                <p class="ai-decision">{{ $priority['decision'] ?? '' }}</p>
+                                @if(!empty($priority['business_reason']))
+                                    <p class="ai-business-reason">{{ $priority['business_reason'] }}</p>
+                                @endif
+
+                                @if(!empty($priority['evidence']))
+                                    <div class="ai-evidence">
+                                        <strong>Why now</strong>
+                                        @foreach($priority['evidence'] as $evidence)
+                                            <span>{{ $evidence }}</span>
+                                        @endforeach
+                                    </div>
+                                @endif
+
+                                @if(!empty($priority['next_steps']))
+                                    <div class="ai-next-steps">
+                                        <strong>Do this next</strong>
+                                        <ol>
+                                            @foreach($priority['next_steps'] as $step)
+                                                <li>{{ $step }}</li>
+                                            @endforeach
+                                        </ol>
+                                    </div>
+                                @endif
+                            </article>
+                        @endforeach
+                    </div>
+
+                    @if(!empty($aiDecision['watchlist']) || !empty($aiDecision['do_not_prioritize']))
+                        <div class="ai-secondary-grid">
+                            @if(!empty($aiDecision['watchlist']))
+                                <div class="ai-secondary-card">
+                                    <strong>Watch before investing</strong>
+                                    @foreach($aiDecision['watchlist'] as $item)
+                                        <div><span>{{ $item['signal'] ?? '' }}</span><small>{{ $item['trigger'] ?? '' }}</small></div>
+                                    @endforeach
+                                </div>
+                            @endif
+                            @if(!empty($aiDecision['do_not_prioritize']))
+                                <div class="ai-secondary-card">
+                                    <strong>Do not prioritize yet</strong>
+                                    @foreach($aiDecision['do_not_prioritize'] as $item)
+                                        <div><span>{{ $item }}</span></div>
+                                    @endforeach
+                                </div>
+                            @endif
+                        </div>
+                    @endif
+
+                    @if(!empty($aiDecision['data_quality_notes']))
+                        <div class="ai-data-note">
+                            <strong>Data limits</strong>
+                            {{ implode(' · ', $aiDecision['data_quality_notes']) }}
+                        </div>
+                    @endif
+                @elseif($latestInsight)
+                    <div class="analytics-empty">
+                        The previous recommendation used the old free-text format and has been hidden because it was too verbose and not decision-focused. Click <strong>Generate recommendations</strong> to replace it with the new executive decision brief.
+                    </div>
                 @elseif($aiConfigured)
-                    <div class="analytics-empty">Your API is connected. Generate the first recommendation to analyze ERP, topic and conversion opportunities.</div>
+                    <div class="analytics-empty">Your API is connected. Generate the first decision brief to get prioritized ERP, content and conversion actions.</div>
                 @else
                     <div class="analytics-empty">
                         Add a Gemini or OpenRouter API key in Settings. Only aggregated analytics are sent to the provider—no visitor IDs, IP hashes or raw user-agent strings.

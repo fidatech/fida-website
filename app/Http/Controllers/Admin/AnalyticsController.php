@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AnalyticsAiInsight;
+use App\Models\ContentPage;
 use App\Models\SearchConsoleMetric;
 use App\Models\WebsiteAnalyticsEvent;
 use App\Models\WebsitePageView;
@@ -183,6 +184,20 @@ class AnalyticsController extends Controller
                 'countries' => SearchConsoleMetric::query()->when($searchPeriod, fn ($q) => $q->where('period_end', $searchPeriod))
                     ->where('metric_type', 'country')->orderByDesc('impressions')->limit(12)->get(['dimension', 'clicks', 'impressions', 'ctr', 'position'])->toArray(),
             ],
+            'existing_website_inventory' => ContentPage::published()
+                ->whereIn('type', ['product', 'solution', 'service', 'industry', 'article', 'page'])
+                ->orderBy('type')
+                ->orderBy('sort_order')
+                ->get()
+                ->map(fn (ContentPage $page) => [
+                    'type' => $page->type,
+                    'slug' => $page->slug,
+                    'title' => $page->translation('title', 'en'),
+                    'summary' => mb_substr(strip_tags((string) $page->translation('summary', 'en')), 0, 220),
+                    'primary_query' => $page->primaryQuery('en'),
+                ])
+                ->values()
+                ->toArray(),
         ];
 
         try {

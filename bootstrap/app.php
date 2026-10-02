@@ -3,7 +3,6 @@
 use App\Console\Commands\AuditWebsiteDeployment;
 use App\Console\Commands\AuditWebsiteRelease;
 use App\Console\Commands\CreateAdminUser;
-use App\Console\Commands\DiagnoseAnalytics;
 use App\Console\Commands\SubmitIndexNow;
 use App\Http\Middleware\AddSecurityHeaders;
 use App\Http\Middleware\EnsureAdminAccess;
@@ -29,7 +28,6 @@ return Application::configure(basePath: dirname(__DIR__))
         AuditWebsiteDeployment::class,
         AuditWebsiteRelease::class,
         CreateAdminUser::class,
-        DiagnoseAnalytics::class,
         SubmitIndexNow::class,
     ])
     ->withMiddleware(function (Middleware $middleware): void {

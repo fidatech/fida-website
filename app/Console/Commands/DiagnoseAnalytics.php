@@ -2,7 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Http\Controllers\Admin\AnalyticsController;
 use App\Models\SearchConsoleMetric;
+use App\Models\User;
+use Illuminate\Http\Request;
 use App\Models\WebsiteAnalyticsEvent;
 use App\Models\WebsitePageView;
 use Illuminate\Console\Command;
@@ -42,6 +45,23 @@ class DiagnoseAnalytics extends Command
                 $this->error($name.' FAILED: '.$e->getMessage());
                 throw $e;
             }
+        }
+
+        $admin = User::query()->where('role', 'super_admin')->where('active', true)->first();
+        if (! $admin) {
+            $this->warn('render SKIPPED: no active super admin');
+            return self::SUCCESS;
+        }
+
+        try {
+            $request = Request::create('/admin/analytics?days=30', 'GET');
+            $request->setUserResolver(fn () => $admin);
+            $view = app(AnalyticsController::class)->index($request);
+            $html = $view->render();
+            $this->info('render OK '.strlen($html).' bytes');
+        } catch (\Throwable $e) {
+            $this->error('render FAILED: '.$e->getMessage());
+            throw $e;
         }
 
         return self::SUCCESS;

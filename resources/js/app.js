@@ -229,6 +229,47 @@ if (canTilt) {
     });
 }
 
+const analyticsEndpoint = '/analytics/event';
+const analyticsCsrf = document.querySelector('meta[name="csrf-token"]')?.content;
+
+const recordFirstPartyEvent = (eventName, eventLabel = '') => {
+    if (!analyticsCsrf) return;
+
+    fetch(analyticsEndpoint, {
+        method: 'POST',
+        keepalive: true,
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': analyticsCsrf,
+            'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+            event_name: eventName,
+            event_label: eventLabel,
+            path: window.location.pathname,
+        }),
+    }).catch(() => {});
+};
+
+document.querySelectorAll('[data-track-event]').forEach((element) => {
+    element.addEventListener('click', () => {
+        recordFirstPartyEvent(element.dataset.trackEvent, element.dataset.trackLabel || '');
+    });
+});
+
+document.querySelectorAll('a[href^="tel:"]').forEach((element) => {
+    element.addEventListener('click', () => recordFirstPartyEvent('phone_click', element.getAttribute('href')));
+});
+
+document.querySelectorAll('a[href^="mailto:"]').forEach((element) => {
+    element.addEventListener('click', () => recordFirstPartyEvent('email_click', element.getAttribute('href')));
+});
+
+document.querySelectorAll('a[href*="wa.me"], a[href*="whatsapp.com"]').forEach((element) => {
+    element.addEventListener('click', () => recordFirstPartyEvent('whatsapp_click', element.getAttribute('href')));
+});
+
 const analyticsConfig = window.fidaAnalytics;
 
 if (analyticsConfig?.measurementId) {

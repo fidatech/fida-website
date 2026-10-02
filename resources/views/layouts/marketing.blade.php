@@ -37,7 +37,7 @@
             try { saved = localStorage.getItem(key); } catch (error) {}
             const mode = saved === 'light' || saved === 'dark'
                 ? saved
-                : (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+                : 'dark';
             document.documentElement.dataset.colorMode = mode;
         })();
     </script>

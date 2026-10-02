@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(EnterpriseAuthoritySeeder::class);
         $this->call(EnterpriseCoreSeeder::class);
         $this->call(ReleaseDiscoveryCleanupSeeder::class);
+        $this->call(SearchGrowthSeeder::class);
     }
 }

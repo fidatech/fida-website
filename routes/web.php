@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ArticleAuthorController as AdminArticleAuthorController;
 use App\Http\Controllers\Admin\ArticleCategoryController as AdminArticleCategoryController;
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\AnalyticsController as AdminAnalyticsController;
 use App\Http\Controllers\Admin\ContentPageController as AdminContentPageController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\LeadController as AdminLeadController;
@@ -12,8 +13,10 @@ use App\Http\Controllers\Admin\WebsiteSettingsController as AdminWebsiteSettings
 use App\Http\Controllers\DefaultLocaleRedirectController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ArticleTaxonomyController;
+use App\Http\Controllers\AnalyticsEventController;
 use App\Http\Controllers\IndexNowKeyController;
 use App\Http\Controllers\LeadController;
+use App\Http\Controllers\LlmDiscoveryController;
 use App\Http\Controllers\MarketingPageController;
 use App\Http\Controllers\RobotsController;
 use App\Http\Controllers\SearchController;
@@ -27,12 +30,17 @@ Route::get('/sitemaps/{group}.xml', [SitemapController::class, 'show'])
     ->where('group', '[a-z-]+')
     ->name('sitemap.group');
 Route::get('/robots.txt', RobotsController::class)->name('robots');
+Route::get('/llms.txt', LlmDiscoveryController::class)->name('llms');
 Route::get('/indexnow-key.txt', IndexNowKeyController::class)->name('indexnow.key');
 Route::get('/search', SearchController::class)->name('search');
 
 Route::post('/contact/lead', LeadController::class)
     ->middleware('throttle:5,1')
     ->name('leads.store');
+
+Route::post('/analytics/event', AnalyticsEventController::class)
+    ->middleware('throttle:60,1')
+    ->name('analytics.event');
 
 Route::get('/{defaultLocale}/{path?}', DefaultLocaleRedirectController::class)
     ->where([
@@ -51,6 +59,12 @@ Route::prefix('admin')->name('admin.')->group(function (): void {
 
     Route::middleware(['auth', 'admin'])->group(function (): void {
         Route::get('/', AdminDashboardController::class)->name('dashboard');
+        Route::get('/analytics', [AdminAnalyticsController::class, 'index'])
+            ->middleware('capability:analytics.view')
+            ->name('analytics.index');
+        Route::post('/analytics/search-console', [AdminAnalyticsController::class, 'importSearchConsole'])
+            ->middleware('capability:analytics.view')
+            ->name('analytics.search-console.import');
         Route::post('/logout', [AdminAuthController::class, 'destroy'])->name('logout');
 
         Route::resource('content-pages', AdminContentPageController::class)

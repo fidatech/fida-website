@@ -6,6 +6,7 @@ use App\Http\Requests\StoreLeadRequest;
 use App\Models\Lead;
 use App\Models\WebsiteAnalyticsEvent;
 use App\Support\TrafficClassifier;
+use App\Services\LeadNotificationService;
 use Illuminate\Http\RedirectResponse;
 
 class LeadController extends Controller
@@ -18,7 +19,9 @@ class LeadController extends Controller
 
         app()->setLocale($data['locale']);
 
-        Lead::create($data);
+        $lead = Lead::create($data);
+
+        app(LeadNotificationService::class)->send($lead);
 
         try {
             $keys = TrafficClassifier::keys($request);

@@ -61,6 +61,17 @@ class MarketingWebsiteTest extends TestCase
             ->assertSee('ERP &amp; MIS Systems', false);
     }
 
+    public function test_public_layout_has_floating_whatsapp_contact(): void
+    {
+        config()->set('website.whatsapp', '93784006200');
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('class="floating-whatsapp"', false)
+            ->assertSee('href="https://wa.me/93784006200"', false)
+            ->assertSee('aria-label="Chat with Fida Technologies on WhatsApp"', false);
+    }
+
     public function test_default_locale_prefix_redirects_directly_to_the_canonical_english_url(): void
     {
         config()->set('website.url', 'https://fida.af');

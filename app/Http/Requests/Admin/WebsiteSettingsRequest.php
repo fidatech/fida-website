@@ -45,8 +45,8 @@ class WebsiteSettingsRequest extends FormRequest
             'primary_color' => ['required', 'regex:/^#[0-9a-fA-F]{6}$/'],
             'secondary_color' => ['required', 'regex:/^#[0-9a-fA-F]{6}$/'],
             'highlight_color' => ['required', 'regex:/^#[0-9a-fA-F]{6}$/'],
-            'ai_provider' => ['required', Rule::in(['gemini', 'openrouter'])],
-            'ai_model' => ['required', 'string', 'max:120'],
+            'ai_provider' => ['nullable', Rule::in(['gemini', 'openrouter'])],
+            'ai_model' => ['nullable', 'string', 'max:120'],
             'ai_api_key' => ['nullable', 'string', 'max:500'],
             'remove_ai_api_key' => ['nullable', 'boolean'],
         ];

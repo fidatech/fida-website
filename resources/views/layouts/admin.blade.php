@@ -34,29 +34,24 @@
                     Dashboard
                 </a>
                 @if(auth()->user()->allows('content.manage'))
-                    <a @class(['active' => request()->routeIs('admin.content-pages.*') && !$adminActiveContentType]) href="{{ route('admin.content-pages.index') }}">
-                        <svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6V3Zm7 1.5V8h3.5M9 12h6M9 16h6"/></svg>
-                        All content
-                    </a>
-                    <div class="console-content-nav" aria-label="Content types">
-                        @foreach(config('website.content_types') as $type => $definition)
-                            <a @class(['active' => request()->routeIs('admin.content-pages.*') && $adminActiveContentType === $type]) href="{{ route('admin.content-pages.index', ['type' => $type]) }}">
-                                <span>{{ strtoupper(substr($type, 0, 2)) }}</span>{{ $definition['label'] }}
-                            </a>
-                        @endforeach
+                    @php($contentNavOpen = request()->routeIs('admin.content-pages.*') || request()->routeIs('admin.article-categories.*') || request()->routeIs('admin.article-authors.*') || request()->routeIs('admin.redirects.*'))
+                    <div class="console-nav-group @if($contentNavOpen) open @endif" data-nav-group>
+                        <button type="button" class="console-nav-group-toggle @if($contentNavOpen) active @endif" data-nav-group-toggle aria-expanded="{{ $contentNavOpen ? 'true' : 'false' }}">
+                            <svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6V3Zm7 1.5V8h3.5M9 12h6M9 16h6"/></svg>
+                            <span>Content</span>
+                            <svg class="nav-chevron" viewBox="0 0 24 24"><path d="m8 10 4 4 4-4"/></svg>
+                        </button>
+                        <div class="console-nav-submenu" data-nav-group-menu>
+                            <a @class(['active' => request()->routeIs('admin.content-pages.*') && !$adminActiveContentType]) href="{{ route('admin.content-pages.index') }}">All content</a>
+                            @foreach(config('website.content_types') as $type => $definition)
+                                <a @class(['active' => request()->routeIs('admin.content-pages.*') && $adminActiveContentType === $type]) href="{{ route('admin.content-pages.index', ['type' => $type]) }}">{{ $definition['label'] }}</a>
+                            @endforeach
+                            <div class="console-nav-submenu-divider"></div>
+                            <a @class(['active' => request()->routeIs('admin.article-categories.*')]) href="{{ route('admin.article-categories.index') }}">Insight categories</a>
+                            <a @class(['active' => request()->routeIs('admin.article-authors.*')]) href="{{ route('admin.article-authors.index') }}">Insight authors</a>
+                            <a @class(['active' => request()->routeIs('admin.redirects.*')]) href="{{ route('admin.redirects.index') }}">Redirects</a>
+                        </div>
                     </div>
-                    <a @class(['active' => request()->routeIs('admin.article-categories.*')]) href="{{ route('admin.article-categories.index') }}">
-                        <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h7"/></svg>
-                        Insight categories
-                    </a>
-                    <a @class(['active' => request()->routeIs('admin.article-authors.*')]) href="{{ route('admin.article-authors.index') }}">
-                        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
-                        Insight authors
-                    </a>
-                    <a @class(['active' => request()->routeIs('admin.redirects.*')]) href="{{ route('admin.redirects.index') }}">
-                        <svg viewBox="0 0 24 24"><path d="M8 7h8a4 4 0 0 1 4 4v2M16 17H8a4 4 0 0 1-4-4v-2m12 3 4-1 1 4M8 10 4 11 3 7"/></svg>
-                        Redirects
-                    </a>
                 @endif
                 @if(auth()->user()->allows('analytics.view'))
                     <a @class(['active' => request()->routeIs('admin.analytics.*')]) href="{{ route('admin.analytics.index') }}">

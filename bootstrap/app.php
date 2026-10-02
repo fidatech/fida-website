@@ -12,6 +12,7 @@ use App\Http\Middleware\ApplyWebsiteSettings;
 use App\Http\Middleware\RedirectLegacyUrls;
 use App\Http\Middleware\ProtectNonIndexableEnvironment;
 use App\Http\Middleware\SetLocale;
+use App\Http\Middleware\TrackWebsiteAnalytics;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -31,7 +32,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ])
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->web(prepend: [AddSecurityHeaders::class, RedirectLegacyUrls::class]);
-        $middleware->web(append: [SetLocale::class, ApplyWebsiteSettings::class, EnforceCanonicalHost::class, ProtectNonIndexableEnvironment::class]);
+        $middleware->web(append: [SetLocale::class, ApplyWebsiteSettings::class, EnforceCanonicalHost::class, ProtectNonIndexableEnvironment::class, TrackWebsiteAnalytics::class]);
 
         $middleware->redirectGuestsTo(fn (Request $request) => route('admin.login'));
         $middleware->redirectUsersTo(fn (Request $request) => route('admin.dashboard'));

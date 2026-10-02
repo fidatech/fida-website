@@ -49,6 +49,19 @@ class WebsiteAnalyticsTest extends TestCase
         $this->assertSame('OpenAI Search', $view->bot_name);
     }
 
+
+    public function test_automated_http_clients_are_not_counted_as_real_visitors(): void
+    {
+        $this->withHeader('User-Agent', 'GuzzleHttp/7.10 curl/8.7.1 PHP/8.4')
+            ->get('/')
+            ->assertOk();
+
+        $view = WebsitePageView::query()->latest('id')->firstOrFail();
+
+        $this->assertTrue($view->is_bot);
+        $this->assertSame('Automated HTTP client', $view->bot_name);
+    }
+
     public function test_super_admin_can_open_analytics_but_editor_cannot(): void
     {
         $admin = User::factory()->admin()->create();
@@ -57,9 +70,11 @@ class WebsiteAnalyticsTest extends TestCase
         $this->actingAs($admin)
             ->get(route('admin.analytics.index'))
             ->assertOk()
-            ->assertSee('Website intelligence')
+            ->assertSee('Website analytics')
             ->assertSee('Google Search Console')
-            ->assertSee('Search & AI bots', false);
+            ->assertSee('Search &amp; AI bots', false)
+            ->assertSee('Real visitor activity')
+            ->assertSee('What should Fida work on next?');
 
         $this->actingAs($editor)
             ->get(route('admin.analytics.index'))

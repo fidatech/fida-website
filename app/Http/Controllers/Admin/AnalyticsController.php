@@ -3,18 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AnalyticsAiInsight;
 use App\Models\SearchConsoleMetric;
 use App\Models\WebsiteAnalyticsEvent;
 use App\Models\WebsitePageView;
+use App\Services\AnalyticsAiAdvisor;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class AnalyticsController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request, AnalyticsAiAdvisor $advisor): View
     {
         $days = max(1, min(365, (int) $request->integer('days', 30)));
         $from = now()->startOfDay()->subDays($days - 1);
@@ -27,10 +30,15 @@ class AnalyticsController extends Controller
             'page_views' => (clone $humans)->count(),
             'visitors' => (clone $humans)->distinct('visitor_key')->count('visitor_key'),
             'sessions' => (clone $humans)->whereNotNull('session_key')->distinct('session_key')->count('session_key'),
+            'active_15m' => WebsitePageView::query()
+                ->where('is_bot', false)
+                ->where('occurred_at', '>=', now()->subMinutes(15))
+                ->distinct('visitor_key')
+                ->count('visitor_key'),
             'bot_hits' => (clone $bots)->count(),
             'conversions' => WebsiteAnalyticsEvent::query()
                 ->whereBetween('occurred_at', [$from, $to])
-                ->whereIn('event_name', ['lead_submitted', 'cta_click'])
+                ->whereIn('event_name', ['lead_submitted', 'cta_click', 'phone_click', 'email_click', 'whatsapp_click'])
                 ->count(),
         ];
 
@@ -48,7 +56,7 @@ class AnalyticsController extends Controller
             ->selectRaw('path, COUNT(*) as views, COUNT(DISTINCT visitor_key) as visitors')
             ->groupBy('path')
             ->orderByDesc('views')
-            ->limit(15)
+            ->limit(100)
             ->get();
 
         $sources = WebsitePageView::query()
@@ -57,7 +65,7 @@ class AnalyticsController extends Controller
             ->selectRaw("COALESCE(NULLIF(source, ''), 'direct') as source_name, COALESCE(NULLIF(medium, ''), 'direct') as medium_name, COUNT(*) as views, COUNT(DISTINCT visitor_key) as visitors")
             ->groupBy('source_name', 'medium_name')
             ->orderByDesc('views')
-            ->limit(12)
+            ->limit(100)
             ->get();
 
         $countries = WebsitePageView::query()
@@ -66,13 +74,13 @@ class AnalyticsController extends Controller
             ->selectRaw("COALESCE(country_code, '—') as country, COUNT(*) as views, COUNT(DISTINCT visitor_key) as visitors")
             ->groupBy('country')
             ->orderByDesc('views')
-            ->limit(20)
+            ->limit(100)
             ->get();
 
         $devices = WebsitePageView::query()
             ->where('is_bot', false)
             ->whereBetween('occurred_at', [$from, $to])
-            ->selectRaw("COALESCE(device_type, 'unknown') as device, COUNT(*) as views")
+            ->selectRaw("COALESCE(device_type, 'unknown') as device, COUNT(*) as views, COUNT(DISTINCT visitor_key) as visitors")
             ->groupBy('device')
             ->orderByDesc('views')
             ->get();
@@ -83,7 +91,7 @@ class AnalyticsController extends Controller
             ->selectRaw("COALESCE(bot_name, 'Other bot') as bot, COUNT(*) as hits")
             ->groupBy('bot')
             ->orderByDesc('hits')
-            ->limit(15)
+            ->limit(100)
             ->get();
 
         $events = WebsiteAnalyticsEvent::query()
@@ -91,6 +99,15 @@ class AnalyticsController extends Controller
             ->selectRaw('event_name, COUNT(*) as total')
             ->groupBy('event_name')
             ->orderByDesc('total')
+            ->get();
+
+        $recentVisitors = WebsitePageView::query()
+            ->where('is_bot', false)
+            ->whereBetween('occurred_at', [$from, $to])
+            ->selectRaw("visitor_key, MAX(occurred_at) as last_seen, COUNT(*) as page_views, MAX(country_code) as country_code, MAX(source) as source_name, MAX(medium) as medium_name, MAX(device_type) as device_type, MAX(browser) as browser")
+            ->groupBy('visitor_key')
+            ->orderByDesc('last_seen')
+            ->limit(100)
             ->get();
 
         $searchPeriod = SearchConsoleMetric::query()->max('period_end');
@@ -101,9 +118,9 @@ class AnalyticsController extends Controller
 
         $search = [
             'period_end' => $searchPeriod ? Carbon::parse($searchPeriod) : null,
-            'queries' => (clone $searchBase)->where('metric_type', 'query')->orderByDesc('impressions')->limit(20)->get(),
-            'pages' => (clone $searchBase)->where('metric_type', 'page')->orderByDesc('impressions')->limit(20)->get(),
-            'countries' => (clone $searchBase)->where('metric_type', 'country')->orderByDesc('impressions')->limit(20)->get(),
+            'queries' => (clone $searchBase)->where('metric_type', 'query')->orderByDesc('impressions')->limit(100)->get(),
+            'pages' => (clone $searchBase)->where('metric_type', 'page')->orderByDesc('impressions')->limit(100)->get(),
+            'countries' => (clone $searchBase)->where('metric_type', 'country')->orderByDesc('impressions')->limit(100)->get(),
             'devices' => (clone $searchBase)->where('metric_type', 'device')->orderByDesc('impressions')->get(),
         ];
 
@@ -117,15 +134,74 @@ class AnalyticsController extends Controller
             ->when($searchPeriod, fn ($query) => $query->where('period_end', $searchPeriod))
             ->where('metric_type', 'page')
             ->where('impressions', '>=', 10)
-            ->whereBetween('position', [3, 15])
+            ->whereBetween('position', [3, 20])
             ->orderByDesc('impressions')
-            ->limit(12)
+            ->limit(50)
             ->get();
+
+        $latestInsight = AnalyticsAiInsight::query()->latest()->first();
+        $aiConfig = $advisor->configuration();
+        $aiConfigured = filled($aiConfig['api_key']);
+        unset($aiConfig['api_key']);
 
         return view('admin.analytics.index', compact(
             'days', 'from', 'to', 'summary', 'daily', 'topPages', 'sources',
-            'countries', 'devices', 'botBreakdown', 'events', 'search'
+            'countries', 'devices', 'botBreakdown', 'events', 'recentVisitors',
+            'search', 'latestInsight', 'aiConfig', 'aiConfigured'
         ));
+    }
+
+    public function generateAiInsight(Request $request, AnalyticsAiAdvisor $advisor): RedirectResponse
+    {
+        $days = max(7, min(365, (int) $request->integer('days', 30)));
+        $from = now()->startOfDay()->subDays($days - 1);
+        $searchPeriod = SearchConsoleMetric::query()->max('period_end');
+
+        $summary = [
+            'period_days' => $days,
+            'real_traffic' => [
+                'page_views' => WebsitePageView::query()->where('is_bot', false)->where('occurred_at', '>=', $from)->count(),
+                'visitors' => WebsitePageView::query()->where('is_bot', false)->where('occurred_at', '>=', $from)->distinct('visitor_key')->count('visitor_key'),
+                'top_pages' => WebsitePageView::query()->where('is_bot', false)->where('occurred_at', '>=', $from)
+                    ->selectRaw('path, COUNT(*) as views, COUNT(DISTINCT visitor_key) as visitors')
+                    ->groupBy('path')->orderByDesc('views')->limit(15)->get()->toArray(),
+                'sources' => WebsitePageView::query()->where('is_bot', false)->where('occurred_at', '>=', $from)
+                    ->selectRaw("COALESCE(NULLIF(source, ''), 'direct') as source, COUNT(*) as views, COUNT(DISTINCT visitor_key) as visitors")
+                    ->groupBy('source')->orderByDesc('views')->limit(10)->get()->toArray(),
+                'countries' => WebsitePageView::query()->where('is_bot', false)->where('occurred_at', '>=', $from)
+                    ->selectRaw("COALESCE(country_code, 'unknown') as country, COUNT(*) as views, COUNT(DISTINCT visitor_key) as visitors")
+                    ->groupBy('country')->orderByDesc('views')->limit(10)->get()->toArray(),
+                'business_actions' => WebsiteAnalyticsEvent::query()->where('occurred_at', '>=', $from)
+                    ->selectRaw('event_name, COUNT(*) as total')->groupBy('event_name')->orderByDesc('total')->get()->toArray(),
+            ],
+            'google_search_console' => [
+                'period_end' => $searchPeriod,
+                'top_queries' => SearchConsoleMetric::query()->when($searchPeriod, fn ($q) => $q->where('period_end', $searchPeriod))
+                    ->where('metric_type', 'query')->orderByDesc('impressions')->limit(20)->get(['dimension', 'clicks', 'impressions', 'ctr', 'position'])->toArray(),
+                'top_pages' => SearchConsoleMetric::query()->when($searchPeriod, fn ($q) => $q->where('period_end', $searchPeriod))
+                    ->where('metric_type', 'page')->orderByDesc('impressions')->limit(20)->get(['dimension', 'clicks', 'impressions', 'ctr', 'position'])->toArray(),
+                'countries' => SearchConsoleMetric::query()->when($searchPeriod, fn ($q) => $q->where('period_end', $searchPeriod))
+                    ->where('metric_type', 'country')->orderByDesc('impressions')->limit(12)->get(['dimension', 'clicks', 'impressions', 'ctr', 'position'])->toArray(),
+            ],
+        ];
+
+        try {
+            $result = $advisor->generate($summary);
+
+            AnalyticsAiInsight::query()->create([
+                'provider' => $result['provider'],
+                'model' => $result['model'],
+                'content' => $result['content'],
+                'input_summary' => $summary,
+                'generated_by' => $request->user()?->id,
+            ]);
+
+            return back()->with('success', 'AI growth recommendations updated.');
+        } catch (Throwable $exception) {
+            report($exception);
+
+            return back()->withErrors(['ai' => $exception->getMessage()]);
+        }
     }
 
     public function importSearchConsole(Request $request): RedirectResponse
@@ -147,7 +223,6 @@ class AnalyticsController extends Controller
         ];
 
         $inserted = 0;
-        $typesSeen = [];
         $rowsByType = [];
 
         foreach ($request->file('files', []) as $file) {
@@ -163,15 +238,13 @@ class AnalyticsController extends Controller
             }
 
             $headers = array_map(fn ($value) => trim((string) $value), $headers);
-            $dimensionHeader = mb_strtolower((string) ($headers[0] ?? ''));
-            $type = $mapping[$dimensionHeader] ?? null;
+            $type = $mapping[mb_strtolower((string) ($headers[0] ?? ''))] ?? null;
 
             if (! $type) {
                 fclose($handle);
                 continue;
             }
 
-            $typesSeen[] = $type;
             $rowsByType[$type] ??= [];
 
             while (($row = fgetcsv($handle)) !== false) {

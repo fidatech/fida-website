@@ -1497,7 +1497,7 @@ class MarketingWebsiteTest extends TestCase
             'phone' => '+93700000000',
             'company' => 'Example Co',
             'project_type' => 'erp',
-            'budget' => '5000-10000',
+            'budget' => '3000-10000',
             'message' => 'We need an ERP proposal.',
             'locale' => 'en',
             'source_url' => url('/erp-systems-afghanistan'),

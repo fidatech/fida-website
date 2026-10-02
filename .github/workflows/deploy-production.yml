@@ -1,0 +1,100 @@
+name: Deploy Production
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fida-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    env:
+      PROD_SSH_HOST: ${{ secrets.PROD_SSH_HOST }}
+      PROD_SSH_PORT: ${{ secrets.PROD_SSH_PORT }}
+      PROD_SSH_USER: ${{ secrets.PROD_SSH_USER }}
+      PROD_SSH_PRIVATE_KEY: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
+      PROD_REPO_PATH: ${{ secrets.PROD_REPO_PATH }}
+      PROD_WEB_ROOT: ${{ secrets.PROD_WEB_ROOT }}
+
+    steps:
+      - name: Resolve approved commit
+        id: release
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          if [[ "${{ github.event_name }}" == "workflow_run" ]]; then
+            sha="${{ github.event.workflow_run.head_sha }}"
+          else
+            sha="${{ github.sha }}"
+          fi
+          [[ "$sha" =~ ^[0-9a-f]{40}$ ]]
+          printf 'sha=%s\n' "$sha" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout approved commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.release.outputs.sha }}
+          persist-credentials: false
+
+      - name: Validate deployment inputs
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          bash -n scripts/deploy-cpanel-production-update.sh
+          [[ -n "$PROD_SSH_HOST" ]]
+          [[ -n "$PROD_SSH_PORT" ]]
+          [[ -n "$PROD_SSH_USER" ]]
+          [[ -n "$PROD_SSH_PRIVATE_KEY" ]]
+          [[ "$PROD_REPO_PATH" == "/home/fida/repositories/fida-website-production" ]]
+          [[ "$PROD_WEB_ROOT" == "/home/fida/public_html" ]]
+
+      - name: Configure SSH
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          install -d -m 700 "$HOME/.ssh"
+          printf '%s\n' "$PROD_SSH_PRIVATE_KEY" > "$HOME/.ssh/fida-production"
+          chmod 600 "$HOME/.ssh/fida-production"
+          ssh-keyscan -p "$PROD_SSH_PORT" -H "$PROD_SSH_HOST" > "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/known_hosts"
+
+      - name: Verify production SSH access
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ssh \
+            -i "$HOME/.ssh/fida-production" \
+            -p "$PROD_SSH_PORT" \
+            -o BatchMode=yes \
+            -o IdentitiesOnly=yes \
+            -o ConnectTimeout=15 \
+            "$PROD_SSH_USER@$PROD_SSH_HOST" \
+            'test "$(id -un)" = "fida" && test -d /home/fida/repositories/fida-website-production && test -d /home/fida/public_html'
+
+      - name: Deploy approved commit
+        shell: bash
+        env:
+          APPROVED_SHA: ${{ steps.release.outputs.sha }}
+        run: |
+          set -Eeuo pipefail
+          ssh \
+            -i "$HOME/.ssh/fida-production" \
+            -p "$PROD_SSH_PORT" \
+            -o BatchMode=yes \
+            -o IdentitiesOnly=yes \
+            -o ConnectTimeout=15 \
+            "$PROD_SSH_USER@$PROD_SSH_HOST" \
+            "bash -s -- '$APPROVED_SHA'" \
+            < scripts/deploy-cpanel-production-update.sh

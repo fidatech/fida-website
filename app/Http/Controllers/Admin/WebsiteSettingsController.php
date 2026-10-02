@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\WebsiteSettingsRequest;
 use App\Models\SiteSetting;
 use App\Support\WebsiteSettings;
+use App\Services\LeadNotificationService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Crypt;
@@ -23,6 +24,7 @@ class WebsiteSettingsController extends Controller
             'themes' => config('website.appearance.themes'),
             'palettes' => config('website.appearance.palettes'),
             'aiSettings' => $this->aiSettings(),
+            'leadNotificationSettings' => app(LeadNotificationService::class)->settings(),
         ]);
     }
 
@@ -94,6 +96,19 @@ class WebsiteSettingsController extends Controller
                             'provider' => $data['ai_provider'] ?? ($existing['provider'] ?? 'gemini'),
                             'model' => trim((string) ($data['ai_model'] ?? ($existing['model'] ?? 'gemini-3.8-flash'))),
                             'api_key' => $encryptedKey,
+                        ],
+                        'type' => 'json',
+                        'is_public' => false,
+                    ],
+                );
+
+                SiteSetting::query()->updateOrCreate(
+                    ['key' => 'leads.notifications'],
+                    [
+                        'group' => 'leads',
+                        'value' => [
+                            'email_enabled' => (bool) ($data['lead_email_enabled'] ?? false),
+                            'email_recipient' => strtolower(trim((string) ($data['lead_email_recipient'] ?? $data['email']))),
                         ],
                         'type' => 'json',
                         'is_public' => false,

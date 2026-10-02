@@ -91,8 +91,8 @@ class WebsiteSettingsController extends Controller
                     [
                         'group' => 'analytics',
                         'value' => [
-                            'provider' => $data['ai_provider'],
-                            'model' => trim($data['ai_model']),
+                            'provider' => $data['ai_provider'] ?? ($existing['provider'] ?? 'gemini'),
+                            'model' => trim((string) ($data['ai_model'] ?? ($existing['model'] ?? 'gemini-3.8-flash'))),
                             'api_key' => $encryptedKey,
                         ],
                         'type' => 'json',
@@ -122,7 +122,7 @@ class WebsiteSettingsController extends Controller
 
         return [
             'provider' => in_array(($value['provider'] ?? null), ['gemini', 'openrouter'], true) ? $value['provider'] : 'gemini',
-            'model' => trim((string) ($value['model'] ?? 'gemini-2.5-flash')),
+            'model' => trim((string) ($value['model'] ?? 'gemini-3.8-flash')),
             'has_api_key' => filled($value['api_key'] ?? null),
         ];
     }

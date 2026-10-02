@@ -307,6 +307,14 @@ final class SeoSchema
             'name' => config('website.name'),
             'publisher' => ['@id' => url('/').'#organization'],
             'inLanguage' => array_keys(config('website.locales')),
+            'potentialAction' => [
+                '@type' => 'SearchAction',
+                'target' => [
+                    '@type' => 'EntryPoint',
+                    'urlTemplate' => url('/search').'?q={search_term_string}',
+                ],
+                'query-input' => 'required name=search_term_string',
+            ],
         ];
     }
 

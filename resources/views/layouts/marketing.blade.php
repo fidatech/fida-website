@@ -341,15 +341,27 @@
         </aside>
     @endif
 
-    @php($floatingWhatsapp = preg_replace('/\D+/', '', (string) config('website.whatsapp')))
+    @php
+        $floatingWhatsapp = preg_replace('/\D+/', '', (string) config('website.whatsapp'));
+        $whatsappPageTitle = trim((string) ($seo['title'] ?? config('website.name')));
+        $whatsappPageUrl = (string) ($seo['canonical'] ?? url()->current());
+        $whatsappMessage = match ($locale) {
+            'fa' => "سلام، من از وب‌سایت Fida Technologies پیام می‌دهم. به این صفحه علاقه‌مند هستم: {$whatsappPageTitle}\n{$whatsappPageUrl}",
+            'ps' => "سلام، زه د Fida Technologies له وېب‌سایټ څخه پیغام درکوم. زه د دې پاڼې په اړه علاقه لرم: {$whatsappPageTitle}\n{$whatsappPageUrl}",
+            default => "Hello, I came from the Fida Technologies website. I’m interested in this page: {$whatsappPageTitle}\n{$whatsappPageUrl}",
+        };
+        $whatsappUrl = 'https://wa.me/'.$floatingWhatsapp.'?text='.rawurlencode($whatsappMessage);
+    @endphp
     @if($floatingWhatsapp)
         <a
             class="floating-whatsapp"
-            href="https://wa.me/{{ $floatingWhatsapp }}"
+            href="{{ $whatsappUrl }}"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Chat with {{ config('website.name') }} on WhatsApp"
             title="WhatsApp"
+            data-track-event="whatsapp_click"
+            data-track-label="floating_whatsapp"
         >
             <svg viewBox="0 0 32 32" aria-hidden="true">
                 <path d="M16.04 4.2a11.55 11.55 0 0 0-9.82 17.63L4.7 27.4l5.7-1.5a11.57 11.57 0 1 0 5.64-21.7Zm0 20.98c-1.75 0-3.47-.47-4.96-1.36l-.35-.2-3.38.88.9-3.3-.23-.34a9.43 9.43 0 1 1 8.02 4.32Zm5.17-7.06c-.28-.14-1.66-.82-1.92-.91-.26-.1-.45-.14-.64.14-.19.28-.73.91-.9 1.1-.16.19-.33.21-.61.07-.28-.14-1.19-.44-2.27-1.4a8.52 8.52 0 0 1-1.57-1.95c-.16-.28-.02-.43.12-.57.13-.13.28-.33.42-.5.14-.16.19-.28.28-.47.1-.19.05-.35-.02-.5-.07-.14-.64-1.54-.87-2.1-.23-.56-.47-.48-.64-.49h-.55c-.19 0-.5.07-.76.35-.26.28-1 1-1 2.44s1.03 2.83 1.17 3.02c.14.19 2.03 3.1 4.92 4.35.69.3 1.22.47 1.64.6.69.22 1.32.19 1.82.12.56-.08 1.66-.68 1.9-1.34.23-.65.23-1.21.16-1.33-.07-.12-.26-.19-.54-.33Z" fill="currentColor"/>

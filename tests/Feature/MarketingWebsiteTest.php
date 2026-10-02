@@ -65,11 +65,14 @@ class MarketingWebsiteTest extends TestCase
     {
         config()->set('website.whatsapp', '93784006200');
 
-        $this->get('/')
+        $response = $this->get('/')
             ->assertOk()
             ->assertSee('class="floating-whatsapp"', false)
-            ->assertSee('href="https://wa.me/93784006200"', false)
-            ->assertSee('aria-label="Chat with Fida Technologies on WhatsApp"', false);
+            ->assertSee('aria-label="Chat with Fida Technologies on WhatsApp"', false)
+            ->assertSee('data-track-label="floating_whatsapp"', false);
+
+        $response->assertSee('https://wa.me/93784006200?text=', false);
+        $response->assertSee(rawurlencode('Hello, I came from the Fida Technologies website.'), false);
     }
 
     public function test_default_locale_prefix_redirects_directly_to_the_canonical_english_url(): void

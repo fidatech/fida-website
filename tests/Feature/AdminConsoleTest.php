@@ -198,7 +198,7 @@ class AdminConsoleTest extends TestCase
             ->put(route('admin.settings.update'), $this->settingsPayload())
             ->assertRedirect();
 
-        $this->assertDatabaseCount('site_settings', 4);
+        $this->assertDatabaseCount('site_settings', 5);
         $this->assertSame(
             'Fida Technology Group',
             SiteSetting::query()->where('key', 'website.general')->firstOrFail()->value['company_name'],

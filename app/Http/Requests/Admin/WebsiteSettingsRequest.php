@@ -20,6 +20,7 @@ class WebsiteSettingsRequest extends FormRequest
             'country_code' => strtoupper((string) $this->input('country_code')),
             'whatsapp' => preg_replace('/\D+/', '', (string) $this->input('whatsapp')),
             'remove_ai_api_key' => $this->boolean('remove_ai_api_key'),
+            'lead_email_enabled' => $this->boolean('lead_email_enabled'),
         ]);
     }
 
@@ -49,6 +50,8 @@ class WebsiteSettingsRequest extends FormRequest
             'ai_model' => ['nullable', 'string', 'max:120'],
             'ai_api_key' => ['nullable', 'string', 'max:500'],
             'remove_ai_api_key' => ['nullable', 'boolean'],
+            'lead_email_enabled' => ['nullable', 'boolean'],
+            'lead_email_recipient' => ['nullable', 'email', 'max:190'],
         ];
     }
 

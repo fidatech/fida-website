@@ -773,3 +773,14 @@ html[data-color-mode="light"] .analytics-consent p { color: #5d6673; }
         display: none;
     }
 }
+
+
+/* Public navigation labels */
+.desktop-nav > a,
+.nav-cluster > button,
+.mobile-nav-priority a,
+.mobile-nav > a,
+.mobile-nav-group > summary {
+    text-transform: uppercase;
+    letter-spacing: .055em;
+}

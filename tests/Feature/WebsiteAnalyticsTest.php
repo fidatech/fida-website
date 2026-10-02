@@ -72,7 +72,7 @@ class WebsiteAnalyticsTest extends TestCase
             ->assertOk()
             ->assertSee('Website analytics')
             ->assertSee('Google Search Console')
-            ->assertSee('Search & AI bots')
+            ->assertSeeText('Search & AI bots')
             ->assertSee('Real visitor activity')
             ->assertSee('What should Fida work on next?');
 

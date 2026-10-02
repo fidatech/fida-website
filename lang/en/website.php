@@ -3,8 +3,8 @@
 return [
     'seo' => [
         'home' => [
-            'title' => 'Enterprise Software, ERP & Digital Transformation Afghanistan | Fida',
-            'description' => 'Fida Technologies delivers enterprise software, ERP, MIS, system integration and digital transformation for organizations in Afghanistan.',
+            'title' => 'ERP & Enterprise Software Afghanistan | Fida Technologies',
+            'description' => 'Fida Technologies builds ERP, MIS, accounting, HR, sector-specific and custom software for organizations in Afghanistan. Explore solutions or request a proposal.',
         ],
         'social_image_alt' => 'Fida Technologies — enterprise software, ERP and digital transformation in Afghanistan',
     ],

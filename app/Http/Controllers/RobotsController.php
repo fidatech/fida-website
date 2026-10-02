@@ -23,7 +23,17 @@ class RobotsController extends Controller
             'User-agent: GPTBot',
             'Allow: /',
             '',
+            'User-agent: ClaudeBot',
+            'Allow: /',
+            '',
+            'User-agent: PerplexityBot',
+            'Allow: /',
+            '',
+            'User-agent: Applebot',
+            'Allow: /',
+            '',
             'Sitemap: '.route('sitemap'),
+            'Host: '.config('website.production_host'),
             '',
         ]);
 

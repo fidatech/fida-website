@@ -19,6 +19,7 @@ class WebsiteSettingsRequest extends FormRequest
             'remove_logo' => $this->boolean('remove_logo'),
             'country_code' => strtoupper((string) $this->input('country_code')),
             'whatsapp' => preg_replace('/\D+/', '', (string) $this->input('whatsapp')),
+            'remove_ai_api_key' => $this->boolean('remove_ai_api_key'),
         ]);
     }
 
@@ -44,6 +45,10 @@ class WebsiteSettingsRequest extends FormRequest
             'primary_color' => ['required', 'regex:/^#[0-9a-fA-F]{6}$/'],
             'secondary_color' => ['required', 'regex:/^#[0-9a-fA-F]{6}$/'],
             'highlight_color' => ['required', 'regex:/^#[0-9a-fA-F]{6}$/'],
+            'ai_provider' => ['required', Rule::in(['gemini', 'openrouter'])],
+            'ai_model' => ['required', 'string', 'max:120'],
+            'ai_api_key' => ['nullable', 'string', 'max:500'],
+            'remove_ai_api_key' => ['nullable', 'boolean'],
         ];
     }
 

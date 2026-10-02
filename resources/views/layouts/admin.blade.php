@@ -58,6 +58,13 @@
                         Redirects
                     </a>
                 @endif
+                @if(auth()->user()->allows('analytics.view'))
+                    <a @class(['active' => request()->routeIs('admin.analytics.*')]) href="{{ route('admin.analytics.index') }}">
+                        <svg viewBox="0 0 24 24"><path d="M4 19V9m5 10V5m5 14v-7m5 7V3"/><path d="M3 21h18"/></svg>
+                        Analytics
+                    </a>
+                @endif
+
                 @if(auth()->user()->allows('leads.manage'))
                     <a @class(['active' => request()->routeIs('admin.leads.*')]) href="{{ route('admin.leads.index') }}">
                         <svg viewBox="0 0 24 24"><path d="M4 5h16v14H4V5Zm0 3 8 5 8-5"/></svg>

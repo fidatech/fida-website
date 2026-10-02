@@ -158,10 +158,10 @@ npm --prefix "$PRODUCTION_REPO" ci --ignore-scripts
 npm --prefix "$PRODUCTION_REPO" run build
 npm --prefix "$PRODUCTION_REPO" run audit:assets
 
+MIGRATIONS_STARTED=true
 (
     cd "$PRODUCTION_REPO"
     php artisan optimize:clear
-    MIGRATIONS_STARTED=true
     php artisan migrate --force
     php artisan website:release-audit --production --show-warnings
     php artisan optimize

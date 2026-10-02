@@ -130,7 +130,7 @@
                             @forelse($recentVisitors as $row)
                                 <tr>
                                     <td><span class="visitor-token">{{ strtoupper(substr($row->visitor_key, 0, 8)) }}</span></td>
-                                    <td data-value="{{ strtotime((string) $row->last_seen) }}">{{ IlluminateSupportCarbon::parse($row->last_seen)->diffForHumans() }}</td>
+                                    <td data-value="{{ strtotime((string) $row->last_seen) }}">{{ date('d M Y H:i', strtotime((string) $row->last_seen)) }}</td>
                                     <td data-value="{{ $row->page_views }}">{{ number_format($row->page_views) }}</td>
                                     <td>{{ $row->country_code ?: 'Unknown' }}</td>
                                     <td>{{ $row->source_name ?: 'direct' }}</td>

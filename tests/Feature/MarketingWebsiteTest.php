@@ -1197,7 +1197,8 @@ class MarketingWebsiteTest extends TestCase
             ->assertOk()
             ->assertSee('data-color-mode-toggle', false)
             ->assertSee("const key = 'fida_color_mode'", false)
-            ->assertSee('prefers-color-scheme: light', false)
+            ->assertSee(": 'dark';", false)
+            ->assertDontSee('prefers-color-scheme: light', false)
             ->assertSee('Use day mode');
     }
 

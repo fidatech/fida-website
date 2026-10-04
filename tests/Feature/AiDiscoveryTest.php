@@ -1,0 +1,80 @@
+<?php
+
+namespace Tests\Feature;
+
+use App\Models\WebsitePageView;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+class AiDiscoveryTest extends TestCase
+{
+    use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->withoutVite();
+        config()->set('website.indexable', true);
+    }
+
+    public function test_robots_allows_search_and_user_directed_ai_crawlers(): void
+    {
+        $this->get('/robots.txt')
+            ->assertOk()
+            ->assertSee('User-agent: OAI-SearchBot')
+            ->assertSee('User-agent: ChatGPT-User')
+            ->assertSee('User-agent: Claude-SearchBot')
+            ->assertSee('User-agent: Claude-User')
+            ->assertSee('User-agent: PerplexityBot');
+    }
+
+    public function test_known_ai_referrer_is_classified_separately(): void
+    {
+        $this->withHeaders([
+            'User-Agent' => 'Mozilla/5.0 AppleWebKit/537.36 Chrome/140.0 Safari/537.36',
+            'Referer' => 'https://chatgpt.com/',
+        ])->get('/')->assertOk();
+
+        $view = WebsitePageView::query()->latest('id')->firstOrFail();
+
+        $this->assertFalse($view->is_bot);
+        $this->assertSame('ChatGPT', $view->source);
+        $this->assertSame('ai-referral', $view->medium);
+    }
+
+    public function test_claude_search_bot_is_recorded_as_ai_crawler(): void
+    {
+        $this->withHeader('User-Agent', 'Mozilla/5.0 compatible; Claude-SearchBot/1.0')
+            ->get('/')
+            ->assertOk();
+
+        $view = WebsitePageView::query()->latest('id')->firstOrFail();
+
+        $this->assertTrue($view->is_bot);
+        $this->assertSame('Claude Search', $view->bot_name);
+    }
+
+    public function test_company_facts_and_answers_pages_are_public_and_connected(): void
+    {
+        $this->get('/company-facts')
+            ->assertOk()
+            ->assertSee('Fida Technologies Company Facts')
+            ->assertSee('Kabul, Afghanistan');
+
+        $this->get('/software-answers-afghanistan')
+            ->assertOk()
+            ->assertSee('Fida Answers: Software Guidance for Afghanistan')
+            ->assertSee('how-to-choose-business-software-afghanistan', false)
+            ->assertSee('erp-vs-accounting-software-afghanistan', false)
+            ->assertSee('cloud-vs-desktop-business-software-afghanistan', false);
+    }
+
+    public function test_organization_schema_exposes_verified_same_as_identity(): void
+    {
+        config()->set('website.same_as', ['https://github.com/fidatech']);
+
+        $this->get('/company-facts')
+            ->assertOk()
+            ->assertSee('"sameAs":["https://github.com/fidatech"]', false);
+    }
+}

@@ -95,6 +95,32 @@ class AnalyticsController extends Controller
             ->limit(100)
             ->get();
 
+        $aiSources = array_keys(config('website.discovery.ai_referrers', []));
+        $aiCrawlerNames = (array) config('website.discovery.ai_crawlers', []);
+        $aiHumans = WebsitePageView::query()
+            ->where('is_bot', false)
+            ->whereBetween('occurred_at', [$from, $to])
+            ->where(function ($query) use ($aiSources): void {
+                $query->whereIn('source', $aiSources)->orWhere('medium', 'ai-referral');
+            });
+        $aiVisibility = [
+            'views' => (clone $aiHumans)->count(),
+            'visitors' => (clone $aiHumans)->distinct('visitor_key')->count('visitor_key'),
+            'crawler_hits' => (clone $bots)->whereIn('bot_name', $aiCrawlerNames)->count(),
+            'providers' => (clone $aiHumans)
+                ->selectRaw("COALESCE(NULLIF(source, ''), 'AI referral') as provider, COUNT(*) as views, COUNT(DISTINCT visitor_key) as visitors")
+                ->groupBy('source')
+                ->orderByDesc('views')
+                ->limit(20)
+                ->get(),
+            'landing_pages' => (clone $aiHumans)
+                ->selectRaw('path, COUNT(*) as views, COUNT(DISTINCT visitor_key) as visitors')
+                ->groupBy('path')
+                ->orderByDesc('views')
+                ->limit(20)
+                ->get(),
+        ];
+
         $events = WebsiteAnalyticsEvent::query()
             ->whereBetween('occurred_at', [$from, $to])
             ->selectRaw('event_name, COUNT(*) as total')
@@ -147,7 +173,7 @@ class AnalyticsController extends Controller
 
         return view('admin.analytics.index', compact(
             'days', 'from', 'to', 'summary', 'daily', 'topPages', 'sources',
-            'countries', 'devices', 'botBreakdown', 'events', 'recentVisitors',
+            'countries', 'devices', 'botBreakdown', 'aiVisibility', 'events', 'recentVisitors',
             'search', 'latestInsight', 'aiConfig', 'aiConfigured'
         ));
     }
@@ -174,6 +200,18 @@ class AnalyticsController extends Controller
                     ->groupBy('country')->orderByDesc('views')->limit(10)->get()->toArray(),
                 'business_actions' => WebsiteAnalyticsEvent::query()->where('occurred_at', '>=', $from)
                     ->selectRaw('event_name, COUNT(*) as total')->groupBy('event_name')->orderByDesc('total')->get()->toArray(),
+            ],
+            'ai_visibility' => [
+                'referral_views' => WebsitePageView::query()->where('is_bot', false)->where('occurred_at', '>=', $from)
+                    ->whereIn('source', array_keys(config('website.discovery.ai_referrers', [])))->count(),
+                'referral_visitors' => WebsitePageView::query()->where('is_bot', false)->where('occurred_at', '>=', $from)
+                    ->whereIn('source', array_keys(config('website.discovery.ai_referrers', [])))->distinct('visitor_key')->count('visitor_key'),
+                'crawler_hits' => WebsitePageView::query()->where('is_bot', true)->where('occurred_at', '>=', $from)
+                    ->whereIn('bot_name', (array) config('website.discovery.ai_crawlers', []))->count(),
+                'top_sources' => WebsitePageView::query()->where('is_bot', false)->where('occurred_at', '>=', $from)
+                    ->whereIn('source', array_keys(config('website.discovery.ai_referrers', [])))
+                    ->selectRaw('source, COUNT(*) as views, COUNT(DISTINCT visitor_key) as visitors')
+                    ->groupBy('source')->orderByDesc('views')->limit(10)->get()->toArray(),
             ],
             'google_search_console' => [
                 'period_end' => $searchPeriod,

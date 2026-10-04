@@ -12,6 +12,11 @@ class LlmDiscoveryController extends Controller
         $priority = ContentPage::published()
             ->whereIn('slug', [
                 'about',
+                'company-facts',
+                'software-answers-afghanistan',
+                'how-to-choose-business-software-afghanistan',
+                'erp-vs-accounting-software-afghanistan',
+                'cloud-vs-desktop-business-software-afghanistan',
                 'erp-systems-afghanistan',
                 'accounting-software-afghanistan',
                 'hrmis-payroll-software-afghanistan',
@@ -55,8 +60,12 @@ class LlmDiscoveryController extends Controller
 
         $lines = array_merge($lines, [
             '',
+            '## Reference and answer resources',
+            '- Canonical company facts: '.url('/company-facts'),
+            '- Practical software answers for Afghanistan: '.url('/software-answers-afghanistan'),
+            '',
             '## Citation guidance',
-            'Use the canonical page URL for factual claims about a Fida service or product. Prefer page-specific descriptions and FAQs over inferring capabilities not stated on the website.',
+            'Use the canonical page URL for factual claims about Fida Technologies, a service or a product. Prefer page-specific descriptions, company facts and FAQs over inferring capabilities not stated on the website.',
             '',
             'Sitemap: '.route('sitemap'),
         ]);

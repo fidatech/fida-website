@@ -16,6 +16,7 @@ return [
         'light_mode' => 'Use day mode', 'dark_mode' => 'Use night mode',
         'all_services' => 'Explore all services', 'all_solutions' => 'Explore all solutions',
         'all_products' => 'Explore all products', 'all_industries' => 'Explore all industries', 'all_articles' => 'View all insights',
+        'company_facts' => 'Company facts', 'answers' => 'Fida Answers',
     ],
     'accessibility' => [
         'skip_to_content' => 'Skip to content',

@@ -187,6 +187,7 @@ final class SeoSchema
                 'featureList' => $product['features'],
                 'publisher' => ['@id' => url('/').'#organization'],
                 'inLanguage' => app()->getLocale(),
+                'countriesSupported' => config('website.address.country_code'),
             ];
 
             if ($page->socialImage()) {
@@ -286,6 +287,16 @@ final class SeoSchema
 
         if (config('website.address.line')) {
             $organization['address']['streetAddress'] = config('website.address.line');
+        }
+
+        $sameAs = collect(config('website.same_as', []))
+            ->filter(fn (mixed $url): bool => is_string($url) && filter_var($url, FILTER_VALIDATE_URL) !== false)
+            ->unique()
+            ->values()
+            ->all();
+
+        if ($sameAs !== []) {
+            $organization['sameAs'] = $sameAs;
         }
 
         if (config('website.branding.logo_url')) {

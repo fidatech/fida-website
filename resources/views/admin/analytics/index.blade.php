@@ -188,6 +188,56 @@
         </div>
     </section>
 
+    <section class="analytics-section ai-visibility-section">
+        <header class="analytics-section-head">
+            <div>
+                <small>AI DISCOVERY</small>
+                <h2>AI visibility signals</h2>
+                <p>First-party visits referred by recognized AI assistants and crawler requests from AI discovery systems. These are measurable discovery signals, not a count of model citations or recommendations.</p>
+            </div>
+        </header>
+
+        <div class="search-kpis">
+            <div><small>AI referral views</small><strong>{{ number_format($aiVisibility['views']) }}</strong></div>
+            <div><small>AI-referred visitors</small><strong>{{ number_format($aiVisibility['visitors']) }}</strong></div>
+            <div><small>AI crawler hits</small><strong>{{ number_format($aiVisibility['crawler_hits']) }}</strong></div>
+        </div>
+
+        <div class="analytics-grid analytics-grid-2">
+            <article class="analytics-panel">
+                <header><div><small>AI REFERRALS</small><h3>Assistant traffic</h3></div></header>
+                <div class="analytics-table-wrap">
+                    <table class="analytics-data-table" data-datatable data-page-size="10">
+                        <thead><tr><th data-sort>Source</th><th data-sort>Views</th><th data-sort>Visitors</th></tr></thead>
+                        <tbody>
+                            @forelse($aiVisibility['providers'] as $row)
+                                <tr><td><strong>{{ $row->provider }}</strong></td><td data-value="{{ $row->views }}">{{ number_format($row->views) }}</td><td data-value="{{ $row->visitors }}">{{ number_format($row->visitors) }}</td></tr>
+                            @empty
+                                <tr><td colspan="3">No recognized AI assistant referrals in this period yet.</td></tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </article>
+
+            <article class="analytics-panel">
+                <header><div><small>AI LANDING PAGES</small><h3>Pages reached from AI assistants</h3></div></header>
+                <div class="analytics-table-wrap">
+                    <table class="analytics-data-table" data-datatable data-page-size="10">
+                        <thead><tr><th data-sort>Page</th><th data-sort>Views</th><th data-sort>Visitors</th></tr></thead>
+                        <tbody>
+                            @forelse($aiVisibility['landing_pages'] as $row)
+                                <tr><td><strong>{{ $row->path }}</strong></td><td data-value="{{ $row->views }}">{{ number_format($row->views) }}</td><td data-value="{{ $row->visitors }}">{{ number_format($row->visitors) }}</td></tr>
+                            @empty
+                                <tr><td colspan="3">AI-referred landing pages will appear when a recognized assistant sends a visitor.</td></tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </article>
+        </div>
+    </section>
+
     <section class="analytics-section ai-advisor-section">
         <header class="analytics-section-head">
             <div>

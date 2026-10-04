@@ -14,7 +14,8 @@ Official multilingual website and lead-generation platform for [Fida Technologie
 - Per-page discovery strategy, robots policy, social previews, editorial trust fields and publishing-readiness audits
 - Automatic multilingual one-hop redirects when slugs change, plus an admin redirect manager
 - Visible multilingual FAQs, service/software entities, breadcrumbs and related-topic internal links
-- Google and Bing ownership verification hooks, OpenAI crawler policy and IndexNow submission
+- Google and Bing ownership verification hooks, current AI search/user crawler policy and IndexNow submission
+- Canonical company-facts and Fida Answers pages plus AI-referral and AI-crawler visibility reporting
 - Automatic after-response IndexNow notification for content changes when production credentials are configured
 - Consent-based GA4 loading, conversion events and campaign-attributed lead capture
 - Automated PHP tests and frontend build verification
@@ -81,6 +82,7 @@ BING_SITE_VERIFICATION=
 GOOGLE_ANALYTICS_ID=G-XXXXXXXXXX
 ANALYTICS_REQUIRE_CONSENT=true
 WEBSITE_SOCIAL_IMAGE=https://fida.af/path/to/a-1200x630-image.jpg
+WEBSITE_SAME_AS=https://github.com/fidatech
 WEBSITE_INDEXABLE=true
 WEBSITE_PRODUCTION_HOST=fida.af
 SESSION_SECURE_COOKIE=true

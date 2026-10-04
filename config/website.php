@@ -12,6 +12,10 @@ return [
     'email' => env('WEBSITE_EMAIL', 'info@fida.af'),
     'phone' => env('WEBSITE_PHONE', '+93784006200'),
     'whatsapp' => env('WEBSITE_WHATSAPP', '93784006200'),
+    'same_as' => array_values(array_filter(array_map(
+        static fn (string $url): string => trim($url),
+        explode(',', (string) env('WEBSITE_SAME_AS', 'https://github.com/fidatech')),
+    ))),
     'social_image' => env('WEBSITE_SOCIAL_IMAGE')
         ?: rtrim((string) env('APP_URL', 'https://fida.af'), '/').'/images/fida-social-preview.png',
     'search_verification' => [
@@ -32,6 +36,21 @@ return [
         'company-profile' => ['label' => 'Company profile request', 'project_type' => 'company-profile'],
     ],
     'discovery' => [
+        'ai_referrers' => [
+            'ChatGPT' => ['chatgpt.com'],
+            'Claude' => ['claude.ai'],
+            'Perplexity' => ['perplexity.ai'],
+            'Microsoft Copilot' => ['copilot.microsoft.com'],
+            'Google Gemini' => ['gemini.google.com'],
+        ],
+        'ai_crawlers' => [
+            'OpenAI Search',
+            'ChatGPT',
+            'Claude Search',
+            'Claude User',
+            'ClaudeBot',
+            'Perplexity',
+        ],
         'default_robots' => 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1',
         'robots' => [
             'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1' => 'Index and follow',

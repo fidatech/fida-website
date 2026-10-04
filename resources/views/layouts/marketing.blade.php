@@ -13,7 +13,7 @@
     $articlesActive = request()->routeIs('articles.*', 'localized.articles.*') || $currentSlug === 'articles' || ($routePage instanceof \App\Models\ContentPage && $routePage->type === 'article');
     $projectsActive = $productsActive || $caseStudiesActive;
     $pricingActive = $currentSlug === 'pricing';
-    $companyActive = $currentSlug === 'about' || $articlesActive;
+    $companyActive = in_array($currentSlug, ['about', 'company-facts', 'software-answers-afghanistan'], true) || $articlesActive;
     $navServices = $navigationPages->get('service', collect());
     $navSolutions = $navigationPages->get('solution', collect());
     $navProducts = $navigationPages->get('product', collect());
@@ -180,6 +180,8 @@
                         <section>
                             <span class="nav-cluster-heading">{{ __('website.nav.company') }}</span>
                             <a class="nav-cluster-overview" href="{{ \App\Support\LocalizedUrl::path('/about') }}">{{ __('website.nav.about') }}<small>↗</small></a>
+                            <a class="nav-cluster-overview" href="{{ \App\Support\LocalizedUrl::path('/company-facts') }}">{{ __('website.nav.company_facts') }}<small>↗</small></a>
+                            <a class="nav-cluster-overview" href="{{ \App\Support\LocalizedUrl::path('/software-answers-afghanistan') }}">{{ __('website.nav.answers') }}<small>↗</small></a>
                             <a class="nav-cluster-overview" href="{{ \App\Support\LocalizedUrl::path('/articles') }}">{{ __('website.nav.all_articles') }}<small>↗</small></a>
                             @foreach($navArticles as $navPage)
                                 <a href="{{ \App\Support\LocalizedUrl::path('/'.$navPage->slug) }}">{{ $navPage->translation('title') }}<small>↗</small></a>
@@ -263,6 +265,8 @@
                 </div>
             </details>
             <a href="{{ \App\Support\LocalizedUrl::path('/about') }}">{{ __('website.nav.company') }}</a>
+            <a href="{{ \App\Support\LocalizedUrl::path('/company-facts') }}">{{ __('website.nav.company_facts') }}</a>
+            <a href="{{ \App\Support\LocalizedUrl::path('/software-answers-afghanistan') }}">{{ __('website.nav.answers') }}</a>
         </nav>
     </header>
 
@@ -288,6 +292,8 @@
                 <div>
                     <span class="footer-heading">{{ __('website.footer.company') }}</span>
                     <a href="{{ \App\Support\LocalizedUrl::path('/about') }}">{{ __('website.nav.about') }}</a>
+                    <a href="{{ \App\Support\LocalizedUrl::path('/company-facts') }}">{{ __('website.nav.company_facts') }}</a>
+                    <a href="{{ \App\Support\LocalizedUrl::path('/software-answers-afghanistan') }}">{{ __('website.nav.answers') }}</a>
                     <a href="{{ \App\Support\LocalizedUrl::path('/services') }}">{{ __('website.nav.services') }}</a>
                     <a href="{{ \App\Support\LocalizedUrl::path('/solutions') }}">{{ __('website.nav.solutions') }}</a>
                     <a href="{{ \App\Support\LocalizedUrl::path('/industries') }}">{{ __('website.nav.industries') }}</a>

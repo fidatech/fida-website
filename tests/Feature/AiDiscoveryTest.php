@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\WebsitePageView;
+use Database\Seeders\AiDiscoveryContentSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -15,6 +16,7 @@ class AiDiscoveryTest extends TestCase
         parent::setUp();
         $this->withoutVite();
         config()->set('website.indexable', true);
+        $this->seed(AiDiscoveryContentSeeder::class);
     }
 
     public function test_robots_allows_search_and_user_directed_ai_crawlers(): void

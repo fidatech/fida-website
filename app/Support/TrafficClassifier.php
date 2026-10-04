@@ -19,9 +19,10 @@ class TrafficClassifier
         $utmSource = trim((string) $request->query('utm_source'));
         $utmMedium = trim((string) $request->query('utm_medium'));
         $campaign = trim((string) $request->query('utm_campaign'));
+        $aiSource = self::aiSource($utmSource, $referrerHost);
 
-        $source = $utmSource ?: ($engine ?: ($referrerHost ?: 'direct'));
-        $medium = $utmMedium ?: ($engine ? 'organic' : ($referrerHost ? 'referral' : 'direct'));
+        $source = $aiSource ?: ($utmSource ?: ($engine ?: ($referrerHost ?: 'direct')));
+        $medium = $utmMedium ?: ($aiSource ? 'ai-referral' : ($engine ? 'organic' : ($referrerHost ? 'referral' : 'direct')));
 
         $country = collect([
             $request->headers->get('CF-IPCountry'),
@@ -69,6 +70,7 @@ class TrafficClassifier
             'duckduckbot' => 'DuckDuckBot', 'baiduspider' => 'Baidu', 'facebookexternalhit' => 'Facebook',
             'twitterbot' => 'Twitter', 'linkedinbot' => 'LinkedIn', 'applebot' => 'Applebot',
             'gptbot' => 'GPTBot', 'chatgpt-user' => 'ChatGPT', 'oai-searchbot' => 'OpenAI Search',
+            'claude-searchbot' => 'Claude Search', 'claude-user' => 'Claude User',
             'claudebot' => 'ClaudeBot', 'claude-web' => 'Claude', 'perplexitybot' => 'Perplexity',
             'bytespider' => 'ByteDance', 'semrushbot' => 'Semrush', 'ahrefsbot' => 'Ahrefs',
             'mj12bot' => 'Majestic', 'crawler' => 'Crawler', 'spider' => 'Spider', 'bot/' => 'Bot',
@@ -114,6 +116,30 @@ class TrafficClassifier
         };
 
         return [$browser, $platform, $device];
+    }
+
+    private static function aiSource(string $utmSource, ?string $host): ?string
+    {
+        $candidates = array_filter([$utmSource, $host], fn (?string $value): bool => filled($value));
+
+        foreach (config('website.discovery.ai_referrers', []) as $source => $domains) {
+            foreach ($candidates as $candidate) {
+                $candidate = mb_strtolower(trim((string) $candidate));
+                if (str_contains($candidate, '://')) {
+                    $candidate = mb_strtolower((string) (parse_url($candidate, PHP_URL_HOST) ?: $candidate));
+                }
+                $candidate = trim($candidate, '.');
+
+                foreach ((array) $domains as $domain) {
+                    $domain = mb_strtolower(trim((string) $domain, '.'));
+                    if ($candidate === $domain || str_ends_with($candidate, '.'.$domain)) {
+                        return (string) $source;
+                    }
+                }
+            }
+        }
+
+        return null;
     }
 
     private static function search(string $referrer, ?string $host): array

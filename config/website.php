@@ -91,11 +91,13 @@ return [
         ],
     ],
     'address' => [
-        'line' => '',
+        'line' => 'Al Munawara Plaza, Jada-e-nadar Pashtoon',
         'city' => 'Kabul',
         'country' => 'Afghanistan',
         'country_code' => 'AF',
     ],
+    'google_place_id' => env('WEBSITE_GOOGLE_PLACE_ID', 'ChIJXbIoYrBp0TgRht8HEX79Cto'),
+    'google_maps_url' => env('WEBSITE_GOOGLE_MAPS_URL', 'https://www.google.com/maps/search/?api=1&query=Fida+Technologies+Kabul&query_place_id=ChIJXbIoYrBp0TgRht8HEX79Cto'),
     'map_embed_url' => null,
     'branding' => [
         'name' => 'Fida',

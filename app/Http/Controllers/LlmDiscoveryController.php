@@ -25,6 +25,8 @@ class LlmDiscoveryController extends Controller
                 'ngo-ingo-software-afghanistan',
                 'custom-software-development-afghanistan',
                 'mobile-app-development-afghanistan',
+                'technology-company-afghanistan',
+                'technology-companies-afghanistan',
                 'products',
                 'industries',
                 'articles',

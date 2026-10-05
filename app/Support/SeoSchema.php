@@ -259,7 +259,13 @@ final class SeoSchema
             '@type' => 'Organization',
             '@id' => url('/').'#organization',
             'name' => config('website.name'),
+            'alternateName' => [
+                'Fida Technologies Afghanistan',
+                'Fida Tech Afghanistan',
+                'فدا تکنالوژی',
+            ],
             'legalName' => config('website.legal_name'),
+            'additionalType' => 'https://schema.org/ProfessionalService',
             'foundingDate' => '2022',
             'description' => 'Fida Technologies is an Afghanistan-based enterprise software, ERP, MIS and digital transformation company. Operations began in 2022 following professional technology experience that started in 2014, and the company was formally licensed in 2024.',
             'url' => url('/'),
@@ -274,6 +280,10 @@ final class SeoSchema
                 '@type' => 'Country',
                 'name' => config('website.address.country'),
             ],
+            'foundingLocation' => [
+                '@type' => 'Place',
+                'name' => config('website.address.city').', '.config('website.address.country'),
+            ],
             'knowsAbout' => config('website.expertise'),
             'contactPoint' => [
                 '@type' => 'ContactPoint',
@@ -287,6 +297,20 @@ final class SeoSchema
 
         if (config('website.address.line')) {
             $organization['address']['streetAddress'] = config('website.address.line');
+        }
+
+        if (config('website.google_maps_url')) {
+            $organization['location'] = [
+                '@type' => 'Place',
+                'name' => config('website.name').' Kabul office',
+                'address' => $organization['address'],
+                'hasMap' => config('website.google_maps_url'),
+                'identifier' => array_filter([
+                    '@type' => 'PropertyValue',
+                    'propertyID' => 'Google Place ID',
+                    'value' => config('website.google_place_id'),
+                ]),
+            ];
         }
 
         $sameAs = collect(config('website.same_as', []))

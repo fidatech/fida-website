@@ -88,7 +88,9 @@ class WebsiteSettings
             'email' => $this->text($general['email'] ?? null, config('website.email'), 190),
             'phone' => $this->text($general['phone'] ?? null, config('website.phone'), 50),
             'whatsapp' => $this->digits($general['whatsapp'] ?? null, config('website.whatsapp')),
-            'address_line' => $this->text($general['address_line'] ?? null, config('website.address.line', ''), 255, true),
+            'address_line' => array_key_exists('address_line', $general)
+                ? $this->text($general['address_line'], '', 255, true)
+                : $this->text(config('website.address.line', ''), '', 255, true),
             'city' => $this->text($general['city'] ?? null, config('website.address.city'), 100),
             'country' => $this->text($general['country'] ?? null, config('website.address.country'), 100),
             'country_code' => $this->countryCode($general['country_code'] ?? null, config('website.address.country_code')),

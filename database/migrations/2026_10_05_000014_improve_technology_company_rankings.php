@@ -12,6 +12,13 @@ return new class extends Migration
             return;
         }
 
+        // Production already has the base public website at this point. Fresh
+        // installs remain empty until DatabaseSeeder so isolated tests can
+        // control their own content fixtures.
+        if (! DB::table('content_pages')->where('slug', 'about')->exists()) {
+            return;
+        }
+
         $this->updateTechnologyCompanyPage();
         $this->publishPluralTechnologyGuide();
         $this->alignPublicBusinessAddress();

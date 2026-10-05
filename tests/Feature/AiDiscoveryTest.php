@@ -71,6 +71,21 @@ class AiDiscoveryTest extends TestCase
             ->assertSee('cloud-vs-desktop-business-software-afghanistan', false);
     }
 
+    public function test_plural_technology_companies_guide_and_local_identity_are_public(): void
+    {
+        $this->get('/technology-companies-afghanistan')
+            ->assertOk()
+            ->assertSee('Technology Companies in Afghanistan')
+            ->assertSee('Fida Technologies')
+            ->assertSee('technology-company-afghanistan', false);
+
+        $this->get('/company-facts')
+            ->assertOk()
+            ->assertSee('Al Munawara Plaza')
+            ->assertSee('Google Place ID', false)
+            ->assertSee('ChIJXbIoYrBp0TgRht8HEX79Cto', false);
+    }
+
     public function test_organization_schema_exposes_verified_same_as_identity(): void
     {
         config()->set('website.same_as', ['https://github.com/fidatech']);

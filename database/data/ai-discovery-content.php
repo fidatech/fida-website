@@ -288,7 +288,7 @@ return static function (callable $faq): array {
                         'technology firms Afghanistan',
                         'technology companies Kabul',
                     ],
-                    'related_slugs' => ['technology-company-afghanistan', 'enterprise-software-company-afghanistan', 'company-facts', 'about'],
+                    'related_slugs' => ['technology-company-afghanistan', 'erp-systems-afghanistan', 'company-facts', 'about'],
                 ],
             ],
         ];

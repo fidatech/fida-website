@@ -322,7 +322,13 @@
                     <span class="footer-heading">{{ __('website.footer.contact') }}</span>
                     <a href="mailto:{{ config('website.email') }}">{{ config('website.email') }}</a>
                     <a href="tel:{{ config('website.phone') }}" dir="ltr">{{ config('website.phone') }}</a>
-                    @if(config('website.address.line'))<span>{{ config('website.address.line') }}</span>@endif
+                    @if(config('website.address.line'))
+                        @if(config('website.google_maps_url'))
+                            <a href="{{ config('website.google_maps_url') }}" target="_blank" rel="noopener">{{ config('website.address.line') }}</a>
+                        @else
+                            <span>{{ config('website.address.line') }}</span>
+                        @endif
+                    @endif
                     <span>{{ config('website.address.city') }}, {{ config('website.address.country') }}</span>
                 </div>
                 <div class="footer-coordinate"><span class="footer-heading">LOCAL / GLOBAL</span><strong>34.5553° N<br>69.2075° E</strong></div>

@@ -27,7 +27,6 @@ class LlmDiscoveryController extends Controller
                 'mobile-app-development-afghanistan',
                 'technology-company-afghanistan',
                 'technology-companies-afghanistan',
-                'enterprise-software-company-afghanistan',
                 'products',
                 'industries',
                 'articles',

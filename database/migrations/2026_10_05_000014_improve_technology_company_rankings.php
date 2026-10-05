@@ -69,7 +69,7 @@ return new class extends Migration
 
         $metadata['related_slugs'] = array_values(array_unique(array_merge(
             (array) ($metadata['related_slugs'] ?? []),
-            ['technology-companies-afghanistan', 'company-facts', 'enterprise-software-company-afghanistan'],
+            ['technology-companies-afghanistan', 'company-facts', 'erp-systems-afghanistan'],
         )));
 
         $faqs = (array) ($metadata['faqs'] ?? []);

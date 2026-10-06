@@ -32,7 +32,7 @@ return [
         ?: rtrim((string) env('APP_URL', 'https://fida.af'), '/').'/images/fida-social-preview.png',
     'search_verification' => [
         'google' => env('GOOGLE_SITE_VERIFICATION') ?: 'F0cT_VdKUh1-o_nsWRSipQk1U5vbYY2-BTF5vBBeRTk',
-        'bing' => env('BING_SITE_VERIFICATION'),
+        'bing' => env('BING_SITE_VERIFICATION') ?: '2A05B340FC940798859EA867B14DACD9',
     ],
     'indexnow' => [
         'key' => env('INDEXNOW_KEY'),

@@ -1,5 +1,6 @@
 const header = document.querySelector('[data-header]');
 const progress = document.querySelector('[data-scroll-progress]');
+const backToTop = document.querySelector('[data-back-to-top]');
 const menuButton = document.querySelector('[data-menu-button]');
 const mobileNav = document.querySelector('[data-mobile-nav]');
 const languageSwitcher = document.querySelector('[data-language-switcher]');
@@ -58,6 +59,13 @@ const updateScrollUI = () => {
     scrollFrame = 0;
     header?.classList.toggle('scrolled', window.scrollY > 18);
 
+    if (backToTop) {
+        const visible = window.scrollY > 520;
+        backToTop.classList.toggle('is-visible', visible);
+        backToTop.setAttribute('aria-hidden', String(!visible));
+        backToTop.tabIndex = visible ? 0 : -1;
+    }
+
     if (progress) {
         const scrollable = document.documentElement.scrollHeight - window.innerHeight;
         const percentage = scrollable > 0 ? Math.min(100, (window.scrollY / scrollable) * 100) : 0;
@@ -71,6 +79,13 @@ const requestScrollUpdate = () => {
 
 updateScrollUI();
 window.addEventListener('scroll', requestScrollUpdate, { passive: true });
+
+backToTop?.addEventListener('click', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: reduceMotion ? 'auto' : 'smooth',
+    });
+});
 
 menuButton?.addEventListener('click', () => {
     const open = menuButton.getAttribute('aria-expanded') !== 'true';

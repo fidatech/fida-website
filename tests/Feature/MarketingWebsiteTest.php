@@ -77,6 +77,26 @@ class MarketingWebsiteTest extends TestCase
         $response->assertSee(rawurlencode('Hello, I came from the Fida Technologies website.'), false);
     }
 
+    public function test_public_layout_has_accessible_back_to_top_control(): void
+    {
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('class="back-to-top"', false)
+            ->assertSee('data-back-to-top', false)
+            ->assertSee('aria-label="Back to top"', false);
+
+        $this->get('/fa')
+            ->assertOk()
+            ->assertSee('aria-label="بازگشت به بالا"', false);
+
+        $script = file_get_contents(resource_path('js/app.js'));
+        $stylesheet = file_get_contents(resource_path('css/app.css'));
+
+        $this->assertStringContainsString("window.scrollTo({", $script);
+        $this->assertStringContainsString("window.scrollY > 520", $script);
+        $this->assertStringContainsString(".back-to-top.is-visible", $stylesheet);
+    }
+
     public function test_default_locale_prefix_redirects_directly_to_the_canonical_english_url(): void
     {
         config()->set('website.url', 'https://fida.af');

@@ -86,6 +86,27 @@ class AiDiscoveryTest extends TestCase
             ->assertSee('ChIJXbIoYrBp0TgRht8HEX79Cto', false);
     }
 
+    public function test_official_company_profiles_address_and_llms_identity_are_exposed(): void
+    {
+        $this->get('/company-facts')
+            ->assertOk()
+            ->assertSee('4th Floor, Al Munawara Plaza')
+            ->assertSee('Kabul 1001')
+            ->assertSee('https://www.linkedin.com/company/fida-technologies-afghanistan', false)
+            ->assertSee('https://www.facebook.com/FidaTechnologiesAfghanistan', false)
+            ->assertSee('https://github.com/fidatech', false)
+            ->assertSee('"postalCode":"1001"', false)
+            ->assertSee('https://www.linkedin.com/company/fida-technologies-afghanistan', false)
+            ->assertSee('https://www.facebook.com/FidaTechnologiesAfghanistan', false);
+
+        $this->get('/llms.txt')
+            ->assertOk()
+            ->assertSee('Official LinkedIn: https://www.linkedin.com/company/fida-technologies-afghanistan')
+            ->assertSee('Official Facebook: https://www.facebook.com/FidaTechnologiesAfghanistan')
+            ->assertSee('Official GitHub: https://github.com/fidatech')
+            ->assertSee('4th Floor, Al Munawara Plaza, Jada-e-Nadar Pashtoon, Kabul 1001, Afghanistan');
+    }
+
     public function test_organization_schema_exposes_verified_same_as_identity(): void
     {
         config()->set('website.same_as', ['https://github.com/fidatech']);

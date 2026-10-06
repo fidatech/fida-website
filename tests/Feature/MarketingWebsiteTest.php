@@ -73,6 +73,16 @@ class MarketingWebsiteTest extends TestCase
             );
     }
 
+    public function test_homepage_exposes_bing_webmaster_verification(): void
+    {
+        $this->get('/')
+            ->assertOk()
+            ->assertSee(
+                '<meta name="msvalidate.01" content="2A05B340FC940798859EA867B14DACD9">',
+                false,
+            );
+    }
+
     public function test_public_layout_has_floating_whatsapp_contact(): void
     {
         config()->set('website.whatsapp', '93784006200');

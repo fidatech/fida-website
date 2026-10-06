@@ -1434,6 +1434,36 @@ class MarketingWebsiteTest extends TestCase
         );
     }
 
+    public function test_public_projects_page_exposes_approved_fida_portfolio(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $this->get('/projects')
+            ->assertOk()
+            ->assertSee('Realist ERP')
+            ->assertSee('Petromin ERP')
+            ->assertSee('Tameer ERP')
+            ->assertSee('YuanRemit')
+            ->assertSee('CargoFlow')
+            ->assertSee('Approval-Based Expense System')
+            ->assertSee('Salt Mining ERP')
+            ->assertSee('Carton Factory ERP')
+            ->assertSee('Real Estate Company Website Platform')
+            ->assertSee('Technology Company Website Platform')
+            ->assertSee('StatementGrid')
+            ->assertSee('ContentOS');
+
+        $this->get('/fa/projects')
+            ->assertOk()
+            ->assertSee('محصولات و پروژه‌ها')
+            ->assertSee('Petromin ERP');
+
+        $this->get('/ps/projects')
+            ->assertOk()
+            ->assertSee('محصولات او پروژې')
+            ->assertSee('CargoFlow');
+    }
+
     public function test_software_company_keyword_cluster_has_distinct_topics_and_useful_content(): void
     {
         $this->seed(WebsiteSeeder::class);

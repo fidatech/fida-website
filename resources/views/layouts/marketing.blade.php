@@ -329,7 +329,14 @@
                             <span>{{ config('website.address.line') }}</span>
                         @endif
                     @endif
-                    <span>{{ config('website.address.city') }}, {{ config('website.address.country') }}</span>
+                    <span>{{ config('website.address.city') }}@if(config('website.address.postal_code')) {{ config('website.address.postal_code') }}@endif, {{ config('website.address.country') }}</span>
+                    @if(config('website.official_profiles'))
+                        <div class="footer-social-links" aria-label="Official Fida Technologies profiles">
+                            @foreach(config('website.official_profiles') as $network => $profileUrl)
+                                <a href="{{ $profileUrl }}" target="_blank" rel="me noopener">{{ ucfirst($network) }}</a>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
                 <div class="footer-coordinate"><span class="footer-heading">LOCAL / GLOBAL</span><strong>34.5553° N<br>69.2075° E</strong></div>
             </div>

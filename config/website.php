@@ -12,10 +12,22 @@ return [
     'email' => env('WEBSITE_EMAIL', 'info@fida.af'),
     'phone' => env('WEBSITE_PHONE', '+93784006200'),
     'whatsapp' => env('WEBSITE_WHATSAPP', '93784006200'),
-    'same_as' => array_values(array_filter(array_map(
-        static fn (string $url): string => trim($url),
-        explode(',', (string) env('WEBSITE_SAME_AS', 'https://github.com/fidatech')),
-    ))),
+    'official_profiles' => [
+        'linkedin' => 'https://www.linkedin.com/company/fida-technologies-afghanistan',
+        'facebook' => 'https://www.facebook.com/FidaTechnologiesAfghanistan',
+        'github' => 'https://github.com/fidatech',
+    ],
+    'same_as' => array_values(array_unique(array_filter(array_merge(
+        [
+            'https://www.linkedin.com/company/fida-technologies-afghanistan',
+            'https://www.facebook.com/FidaTechnologiesAfghanistan',
+            'https://github.com/fidatech',
+        ],
+        array_map(
+            static fn (string $url): string => trim($url),
+            explode(',', (string) env('WEBSITE_SAME_AS', '')),
+        ),
+    )))),
     'social_image' => env('WEBSITE_SOCIAL_IMAGE')
         ?: rtrim((string) env('APP_URL', 'https://fida.af'), '/').'/images/fida-social-preview.png',
     'search_verification' => [
@@ -91,8 +103,9 @@ return [
         ],
     ],
     'address' => [
-        'line' => 'Al Munawara Plaza, Jada-e-nadar Pashtoon',
+        'line' => '4th Floor, Al Munawara Plaza, Jada-e-Nadar Pashtoon',
         'city' => 'Kabul',
+        'postal_code' => '1001',
         'country' => 'Afghanistan',
         'country_code' => 'AF',
     ],

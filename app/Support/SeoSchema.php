@@ -271,11 +271,12 @@ final class SeoSchema
             'url' => url('/'),
             'email' => config('website.email'),
             'telephone' => config('website.phone'),
-            'address' => [
+            'address' => array_filter([
                 '@type' => 'PostalAddress',
                 'addressLocality' => config('website.address.city'),
+                'postalCode' => config('website.address.postal_code'),
                 'addressCountry' => config('website.address.country_code'),
-            ],
+            ]),
             'areaServed' => [
                 '@type' => 'Country',
                 'name' => config('website.address.country'),

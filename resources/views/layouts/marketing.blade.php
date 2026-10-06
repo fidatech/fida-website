@@ -354,6 +354,28 @@
     @endif
 
     @php
+        $backToTopLabel = match ($locale) {
+            'fa' => 'بازگشت به بالا',
+            'ps' => 'بېرته سر ته',
+            default => 'Back to top',
+        };
+    @endphp
+    <button
+        type="button"
+        class="back-to-top"
+        data-back-to-top
+        aria-label="{{ $backToTopLabel }}"
+        title="{{ $backToTopLabel }}"
+        aria-hidden="true"
+        tabindex="-1"
+    >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m6 14 6-6 6 6"/>
+        </svg>
+        <span>{{ $backToTopLabel }}</span>
+    </button>
+
+    @php
         $floatingWhatsapp = preg_replace('/\D+/', '', (string) config('website.whatsapp'));
         $whatsappPageTitle = trim((string) ($seo['title'] ?? config('website.name')));
         $whatsappPageUrl = (string) ($seo['canonical'] ?? url()->current());

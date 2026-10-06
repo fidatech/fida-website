@@ -63,6 +63,16 @@ class MarketingWebsiteTest extends TestCase
             ->assertSee('ERP &amp; MIS Systems', false);
     }
 
+    public function test_homepage_exposes_google_search_console_verification(): void
+    {
+        $this->get('/')
+            ->assertOk()
+            ->assertSee(
+                '<meta name="google-site-verification" content="F0cT_VdKUh1-o_nsWRSipQk1U5vbYY2-BTF5vBBeRTk">',
+                false,
+            );
+    }
+
     public function test_public_layout_has_floating_whatsapp_contact(): void
     {
         config()->set('website.whatsapp', '93784006200');

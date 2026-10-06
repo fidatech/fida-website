@@ -67,34 +67,58 @@ jobs:
           install -d -m 700 "$HOME/.ssh"
           printf '%s\n' "$PROD_SSH_PRIVATE_KEY" > "$HOME/.ssh/fida-production"
           chmod 600 "$HOME/.ssh/fida-production"
-          ssh-keyscan -p "$PROD_SSH_PORT" -H "$PROD_SSH_HOST" > "$HOME/.ssh/known_hosts"
+
+          keyscan_ok=0
+          for attempt in 1 2 3 4 5; do
+            if ssh-keyscan -T 10 -t ed25519 -p "$PROD_SSH_PORT" -H "$PROD_SSH_HOST" > "$HOME/.ssh/known_hosts"; then
+              keyscan_ok=1
+              break
+            fi
+            sleep $((attempt * 3))
+          done
+          [[ "$keyscan_ok" -eq 1 ]]
           chmod 600 "$HOME/.ssh/known_hosts"
 
-      - name: Verify production SSH access
-        shell: bash
-        run: |
-          set -Eeuo pipefail
-          ssh \
-            -i "$HOME/.ssh/fida-production" \
-            -p "$PROD_SSH_PORT" \
-            -o BatchMode=yes \
-            -o IdentitiesOnly=yes \
-            -o ConnectTimeout=15 \
-            "$PROD_SSH_USER@$PROD_SSH_HOST" \
-            'test "$(id -un)" = "fida" && test -d /home/fida/repositories/fida-website-production && test -d /home/fida/public_html'
+          cat > "$HOME/.ssh/config" <<EOF
+          Host fida-production
+            HostName $PROD_SSH_HOST
+            Port $PROD_SSH_PORT
+            User $PROD_SSH_USER
+            IdentityFile $HOME/.ssh/fida-production
+            BatchMode yes
+            IdentitiesOnly yes
+            ConnectTimeout 15
+            ConnectionAttempts 3
+            ControlMaster auto
+            ControlPersist 180
+            ControlPath $HOME/.ssh/fida-control-%C
+            ServerAliveInterval 30
+            ServerAliveCountMax 3
+          EOF
+          chmod 600 "$HOME/.ssh/config"
 
-      - name: Deploy approved commit
+      - name: Verify SSH and deploy approved commit
         shell: bash
         env:
           APPROVED_SHA: ${{ steps.release.outputs.sha }}
         run: |
           set -Eeuo pipefail
-          ssh \
-            -i "$HOME/.ssh/fida-production" \
-            -p "$PROD_SSH_PORT" \
-            -o BatchMode=yes \
-            -o IdentitiesOnly=yes \
-            -o ConnectTimeout=15 \
-            "$PROD_SSH_USER@$PROD_SSH_HOST" \
+
+          connected=0
+          for attempt in 1 2 3 4 5; do
+            if ssh -MNf fida-production; then
+              connected=1
+              break
+            fi
+            sleep $((attempt * 5))
+          done
+          [[ "$connected" -eq 1 ]]
+
+          ssh fida-production \
+            'test "$(id -un)" = "fida" && test -d /home/fida/repositories/fida-website-production && test -d /home/fida/public_html'
+
+          ssh fida-production \
             "bash -s -- '$APPROVED_SHA'" \
             < scripts/deploy-cpanel-production-update.sh
+
+          ssh -O exit fida-production || true

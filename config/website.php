@@ -35,7 +35,7 @@ return [
         'bing' => env('BING_SITE_VERIFICATION') ?: '2A05B340FC940798859EA867B14DACD9',
     ],
     'indexnow' => [
-        'key' => env('INDEXNOW_KEY'),
+        'key' => env('INDEXNOW_KEY') ?: '4c4d28e795ad44d1bf9c11ea59c9b7c4',
         'endpoint' => env('INDEXNOW_ENDPOINT', 'https://api.indexnow.org/indexnow'),
     ],
     'analytics' => [

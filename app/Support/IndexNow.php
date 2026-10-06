@@ -40,7 +40,7 @@ final class IndexNow
             ->post((string) config('website.indexnow.endpoint'), [
                 'host' => $host,
                 'key' => $key,
-                'keyLocation' => route('indexnow.key'),
+                'keyLocation' => rtrim((string) config('website.url'), '/').'/'.config('website.indexnow.key').'.txt',
                 'urlList' => $urls,
             ])
             ->throw();

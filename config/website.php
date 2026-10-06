@@ -31,7 +31,7 @@ return [
     'social_image' => env('WEBSITE_SOCIAL_IMAGE')
         ?: rtrim((string) env('APP_URL', 'https://fida.af'), '/').'/images/fida-social-preview.png',
     'search_verification' => [
-        'google' => env('GOOGLE_SITE_VERIFICATION', 'F0cT_VdKUh1-o_nsWRSipQk1U5vbYY2-BTF5vBBeRTk'),
+        'google' => env('GOOGLE_SITE_VERIFICATION') ?: 'F0cT_VdKUh1-o_nsWRSipQk1U5vbYY2-BTF5vBBeRTk',
         'bing' => env('BING_SITE_VERIFICATION'),
     ],
     'indexnow' => [

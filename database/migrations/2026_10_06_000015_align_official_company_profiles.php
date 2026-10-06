@@ -53,7 +53,7 @@ return new class extends Migration
                 && ! str_contains(mb_strtolower($address), '4th floor')
             )
         ) {
-            $value['address_line'] = '4th Floor, Al Munawara Plaza, Jada-e-Nadar Pashtoon';
+            $value['address_line'] = '4th Floor, Al Munawara Plaza, Jada-e-Maiwand';
 
             DB::table('site_settings')->where('id', $setting->id)->update([
                 'value' => $this->json($value),
@@ -79,15 +79,15 @@ return new class extends Migration
         $replacements = [
             'en' => [
                 '<h2>Identity and contact</h2><p>The canonical company name is Fida Technologies. The official website is fida.af. Public website content is available in English, Dari and Pashto, and the contact details published on this website are the authoritative contact reference.</p>',
-                '<h2>Identity and contact</h2><p>The canonical company name is Fida Technologies. The official website is fida.af. The Kabul office is at 4th Floor, Al Munawara Plaza, Jada-e-Nadar Pashtoon, Kabul 1001, Afghanistan. Public website content is available in English, Dari and Pashto.</p><h2>Official public profiles</h2><ul><li><a href="https://www.linkedin.com/company/fida-technologies-afghanistan">LinkedIn — Fida Technologies Afghanistan</a></li><li><a href="https://www.facebook.com/FidaTechnologiesAfghanistan">Facebook — Fida Technologies Afghanistan</a></li><li><a href="https://github.com/fidatech">GitHub — fidatech</a></li></ul><p>These profiles, the Google Business Profile and fida.af represent the same Fida Technologies entity in Kabul, Afghanistan.</p>',
+                '<h2>Identity and contact</h2><p>The canonical company name is Fida Technologies. The official website is fida.af. The Kabul office is at 4th Floor, Al Munawara Plaza, Jada-e-Maiwand, Kabul 1001, Afghanistan. Public website content is available in English, Dari and Pashto.</p><h2>Official public profiles</h2><ul><li><a href="https://www.linkedin.com/company/fida-technologies-afghanistan">LinkedIn — Fida Technologies Afghanistan</a></li><li><a href="https://www.facebook.com/FidaTechnologiesAfghanistan">Facebook — Fida Technologies Afghanistan</a></li><li><a href="https://github.com/fidatech">GitHub — fidatech</a></li></ul><p>These profiles, the Google Business Profile and fida.af represent the same Fida Technologies entity in Kabul, Afghanistan.</p>',
             ],
             'fa' => [
                 '<h2>هویت و تماس</h2><p>نام برند Fida Technologies و وب‌سایت رسمی fida.af است. معلومات تماس همین وب‌سایت مرجع رسمی تماس است.</p>',
-                '<h2>هویت و تماس</h2><p>نام رسمی برند Fida Technologies و وب‌سایت رسمی fida.af است. دفتر کابل در طبقه چهارم، Al Munawara Plaza، Jada-e-Nadar Pashtoon، کابل 1001، افغانستان قرار دارد.</p><h2>پروفایل‌های رسمی</h2><ul><li><a href="https://www.linkedin.com/company/fida-technologies-afghanistan">LinkedIn — Fida Technologies Afghanistan</a></li><li><a href="https://www.facebook.com/FidaTechnologiesAfghanistan">Facebook — Fida Technologies Afghanistan</a></li><li><a href="https://github.com/fidatech">GitHub — fidatech</a></li></ul><p>این پروفایل‌ها، پروفایل تجارتی گوگل و fida.af همه مربوط به همان Fida Technologies در کابل، افغانستان است.</p>',
+                '<h2>هویت و تماس</h2><p>نام رسمی برند Fida Technologies و وب‌سایت رسمی fida.af است. دفتر کابل در طبقه چهارم، Al Munawara Plaza، Jada-e-Maiwand، کابل 1001، افغانستان قرار دارد.</p><h2>پروفایل‌های رسمی</h2><ul><li><a href="https://www.linkedin.com/company/fida-technologies-afghanistan">LinkedIn — Fida Technologies Afghanistan</a></li><li><a href="https://www.facebook.com/FidaTechnologiesAfghanistan">Facebook — Fida Technologies Afghanistan</a></li><li><a href="https://github.com/fidatech">GitHub — fidatech</a></li></ul><p>این پروفایل‌ها، پروفایل تجارتی گوگل و fida.af همه مربوط به همان Fida Technologies در کابل، افغانستان است.</p>',
             ],
             'ps' => [
                 '<h2>هویت او اړیکه</h2><p>رسمي برانډ نوم Fida Technologies او رسمي وېب‌سایټ fida.af دی. د همدې وېب‌سایټ د اړیکې معلومات رسمي مرجع ده.</p>',
-                '<h2>هویت او اړیکه</h2><p>رسمي برانډ نوم Fida Technologies او رسمي وېب‌سایټ fida.af دی. د کابل دفتر په 4th Floor، Al Munawara Plaza، Jada-e-Nadar Pashtoon، کابل 1001، افغانستان کې دی.</p><h2>رسمي عامه پروفایلونه</h2><ul><li><a href="https://www.linkedin.com/company/fida-technologies-afghanistan">LinkedIn — Fida Technologies Afghanistan</a></li><li><a href="https://www.facebook.com/FidaTechnologiesAfghanistan">Facebook — Fida Technologies Afghanistan</a></li><li><a href="https://github.com/fidatech">GitHub — fidatech</a></li></ul><p>دا پروفایلونه، د Google Business Profile او fida.af ټول په کابل، افغانستان کې د همدې Fida Technologies استازیتوب کوي.</p>',
+                '<h2>هویت او اړیکه</h2><p>رسمي برانډ نوم Fida Technologies او رسمي وېب‌سایټ fida.af دی. د کابل دفتر په 4th Floor، Al Munawara Plaza، Jada-e-Maiwand، کابل 1001، افغانستان کې دی.</p><h2>رسمي عامه پروفایلونه</h2><ul><li><a href="https://www.linkedin.com/company/fida-technologies-afghanistan">LinkedIn — Fida Technologies Afghanistan</a></li><li><a href="https://www.facebook.com/FidaTechnologiesAfghanistan">Facebook — Fida Technologies Afghanistan</a></li><li><a href="https://github.com/fidatech">GitHub — fidatech</a></li></ul><p>دا پروفایلونه، د Google Business Profile او fida.af ټول په کابل، افغانستان کې د همدې Fida Technologies استازیتوب کوي.</p>',
             ],
         ];
 

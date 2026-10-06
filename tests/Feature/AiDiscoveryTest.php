@@ -104,7 +104,7 @@ class AiDiscoveryTest extends TestCase
             ->assertSee('Official LinkedIn: https://www.linkedin.com/company/fida-technologies-afghanistan')
             ->assertSee('Official Facebook: https://www.facebook.com/FidaTechnologiesAfghanistan')
             ->assertSee('Official GitHub: https://github.com/fidatech')
-            ->assertSee('4th Floor, Al Munawara Plaza, Jada-e-Nadar Pashtoon, Kabul 1001, Afghanistan');
+            ->assertSee('4th Floor, Al Munawara Plaza, Jada-e-Maiwand, Kabul 1001, Afghanistan');
     }
 
     public function test_organization_schema_exposes_verified_same_as_identity(): void

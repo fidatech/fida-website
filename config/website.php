@@ -103,7 +103,7 @@ return [
         ],
     ],
     'address' => [
-        'line' => '4th Floor, Al Munawara Plaza, Jada-e-Nadar Pashtoon',
+        'line' => '4th Floor, Al Munawara Plaza, Jada-e-Maiwand',
         'city' => 'Kabul',
         'postal_code' => '1001',
         'country' => 'Afghanistan',

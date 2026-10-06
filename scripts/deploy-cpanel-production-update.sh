@@ -52,7 +52,7 @@ mkdir -p "$PUBLIC_BACKUP"
 printf '%s\n' "$CURRENT_SHA" > "$DEPLOY_BACKUP/previous-sha.txt"
 printf '%s\n' "$APPROVED_SHA" > "$DEPLOY_BACKUP/approved-sha.txt"
 
-for live_path in .htaccess index.php build images favicon.svg; do
+for live_path in .htaccess index.php build images favicon.svg 4c4d28e795ad44d1bf9c11ea59c9b7c4.txt; do
     if [[ -e "$PUBLIC_ROOT/$live_path" || -L "$PUBLIC_ROOT/$live_path" ]]; then
         cp -a "$PUBLIC_ROOT/$live_path" "$PUBLIC_BACKUP/$live_path"
     fi
@@ -175,12 +175,14 @@ for next_path in build images; do
 done
 
 cp -a "$PRODUCTION_REPO/public/favicon.svg" "$PUBLIC_ROOT/favicon.svg.next"
+cp -a "$PRODUCTION_REPO/public/4c4d28e795ad44d1bf9c11ea59c9b7c4.txt" "$PUBLIC_ROOT/4c4d28e795ad44d1bf9c11ea59c9b7c4.txt.next"
 cp -a "$PRODUCTION_REPO/deployment/cpanel-main-root/index.php" "$PUBLIC_ROOT/index.php.next"
 cp -a "$PRODUCTION_REPO/deployment/cpanel-main-root/.htaccess" "$PUBLIC_ROOT/.htaccess.next"
 
-chmod 0644     "$PUBLIC_ROOT/favicon.svg.next"     "$PUBLIC_ROOT/index.php.next"     "$PUBLIC_ROOT/.htaccess.next"
+chmod 0644     "$PUBLIC_ROOT/favicon.svg.next"     "$PUBLIC_ROOT/4c4d28e795ad44d1bf9c11ea59c9b7c4.txt.next"     "$PUBLIC_ROOT/index.php.next"     "$PUBLIC_ROOT/.htaccess.next"
 
 mv -f "$PUBLIC_ROOT/favicon.svg.next" "$PUBLIC_ROOT/favicon.svg"
+mv -f "$PUBLIC_ROOT/4c4d28e795ad44d1bf9c11ea59c9b7c4.txt.next" "$PUBLIC_ROOT/4c4d28e795ad44d1bf9c11ea59c9b7c4.txt"
 mv -f "$PUBLIC_ROOT/index.php.next" "$PUBLIC_ROOT/index.php"
 mv -f "$PUBLIC_ROOT/.htaccess.next" "$PUBLIC_ROOT/.htaccess"
 

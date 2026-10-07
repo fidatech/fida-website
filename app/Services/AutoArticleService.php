@@ -18,12 +18,12 @@ class AutoArticleService
         $value = is_array($setting?->value) ? $setting->value : [];
 
         return [
-            'enabled' => (bool) ($value['enabled'] ?? false),
-            'auto_publish' => (bool) ($value['auto_publish'] ?? false),
+            'enabled' => (bool) ($value['enabled'] ?? true),
+            'auto_publish' => (bool) ($value['auto_publish'] ?? true),
             'daily_time' => preg_match('/^\d{2}:\d{2}$/', (string) ($value['daily_time'] ?? '08:00')) ? $value['daily_time'] : '08:00',
             'timezone' => (string) ($value['timezone'] ?? 'Asia/Kabul'),
             'category_id' => isset($value['category_id']) ? (int) $value['category_id'] : null,
-            'themes' => trim((string) ($value['themes'] ?? 'ERP, accounting, database, POS, industry software, digital transformation in Afghanistan')),
+            'themes' => trim((string) ($value['themes'] ?? 'ERP, accounting, database, POS, business systems, industry software, digital transformation and practical software buying guidance for Afghanistan')),
             'last_generated_on' => $value['last_generated_on'] ?? null,
             'last_page_id' => $value['last_page_id'] ?? null,
             'last_error' => $value['last_error'] ?? null,

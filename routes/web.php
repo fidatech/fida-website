@@ -91,7 +91,7 @@ Route::prefix('admin')->name('admin.')->group(function (): void {
             ->middleware('capability:growth.manage')->name('case-studies.generate');
 
         Route::get('/rankings', [AdminRankingMonitorController::class, 'index'])
-            ->middleware('capability:analytics.view')->name('rankings.index');
+            ->middleware('capability:growth.manage')->name('rankings.index');
         Route::post('/rankings', [AdminRankingMonitorController::class, 'store'])
             ->middleware('capability:growth.manage')->name('rankings.store');
         Route::put('/rankings/{rankingTarget}', [AdminRankingMonitorController::class, 'update'])

@@ -213,6 +213,7 @@ WWW_STATUS="$(curl --silent --show-error --output /dev/null --write-out '%{http_
 (
     cd "$PRODUCTION_REPO"
     php artisan website:deployment-audit https://fida.af --mode=production
+    php artisan website:index || printf 'Index submission skipped or failed; deployment remains healthy.\n' >&2
 )
 
 printf '%s\n' "$DEPLOY_BACKUP" > "$PRODUCTION_REPO/storage/app/latest-production-deploy-backup.txt"

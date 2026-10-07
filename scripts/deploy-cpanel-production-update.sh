@@ -219,6 +219,26 @@ WWW_STATUS="$(curl --silent --show-error --output /dev/null --write-out '%{http_
 printf '%s\n' "$DEPLOY_BACKUP" > "$PRODUCTION_REPO/storage/app/latest-production-deploy-backup.txt"
 printf '%s\n' "$APPROVED_SHA" > "$PRODUCTION_REPO/storage/app/latest-production-sha.txt"
 
+# Keep Laravel's scheduler alive for daily editorial automation and future scheduled jobs.
+# This is idempotent and non-blocking so an unusual hosting environment cannot roll back
+# an otherwise healthy website deployment.
+if command -v crontab >/dev/null 2>&1; then
+    crontab -l > "$DEPLOY_BACKUP/crontab-before.txt" 2>/dev/null || true
+    PHP_BIN="$(command -v php)"
+    {
+        crontab -l 2>/dev/null | grep -v '# fida-website-schedulerrm -f -- "$DB_CLIENT_FILE" "$DB_NAME_FILE"
+
+printf 'Production deployment passed.\n'
+printf 'Previous SHA: %s\n' "$CURRENT_SHA"
+printf 'Live SHA: %s\n' "$APPROVED_SHA"
+printf 'Recoverable backup: %s\n' "$DEPLOY_BACKUP"
+ || true
+        printf '* * * * * cd %s && %s artisan schedule:run >/dev/null 2>&1 # fida-website-scheduler\n' "$PRODUCTION_REPO" "$PHP_BIN"
+    } | crontab - && printf 'Laravel scheduler cron ensured.\n' || printf 'WARNING: Could not install scheduler cron; configure schedule:run in cPanel.\n' >&2
+else
+    printf 'WARNING: crontab is unavailable; configure php artisan schedule:run every minute in cPanel.\n' >&2
+fi
+
 SUCCESS=true
 rm -f -- "$DB_CLIENT_FILE" "$DB_NAME_FILE"
 

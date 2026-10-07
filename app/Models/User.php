@@ -45,8 +45,8 @@ class User extends Authenticatable
 
         return match ($this->role) {
             'super_admin' => true,
-            'editor' => $capability === 'content.manage',
-            'sales' => $capability === 'leads.manage',
+            'editor' => in_array($capability, ['content.manage', 'growth.manage', 'projects.manage'], true),
+            'sales' => in_array($capability, ['leads.manage', 'crm.manage'], true),
             default => false,
         };
     }

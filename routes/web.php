@@ -10,6 +10,12 @@ use App\Http\Controllers\Admin\LeadController as AdminLeadController;
 use App\Http\Controllers\Admin\PageRedirectController as AdminPageRedirectController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\WebsiteSettingsController as AdminWebsiteSettingsController;
+use App\Http\Controllers\Admin\AutoArticleController as AdminAutoArticleController;
+use App\Http\Controllers\Admin\CaseStudyStudioController as AdminCaseStudyStudioController;
+use App\Http\Controllers\Admin\RankingMonitorController as AdminRankingMonitorController;
+use App\Http\Controllers\Admin\ClientController as AdminClientController;
+use App\Http\Controllers\Admin\ContractController as AdminContractController;
+use App\Http\Controllers\Admin\PortfolioProjectController as AdminPortfolioProjectController;
 use App\Http\Controllers\DefaultLocaleRedirectController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ArticleTaxonomyController;
@@ -69,6 +75,49 @@ Route::prefix('admin')->name('admin.')->group(function (): void {
             ->middleware('capability:analytics.view')
             ->name('analytics.ai-insight');
         Route::post('/logout', [AdminAuthController::class, 'destroy'])->name('logout');
+
+        Route::get('/auto-articles', [AdminAutoArticleController::class, 'index'])
+            ->middleware('capability:growth.manage')->name('auto-articles.index');
+        Route::put('/auto-articles', [AdminAutoArticleController::class, 'update'])
+            ->middleware('capability:growth.manage')->name('auto-articles.update');
+        Route::post('/auto-articles/generate', [AdminAutoArticleController::class, 'generate'])
+            ->middleware('capability:growth.manage')->name('auto-articles.generate');
+
+        Route::get('/case-study-studio', [AdminCaseStudyStudioController::class, 'index'])
+            ->middleware('capability:growth.manage')->name('case-studies.index');
+        Route::get('/case-study-studio/create', [AdminCaseStudyStudioController::class, 'create'])
+            ->middleware('capability:growth.manage')->name('case-studies.create');
+        Route::post('/case-study-studio/generate', [AdminCaseStudyStudioController::class, 'generate'])
+            ->middleware('capability:growth.manage')->name('case-studies.generate');
+
+        Route::get('/rankings', [AdminRankingMonitorController::class, 'index'])
+            ->middleware('capability:analytics.view')->name('rankings.index');
+        Route::post('/rankings', [AdminRankingMonitorController::class, 'store'])
+            ->middleware('capability:growth.manage')->name('rankings.store');
+        Route::put('/rankings/{rankingTarget}', [AdminRankingMonitorController::class, 'update'])
+            ->middleware('capability:growth.manage')->name('rankings.update');
+        Route::delete('/rankings/{rankingTarget}', [AdminRankingMonitorController::class, 'destroy'])
+            ->middleware('capability:growth.manage')->name('rankings.destroy');
+
+        Route::resource('clients', AdminClientController::class)
+            ->except('show')
+            ->middleware('capability:crm.manage');
+        Route::resource('contracts', AdminContractController::class)
+            ->except(['show','destroy'])
+            ->middleware('capability:crm.manage');
+        Route::get('/contracts/{contract}/download', [AdminContractController::class, 'download'])
+            ->middleware('capability:crm.manage')->name('contracts.download');
+
+        Route::resource('projects', AdminPortfolioProjectController::class)
+            ->except(['show','destroy'])
+            ->parameters(['projects' => 'project'])
+            ->middleware('capability:projects.manage');
+        Route::post('/projects/{project}/screenshots', [AdminPortfolioProjectController::class, 'uploadScreenshots'])
+            ->middleware('capability:projects.manage')->name('projects.screenshots.store');
+        Route::get('/project-screenshots/{projectScreenshot}', [AdminPortfolioProjectController::class, 'screenshot'])
+            ->middleware('capability:projects.manage')->name('projects.screenshots.show');
+        Route::delete('/project-screenshots/{projectScreenshot}', [AdminPortfolioProjectController::class, 'destroyScreenshot'])
+            ->middleware('capability:projects.manage')->name('projects.screenshots.destroy');
 
         Route::resource('content-pages', AdminContentPageController::class)
             ->except('show')

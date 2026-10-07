@@ -13,6 +13,8 @@
     <meta name="robots" content="noindex, nofollow">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Console') · {{ config('website.branding.name') }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
     @vite(['resources/css/admin.css', 'resources/js/admin.js'])
 </head>
 <body class="console-body">
@@ -58,6 +60,38 @@
                         <svg viewBox="0 0 24 24"><path d="M4 19V9m5 10V5m5 14v-7m5 7V3"/><path d="M3 21h18"/></svg>
                         Analytics
                     </a>
+                @endif
+
+                @if(auth()->user()->allows('growth.manage'))
+                    @php($growthNavOpen = request()->routeIs('admin.auto-articles.*') || request()->routeIs('admin.case-studies.*') || request()->routeIs('admin.rankings.*'))
+                    <div class="console-nav-group @if($growthNavOpen) open @endif" data-nav-group>
+                        <button type="button" class="console-nav-group-toggle @if($growthNavOpen) active @endif" data-nav-group-toggle aria-expanded="{{ $growthNavOpen ? 'true' : 'false' }}">
+                            <svg viewBox="0 0 24 24"><path d="M4 18 10 12l4 4 6-9"/><path d="M15 7h5v5"/></svg>
+                            <span>Growth</span>
+                            <svg class="nav-chevron" viewBox="0 0 24 24"><path d="m8 10 4 4 4-4"/></svg>
+                        </button>
+                        <div class="console-nav-submenu" data-nav-group-menu>
+                            <a @class(['active' => request()->routeIs('admin.auto-articles.*')]) href="{{ route('admin.auto-articles.index') }}">Auto articles</a>
+                            <a @class(['active' => request()->routeIs('admin.case-studies.*')]) href="{{ route('admin.case-studies.index') }}">Case study studio</a>
+                            <a @class(['active' => request()->routeIs('admin.rankings.*')]) href="{{ route('admin.rankings.index') }}">Ranking monitor</a>
+                        </div>
+                    </div>
+                @endif
+
+                @if(auth()->user()->allows('projects.manage') || auth()->user()->allows('crm.manage'))
+                    @php($crmNavOpen = request()->routeIs('admin.clients.*') || request()->routeIs('admin.contracts.*') || request()->routeIs('admin.projects.*'))
+                    <div class="console-nav-group @if($crmNavOpen) open @endif" data-nav-group>
+                        <button type="button" class="console-nav-group-toggle @if($crmNavOpen) active @endif" data-nav-group-toggle aria-expanded="{{ $crmNavOpen ? 'true' : 'false' }}">
+                            <svg viewBox="0 0 24 24"><path d="M4 7h16v12H4V7Zm4-3h8v3H8V4Z"/><path d="M9 12h6"/></svg>
+                            <span>Portfolio & CRM</span>
+                            <svg class="nav-chevron" viewBox="0 0 24 24"><path d="m8 10 4 4 4-4"/></svg>
+                        </button>
+                        <div class="console-nav-submenu" data-nav-group-menu>
+                            @if(auth()->user()->allows('projects.manage'))<a @class(['active' => request()->routeIs('admin.projects.*')]) href="{{ route('admin.projects.index') }}">Projects & screenshots</a>@endif
+                            @if(auth()->user()->allows('crm.manage'))<a @class(['active' => request()->routeIs('admin.clients.*')]) href="{{ route('admin.clients.index') }}">Clients</a>@endif
+                            @if(auth()->user()->allows('crm.manage'))<a @class(['active' => request()->routeIs('admin.contracts.*')]) href="{{ route('admin.contracts.index') }}">Contracts</a>@endif
+                        </div>
+                    </div>
                 @endif
 
                 @if(auth()->user()->allows('leads.manage'))

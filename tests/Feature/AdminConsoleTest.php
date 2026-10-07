@@ -86,6 +86,40 @@ class AdminConsoleTest extends TestCase
         $this->actingAs($editor)->get(route('admin.users.index'))->assertForbidden();
     }
 
+    public function test_editor_can_open_auto_articles_with_generated_history(): void
+    {
+        $editor = User::factory()->admin('editor')->create();
+
+        ContentPage::query()->create([
+            'type' => 'article',
+            'slug' => 'generated-admin-history-test',
+            'title' => ['en' => 'Generated history test'],
+            'eyebrow' => ['en' => 'Fida Answers'],
+            'summary' => ['en' => 'A generated article used to verify the automation console.'],
+            'body' => ['en' => '<p>Generated content.</p>'],
+            'meta_title' => ['en' => 'Generated history test | Fida'],
+            'meta_description' => ['en' => 'Generated article history regression test.'],
+            'primary_query' => ['en' => 'generated article test'],
+            'search_intent' => 'informational',
+            'robots_directive' => config('website.discovery.default_robots'),
+            'sitemap_included' => true,
+            'sitemap_priority' => 0.7,
+            'sitemap_change_frequency' => 'monthly',
+            'metadata' => ['automation' => ['generated' => true]],
+            'status' => 'published',
+            'featured' => false,
+            'sort_order' => 100,
+            'published_at' => now(),
+        ]);
+
+        $this->actingAs($editor)
+            ->get(route('admin.auto-articles.index'))
+            ->assertOk()
+            ->assertSee('Publish useful content on schedule.')
+            ->assertSee('Generated history test')
+            ->assertSee('09:00');
+    }
+
     public function test_editor_manages_insight_taxonomies_and_article_publication_state(): void
     {
         $editor = User::factory()->admin('editor')->create();

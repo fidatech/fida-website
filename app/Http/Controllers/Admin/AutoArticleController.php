@@ -22,10 +22,12 @@ class AutoArticleController extends Controller
             'aiConfigured' => $ai->configured(),
             'recent' => ContentPage::query()
                 ->where('type', 'article')
-                ->whereJsonContains('metadata->automation->generated', true)
                 ->latest()
-                ->limit(20)
-                ->get(),
+                ->limit(100)
+                ->get()
+                ->filter(fn (ContentPage $page): bool => filter_var(data_get($page->metadata, 'automation.generated', false), FILTER_VALIDATE_BOOL))
+                ->take(20)
+                ->values(),
         ]);
     }
 

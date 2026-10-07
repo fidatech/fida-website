@@ -960,3 +960,20 @@ svg { display: block; fill: none; stroke: currentColor; stroke-linecap: round; s
     .project-shot-grid { grid-template-columns:1fr; }
     .inline-search { flex-direction:column; }
 }
+
+
+/* Growth / CRM refinements aligned with core console */
+.admin-fact-list { display:grid; border:1px solid var(--admin-line); border-radius:12px; overflow:hidden; }
+.admin-fact-list > div { display:grid; gap:5px; padding:13px 14px; border-bottom:1px solid var(--admin-line); }
+.admin-fact-list > div:last-child { border-bottom:0; }
+.admin-fact-list span { color:#656b75; font:7px ui-monospace,monospace; letter-spacing:.1em; text-transform:uppercase; }
+.admin-fact-list strong { color:#dfe1dd; font-size:10px; font-weight:650; line-height:1.5; }
+.linked-records { display:grid; gap:8px; }
+.linked-records > a { position:relative; display:grid; gap:5px; padding:12px 38px 12px 12px; border:1px solid var(--admin-line); border-radius:11px; background:rgba(255,255,255,.018); transition:.2s var(--admin-ease); }
+.linked-records > a:hover { border-color:var(--admin-line-strong); background:rgba(255,255,255,.03); transform:translateY(-1px); }
+.linked-records strong { color:#e3e5e1; font-size:10px; }
+.linked-records small { color:#686e78; font-size:8px; }
+.linked-records > a > span { position:absolute; top:50%; right:12px; color:var(--admin-lime); transform:translateY(-50%); }
+.danger-note { border-color:rgba(255,100,119,.15) !important; background:rgba(255,100,119,.035) !important; }
+.danger-note strong { color:#ff9ba7 !important; }
+.project-gallery-panel { margin-top:16px; }

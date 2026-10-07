@@ -16,11 +16,12 @@ class AutoArticleService
     {
         $setting = SiteSetting::query()->where('key', 'content.automation')->first();
         $value = is_array($setting?->value) ? $setting->value : [];
+        $dailyTime = (string) ($value['daily_time'] ?? '09:00');
 
         return [
             'enabled' => (bool) ($value['enabled'] ?? true),
             'auto_publish' => (bool) ($value['auto_publish'] ?? true),
-            'daily_time' => preg_match('/^\d{2}:\d{2}$/', (string) ($value['daily_time'] ?? '08:00')) ? $value['daily_time'] : '08:00',
+            'daily_time' => preg_match('/^\d{2}:\d{2}$/', $dailyTime) ? $dailyTime : '09:00',
             'timezone' => (string) ($value['timezone'] ?? 'Asia/Kabul'),
             'category_id' => isset($value['category_id']) ? (int) $value['category_id'] : null,
             'themes' => trim((string) ($value['themes'] ?? 'ERP, accounting, database, POS, business systems, industry software, digital transformation and practical software buying guidance for Afghanistan')),

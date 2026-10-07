@@ -192,57 +192,9 @@ if ('IntersectionObserver' in window && !reduceMotion) {
     revealItems.forEach((item) => item.classList.add('visible'));
 }
 
-const canTilt = !reduceMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-
-if (canTilt) {
-    const coreStage = document.querySelector('[data-core-stage]');
-    const coreScene = document.querySelector('[data-core-scene]');
-    let coreFrame = 0;
-
-    coreStage?.addEventListener('pointermove', (event) => {
-        if (coreFrame) return;
-
-        coreFrame = window.requestAnimationFrame(() => {
-            const bounds = coreStage.getBoundingClientRect();
-            const x = (event.clientX - bounds.left) / bounds.width - 0.5;
-            const y = (event.clientY - bounds.top) / bounds.height - 0.5;
-            coreScene?.style.setProperty('--ry', `${8 + x * 12}deg`);
-            coreScene?.style.setProperty('--rx', `${-6 - y * 9}deg`);
-            coreScene?.style.setProperty('--mx', `${x * 9}px`);
-            coreScene?.style.setProperty('--my', `${y * 7}px`);
-            coreFrame = 0;
-        });
-    });
-
-    coreStage?.addEventListener('pointerleave', () => {
-        coreScene?.style.setProperty('--ry', '8deg');
-        coreScene?.style.setProperty('--rx', '-6deg');
-        coreScene?.style.setProperty('--mx', '0px');
-        coreScene?.style.setProperty('--my', '0px');
-    });
-
-    document.querySelectorAll('[data-tilt]').forEach((card) => {
-        let frame = 0;
-
-        card.addEventListener('pointermove', (event) => {
-            if (frame) return;
-
-            frame = window.requestAnimationFrame(() => {
-                const bounds = card.getBoundingClientRect();
-                const x = (event.clientX - bounds.left) / bounds.width - 0.5;
-                const y = (event.clientY - bounds.top) / bounds.height - 0.5;
-                card.style.setProperty('--tilt-y', `${x * 3.5}deg`);
-                card.style.setProperty('--tilt-x', `${-y * 3.5}deg`);
-                frame = 0;
-            });
-        });
-
-        card.addEventListener('pointerleave', () => {
-            card.style.setProperty('--tilt-y', '0deg');
-            card.style.setProperty('--tilt-x', '0deg');
-        });
-    });
-}
+// Intentionally keep the marketing site lightweight. Interactive 3D tilt was removed
+// because continuous pointer-driven transforms add paint/compositing work without
+// improving the information architecture or conversion path.
 
 const analyticsEndpoint = '/analytics/event';
 const analyticsCsrf = document.querySelector('meta[name="csrf-token"]')?.content;

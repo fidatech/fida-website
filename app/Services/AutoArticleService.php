@@ -6,6 +6,7 @@ use App\Models\ArticleCategory;
 use App\Models\ContentPage;
 use App\Models\SearchConsoleMetric;
 use App\Models\SiteSetting;
+use App\Support\DiscoveryPublisher;
 use Illuminate\Support\Str;
 use RuntimeException;
 
@@ -153,6 +154,10 @@ class AutoArticleService
                 'sort_order' => 1300,
                 'published_at' => $settings['auto_publish'] ? now() : null,
             ]);
+
+            if ($page->status === 'published') {
+                app(DiscoveryPublisher::class)->schedule($page);
+            }
 
             $this->recordResult($page, null);
 

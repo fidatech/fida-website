@@ -866,3 +866,133 @@ html[data-color-mode="light"] .analytics-consent p { color: #5d6673; }
     text-transform: uppercase;
     letter-spacing: .055em;
 }
+
+
+/* Performance-first visual mode
+   Keep the premium identity while avoiding persistent 3D compositing work. */
+.page-noise { display: none; }
+.page-aurora { filter: blur(72px); opacity: .035; }
+.header-shell { backdrop-filter: blur(10px) saturate(112%); }
+
+.core-stage {
+    min-height: 560px;
+    perspective: none;
+}
+.core-stage::before {
+    inset: 10% 5% 8%;
+    border-radius: 42px;
+    transform: none;
+    box-shadow: inset 0 0 70px rgba(var(--secondary-rgb), .035);
+}
+.core-stage::after {
+    bottom: 12%;
+    width: 60%;
+    height: 10%;
+    filter: blur(34px);
+    opacity: .55;
+}
+.core-scene {
+    --rx: 0deg;
+    --ry: 0deg;
+    --mx: 0px;
+    --my: 0px;
+    inset: 10% 4% 7%;
+    transform: none !important;
+    transform-style: flat;
+    transition: none;
+}
+.scene-shadow { display: none; }
+.scene-ring,
+.orbit {
+    transform: none !important;
+    transform-style: flat;
+    animation: none !important;
+}
+.scene-ring { top: 48%; opacity: .55; }
+.scene-ring-outer {
+    width: 410px;
+    height: 410px;
+    margin: -205px;
+}
+.scene-ring-inner {
+    width: 292px;
+    height: 292px;
+    margin: -146px;
+}
+.orbit-one {
+    width: 500px;
+    height: 210px;
+    margin: -105px -250px;
+}
+.orbit-two {
+    width: 220px;
+    height: 470px;
+    margin: -235px -110px;
+}
+.core-cube {
+    width: 168px;
+    height: 168px;
+    margin: -84px;
+    transform: none !important;
+    transform-style: flat;
+    animation: none !important;
+}
+.cube-face {
+    transform: none !important;
+    transform-style: flat;
+    backdrop-filter: none;
+}
+.cube-face:not(.cube-front) { display: none; }
+.cube-front {
+    border-radius: 30px;
+    background:
+        linear-gradient(145deg, rgba(var(--secondary-rgb), .18), rgba(255,255,255,.035)),
+        rgba(13,15,20,.95);
+    box-shadow:
+        0 26px 65px rgba(0,0,0,.34),
+        inset 0 1px rgba(255,255,255,.08),
+        inset 0 0 50px rgba(var(--accent-rgb),.05);
+}
+.float-panel {
+    transform: none !important;
+    transform-style: flat;
+    animation: none !important;
+    backdrop-filter: none;
+    background: rgba(13,15,20,.94);
+}
+.panel-signal { top: 14%; right: 1%; }
+.panel-modules { bottom: 17%; left: 1%; }
+.panel-command { right: 8%; bottom: 10%; }
+
+.solution-card,
+.product-card,
+.industry-card,
+[data-tilt] {
+    transform-style: flat !important;
+}
+[data-tilt] {
+    --tilt-x: 0deg !important;
+    --tilt-y: 0deg !important;
+    transform: none !important;
+}
+
+@media (max-width: 900px) {
+    .core-stage { min-height: 500px; }
+    .scene-ring-outer { width: 330px; height: 330px; margin: -165px; }
+    .scene-ring-inner { width: 240px; height: 240px; margin: -120px; }
+    .orbit-one { width: 390px; margin-inline: -195px; }
+    .orbit-two { height: 390px; margin-top: -195px; }
+    .float-panel { box-shadow: 0 18px 45px rgba(0,0,0,.28); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ticker-track,
+    .system-pulse,
+    .reveal,
+    .scene-ring,
+    .core-cube,
+    .float-panel {
+        animation: none !important;
+        transition: none !important;
+    }
+}

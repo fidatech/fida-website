@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -85,29 +84,6 @@ return new class extends Migration
             $table->string('attachment_path', 1024)->nullable();
             $table->timestamps();
         });
-        if (Schema::hasTable('site_settings')) {
-            DB::table('site_settings')->updateOrInsert(
-                ['key' => 'content.automation'],
-                [
-                    'group' => 'content',
-                    'value' => json_encode([
-                        'enabled' => true,
-                        'auto_publish' => true,
-                        'daily_time' => '09:00',
-                        'timezone' => 'Asia/Kabul',
-                        'category_id' => null,
-                        'themes' => 'ERP, accounting, database, POS, business systems, industry software, digital transformation and practical software buying guidance for Afghanistan',
-                        'last_generated_on' => null,
-                        'last_page_id' => null,
-                        'last_error' => null,
-                    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
-                    'type' => 'json',
-                    'is_public' => false,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ],
-            );
-        }
     }
 
     public function down(): void

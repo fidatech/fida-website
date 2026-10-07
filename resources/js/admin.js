@@ -285,3 +285,55 @@ document.querySelectorAll('[data-datatable]').forEach((table, tableIndex) => {
 
     render();
 });
+
+
+/* Multilingual rich text editor (Quill) */
+const bootRichEditors = () => {
+    if (!window.Quill) return false;
+
+    document.querySelectorAll('textarea[data-rich-editor]').forEach((source) => {
+        if (source.dataset.richReady === '1') return;
+        source.dataset.richReady = '1';
+
+        const editor = document.createElement('div');
+        editor.className = 'admin-rich-editor';
+        editor.setAttribute('dir', source.getAttribute('dir') || 'ltr');
+        source.insertAdjacentElement('afterend', editor);
+        source.hidden = true;
+
+        const quill = new window.Quill(editor, {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ header: [2, 3, false] }],
+                    ['bold', 'italic'],
+                    [{ list: 'ordered' }, { list: 'bullet' }],
+                    ['link', 'blockquote'],
+                    ['clean'],
+                ],
+            },
+        });
+
+        quill.root.innerHTML = source.value || '';
+        quill.on('text-change', () => {
+            source.value = quill.root.innerHTML === '<p><br></p>' ? '' : quill.root.innerHTML;
+        });
+
+        source.form?.addEventListener('submit', () => {
+            source.value = quill.root.innerHTML === '<p><br></p>' ? '' : quill.root.innerHTML;
+        });
+    });
+
+    return true;
+};
+
+if (!bootRichEditors()) {
+    window.addEventListener('DOMContentLoaded', () => {
+        if (bootRichEditors()) return;
+        let attempts = 0;
+        const timer = window.setInterval(() => {
+            attempts += 1;
+            if (bootRichEditors() || attempts > 20) window.clearInterval(timer);
+        }, 150);
+    }, { once: true });
+}

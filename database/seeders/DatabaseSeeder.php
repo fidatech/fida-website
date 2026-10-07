@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->call(AiDiscoveryContentSeeder::class);
         $this->call(SearchAuthorityExpansionSeeder::class);
         $this->call(SearchAuthorityContentWaveSeeder::class);
+        $this->call(SearchAuthorityContentWaveTwoSeeder::class);
     }
 }

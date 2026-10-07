@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ReleaseDiscoveryCleanupSeeder::class);
         $this->call(SearchGrowthSeeder::class);
         $this->call(AiDiscoveryContentSeeder::class);
+        $this->call(SearchAuthorityExpansionSeeder::class);
     }
 }

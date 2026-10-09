@@ -346,7 +346,6 @@
                         </div>
                     @endif
                 </div>
-                <div class="footer-coordinate"><span class="footer-heading">LOCAL / GLOBAL</span><strong>34.5143° N<br>69.1841° E</strong></div>
             </div>
             @php
                 $footerMapEmbedUrl = config('website.map_embed_url') ?: 'https://www.google.com/maps?q=34.5143264,69.1840542&z=17&output=embed';
@@ -388,8 +387,7 @@
             </div>
 
             <div class="footer-bottom">
-                <span>© {{ now()->year }} {{ config('website.name') }}. {{ __('website.footer.rights') }}</span>
-                <span>LARAVEL · SECURE · MULTILINGUAL</span>
+                <span class="footer-copyright">© {{ now()->year }} {{ config('website.name') }}. {{ __('website.footer.rights') }}</span>
             </div>
         </div>
     </footer>

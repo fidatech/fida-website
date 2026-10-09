@@ -159,7 +159,7 @@ final class SeoSchema
 
         if (in_array($page->type, ['solution', 'service'], true)) {
             $graph[$webPageIndex]['mainEntity'] = ['@id' => $serviceId];
-            $graph[] = [
+            $service = [
                 '@type' => 'Service',
                 '@id' => $serviceId,
                 'url' => $canonical,
@@ -172,6 +172,18 @@ final class SeoSchema
                     'name' => config('website.address.country'),
                 ],
             ];
+
+            $audiences = collect((array) data_get($page->metadata, 'audiences', []))
+                ->filter(fn (mixed $audience): bool => is_string($audience) && trim($audience) !== '')
+                ->values();
+
+            if ($audiences->isNotEmpty()) {
+                $service['audience'] = $audiences
+                    ->map(fn (string $audience): array => ['@type' => 'Audience', 'audienceType' => $audience])
+                    ->all();
+            }
+
+            $graph[] = $service;
         }
 
         if ($page->type === 'product' && ($product = $page->productProfile()) !== null) {

@@ -35,9 +35,9 @@ return static function (callable $faq): array {
                     'ps' => 'په افغانستان کې د Fida Technologies رسمي معلومات: موقعیت، د فعالیت تاریخ، ژبې، سافټویر وړتیاوې، محصولات او اړیکه.',
                 ],
                 'primary_query' => [
-                    'en' => 'Fida Technologies Afghanistan',
-                    'fa' => 'Fida Technologies افغانستان',
-                    'ps' => 'Fida Technologies افغانستان',
+                    'en' => 'Fida Technologies company facts',
+                    'fa' => 'مشخصات رسمی Fida Technologies',
+                    'ps' => 'د Fida Technologies رسمي معلومات',
                 ],
                 'search_intent' => 'navigational',
                 'priority' => 0.9,

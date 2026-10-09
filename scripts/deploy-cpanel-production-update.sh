@@ -30,6 +30,11 @@ for command_name in git php composer npm mariadb mariadb-dump curl; do
     require_command "$command_name"
 done
 
+printf 'GeoIP diagnostics: php_geoip=%s geoiplookup=%s mmdb=%s\n' \
+    "$(php -r 'echo function_exists("geoip_country_code_by_name") ? "yes" : "no";')" \
+    "$(command -v geoiplookup >/dev/null 2>&1 && echo yes || echo no)" \
+    "$(find /usr/share /usr/local/share /home/fida -maxdepth 4 -type f \( -name 'GeoLite2-Country.mmdb' -o -name 'GeoIP.dat' \) 2>/dev/null | head -n 1 || true)"
+
 [[ -z "$(git -C "$PRODUCTION_REPO" status --porcelain --untracked-files=no)" ]]     || fail 'Production worktree has tracked changes. Stop for review.'
 
 git -C "$STAGING_REPO" fetch origin main:refs/remotes/origin/main

@@ -847,7 +847,7 @@ class MarketingWebsiteTest extends TestCase
         $this->get('/')
             ->assertOk()
             ->assertSee('data-nav-cluster-button aria-expanded="false">Solutions<svg', false)
-            ->assertSee('data-nav-cluster-button aria-expanded="false">Projects<svg', false)
+            ->assertSee('data-nav-cluster-button aria-expanded="false">Products<svg', false)
             ->assertSee('class="nav-cluster-menu nav-mega-menu nav-mega-menu-columns nav-mega-menu-columns-2"', false)
             ->assertSee('class="nav-cluster-menu nav-mega-menu nav-mega-menu-columns nav-mega-menu-columns-2 nav-mega-menu-industries"', false)
             ->assertSee('class="nav-mega-link-grid"', false)

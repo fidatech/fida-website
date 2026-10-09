@@ -1179,3 +1179,6 @@ html[data-color-mode="light"] .analytics-consent p { color: #5d6673; }
     .rfq-form .form-grid { grid-template-columns: 1fr; }
     .rfq-form-footer { align-items: stretch; flex-direction: column; }
 }
+
+.hub-capability-section { padding: 70px 0 28px; }
+.hub-capability-section + .hub-collection-section { padding-top: 44px; }

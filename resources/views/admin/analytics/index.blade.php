@@ -21,7 +21,7 @@
     <section class="analytics-hero analytics-hero-clean">
         <div>
             <small class="section-code">FIDA FIRST-PARTY INTELLIGENCE</small>
-            <h1>Analytics that answers business questions.</h1>
+            <h1>Website analytics</h1>
             <p>Real visitors, markets, acquisition, content performance and search demand — without mixing crawlers into human traffic.</p>
         </div>
         <form method="GET" class="analytics-range">
@@ -63,7 +63,7 @@
         <header class="analytics-section-head">
             <div>
                 <small>OVERVIEW</small>
-                <h2>Traffic trend</h2>
+                <h2>Real visitor activity</h2>
                 <p>{{ $from->format('d M') }} — {{ $to->format('d M Y') }} · bots excluded from every figure below.</p>
             </div>
             <span class="analytics-live-badge"><i></i> Live first-party tracking</span>
@@ -295,7 +295,7 @@
         <header class="analytics-section-head">
             <div>
                 <small>AI & DISCOVERY</small>
-                <h2>Signals worth watching</h2>
+                <h2>What should Fida work on next?</h2>
                 <p>AI referrals, AI crawler activity and the growth advisor live here instead of cluttering the main traffic dashboard.</p>
             </div>
             @if($aiConfigured)

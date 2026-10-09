@@ -83,6 +83,49 @@
                     </div>
                 </section>
 
+
+                <section class="console-card settings-panel appearance-panel admin-appearance-panel">
+                    <header>
+                        <div><small>ADMIN CONSOLE</small><h2>Admin theme — independent from website</h2></div>
+                        <span class="settings-state">PRIVATE</span>
+                    </header>
+                    <div class="settings-panel-body">
+                        <p class="settings-help">These controls affect only the private admin panel. Changing them will never change the public fida.af website.</p>
+                        <div class="theme-options">
+                            @foreach($themes as $key => $theme)
+                                <label class="theme-option" style="--preview-bg: {{ $theme['background'] }}; --preview-soft: {{ $theme['background_soft'] }}; --preview-surface: {{ $theme['surface'] }}">
+                                    <input type="radio" name="admin_theme" value="{{ $key }}" @checked(old('admin_theme', $settings['admin_theme']) === $key)>
+                                    <span class="theme-visual"><i></i><i></i><i></i></span>
+                                    <span class="theme-copy"><b>{{ $theme['label'] }}</b><small>{{ $theme['description'] }}</small></span>
+                                    <em>✓</em>
+                                </label>
+                            @endforeach
+                        </div>
+                        <div class="palette-options admin-palette-options">
+                            @foreach($palettes as $key => $palette)
+                                <label class="palette-option">
+                                    <input type="radio" name="admin_palette" value="{{ $key }}" @checked(old('admin_palette', $settings['admin_palette']) === $key)>
+                                    <span class="palette-swatches"><i style="background:{{ $palette['primary'] }}"></i><i style="background:{{ $palette['secondary'] }}"></i><i style="background:{{ $palette['highlight'] }}"></i></span>
+                                    <span><b>{{ $palette['label'] }}</b><small>{{ $palette['description'] }}</small></span>
+                                    <em>✓</em>
+                                </label>
+                            @endforeach
+                            <label class="palette-option">
+                                <input type="radio" name="admin_palette" value="custom" @checked(old('admin_palette', $settings['admin_palette']) === 'custom')>
+                                <span class="palette-swatches custom"><i></i><i></i><i></i></span>
+                                <span><b>Custom admin palette</b><small>Private console accent colors.</small></span>
+                                <em>✓</em>
+                            </label>
+                        </div>
+                        <div class="custom-color-lab">
+                            <div><small>ADMIN COLORS</small><strong>Fine-tune the private console</strong></div>
+                            <label><span>Primary</span><input type="color" name="admin_primary_color" value="{{ old('admin_primary_color', $settings['admin_primary_color']) }}"><code>{{ old('admin_primary_color', $settings['admin_primary_color']) }}</code></label>
+                            <label><span>Secondary</span><input type="color" name="admin_secondary_color" value="{{ old('admin_secondary_color', $settings['admin_secondary_color']) }}"><code>{{ old('admin_secondary_color', $settings['admin_secondary_color']) }}</code></label>
+                            <label><span>Highlight</span><input type="color" name="admin_highlight_color" value="{{ old('admin_highlight_color', $settings['admin_highlight_color']) }}"><code>{{ old('admin_highlight_color', $settings['admin_highlight_color']) }}</code></label>
+                        </div>
+                    </div>
+                </section>
+
                 <section class="console-card settings-panel palette-panel">
                     <header>
                         <div><small>COLOR SYSTEM</small><h2>Select the energy</h2></div>

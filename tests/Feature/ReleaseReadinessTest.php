@@ -47,6 +47,32 @@ class ReleaseReadinessTest extends TestCase
             ->assertSuccessful();
     }
 
+    public function test_buyer_guides_use_distinct_primary_topics_from_commercial_pages(): void
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $pairs = [
+            ['about', 'company-facts'],
+            ['accounting-software-afghanistan', 'accounting-software-afghanistan-buyers-guide'],
+            ['agriculture-agribusiness-software-afghanistan', 'agriculture-software-afghanistan-guide'],
+            ['asset-maintenance-management-software-afghanistan', 'asset-management-software-afghanistan-guide'],
+            ['ngo-ingo-software-afghanistan', 'ngo-erp-finance-software-afghanistan-guide'],
+        ];
+
+        foreach ($pairs as [$commercialSlug, $guideSlug]) {
+            $commercial = ContentPage::query()->where('slug', $commercialSlug)->firstOrFail();
+            $guide = ContentPage::query()->where('slug', $guideSlug)->firstOrFail();
+
+            foreach (array_keys(config('website.locales')) as $locale) {
+                $this->assertNotSame(
+                    mb_strtolower(trim((string) data_get($commercial->primary_query, $locale))),
+                    mb_strtolower(trim((string) data_get($guide->primary_query, $locale))),
+                    "{$commercialSlug} and {$guideSlug} should not target the same {$locale} primary topic.",
+                );
+            }
+        }
+    }
+
     public function test_discovery_cleanup_fills_only_missing_localized_primary_topics(): void
     {
         $page = ContentPage::query()->create([

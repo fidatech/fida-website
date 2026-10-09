@@ -169,6 +169,9 @@ Route::prefix('admin')->name('admin.')->group(function (): void {
         Route::put('/settings', [AdminWebsiteSettingsController::class, 'update'])
             ->middleware('capability:settings.manage')
             ->name('settings.update');
+        Route::patch('/settings/admin-appearance', [AdminWebsiteSettingsController::class, 'updateAdminAppearance'])
+            ->middleware('capability:settings.manage')
+            ->name('settings.admin-appearance');
     });
 });
 

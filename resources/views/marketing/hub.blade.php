@@ -69,6 +69,11 @@
 @if($hubLayout === 'products' && filled($portfolioBody))
 <section class="hub-portfolio-section" aria-label="{{ $page->translation('title') }}">
     <div class="container">
+        <div class="hub-section-heading reveal">
+            <div class="micro-label"><span>02</span>{{ __('website.nav.products') }}</div>
+            <h2>{{ __('website.products_catalog.title') }}</h2>
+            <p>{{ __('website.products_catalog.description') }}</p>
+        </div>
         <article class="prose portfolio-catalog reveal">{!! $portfolioBody !!}</article>
     </div>
 </section>

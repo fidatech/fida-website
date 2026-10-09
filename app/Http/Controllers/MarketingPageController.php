@@ -47,12 +47,13 @@ class MarketingPageController extends Controller
                 ->orderBy('sort_order')
                 ->get()
             : collect();
-        $detailView = match ($page->type) {
-            'service' => 'marketing.service',
-            'solution' => 'marketing.solution',
-            'product' => 'marketing.product',
-            'industry' => 'marketing.industry',
-            'article' => 'marketing.article',
+        $detailView = match (true) {
+            $page->slug === 'request-for-quotation' => 'marketing.rfq',
+            $page->type === 'service' => 'marketing.service',
+            $page->type === 'solution' => 'marketing.solution',
+            $page->type === 'product' => 'marketing.product',
+            $page->type === 'industry' => 'marketing.industry',
+            $page->type === 'article' => 'marketing.article',
             default => 'marketing.page',
         };
 

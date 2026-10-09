@@ -51,8 +51,8 @@ class MarketingWebsiteTest extends TestCase
         $this->get('/')
             ->assertOk()
             ->assertSee('<html lang="en" dir="ltr"', false)
-            ->assertSee('ERP &amp; Enterprise Software Afghanistan | Fida Technologies', false)
-            ->assertSee('Enterprise software, ERP &amp;', false)
+            ->assertSee('ERP, Software &amp; IT Infrastructure Afghanistan | Fida', false)
+            ->assertSee('Software, infrastructure &amp;', false)
             ->assertSee('Technology experience since 2014.')
             ->assertSee('Fida operations began in 2022')
             ->assertSee('formally licensed in 2024')
@@ -60,7 +60,10 @@ class MarketingWebsiteTest extends TestCase
             ->assertDontSee('70+')
             ->assertSee('<span class="legacy-anchor" id="services" aria-hidden="true"></span>', false)
             ->assertSee('<span class="legacy-anchor" id="projects" aria-hidden="true"></span>', false)
-            ->assertSee('ERP &amp; MIS Systems', false);
+            ->assertSee('Custom ERP &amp; Enterprise Software', false)
+            ->assertSee('Data Center &amp; IT Infrastructure', false)
+            ->assertSee('Enterprise Hardware &amp; Technology Supply', false)
+            ->assertSee('Submit an RFQ / RFP', false);
     }
 
     public function test_homepage_exposes_google_search_console_verification(): void
@@ -187,7 +190,7 @@ class MarketingWebsiteTest extends TestCase
         $this->get('/fa')
             ->assertOk()
             ->assertSee('<html lang="fa" dir="rtl"', false)
-            ->assertSee('نرم‌افزار سازمانی، ERP و')
+            ->assertSee('نرم‌افزار، زیربنا و')
             ->assertSee('تجربه تکنالوژی از ۲۰۱۴');
     }
 
@@ -533,7 +536,7 @@ class MarketingWebsiteTest extends TestCase
             ->assertSee('Requirements traceability and the technical offer')
             ->assertSee('Invite Fida to Tender')
             ->assertSee('Request Company Profile')
-            ->assertSee('request=tender', false)
+            ->assertSee('/request-for-quotation?interest=software-procurement-tender-support-afghanistan', false)
             ->assertSee('request=company-profile', false)
             ->assertSee('Can Fida respond to an RFP or software tender?')
             ->assertSee('"name":"software tender company Afghanistan"', false)
@@ -1128,7 +1131,7 @@ class MarketingWebsiteTest extends TestCase
 
         $this->get('/solutions')
             ->assertOk()
-            ->assertSee('Business Software Solutions')
+            ->assertSee('Enterprise Technology Solutions in Afghanistan')
             ->assertSee('ERP Systems in Afghanistan')
             ->assertSee('"@type":"CollectionPage"', false);
 
@@ -1373,7 +1376,7 @@ class MarketingWebsiteTest extends TestCase
             ->assertOk()
             ->assertSee('"@type":"Organization"', false)
             ->assertSee('"@type":"WebSite"', false)
-            ->assertSee('"name":"software company in Afghanistan"', false)
+            ->assertSee('"name":"enterprise technology company Afghanistan"', false)
             ->assertSee('"knowsAbout"', false);
     }
 

@@ -81,7 +81,7 @@ final class SeoSchema
         $breadcrumbId = $canonical.'#breadcrumb';
         $webPageType = match ($page->slug) {
             'about' => 'AboutPage',
-            'contact' => 'ContactPage',
+            'contact', 'request-for-quotation' => 'ContactPage',
             'services', 'projects', 'solutions', 'products', 'industries', 'case-studies', 'articles' => 'CollectionPage',
             default => 'WebPage',
         };
@@ -267,7 +267,7 @@ final class SeoSchema
             'legalName' => config('website.legal_name'),
             'additionalType' => 'https://schema.org/ProfessionalService',
             'foundingDate' => '2022',
-            'description' => 'Fida Technologies is an Afghanistan-based enterprise software, ERP, MIS and digital transformation company. Operations began in 2022 following professional technology experience that started in 2014, and the company was formally licensed in 2024.',
+            'description' => 'Fida Technologies is an Afghanistan-based enterprise technology company delivering ERP and custom software, web and mobile platforms, AI and IoT, data centers, networks, servers, cybersecurity, enterprise hardware, systems integration and managed IT services. Operations began in 2022 following professional technology experience that started in 2014, and the company was formally licensed in 2024.',
             'url' => url('/'),
             'email' => config('website.email'),
             'telephone' => config('website.phone'),
@@ -287,12 +287,22 @@ final class SeoSchema
             ],
             'knowsAbout' => config('website.expertise'),
             'contactPoint' => [
-                '@type' => 'ContactPoint',
-                'contactType' => 'sales',
-                'telephone' => config('website.phone'),
-                'email' => config('website.email'),
-                'areaServed' => config('website.address.country_code'),
-                'availableLanguage' => array_column(config('website.locales'), 'label'),
+                [
+                    '@type' => 'ContactPoint',
+                    'contactType' => 'sales',
+                    'telephone' => config('website.phone'),
+                    'email' => config('website.email'),
+                    'areaServed' => config('website.address.country_code'),
+                    'availableLanguage' => array_column(config('website.locales'), 'label'),
+                ],
+                [
+                    '@type' => 'ContactPoint',
+                    'contactType' => 'procurement',
+                    'telephone' => config('website.phone'),
+                    'email' => config('website.rfq_email', config('website.email')),
+                    'areaServed' => config('website.address.country_code'),
+                    'availableLanguage' => array_column(config('website.locales'), 'label'),
+                ],
             ],
         ];
 

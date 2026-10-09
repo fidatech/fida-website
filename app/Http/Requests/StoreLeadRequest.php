@@ -19,7 +19,7 @@ class StoreLeadRequest extends FormRequest
             'email' => ['nullable', 'email:rfc', 'max:190', 'required_without:phone'],
             'phone' => ['nullable', 'string', 'min:7', 'max:30', 'required_without:email'],
             'company' => ['nullable', 'string', 'max:190'],
-            'project_type' => ['required', Rule::in(['erp', 'accounting', 'mobile', 'website', 'saas', 'tender', 'company-profile', 'other'])],
+            'project_type' => ['required', Rule::in(['erp', 'accounting', 'mobile', 'website', 'saas', 'ai-automation', 'iot', 'data-center', 'network', 'cloud-servers', 'cybersecurity', 'hardware-supply', 'systems-integration', 'managed-services', 'tender', 'company-profile', 'other'])],
             'budget' => ['nullable', Rule::in(['under-1000', '1000-3000', '3000-10000', '10000-plus', 'not-sure'])],
             'message' => ['required', 'string', 'min:20', 'max:3000'],
             'locale' => ['nullable', Rule::in(array_keys(config('website.locales', [])))],

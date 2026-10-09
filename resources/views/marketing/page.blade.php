@@ -52,14 +52,18 @@
             if ($primaryIntent !== 'proposal') {
                 $primaryParameters['request'] = $primaryIntent;
             }
-            $primaryCtaUrl = App\Support\LocalizedUrl::path('/contact').'?'.http_build_query($primaryParameters).'#contact';
+            $primaryCtaUrl = $primaryIntent === 'tender'
+                ? App\Support\LocalizedUrl::path('/request-for-quotation').'?'.http_build_query(['interest' => $page->slug]).'#rfq'
+                : App\Support\LocalizedUrl::path('/contact').'?'.http_build_query($primaryParameters).'#contact';
 
             $secondaryCtaUrl = null;
             if (($callToAction['secondary_label'] ?? '') !== '' && ($callToAction['secondary_intent'] ?? null)) {
-                $secondaryCtaUrl = App\Support\LocalizedUrl::path('/contact').'?'.http_build_query([
-                    'interest' => $page->slug,
-                    'request' => $callToAction['secondary_intent'],
-                ]).'#contact';
+                $secondaryCtaUrl = $callToAction['secondary_intent'] === 'tender'
+                    ? App\Support\LocalizedUrl::path('/request-for-quotation').'?'.http_build_query(['interest' => $page->slug]).'#rfq'
+                    : App\Support\LocalizedUrl::path('/contact').'?'.http_build_query([
+                        'interest' => $page->slug,
+                        'request' => $callToAction['secondary_intent'],
+                    ]).'#contact';
             }
         @endphp
         <aside class="page-cta reveal">

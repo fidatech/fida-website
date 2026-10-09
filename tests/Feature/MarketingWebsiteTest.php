@@ -107,8 +107,23 @@ class MarketingWebsiteTest extends TestCase
             ->assertSee('src="https://www.google.com/maps?q=34.5143264,69.1840542&amp;z=17&amp;output=embed"', false)
             ->assertSee('href="https://www.google.com/maps/search/?api=1&amp;query=34.5143264%2C69.1840542"', false)
             ->assertSee('Open Fida Technologies in Google Maps')
-            ->assertSee('34.5143° N', false)
-            ->assertSee('69.1841° E', false);
+            ->assertDontSee('LOCAL / GLOBAL')
+            ->assertDontSee('34.5143° N', false)
+            ->assertDontSee('69.1841° E', false);
+    }
+
+    public function test_footer_uses_clean_copyright_only(): void
+    {
+        $response = $this->get('/')
+            ->assertOk()
+            ->assertDontSee('LOCAL / GLOBAL')
+            ->assertDontSee('LARAVEL · SECURE · MULTILINGUAL')
+            ->assertSee('class="footer-copyright"', false)
+            ->assertSee('© '.now()->year.' Fida Technologies. All rights reserved.');
+
+        $stylesheet = file_get_contents(resource_path('css/app.css'));
+
+        $this->assertStringContainsString('.footer-copyright { color: var(--lime); }', $stylesheet);
     }
 
     public function test_public_layout_has_accessible_back_to_top_control(): void

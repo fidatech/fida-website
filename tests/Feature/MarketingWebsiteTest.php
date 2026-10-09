@@ -703,7 +703,12 @@ class MarketingWebsiteTest extends TestCase
             ->assertSee('<li id="system-petromin-erp">', false)
             ->assertSee('<li id="system-contentos">', false)
             ->assertSee('/products#system-petromin-erp')
-            ->assertSee('Darmal Pharmacy');
+            ->assertSee('Darmal — Pharmacy &amp; Pharmaceutical ERP', false)
+            ->assertSee('Ograyi — Account Manager (Mobile App)')
+            ->assertSee('Prime Sarafi — Sarafi Management System')
+            ->assertSee('Realist ERP — Real Estate Management System')
+            ->assertDontSee('<li id="system-real-estate-company-website-platform">', false)
+            ->assertDontSee('<li id="system-technology-company-website-platform">', false);
 
         $this->get('/fa/products')
             ->assertOk()
@@ -714,6 +719,11 @@ class MarketingWebsiteTest extends TestCase
             ->assertOk()
             ->assertSee('سکتوري سیسټمونه')
             ->assertSee('<li id="system-tailor-shop-management-system">', false);
+
+        $this->get('/projects')
+            ->assertOk()
+            ->assertSee('<li id="project-real-estate-company-website-platform">', false)
+            ->assertSee('<li id="project-technology-company-website-platform">', false);
     }
 
     public function test_sitemap_contains_seeded_pages_and_localized_alternates(): void

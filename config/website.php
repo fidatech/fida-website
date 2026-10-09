@@ -10,6 +10,7 @@ return [
         ! str_starts_with((string) parse_url(env('APP_URL', 'https://fida.af'), PHP_URL_HOST), 'stage.'),
     ),
     'email' => env('WEBSITE_EMAIL', 'info@fida.af'),
+    'procurement_email' => env('WEBSITE_PROCUREMENT_EMAIL', env('WEBSITE_EMAIL', 'info@fida.af')),
     'phone' => env('WEBSITE_PHONE', '+93784006200'),
     'whatsapp' => env('WEBSITE_WHATSAPP', '93784006200'),
     'official_profiles' => [

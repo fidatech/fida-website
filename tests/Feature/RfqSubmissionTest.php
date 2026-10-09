@@ -136,6 +136,6 @@ class RfqSubmissionTest extends TestCase
             ->assertOk()
             ->assertSee('Data centers, servers, storage and backup')
             ->assertSee('Formal RFQ / RFP / tender submission')
-            ->assertSee('Government & NGO Technology Solutions');
+            ->assertSee('Government & NGO Technology Solutions', false);
     }
 }

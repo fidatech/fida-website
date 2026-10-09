@@ -132,7 +132,7 @@
                 ['title' => 'Documentation + Handover', 'text' => 'اسناد معماری، configuration، acceptance، آموزش و حدود support برای تحویل قابل حسابرسی.'],
             ],
             'cta' => 'ارسال RFQ رسمی',
-            'secondary' => 'مشاهده تمام راهکارها',
+            'secondary' => 'راهکارهای دولت و NGO',
         ],
         'ps' => [
             'eyebrow' => 'دولت · NGO · INGO · سازمانونه',
@@ -144,7 +144,7 @@
                 ['title' => 'Documentation + Handover', 'text' => 'معماري، configuration، acceptance، روزنه او support حدود د حساب وړ سپارنې لپاره.'],
             ],
             'cta' => 'رسمي RFQ وسپارئ',
-            'secondary' => 'ټولې حللارې وګورئ',
+            'secondary' => 'د دولت او NGO حللارې',
         ],
         default => [
             'eyebrow' => 'GOVERNMENT · NGO · INGO · ENTERPRISE',
@@ -156,7 +156,7 @@
                 ['title' => 'Documentation + Handover', 'text' => 'Architecture, configuration, acceptance, training and support boundaries for an auditable handover.'],
             ],
             'cta' => 'Submit formal RFQ',
-            'secondary' => 'Explore all solutions',
+            'secondary' => 'Government & NGO delivery',
         ],
     };
 @endphp
@@ -168,7 +168,7 @@
             <p>{{ $institutional['description'] }}</p>
             <div class="institutional-actions">
                 <a class="button button-lime button-large" href="{{ App\Support\LocalizedUrl::path('/request-for-quotation') }}" data-track-event="cta_click" data-track-label="government_rfq">{{ $institutional['cta'] }}<span class="button-arrow">↗</span></a>
-                <a class="button button-wire button-large" href="{{ App\Support\LocalizedUrl::path('/solutions') }}">{{ $institutional['secondary'] }}<span class="button-arrow">↗</span></a>
+                <a class="button button-wire button-large" href="{{ App\Support\LocalizedUrl::path('/government-ngo-technology-solutions-afghanistan') }}" data-track-event="cta_click" data-track-label="government_ngo_solution">{{ $institutional['secondary'] }}<span class="button-arrow">↗</span></a>
             </div>
         </div>
         <div class="institutional-cards">

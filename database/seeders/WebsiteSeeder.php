@@ -403,7 +403,7 @@ class WebsiteSeeder extends Seeder
                 'products',
                 ['en' => 'Fida Software Products', 'fa' => 'محصولات نرم‌افزاری فیدا', 'ps' => 'د فیدا سافټویر محصولات'],
                 ['en' => 'Purpose-built platforms', 'fa' => 'پلتفرم‌های هدفمند', 'ps' => 'د ځانګړي هدف پلېټفارمونه'],
-                ['en' => 'Review Fida product profiles for real estate, finance, pharmaceutical operations and mobile account management.', 'fa' => 'پروفایل محصولات فیدا برای املاک، مالی، عملیات دارویی و مدیریت حساب موبایل را بررسی کنید.', 'ps' => 'د املاکو، مالي، درملو عملیاتو او موبایل حساب مدیریت لپاره د فیدا محصولات وګورئ.'],
+                ['en' => 'Explore Fida software products and the wider portfolio of ERP, finance, industry, web and digital systems.', 'fa' => 'محصولات فیدا و پورتفولیوی گسترده سیستم‌های ERP، مالی، صنعتی، وب و دیجیتال را بررسی کنید.', 'ps' => 'د فیدا محصولات او د ERP، مالي، سکتوري، وېب او ډیجیټل سیسټمونو پراخ پورټفولیو وګورئ.'],
                 ['en' => '<h2>Confirmed product information</h2><p>Product pages describe the intended workflow, platform direction and currently confirmed capabilities. Availability, implementation scope and commercial terms are confirmed directly for each engagement.</p>', 'fa' => '<h2>معلومات تأییدشده محصول</h2><p>صفحات محصول روند مورد نظر، جهت پلتفرم و توانایی‌های تأییدشده فعلی را توضیح می‌دهد. موجودیت، محدوده تطبیق و شرایط تجارتی برای هر همکاری جداگانه تأیید می‌شود.</p>', 'ps' => '<h2>تایید شوي محصولي معلومات</h2><p>د محصول پاڼې هدف کاري بهیر، د پلېټفارم لوری او اوس تایید شوې وړتیاوې بیانوي. شتون، د پلي کولو حدود او سوداګریز شرایط د هرې همکارۍ لپاره جلا تاییدېږي.</p>'],
                 4,
             ),

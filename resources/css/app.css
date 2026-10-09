@@ -126,7 +126,7 @@ svg { display: block; }
 .nav-mega-menu-industries { width: min(880px, calc(100vw - 48px)); }
 .nav-mega-link-grid a { min-width: 0; min-height: 52px; align-items: center; padding: 10px 12px; white-space: normal; }
 .nav-mega-link-grid a small { margin-inline-start: auto; }
-.nav-mega-menu-projects { width: min(660px, calc(100vw - 48px)); grid-template-columns: minmax(210px, .72fr) minmax(300px, 1.28fr); }
+.nav-mega-menu-projects { width: min(760px, calc(100vw - 48px)); max-height: min(78vh, 680px); grid-template-columns: minmax(180px, .55fr) minmax(360px, 1.45fr); overflow-x: hidden; overflow-y: auto; scrollbar-color: rgba(var(--accent-rgb), .35) transparent; scrollbar-width: thin; }
 .nav-mega-menu-company { width: min(430px, calc(100vw - 48px)); max-height: min(72vh, 620px); grid-template-columns: 1fr; overflow-x: hidden; overflow-y: auto; }
 .nav-mega-menu section { min-width: 0; padding: 7px; }
 .nav-mega-menu section + section { border-inline-start: 1px solid var(--line); padding-inline-start: 18px; }
@@ -996,3 +996,14 @@ html[data-color-mode="light"] .analytics-consent p { color: #5d6673; }
         transition: none !important;
     }
 }
+
+/* Full product portfolio, rendered from the published Projects catalogue. */
+.hub-portfolio-section { padding: 32px 0 72px; }
+.portfolio-catalog { max-width: none; }
+.portfolio-catalog h2 { margin-top: 46px; }
+.portfolio-catalog ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; padding: 0; list-style: none; }
+.portfolio-catalog li { min-width: 0; margin: 0; padding: 22px; border: 1px solid var(--line); border-radius: 18px; background: var(--panel-solid); scroll-margin-top: 115px; }
+.portfolio-catalog li strong { display: block; margin-bottom: 8px; color: var(--text); }
+.portfolio-catalog li:target { border-color: var(--lime); box-shadow: 0 0 0 1px var(--lime); }
+@media (max-width: 900px) { .portfolio-catalog ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 620px) { .portfolio-catalog ul { grid-template-columns: 1fr; } }

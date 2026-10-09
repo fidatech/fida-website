@@ -679,6 +679,29 @@ class MarketingWebsiteTest extends TestCase
         $this->assertSame('erp-implementation-services-afghanistan', Lead::query()->firstOrFail()->interest_slug);
     }
 
+    public function test_products_hub_and_menus_show_the_broader_portfolio(): void
+    {
+        $this->seed(WebsiteSeeder::class);
+
+        $this->get('/products')
+            ->assertOk()
+            ->assertSee('Explore Fida software products and the wider portfolio')
+            ->assertSee('<li id="system-petromin-erp">', false)
+            ->assertSee('<li id="system-contentos">', false)
+            ->assertSee('/products#system-petromin-erp')
+            ->assertSee('Darmal Pharmacy');
+
+        $this->get('/fa/products')
+            ->assertOk()
+            ->assertSee('سیستم‌های تخصصی صنایع')
+            ->assertSee('<li id="system-salt-mining-erp">', false);
+
+        $this->get('/ps/products')
+            ->assertOk()
+            ->assertSee('سکتوري سیسټمونه')
+            ->assertSee('<li id="system-tailor-shop-management-system">', false);
+    }
+
     public function test_sitemap_contains_seeded_pages_and_localized_alternates(): void
     {
         $this->seed(WebsiteSeeder::class);
@@ -824,7 +847,7 @@ class MarketingWebsiteTest extends TestCase
         $this->get('/')
             ->assertOk()
             ->assertSee('data-nav-cluster-button aria-expanded="false">Solutions<svg', false)
-            ->assertSee('data-nav-cluster-button aria-expanded="false">Projects<svg', false)
+            ->assertSee('data-nav-cluster-button aria-expanded="false">Products<svg', false)
             ->assertSee('class="nav-cluster-menu nav-mega-menu nav-mega-menu-columns nav-mega-menu-columns-2"', false)
             ->assertSee('class="nav-cluster-menu nav-mega-menu nav-mega-menu-columns nav-mega-menu-columns-2 nav-mega-menu-industries"', false)
             ->assertSee('class="nav-mega-link-grid"', false)

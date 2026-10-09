@@ -239,7 +239,7 @@ document.querySelectorAll('a[href*="wa.me"], a[href*="whatsapp.com"]').forEach((
 
 const analyticsConfig = window.fidaAnalytics;
 
-if (analyticsConfig?.measurementId) {
+if (analyticsConfig?.tagManagerId || analyticsConfig?.measurementId) {
     const consentBanner = document.querySelector('[data-analytics-consent]');
     const acceptButton = document.querySelector('[data-analytics-accept]');
     const declineButton = document.querySelector('[data-analytics-decline]');
@@ -263,13 +263,28 @@ if (analyticsConfig?.measurementId) {
         }
     };
 
+    const sendAnalyticsEvent = (name, parameters = {}) => {
+        if (analyticsConfig.tagManagerId) {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                event: name,
+                ...parameters,
+            });
+            return;
+        }
+
+        if (typeof window.gtag === 'function') {
+            window.gtag('event', name, parameters);
+        }
+    };
+
     const track = (name, parameters = {}) => {
-        if (!analyticsLoaded || typeof window.gtag !== 'function') {
+        if (!analyticsLoaded) {
             pendingEvents.push([name, parameters]);
             return;
         }
 
-        window.gtag('event', name, parameters);
+        sendAnalyticsEvent(name, parameters);
     };
 
     const loadAnalytics = () => {
@@ -277,20 +292,33 @@ if (analyticsConfig?.measurementId) {
 
         analyticsLoaded = true;
         window.dataLayer = window.dataLayer || [];
-        window.gtag = function gtag() {
-            window.dataLayer.push(arguments);
-        };
 
-        const script = document.createElement('script');
-        script.async = true;
-        script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(analyticsConfig.measurementId)}`;
-        document.head.append(script);
+        if (analyticsConfig.tagManagerId) {
+            window.dataLayer.push({
+                'gtm.start': new Date().getTime(),
+                event: 'gtm.js',
+            });
 
-        window.gtag('js', new Date());
-        window.gtag('config', analyticsConfig.measurementId);
+            const script = document.createElement('script');
+            script.async = true;
+            script.src = `https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(analyticsConfig.tagManagerId)}`;
+            document.head.append(script);
+        } else if (analyticsConfig.measurementId) {
+            window.gtag = function gtag() {
+                window.dataLayer.push(arguments);
+            };
+
+            const script = document.createElement('script');
+            script.async = true;
+            script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(analyticsConfig.measurementId)}`;
+            document.head.append(script);
+
+            window.gtag('js', new Date());
+            window.gtag('config', analyticsConfig.measurementId);
+        }
 
         pendingEvents.splice(0).forEach(([name, parameters]) => {
-            window.gtag('event', name, parameters);
+            sendAnalyticsEvent(name, parameters);
         });
     };
 

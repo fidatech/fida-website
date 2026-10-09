@@ -827,7 +827,7 @@ class MarketingWebsiteTest extends TestCase
         $this->get('/fa/prime-sarafi-software')
             ->assertOk()
             ->assertSee('<html lang="fa" dir="rtl"', false)
-            ->assertSee('نرم‌افزار مدیریت صرافی و حواله Prime')
+            ->assertSee('Prime Sarafi — سیستم مدیریت صرافی')
             ->assertSee('پلتفرم صرافی و حواله');
     }
 

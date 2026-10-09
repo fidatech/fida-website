@@ -110,8 +110,8 @@ return [
         'country_code' => 'AF',
     ],
     'google_place_id' => env('WEBSITE_GOOGLE_PLACE_ID', 'ChIJXbIoYrBp0TgRht8HEX79Cto'),
-    'google_maps_url' => env('WEBSITE_GOOGLE_MAPS_URL', 'https://www.google.com/maps/search/?api=1&query=Fida+Technologies+Kabul&query_place_id=ChIJXbIoYrBp0TgRht8HEX79Cto'),
-    'map_embed_url' => null,
+    'google_maps_url' => env('WEBSITE_GOOGLE_MAPS_URL', 'https://www.google.com/maps/search/?api=1&query=34.5143264%2C69.1840542'),
+    'map_embed_url' => env('WEBSITE_MAP_EMBED_URL', 'https://www.google.com/maps?q=34.5143264,69.1840542&z=17&output=embed'),
     'branding' => [
         'name' => 'Fida',
         'tagline' => 'Technologies',

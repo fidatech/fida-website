@@ -50,7 +50,7 @@ class WebsiteSettingsController extends Controller
         }
 
         try {
-            DB::transaction(function () use ($data, $logoPath): void {
+            DB::transaction(function () use ($data, $logoPath, $current): void {
                 $this->put(WebsiteSettings::GENERAL_KEY, 'general', [
                     'company_name' => trim($data['company_name']),
                     'legal_name' => trim($data['legal_name']),

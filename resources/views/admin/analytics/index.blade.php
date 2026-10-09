@@ -11,19 +11,22 @@
         $searchImpressions = (int) ($searchTotals?->impressions ?? 0);
         $searchCtr = $searchImpressions > 0 ? ($searchClicks / $searchImpressions) * 100 : 0;
         $conversionRate = $summary['visitors'] > 0 ? ($summary['conversions'] / $summary['visitors']) * 100 : 0;
+        $countryCoverage = $summary['visitors'] > 0
+            ? ($summary['country_known_visitors'] / $summary['visitors']) * 100
+            : 0;
         $aiDecision = $latestInsight ? json_decode((string) $latestInsight->content, true) : null;
         $aiDecision = is_array($aiDecision) && !empty($aiDecision['priorities']) ? $aiDecision : null;
     @endphp
 
-    <section class="analytics-hero">
+    <section class="analytics-hero analytics-hero-clean">
         <div>
-            <small class="section-code">REAL VISITORS · SEARCH DEMAND · AI RECOMMENDATIONS</small>
-            <h1>Website analytics</h1>
-            <p>Understand who is actually visiting Fida, what they care about, where they came from, which pages attract attention, and what to build or publish next.</p>
+            <small class="section-code">FIDA FIRST-PARTY INTELLIGENCE</small>
+            <h1>Analytics that answers business questions.</h1>
+            <p>Real visitors, markets, acquisition, content performance and search demand — without mixing crawlers into human traffic.</p>
         </div>
         <form method="GET" class="analytics-range">
             <label>
-                <span>Reporting period</span>
+                <span>Period</span>
                 <select name="days" onchange="this.form.submit()">
                     @foreach([7, 14, 30, 60, 90, 180, 365] as $range)
                         <option value="{{ $range }}" @selected($days === $range)>Last {{ $range }} days</option>
@@ -33,21 +36,21 @@
         </form>
     </section>
 
-    <section class="analytics-summary-grid">
-        <article class="analytics-stat">
-            <span class="analytics-stat-icon">↗</span>
-            <div><small>Real page views</small><strong>{{ number_format($summary['page_views']) }}</strong></div>
-            <p>Human visits only; crawlers and automated audits are excluded.</p>
-        </article>
+    <section class="analytics-summary-grid analytics-summary-clean">
         <article class="analytics-stat">
             <span class="analytics-stat-icon">◎</span>
-            <div><small>Unique visitors</small><strong>{{ number_format($summary['visitors']) }}</strong></div>
+            <div><small>Visitors</small><strong>{{ number_format($summary['visitors']) }}</strong></div>
             <p>{{ number_format($summary['active_15m']) }} active in the last 15 minutes.</p>
+        </article>
+        <article class="analytics-stat">
+            <span class="analytics-stat-icon">↗</span>
+            <div><small>Page views</small><strong>{{ number_format($summary['page_views']) }}</strong></div>
+            <p>{{ $summary['visitors'] ? number_format($summary['page_views'] / $summary['visitors'], 1) : '0.0' }} views per visitor.</p>
         </article>
         <article class="analytics-stat">
             <span class="analytics-stat-icon">◫</span>
             <div><small>Sessions</small><strong>{{ number_format($summary['sessions']) }}</strong></div>
-            <p>{{ $summary['visitors'] ? number_format($summary['page_views'] / $summary['visitors'], 1) : '0.0' }} page views per visitor.</p>
+            <p>Human browsing sessions in this reporting period.</p>
         </article>
         <article class="analytics-stat">
             <span class="analytics-stat-icon">✓</span>
@@ -56,21 +59,17 @@
         </article>
     </section>
 
-    <section class="analytics-section analytics-primary">
+    <section class="analytics-section analytics-primary analytics-section-clean">
         <header class="analytics-section-head">
             <div>
-                <small>FIRST-PARTY ANALYTICS</small>
-                <h2>Real visitor activity</h2>
-                <p>Collected directly by fida.af from public page requests. Bot and automation traffic is classified separately.</p>
+                <small>OVERVIEW</small>
+                <h2>Traffic trend</h2>
+                <p>{{ $from->format('d M') }} — {{ $to->format('d M Y') }} · bots excluded from every figure below.</p>
             </div>
-            <span class="analytics-live-badge"><i></i> Live tracking</span>
+            <span class="analytics-live-badge"><i></i> Live first-party tracking</span>
         </header>
 
-        <div class="analytics-chart-card">
-            <div class="analytics-chart-title">
-                <div><strong>Traffic trend</strong><span>{{ $from->format('d M') }} — {{ $to->format('d M Y') }}</span></div>
-                <span>Views / visitors</span>
-            </div>
+        <div class="analytics-chart-card analytics-chart-clean">
             <div class="analytics-bars" aria-label="Daily human page views">
                 @forelse($daily as $point)
                     <div class="analytics-bar-column" title="{{ $point->day }} · {{ $point->views }} views · {{ $point->visitors }} visitors">
@@ -78,22 +77,35 @@
                         <small>{{ date('d', strtotime((string) $point->day)) }}</small>
                     </div>
                 @empty
-                    <div class="analytics-empty">Real visitor traffic will appear here as people browse the site.</div>
+                    <div class="analytics-empty">Traffic will appear here as real visitors browse the website.</div>
                 @endforelse
             </div>
         </div>
 
-        <div class="analytics-grid analytics-grid-2">
-            <article class="analytics-panel">
-                <header><div><small>CONTENT PERFORMANCE</small><h3>Most visited pages</h3></div></header>
+        <div class="analytics-overview-grid">
+            <article class="analytics-panel analytics-market-panel">
+                <header>
+                    <div><small>AUDIENCE</small><h3>Top countries</h3></div>
+                    <span class="country-coverage">{{ number_format($countryCoverage, 0) }}% identified</span>
+                </header>
+                @if($summary['country_known_visitors'] === 0 && $summary['visitors'] > 0)
+                    <div class="analytics-data-warning">
+                        <strong>Country detection is not reaching PHP yet.</strong>
+                        <span>Fida now supports Cloudflare, CloudFront, Vercel and common GeoIP server headers. Existing visits cannot be backfilled; new visits will populate countries when the hosting/CDN provides a country header.</span>
+                    </div>
+                @endif
                 <div class="analytics-table-wrap">
                     <table class="analytics-data-table" data-datatable data-page-size="10">
-                        <thead><tr><th data-sort>Page</th><th data-sort>Views</th><th data-sort>Visitors</th></tr></thead>
+                        <thead><tr><th data-sort>Country</th><th data-sort>Visitors</th><th data-sort>Views</th></tr></thead>
                         <tbody>
-                            @forelse($topPages as $row)
-                                <tr><td><strong>{{ $row->path }}</strong></td><td data-value="{{ $row->views }}">{{ number_format($row->views) }}</td><td data-value="{{ $row->visitors }}">{{ number_format($row->visitors) }}</td></tr>
+                            @forelse($countries as $row)
+                                <tr>
+                                    <td><strong class="country-label"><span data-country-flag="{{ $row->country }}"></span><span data-country-name="{{ $row->country }}">{{ $row->country }}</span></strong></td>
+                                    <td data-value="{{ $row->visitors }}">{{ number_format($row->visitors) }}</td>
+                                    <td data-value="{{ $row->views }}">{{ number_format($row->views) }}</td>
+                                </tr>
                             @empty
-                                <tr><td colspan="3">No real visitor page views in this period yet.</td></tr>
+                                <tr><td colspan="3">No country data has been received yet.</td></tr>
                             @endforelse
                         </tbody>
                     </table>
@@ -101,61 +113,39 @@
             </article>
 
             <article class="analytics-panel">
-                <header><div><small>ACQUISITION</small><h3>Traffic sources</h3></div></header>
+                <header><div><small>ACQUISITION</small><h3>Where visitors come from</h3></div></header>
                 <div class="analytics-table-wrap">
                     <table class="analytics-data-table" data-datatable data-page-size="10">
-                        <thead><tr><th data-sort>Source</th><th data-sort>Medium</th><th data-sort>Views</th><th data-sort>Visitors</th></tr></thead>
+                        <thead><tr><th data-sort>Source</th><th data-sort>Medium</th><th data-sort>Visitors</th></tr></thead>
                         <tbody>
                             @forelse($sources as $row)
                                 <tr>
                                     <td><strong>{{ $row->source_name }}</strong></td>
                                     <td><span class="analytics-chip">{{ $row->medium_name }}</span></td>
-                                    <td data-value="{{ $row->views }}">{{ number_format($row->views) }}</td>
                                     <td data-value="{{ $row->visitors }}">{{ number_format($row->visitors) }}</td>
                                 </tr>
                             @empty
-                                <tr><td colspan="4">No acquisition data yet.</td></tr>
+                                <tr><td colspan="3">No acquisition data yet.</td></tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
             </article>
-        </div>
 
-        <div class="analytics-grid analytics-grid-2">
             <article class="analytics-panel">
-                <header><div><small>VISITOR LOG</small><h3>Recent real visitors</h3></div></header>
+                <header><div><small>CONTENT</small><h3>Pages people actually visit</h3></div></header>
                 <div class="analytics-table-wrap">
                     <table class="analytics-data-table" data-datatable data-page-size="10">
-                        <thead><tr><th data-sort>Visitor</th><th data-sort>Last seen</th><th data-sort>Pages</th><th data-sort>Country</th><th data-sort>Source</th><th data-sort>Device</th></tr></thead>
+                        <thead><tr><th data-sort>Page</th><th data-sort>Visitors</th><th data-sort>Views</th></tr></thead>
                         <tbody>
-                            @forelse($recentVisitors as $row)
+                            @forelse($topPages as $row)
                                 <tr>
-                                    <td><span class="visitor-token">{{ strtoupper(substr($row->visitor_key, 0, 8)) }}</span></td>
-                                    <td data-value="{{ strtotime((string) $row->last_seen) }}">{{ date('d M Y H:i', strtotime((string) $row->last_seen)) }}</td>
-                                    <td data-value="{{ $row->page_views }}">{{ number_format($row->page_views) }}</td>
-                                    <td>{{ $row->country_code ?: 'Unknown' }}</td>
-                                    <td>{{ $row->source_name ?: 'direct' }}</td>
-                                    <td>{{ ucfirst($row->device_type ?: 'unknown') }} · {{ $row->browser ?: 'Other' }}</td>
+                                    <td><strong>{{ $row->path }}</strong></td>
+                                    <td data-value="{{ $row->visitors }}">{{ number_format($row->visitors) }}</td>
+                                    <td data-value="{{ $row->views }}">{{ number_format($row->views) }}</td>
                                 </tr>
                             @empty
-                                <tr><td colspan="6">No real visitors in this period yet.</td></tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </article>
-
-            <article class="analytics-panel">
-                <header><div><small>AUDIENCE</small><h3>Countries</h3></div></header>
-                <div class="analytics-table-wrap">
-                    <table class="analytics-data-table" data-datatable data-page-size="10">
-                        <thead><tr><th data-sort>Country</th><th data-sort>Views</th><th data-sort>Visitors</th></tr></thead>
-                        <tbody>
-                            @forelse($countries as $row)
-                                <tr><td><strong>{{ $row->country }}</strong></td><td data-value="{{ $row->views }}">{{ number_format($row->views) }}</td><td data-value="{{ $row->visitors }}">{{ number_format($row->visitors) }}</td></tr>
-                            @empty
-                                <tr><td colspan="3">Country appears when the hosting/CDN supplies a country code.</td></tr>
+                                <tr><td colspan="3">No page data yet.</td></tr>
                             @endforelse
                         </tbody>
                     </table>
@@ -163,226 +153,79 @@
             </article>
         </div>
 
-        <div class="analytics-mini-grid">
+        <div class="analytics-mini-grid analytics-mini-clean">
             <article class="analytics-mini-panel">
                 <small>Devices</small>
                 @forelse($devices as $row)
-                    <div><span>{{ ucfirst($row->device) }}</span><strong>{{ number_format($row->visitors) }} <em>visitors</em></strong></div>
+                    <div><span>{{ ucfirst($row->device) }}</span><strong>{{ number_format($row->visitors) }}</strong></div>
                 @empty
                     <p>No device data yet.</p>
                 @endforelse
             </article>
             <article class="analytics-mini-panel">
-                <small>Business actions</small>
-                @forelse($events as $row)
+                <small>Actions</small>
+                @forelse($events->take(6) as $row)
                     <div><span>{{ str($row->event_name)->replace('_', ' ')->title() }}</span><strong>{{ number_format($row->total) }}</strong></div>
                 @empty
-                    <p>CTA, phone, email, WhatsApp and lead events will appear here.</p>
+                    <p>Lead, RFQ, CTA, phone, email and WhatsApp actions will appear here.</p>
                 @endforelse
             </article>
             <article class="analytics-mini-panel">
-                <small>Automated traffic</small>
+                <small>Automation filtered out</small>
                 <div><span>Bot / crawler hits</span><strong>{{ number_format($summary['bot_hits']) }}</strong></div>
-                <p>Kept outside all real-visitor totals.</p>
+                <p>These hits are intentionally excluded from visitor totals.</p>
             </article>
         </div>
     </section>
 
-    <section class="analytics-section ai-visibility-section">
+    <section class="analytics-section analytics-section-clean">
         <header class="analytics-section-head">
             <div>
-                <small>AI DISCOVERY</small>
-                <h2>AI visibility signals</h2>
-                <p>First-party visits referred by recognized AI assistants and crawler requests from AI discovery systems. These are measurable discovery signals, not a count of model citations or recommendations.</p>
+                <small>RECENT ACTIVITY</small>
+                <h2>Latest real visitors</h2>
+                <p>A compact session-level view for checking new traffic without exposing raw IP addresses.</p>
             </div>
         </header>
-
-        <div class="search-kpis">
-            <div><small>AI referral views</small><strong>{{ number_format($aiVisibility['views']) }}</strong></div>
-            <div><small>AI-referred visitors</small><strong>{{ number_format($aiVisibility['visitors']) }}</strong></div>
-            <div><small>AI crawler hits</small><strong>{{ number_format($aiVisibility['crawler_hits']) }}</strong></div>
-        </div>
-
-        <div class="analytics-grid analytics-grid-2">
-            <article class="analytics-panel">
-                <header><div><small>AI REFERRALS</small><h3>Assistant traffic</h3></div></header>
-                <div class="analytics-table-wrap">
-                    <table class="analytics-data-table" data-datatable data-page-size="10">
-                        <thead><tr><th data-sort>Source</th><th data-sort>Views</th><th data-sort>Visitors</th></tr></thead>
-                        <tbody>
-                            @forelse($aiVisibility['providers'] as $row)
-                                <tr><td><strong>{{ $row->provider }}</strong></td><td data-value="{{ $row->views }}">{{ number_format($row->views) }}</td><td data-value="{{ $row->visitors }}">{{ number_format($row->visitors) }}</td></tr>
-                            @empty
-                                <tr><td colspan="3">No recognized AI assistant referrals in this period yet.</td></tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </article>
-
-            <article class="analytics-panel">
-                <header><div><small>AI LANDING PAGES</small><h3>Pages reached from AI assistants</h3></div></header>
-                <div class="analytics-table-wrap">
-                    <table class="analytics-data-table" data-datatable data-page-size="10">
-                        <thead><tr><th data-sort>Page</th><th data-sort>Views</th><th data-sort>Visitors</th></tr></thead>
-                        <tbody>
-                            @forelse($aiVisibility['landing_pages'] as $row)
-                                <tr><td><strong>{{ $row->path }}</strong></td><td data-value="{{ $row->views }}">{{ number_format($row->views) }}</td><td data-value="{{ $row->visitors }}">{{ number_format($row->visitors) }}</td></tr>
-                            @empty
-                                <tr><td colspan="3">AI-referred landing pages will appear when a recognized assistant sends a visitor.</td></tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </article>
-        </div>
-    </section>
-
-    <section class="analytics-section ai-advisor-section">
-        <header class="analytics-section-head">
-            <div>
-                <small>AI GROWTH ADVISOR</small>
-                <h2>What should Fida work on next?</h2>
-                <p>The advisor combines real visitor behavior with Google Search Console demand to suggest ERP products, commercial topics, pages to improve and conversion actions.</p>
+        <article class="analytics-panel">
+            <div class="analytics-table-wrap">
+                <table class="analytics-data-table" data-datatable data-page-size="10">
+                    <thead><tr><th data-sort>Visitor</th><th data-sort>Last seen</th><th data-sort>Pages</th><th data-sort>Country</th><th data-sort>Source</th><th data-sort>Device</th></tr></thead>
+                    <tbody>
+                        @forelse($recentVisitors as $row)
+                            <tr>
+                                <td><span class="visitor-token">{{ strtoupper(substr($row->visitor_key, 0, 8)) }}</span></td>
+                                <td data-value="{{ strtotime((string) $row->last_seen) }}">{{ date('d M Y H:i', strtotime((string) $row->last_seen)) }}</td>
+                                <td data-value="{{ $row->page_views }}">{{ number_format($row->page_views) }}</td>
+                                <td>
+                                    @if($row->country_code)
+                                        <span class="country-label"><span data-country-flag="{{ $row->country_code }}"></span><span data-country-name="{{ $row->country_code }}">{{ $row->country_code }}</span></span>
+                                    @else
+                                        <span class="analytics-muted">Unknown</span>
+                                    @endif
+                                </td>
+                                <td>{{ $row->source_name ?: 'direct' }}</td>
+                                <td>{{ ucfirst($row->device_type ?: 'unknown') }} · {{ $row->browser ?: 'Other' }}</td>
+                            </tr>
+                        @empty
+                            <tr><td colspan="6">No real visitors in this period yet.</td></tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
-            @if($aiConfigured)
-                <form method="POST" action="{{ route('admin.analytics.ai-insight') }}">
-                    @csrf
-                    <input type="hidden" name="days" value="{{ $days }}">
-                    <button class="console-button console-button-primary" type="submit">Generate recommendations <span>✦</span></button>
-                </form>
-            @else
-                <a href="{{ route('admin.settings.edit') }}" class="console-button console-button-primary">Connect AI API <span>↗</span></a>
-            @endif
-        </header>
-
-        <div class="ai-advisor-grid">
-            <article class="ai-opportunity-card">
-                <span class="ai-kicker">DATA-DRIVEN NOW</span>
-                <h3>Search opportunities already visible</h3>
-                <div class="ai-opportunity-list">
-                    @forelse($search['opportunities']->take(6) as $row)
-                        <div>
-                            <span>{{ parse_url($row->dimension, PHP_URL_PATH) ?: $row->dimension }}</span>
-                            <small>{{ number_format($row->impressions) }} impressions · {{ number_format(((float) $row->ctr) * 100, 1) }}% CTR · position {{ number_format((float) $row->position, 1) }}</small>
-                        </div>
-                    @empty
-                        <p>Import Search Console data to identify high-impression pages that are close to stronger rankings.</p>
-                    @endforelse
-                </div>
-            </article>
-
-            <article class="ai-response-card">
-                <div class="ai-response-head">
-                    <div>
-                        <span class="ai-kicker">OWNER DECISION BRIEF</span>
-                        <h3>{{ $aiDecision['headline'] ?? ($latestInsight ? 'Regenerate the old recommendation' : 'Connect an AI provider') }}</h3>
-                    </div>
-                    @if($latestInsight)
-                        <small>{{ strtoupper($latestInsight->provider) }} · {{ $latestInsight->model }} · {{ $latestInsight->created_at->diffForHumans() }}</small>
-                    @endif
-                </div>
-
-                @if($aiDecision)
-                    @if(!empty($aiDecision['summary']))
-                        <p class="ai-executive-summary">{{ $aiDecision['summary'] }}</p>
-                    @endif
-
-                    <div class="ai-priority-list">
-                        @foreach($aiDecision['priorities'] as $index => $priority)
-                            <article class="ai-priority-card">
-                                <div class="ai-priority-topline">
-                                    <div>
-                                        <span class="ai-priority-rank">{{ $index + 1 }}</span>
-                                        <span class="ai-priority-type">{{ $priority['type'] ?? 'Action' }}</span>
-                                    </div>
-                                    <span @class(['ai-confidence', 'high' => ($priority['confidence'] ?? '') === 'high', 'medium' => ($priority['confidence'] ?? '') === 'medium', 'low' => ($priority['confidence'] ?? '') === 'low'])>
-                                        {{ ucfirst($priority['confidence'] ?? 'low') }} confidence
-                                    </span>
-                                </div>
-                                <h4>{{ $priority['title'] ?? 'Next action' }}</h4>
-                                <p class="ai-decision">{{ $priority['decision'] ?? '' }}</p>
-                                @if(!empty($priority['business_reason']))
-                                    <p class="ai-business-reason">{{ $priority['business_reason'] }}</p>
-                                @endif
-
-                                @if(!empty($priority['evidence']))
-                                    <div class="ai-evidence">
-                                        <strong>Why now</strong>
-                                        @foreach($priority['evidence'] as $evidence)
-                                            <span>{{ $evidence }}</span>
-                                        @endforeach
-                                    </div>
-                                @endif
-
-                                @if(!empty($priority['next_steps']))
-                                    <div class="ai-next-steps">
-                                        <strong>Do this next</strong>
-                                        <ol>
-                                            @foreach($priority['next_steps'] as $step)
-                                                <li>{{ $step }}</li>
-                                            @endforeach
-                                        </ol>
-                                    </div>
-                                @endif
-                            </article>
-                        @endforeach
-                    </div>
-
-                    @if(!empty($aiDecision['watchlist']) || !empty($aiDecision['do_not_prioritize']))
-                        <div class="ai-secondary-grid">
-                            @if(!empty($aiDecision['watchlist']))
-                                <div class="ai-secondary-card">
-                                    <strong>Watch before investing</strong>
-                                    @foreach($aiDecision['watchlist'] as $item)
-                                        <div><span>{{ $item['signal'] ?? '' }}</span><small>{{ $item['trigger'] ?? '' }}</small></div>
-                                    @endforeach
-                                </div>
-                            @endif
-                            @if(!empty($aiDecision['do_not_prioritize']))
-                                <div class="ai-secondary-card">
-                                    <strong>Do not prioritize yet</strong>
-                                    @foreach($aiDecision['do_not_prioritize'] as $item)
-                                        <div><span>{{ $item }}</span></div>
-                                    @endforeach
-                                </div>
-                            @endif
-                        </div>
-                    @endif
-
-                    @if(!empty($aiDecision['data_quality_notes']))
-                        <div class="ai-data-note">
-                            <strong>Data limits</strong>
-                            {{ implode(' · ', $aiDecision['data_quality_notes']) }}
-                        </div>
-                    @endif
-                @elseif($latestInsight)
-                    <div class="analytics-empty">
-                        The previous recommendation used the old free-text format and has been hidden because it was too verbose and not decision-focused. Click <strong>Generate recommendations</strong> to replace it with the new executive decision brief.
-                    </div>
-                @elseif($aiConfigured)
-                    <div class="analytics-empty">Your API is connected. Generate the first decision brief to get prioritized ERP, content and conversion actions.</div>
-                @else
-                    <div class="analytics-empty">
-                        Add a Gemini or OpenRouter API key in Settings. Only aggregated analytics are sent to the provider—no visitor IDs, IP hashes or raw user-agent strings.
-                    </div>
-                @endif
-                @error('ai')<div class="ai-error">{{ $message }}</div>@enderror
-            </article>
-        </div>
+        </article>
     </section>
 
-    <section class="analytics-section search-intelligence-section">
+    <section class="analytics-section analytics-section-clean">
         <header class="analytics-section-head">
             <div>
                 <small>GOOGLE SEARCH CONSOLE</small>
                 <h2>Search visibility</h2>
-                <p>This is Google search-result data, not website visitor tracking. Google normally does not reveal the exact organic query in a visitor's HTTP referrer, so keyword performance is kept here as a separate dataset.</p>
+                <p>Search demand is kept separate from website traffic so rankings, impressions and clicks stay easy to understand.</p>
             </div>
             @if($search['period_end'])<span class="analytics-period">Through {{ $search['period_end']->format('d M Y') }}</span>@endif
         </header>
 
-        <div class="search-kpis">
+        <div class="search-kpis analytics-search-kpis">
             <div><small>Clicks</small><strong>{{ number_format($searchClicks) }}</strong></div>
             <div><small>Impressions</small><strong>{{ number_format($searchImpressions) }}</strong></div>
             <div><small>CTR</small><strong>{{ number_format($searchCtr, 2) }}%</strong></div>
@@ -390,21 +233,20 @@
 
         <div class="analytics-grid analytics-grid-2">
             <article class="analytics-panel">
-                <header><div><small>KEYWORDS</small><h3>Search queries</h3></div></header>
+                <header><div><small>KEYWORDS</small><h3>Top search queries</h3></div></header>
                 <div class="analytics-table-wrap">
                     <table class="analytics-data-table" data-datatable data-page-size="10">
-                        <thead><tr><th data-sort>Query</th><th data-sort>Clicks</th><th data-sort>Impressions</th><th data-sort>CTR</th><th data-sort>Position</th></tr></thead>
+                        <thead><tr><th data-sort>Query</th><th data-sort>Clicks</th><th data-sort>Impressions</th><th data-sort>Position</th></tr></thead>
                         <tbody>
                             @forelse($search['queries'] as $row)
                                 <tr>
                                     <td><strong>{{ $row->dimension }}</strong></td>
                                     <td data-value="{{ $row->clicks }}">{{ $row->clicks }}</td>
                                     <td data-value="{{ $row->impressions }}">{{ $row->impressions }}</td>
-                                    <td data-value="{{ (float) $row->ctr }}">{{ number_format(((float) $row->ctr) * 100, 1) }}%</td>
                                     <td data-value="{{ (float) $row->position }}">{{ number_format((float) $row->position, 1) }}</td>
                                 </tr>
                             @empty
-                                <tr><td colspan="5">Import Search Console CSV files below.</td></tr>
+                                <tr><td colspan="4">Import Search Console CSV files to populate search intelligence.</td></tr>
                             @endforelse
                         </tbody>
                     </table>
@@ -412,21 +254,20 @@
             </article>
 
             <article class="analytics-panel">
-                <header><div><small>LANDING PAGES</small><h3>Pages in Google Search</h3></div></header>
+                <header><div><small>SEARCH PAGES</small><h3>Landing pages in Google</h3></div></header>
                 <div class="analytics-table-wrap">
                     <table class="analytics-data-table" data-datatable data-page-size="10">
-                        <thead><tr><th data-sort>Page</th><th data-sort>Clicks</th><th data-sort>Impressions</th><th data-sort>CTR</th><th data-sort>Position</th></tr></thead>
+                        <thead><tr><th data-sort>Page</th><th data-sort>Clicks</th><th data-sort>Impressions</th><th data-sort>Position</th></tr></thead>
                         <tbody>
                             @forelse($search['pages'] as $row)
                                 <tr>
                                     <td><strong>{{ parse_url($row->dimension, PHP_URL_PATH) ?: $row->dimension }}</strong></td>
                                     <td data-value="{{ $row->clicks }}">{{ $row->clicks }}</td>
                                     <td data-value="{{ $row->impressions }}">{{ $row->impressions }}</td>
-                                    <td data-value="{{ (float) $row->ctr }}">{{ number_format(((float) $row->ctr) * 100, 1) }}%</td>
                                     <td data-value="{{ (float) $row->position }}">{{ number_format((float) $row->position, 1) }}</td>
                                 </tr>
                             @empty
-                                <tr><td colspan="5">No Search Console page metrics imported.</td></tr>
+                                <tr><td colspan="4">No Search Console page data imported yet.</td></tr>
                             @endforelse
                         </tbody>
                     </table>
@@ -434,62 +275,104 @@
             </article>
         </div>
 
-        <div class="analytics-grid analytics-grid-2">
-            <article class="analytics-panel">
-                <header><div><small>SEARCH MARKETS</small><h3>Countries in Google Search</h3></div></header>
-                <div class="analytics-table-wrap">
-                    <table class="analytics-data-table" data-datatable data-page-size="10">
-                        <thead><tr><th data-sort>Country</th><th data-sort>Clicks</th><th data-sort>Impressions</th><th data-sort>CTR</th><th data-sort>Position</th></tr></thead>
-                        <tbody>
-                            @forelse($search['countries'] as $row)
-                                <tr>
-                                    <td><strong>{{ $row->dimension }}</strong></td>
-                                    <td data-value="{{ $row->clicks }}">{{ $row->clicks }}</td>
-                                    <td data-value="{{ $row->impressions }}">{{ $row->impressions }}</td>
-                                    <td data-value="{{ (float) $row->ctr }}">{{ number_format(((float) $row->ctr) * 100, 1) }}%</td>
-                                    <td data-value="{{ (float) $row->position }}">{{ number_format((float) $row->position, 1) }}</td>
-                                </tr>
-                            @empty
-                                <tr><td colspan="5">No Search Console country metrics imported.</td></tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </article>
-
-            <article class="analytics-panel">
-                <header><div><small>CRAWLERS</small><h3>Search & AI bots</h3></div></header>
-                <div class="analytics-table-wrap">
-                    <table class="analytics-data-table" data-datatable data-page-size="10">
-                        <thead><tr><th data-sort>Crawler / automation</th><th data-sort>Hits</th></tr></thead>
-                        <tbody>
-                            @forelse($botBreakdown as $row)
-                                <tr><td><strong>{{ $row->bot }}</strong></td><td data-value="{{ $row->hits }}">{{ number_format($row->hits) }}</td></tr>
-                            @empty
-                                <tr><td colspan="2">Crawler activity will appear here.</td></tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </article>
-        </div>
-
-        <article class="analytics-panel search-import-panel">
-            <header><div><small>SEARCH DATA REFRESH</small><h3>Import Search Console CSVs</h3></div></header>
-            <div class="search-import-layout">
-                <p>Export Performance data from Google Search Console and select Queries.csv, Pages.csv, Countries.csv, Devices.csv, Chart.csv or Search appearance.csv. Existing rows for the same period and type are replaced.</p>
+        <details class="analytics-advanced">
+            <summary>Import / refresh Search Console data</summary>
+            <div class="analytics-advanced-body">
                 <form method="POST" action="{{ route('admin.analytics.search-console.import') }}" enctype="multipart/form-data" class="analytics-import-form">
                     @csrf
                     <div class="analytics-form-grid">
-                        <label><span>Period start</span><input type="date" name="period_start" value="{{ old('period_start', '2026-06-30') }}" required></label>
+                        <label><span>Period start</span><input type="date" name="period_start" value="{{ old('period_start', now()->subDays(28)->toDateString()) }}" required></label>
                         <label><span>Period end</span><input type="date" name="period_end" value="{{ old('period_end', now()->toDateString()) }}" required></label>
                     </div>
                     <label><span>CSV files</span><input type="file" name="files[]" accept=".csv,text/csv" multiple required></label>
                     <button type="submit" class="console-button console-button-primary">Import search data <span>↗</span></button>
                 </form>
             </div>
-        </article>
+        </details>
     </section>
 
-    <p class="analytics-privacy-note">First-party analytics stores one-way hashes rather than raw visitor IP addresses. Automated deployment checks, HTTP clients, bots and crawlers are excluded from real-visitor totals.</p>
+    <section class="analytics-section analytics-section-clean analytics-secondary-intelligence">
+        <header class="analytics-section-head">
+            <div>
+                <small>AI & DISCOVERY</small>
+                <h2>Signals worth watching</h2>
+                <p>AI referrals, AI crawler activity and the growth advisor live here instead of cluttering the main traffic dashboard.</p>
+            </div>
+            @if($aiConfigured)
+                <form method="POST" action="{{ route('admin.analytics.ai-insight') }}">
+                    @csrf
+                    <input type="hidden" name="days" value="{{ $days }}">
+                    <button class="console-button console-button-primary" type="submit">Generate owner brief <span>✦</span></button>
+                </form>
+            @endif
+        </header>
+
+        <div class="search-kpis">
+            <div><small>AI referral views</small><strong>{{ number_format($aiVisibility['views']) }}</strong></div>
+            <div><small>AI visitors</small><strong>{{ number_format($aiVisibility['visitors']) }}</strong></div>
+            <div><small>AI crawler hits</small><strong>{{ number_format($aiVisibility['crawler_hits']) }}</strong></div>
+        </div>
+
+        @if($aiDecision)
+            <div class="analytics-owner-brief">
+                <div>
+                    <small>OWNER BRIEF</small>
+                    <h3>{{ $aiDecision['headline'] ?? 'Recommended next actions' }}</h3>
+                    @if(!empty($aiDecision['summary']))<p>{{ $aiDecision['summary'] }}</p>@endif
+                </div>
+                <div class="analytics-owner-priorities">
+                    @foreach(array_slice($aiDecision['priorities'], 0, 3) as $priority)
+                        <article>
+                            <span>{{ $priority['type'] ?? 'Action' }}</span>
+                            <strong>{{ $priority['title'] ?? 'Next action' }}</strong>
+                            <p>{{ $priority['decision'] ?? ($priority['business_reason'] ?? '') }}</p>
+                        </article>
+                    @endforeach
+                </div>
+            </div>
+        @elseif(!$aiConfigured)
+            <div class="analytics-data-warning compact">
+                <strong>AI advisor is optional.</strong>
+                <span>Connect an AI provider in Brand & settings only if you want automatic owner recommendations. Core analytics works without it.</span>
+            </div>
+        @endif
+
+        <details class="analytics-advanced">
+            <summary>Show AI referrals, crawler breakdown and search-market details</summary>
+            <div class="analytics-advanced-body analytics-grid analytics-grid-2">
+                <article class="analytics-panel">
+                    <header><div><small>AI REFERRALS</small><h3>Assistant traffic</h3></div></header>
+                    <div class="analytics-table-wrap">
+                        <table class="analytics-data-table" data-datatable data-page-size="10">
+                            <thead><tr><th data-sort>Source</th><th data-sort>Views</th><th data-sort>Visitors</th></tr></thead>
+                            <tbody>
+                                @forelse($aiVisibility['providers'] as $row)
+                                    <tr><td><strong>{{ $row->provider }}</strong></td><td>{{ number_format($row->views) }}</td><td>{{ number_format($row->visitors) }}</td></tr>
+                                @empty
+                                    <tr><td colspan="3">No recognized AI referrals yet.</td></tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+                <article class="analytics-panel">
+                    <header><div><small>CRAWLERS</small><h3>Search & AI bots</h3></div></header>
+                    <div class="analytics-table-wrap">
+                        <table class="analytics-data-table" data-datatable data-page-size="10">
+                            <thead><tr><th data-sort>Bot</th><th data-sort>Hits</th></tr></thead>
+                            <tbody>
+                                @forelse($botBreakdown as $row)
+                                    <tr><td><strong>{{ $row->bot }}</strong></td><td data-value="{{ $row->hits }}">{{ number_format($row->hits) }}</td></tr>
+                                @empty
+                                    <tr><td colspan="2">No crawler activity recorded.</td></tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+            </div>
+        </details>
+    </section>
+
+    <p class="analytics-privacy-note">Privacy: Fida stores one-way visitor/IP hashes rather than raw IP addresses. Country is saved only as a two-letter country code when the hosting/CDN makes that information available.</p>
 @endsection

@@ -27,9 +27,15 @@ class TrafficClassifier
         $country = collect([
             $request->headers->get('CF-IPCountry'),
             $request->headers->get('CloudFront-Viewer-Country'),
+            $request->headers->get('X-Vercel-IP-Country'),
             $request->headers->get('X-Country-Code'),
+            $request->headers->get('X-Geo-Country'),
+            $request->headers->get('Fastly-Client-Country'),
             $request->server('GEOIP_COUNTRY_CODE'),
-        ])->first(fn ($value) => is_string($value) && preg_match('/^[A-Za-z]{2}$/', $value));
+            $request->server('HTTP_GEOIP_COUNTRY_CODE'),
+            $request->server('MM_COUNTRY_CODE'),
+            $request->server('COUNTRY_CODE'),
+        ])->first(fn ($value) => is_string($value) && preg_match('/^[A-Za-z]{2}$/', trim($value)));
 
         return [
             'user_agent' => $userAgent ?: null,
@@ -45,7 +51,7 @@ class TrafficClassifier
             'source' => mb_substr($source, 0, 100),
             'medium' => mb_substr($medium, 0, 50),
             'campaign' => $campaign !== '' ? mb_substr($campaign, 0, 150) : null,
-            'country_code' => $country ? strtoupper($country) : null,
+            'country_code' => $country ? strtoupper(trim($country)) : null,
         ];
     }
 

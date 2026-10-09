@@ -10,6 +10,7 @@ return [
         ! str_starts_with((string) parse_url(env('APP_URL', 'https://fida.af'), PHP_URL_HOST), 'stage.'),
     ),
     'email' => env('WEBSITE_EMAIL', 'info@fida.af'),
+    'rfq_email' => env('RFQ_NOTIFICATION_EMAIL', 'info@fida.af'),
     'phone' => env('WEBSITE_PHONE', '+93784006200'),
     'whatsapp' => env('WEBSITE_WHATSAPP', '93784006200'),
     'official_profiles' => [
@@ -250,6 +251,21 @@ return [
         ['value' => '2022', 'key' => 'operations'],
         ['value' => '2024', 'key' => 'licensed'],
     ],
+    'enterprise_capabilities' => [
+        ['key' => 'erp', 'code' => 'ERP', 'url' => '/erp-systems-afghanistan'],
+        ['key' => 'web', 'code' => 'WEB', 'url' => '/web-digital-platforms-afghanistan'],
+        ['key' => 'mobile', 'code' => 'APP', 'url' => '/mobile-app-development-afghanistan'],
+        ['key' => 'ai', 'code' => 'AI', 'url' => '/ai-automation-solutions-afghanistan'],
+        ['key' => 'iot', 'code' => 'IOT', 'url' => '/iot-smart-systems-afghanistan'],
+        ['key' => 'datacenter', 'code' => 'DC', 'url' => '/data-center-it-infrastructure-afghanistan'],
+        ['key' => 'network', 'code' => 'NET', 'url' => '/network-engineering-operations-afghanistan'],
+        ['key' => 'cloud', 'code' => 'CLD', 'url' => '/cloud-servers-virtualization-afghanistan'],
+        ['key' => 'security', 'code' => 'SEC', 'url' => '/cybersecurity-infrastructure-security-afghanistan'],
+        ['key' => 'hardware', 'code' => 'HW', 'url' => '/enterprise-hardware-technology-supply-afghanistan'],
+        ['key' => 'integration', 'code' => 'INT', 'url' => '/systems-integration-deployment-afghanistan'],
+        ['key' => 'managed', 'code' => 'MSP', 'url' => '/managed-it-services-afghanistan'],
+    ],
+
     'featured_solutions' => [
         [
             'key' => 'erp',

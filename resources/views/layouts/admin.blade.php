@@ -1,8 +1,8 @@
 <!doctype html>
 @php
-    $adminTheme = config('website.appearance.current_theme_values', config('website.appearance.themes.midnight'));
-    $adminColors = config('website.appearance.current_colors', config('website.appearance.palettes.fida'));
-    $adminRgb = config('website.appearance.rgb', ['primary' => '201,255,74', 'secondary' => '132,108,255', 'highlight' => '78,232,255']);
+    $adminTheme = config('website.admin_appearance.current_theme_values', config('website.appearance.themes.midnight'));
+    $adminColors = config('website.admin_appearance.current_colors', config('website.appearance.palettes.fida'));
+    $adminRgb = config('website.admin_appearance.rgb', ['primary' => '201,255,74', 'secondary' => '132,108,255', 'highlight' => '78,232,255']);
     $adminRouteContent = request()->route('contentPage');
     $adminActiveContentType = request('type') ?: ($adminRouteContent instanceof \App\Models\ContentPage ? $adminRouteContent->type : null);
 @endphp

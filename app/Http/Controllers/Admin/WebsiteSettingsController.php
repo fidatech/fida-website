@@ -8,7 +8,9 @@ use App\Models\SiteSetting;
 use App\Support\WebsiteSettings;
 use App\Services\LeadNotificationService;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -99,7 +101,7 @@ class WebsiteSettingsController extends Controller
                         'group' => 'analytics',
                         'value' => [
                             'provider' => $data['ai_provider'] ?? ($existing['provider'] ?? 'gemini'),
-                            'model' => trim((string) ($data['ai_model'] ?? ($existing['model'] ?? 'gemini-3.8-flash'))),
+                            'model' => trim((string) ($data['ai_model'] ?? '')),
                             'api_key' => $encryptedKey,
                         ],
                         'type' => 'json',
@@ -135,14 +137,53 @@ class WebsiteSettingsController extends Controller
         return back()->with('success', 'Website settings updated.');
     }
 
+    public function updateAdminAppearance(Request $request, WebsiteSettings $settings): JsonResponse
+    {
+        abort_unless($request->user()?->allows('settings.manage'), 403);
+
+        $themes = config('website.appearance.themes', []);
+        $palettes = config('website.appearance.palettes', []);
+        $data = $request->validate([
+            'theme' => ['required', 'string', \Illuminate\Validation\Rule::in(array_keys($themes))],
+            'palette' => ['required', 'string', \Illuminate\Validation\Rule::in(array_keys($palettes))],
+        ]);
+
+        $current = $settings->formData();
+        $setting = SiteSetting::query()->where('key', WebsiteSettings::APPEARANCE_KEY)->first();
+        $appearance = is_array($setting?->value) ? $setting->value : [];
+
+        $appearance['admin_theme'] = $data['theme'];
+        $appearance['admin_palette'] = $data['palette'];
+        $appearance['admin_primary_color'] = $palettes[$data['palette']]['primary'];
+        $appearance['admin_secondary_color'] = $palettes[$data['palette']]['secondary'];
+        $appearance['admin_highlight_color'] = $palettes[$data['palette']]['highlight'];
+
+        $appearance += [
+            'theme' => $current['theme'],
+            'palette' => $current['palette'],
+            'primary_color' => $current['primary_color'],
+            'secondary_color' => $current['secondary_color'],
+            'highlight_color' => $current['highlight_color'],
+        ];
+
+        $this->put(WebsiteSettings::APPEARANCE_KEY, 'appearance', $appearance);
+        $settings->forget();
+
+        return response()->json([
+            'ok' => true,
+            'theme' => $data['theme'],
+            'palette' => $data['palette'],
+        ]);
+    }
+
     private function aiSettings(): array
     {
         $setting = SiteSetting::query()->where('key', 'analytics.ai')->first();
         $value = is_array($setting?->value) ? $setting->value : [];
 
         return [
-            'provider' => in_array(($value['provider'] ?? null), ['gemini', 'openrouter'], true) ? $value['provider'] : 'gemini',
-            'model' => trim((string) ($value['model'] ?? 'gemini-3.8-flash')),
+            'provider' => in_array(($value['provider'] ?? null), ['gemini', 'openrouter', 'openai'], true) ? $value['provider'] : 'gemini',
+            'model' => trim((string) ($value['model'] ?? '')),
             'has_api_key' => filled($value['api_key'] ?? null),
         ];
     }

@@ -62,7 +62,7 @@ class SearchAuthorityContentWaveThreeSeeder extends Seeder
                 ],
                 ['en'=>'Agriculture Software Afghanistan | Buyer Guide','fa'=>'نرم‌افزار زراعت افغانستان | راهنما','ps'=>'د کرنې سافټویر افغانستان | لارښود'],
                 ['en'=>'Agriculture and agribusiness software guide for Afghanistan covering farms, seasons, inputs, harvest, warehouse, sales and finance.','fa'=>'راهنمای نرم‌افزار زراعت افغانستان؛ farm، season، input، harvest، گدام، فروش و مالی.','ps'=>'د افغانستان د کرنې سافټویر لارښود؛ farm، season، input، harvest، ګدام، خرڅلاو او مالي.'],
-                ['en'=>'agriculture software Afghanistan','fa'=>'نرم افزار زراعت افغانستان','ps'=>'د کرنې سافټویر افغانستان'],
+                ['en'=>'how to choose agribusiness software Afghanistan','fa'=>'راهنمای انتخاب نرم افزار زراعت افغانستان','ps'=>'په افغانستان کې د کرنې سافټویر د انتخاب لارښود'],
                 ['agriculture-agribusiness-software-afghanistan','procurement-inventory-management-software-afghanistan','accounting-software-afghanistan']
             ),
             $this->article(
@@ -107,7 +107,7 @@ class SearchAuthorityContentWaveThreeSeeder extends Seeder
                 ],
                 ['en'=>'Asset Management Software Afghanistan | Guide','fa'=>'نرم‌افزار مدیریت دارایی افغانستان | راهنما','ps'=>'د شتمنیو مدیریت سافټویر افغانستان | لارښود'],
                 ['en'=>'Asset management software guide for Afghanistan covering IDs, custodians, locations, transfers, maintenance, warranties and disposal.','fa'=>'راهنمای مدیریت دارایی افغانستان؛ asset ID، custodian، location، transfer، maintenance، warranty و disposal.','ps'=>'د افغانستان د asset management لارښود؛ ID، custodian، location، transfer، maintenance، warranty او disposal.'],
-                ['en'=>'asset management software Afghanistan','fa'=>'نرم افزار مدیریت دارایی افغانستان','ps'=>'د شتمنیو مدیریت سافټویر افغانستان'],
+                ['en'=>'asset lifecycle management software guide Afghanistan','fa'=>'راهنمای سیستم چرخه عمر دارایی افغانستان','ps'=>'په افغانستان کې د شتمنۍ د ژوند دورې سیسټم لارښود'],
                 ['asset-maintenance-management-software-afghanistan','procurement-inventory-management-software-afghanistan','accounting-software-afghanistan']
             ),
             $this->article(

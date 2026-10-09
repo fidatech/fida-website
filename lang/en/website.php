@@ -6,7 +6,7 @@ return [
             'title' => 'ERP, Software & IT Infrastructure Afghanistan | Fida',
             'description' => 'Fida Technologies delivers ERP, custom software, web and mobile platforms, AI, IoT, data centers, networks, servers, cybersecurity and enterprise hardware for government, NGOs and organizations in Afghanistan.',
         ],
-        'social_image_alt' => 'Fida Technologies — enterprise software, ERP and digital transformation in Afghanistan',
+        'social_image_alt' => 'Fida Technologies — enterprise software, IT infrastructure and technology solutions in Afghanistan',
     ],
     'nav' => [
         'home' => 'Home', 'about' => 'About', 'company' => 'Company', 'services' => 'Services', 'projects' => 'Projects',
@@ -184,7 +184,7 @@ return [
     'hubs' => [
         'services' => ['eyebrow' => 'Connected capabilities', 'title' => 'Choose the capability your operation needs.', 'description' => 'Each service page explains the business fit, implementation approach and practical questions in detail.'],
         'projects' => ['eyebrow' => 'Fida product systems', 'title' => 'Explore platforms built around demanding workflows.', 'description' => 'These public profiles describe the current product direction and confirmed capabilities without unverified client results.'],
-        'solutions' => ['eyebrow' => 'Outcome-focused technology', 'title' => 'Find the right solution for the workflow.', 'description' => 'Explore confirmed software capabilities by operational problem, business fit and implementation direction.'],
+        'solutions' => ['eyebrow' => 'Enterprise technology portfolio', 'title' => 'Software, infrastructure and technology delivery in one place.', 'description' => 'Explore ERP, digital platforms, AI, IoT, data centers, networks, cloud, cybersecurity, hardware, integration and managed IT solutions.'],
         'products' => ['eyebrow' => 'Fida product systems', 'title' => 'Purpose-built platforms for focused operations.', 'description' => 'Review each product’s intended workflow, platform direction and currently confirmed capabilities.'],
         'industries' => ['eyebrow' => 'Sector knowledge', 'title' => 'Industry context before architecture.', 'description' => 'Published guides connect sector-specific roles, controls and reports with practical software decisions.'],
         'case-studies' => ['eyebrow' => 'Verified implementation evidence', 'title' => 'Client stories published with permission.', 'description' => 'Only approved case studies with factual scope and reviewed evidence appear in this collection.'],
@@ -204,7 +204,7 @@ return [
         ],
     ],
     'footer' => [
-        'description' => 'ERP systems, accounting software, mobile applications and custom business platforms built for serious operations.',
+        'description' => 'Enterprise software, web and mobile platforms, AI, IoT, data centers, networks, cloud, cybersecurity, hardware and integrated IT solutions for serious organizations.',
         'company' => 'Company', 'expertise' => 'Expertise', 'products' => 'Products', 'contact' => 'Contact', 'privacy' => 'Privacy notice', 'rights' => 'All rights reserved.',
     ],
     'analytics' => [

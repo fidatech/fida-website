@@ -170,8 +170,8 @@ class GovernmentTechnologySolutionsSeeder extends Seeder
                 ],
                 'faqs' => $faqs,
                 'related_slugs' => $procurement
-                    ? ['government-public-sector-software-afghanistan', 'ngo-ingo-software-afghanistan', 'request-for-quotation']
-                    : ['government-ngo-technology-procurement-afghanistan', 'government-public-sector-software-afghanistan', 'ngo-ingo-software-afghanistan'],
+                    ? ['request-for-quotation', 'data-center-it-infrastructure-afghanistan', 'systems-integration-deployment-afghanistan']
+                    : ['government-ngo-technology-procurement-afghanistan', 'request-for-quotation', 'systems-integration-deployment-afghanistan'],
                 'cta' => [
                     'heading' => ['en' => $procurement ? 'Send the RFQ, RFP or tender requirement.' : 'Need this capability in a formal project?', 'fa' => 'نیازمندی تخنیکی یا تدارکاتی خود را ارسال کنید.', 'ps' => 'خپله تخنیکي یا تدارکاتي اړتیا راولېږئ.'],
                     'description' => ['en' => 'For government, NGO and institutional procurement, submit the requirement and supporting documents for a structured review.', 'fa' => 'برای تدارکات دولتی، NGO و سازمانی، نیازمندی و اسناد را برای بررسی منظم ارسال کنید.', 'ps' => 'د دولت، NGO او سازماني تدارکاتو لپاره اړتیا او اسناد د منظمې ارزونې لپاره راولېږئ.'],

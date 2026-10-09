@@ -63,7 +63,12 @@ class RfqController extends Controller
             report($exception);
         }
 
-        return redirect()->to(LocalizedUrl::path('/request-for-quotation').'#rfq-form')
+        $locale = (string) ($data['locale'] ?? config('website.default_locale'));
+        $path = $locale === config('website.default_locale')
+            ? '/request-for-quotation'
+            : '/'.$locale.'/request-for-quotation';
+
+        return redirect()->to(url($path).'#rfq-form')
             ->with('rfq_success', 'Your RFQ has been received. Reference: '.$rfq->reference);
     }
 }

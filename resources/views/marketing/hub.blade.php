@@ -104,7 +104,7 @@
     <div class="container content-layout">
         <article class="prose reveal">
             @if($hubLayout === 'projects')
-                <h2>{{ __('website.nav.products') }}</h2>
+                {!! $projectBody !!}
                 <p><a href="{{ App\Support\LocalizedUrl::path('/products') }}">{{ __('website.nav.all_products') }} ↗</a></p>
             @else
                 {!! $page->translation('body') !!}

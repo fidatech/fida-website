@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\ContentPage;
+use App\Models\SiteSetting;
 use Illuminate\Database\Seeder;
 
 class GovernmentNgoCapabilitySeeder extends Seeder
@@ -10,13 +11,11 @@ class GovernmentNgoCapabilitySeeder extends Seeder
     public function run(): void
     {
         foreach ($this->capabilityPages() as $page) {
-            ContentPage::query()->updateOrCreate(
-                ['slug' => $page['slug']],
-                $page,
-            );
+            ContentPage::query()->firstOrCreate(['slug' => $page['slug']], $page);
         }
 
-        ContentPage::query()->where('slug', 'solutions')->update([
+        if (! SiteSetting::query()->where('key', 'release.gov_ngo_capabilities_v1')->exists()) {
+            ContentPage::query()->where('slug', 'solutions')->update([
             'title' => [
                 'en' => 'Enterprise Technology Solutions in Afghanistan',
                 'fa' => 'راهکارهای تکنالوژی سازمانی در افغانستان',
@@ -60,7 +59,18 @@ class GovernmentNgoCapabilitySeeder extends Seeder
             'sitemap_change_frequency' => 'monthly',
         ]);
 
-        ContentPage::query()->updateOrCreate(
+            SiteSetting::query()->updateOrCreate(
+                ['key' => 'release.gov_ngo_capabilities_v1'],
+                [
+                    'group' => 'release',
+                    'value' => ['applied_at' => now()->toAtomString()],
+                    'type' => 'json',
+                    'is_public' => false,
+                ],
+            );
+        }
+
+        ContentPage::query()->firstOrCreate(
             ['slug' => 'request-for-quotation'],
             [
                 'type' => 'page',

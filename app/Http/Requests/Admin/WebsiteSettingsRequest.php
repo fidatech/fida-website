@@ -51,7 +51,7 @@ class WebsiteSettingsRequest extends FormRequest
             'admin_primary_color' => ['sometimes', 'regex:/^#[0-9a-fA-F]{6}$/'],
             'admin_secondary_color' => ['sometimes', 'regex:/^#[0-9a-fA-F]{6}$/'],
             'admin_highlight_color' => ['sometimes', 'regex:/^#[0-9a-fA-F]{6}$/'],
-            'ai_provider' => ['nullable', Rule::in(['gemini', 'openrouter'])],
+            'ai_provider' => ['nullable', Rule::in(['gemini', 'openrouter', 'openai'])],
             'ai_model' => ['nullable', 'string', 'max:120'],
             'ai_api_key' => ['nullable', 'string', 'max:500'],
             'remove_ai_api_key' => ['nullable', 'boolean'],

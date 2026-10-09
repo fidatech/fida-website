@@ -337,3 +337,30 @@ if (!bootRichEditors()) {
         }, 150);
     }, { once: true });
 }
+
+
+/* Human-readable ISO country labels for analytics without a server-side intl dependency. */
+(() => {
+    let displayNames = null;
+    try {
+        if (typeof Intl !== 'undefined' && Intl.DisplayNames) {
+            displayNames = new Intl.DisplayNames(['en'], { type: 'region' });
+        }
+    } catch {}
+
+    document.querySelectorAll('[data-country-name]').forEach((node) => {
+        const code = (node.dataset.countryName || '').toUpperCase();
+        if (!/^[A-Z]{2}$/.test(code)) return;
+        try {
+            node.textContent = displayNames?.of(code) || code;
+        } catch {
+            node.textContent = code;
+        }
+    });
+
+    document.querySelectorAll('[data-country-flag]').forEach((node) => {
+        const code = (node.dataset.countryFlag || '').toUpperCase();
+        if (!/^[A-Z]{2}$/.test(code)) return;
+        node.textContent = String.fromCodePoint(...Array.from(code).map((char) => 127397 + char.charCodeAt(0)));
+    });
+})();

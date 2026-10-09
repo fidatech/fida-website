@@ -18,6 +18,7 @@ class RfqAcknowledgementMail extends Mailable
     public function build(): self
     {
         return $this
+            ->replyTo(config('website.procurement_email'), config('website.name').' Procurement')
             ->subject('RFQ received · '.$this->rfq->reference.' · Fida Technologies')
             ->view('emails.rfq-acknowledgement')
             ->with(['rfq' => $this->rfq]);

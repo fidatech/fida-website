@@ -7,7 +7,9 @@ return new class extends Migration
 {
     public function up(): void
     {
-        app(GovernmentTechnologySolutionsSeeder::class)->run();
+        if (\App\Models\ContentPage::query()->where('slug', 'government-public-sector-software-afghanistan')->exists()) {
+            app(GovernmentTechnologySolutionsSeeder::class)->run();
+        }
     }
 
     public function down(): void

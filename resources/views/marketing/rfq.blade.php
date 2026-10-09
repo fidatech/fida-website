@@ -13,7 +13,7 @@
             'capabilities' => 'حوزه‌های مورد نیاز', 'budget' => 'بودجه (اختیاری)', 'delivery' => 'محل تحویل / تطبیق',
             'summary' => 'خلاصه پروژه', 'scope' => 'محدوده و مشخصات تخنیکی', 'compliance' => 'شرایط compliance / warranty / training',
             'timeline' => 'زمان‌بندی مورد انتظار', 'document' => 'سند RFQ / RFP / BOQ', 'privacy' => 'تأیید می‌کنم که اجازه ارسال این معلومات و سند را دارم.',
-            'submit' => 'ارسال RFQ به Fida Technologies', 'note' => 'اطلاع این درخواست مستقیماً به info@fida.af ارسال می‌شود.',
+            'submit' => 'ارسال RFQ به Fida Technologies', 'note' => 'اطلاع این درخواست مستقیماً به ایمیل رسمی تدارکات فیدا ارسال می‌شود.',
         ],
         'ps' => [
             'eyebrow' => 'RFQ / RFP / TENDER',
@@ -25,7 +25,7 @@
             'capabilities' => 'اړینې وړتیاوې', 'budget' => 'بودجه (اختیاري)', 'delivery' => 'د سپارنې / پلي کولو ځای',
             'summary' => 'د پروژې لنډیز', 'scope' => 'تخنیکي scope او مشخصات', 'compliance' => 'compliance / warranty / training شرایط',
             'timeline' => 'اټکلی مهالویش', 'document' => 'RFQ / RFP / BOQ سند', 'privacy' => 'تاییدوم چې د دې معلوماتو او سند د استولو اجازه لرم.',
-            'submit' => 'RFQ Fida Technologies ته وسپارئ', 'note' => 'د دې غوښتنې خبرتیا مستقیم info@fida.af ته استول کېږي.',
+            'submit' => 'RFQ Fida Technologies ته وسپارئ', 'note' => 'د دې غوښتنې خبرتیا مستقیم د فیدا رسمي تدارکاتي برېښنالیک ته استول کېږي.',
         ],
         default => [
             'eyebrow' => 'RFQ / RFP / TENDER',
@@ -37,7 +37,7 @@
             'capabilities' => 'Required capabilities', 'budget' => 'Budget (optional)', 'delivery' => 'Delivery / implementation location',
             'summary' => 'Project summary', 'scope' => 'Scope and technical requirements', 'compliance' => 'Compliance / warranty / training requirements',
             'timeline' => 'Expected timeline', 'document' => 'RFQ / RFP / BOQ document', 'privacy' => 'I confirm I am authorized to submit this information and document.',
-            'submit' => 'Submit RFQ to Fida Technologies', 'note' => 'This request is recorded securely and an alert is sent directly to info@fida.af.',
+            'submit' => 'Submit RFQ to Fida Technologies', 'note' => 'This request is recorded securely and an alert is sent directly to Fida Technologies procurement.',
         ],
     };
     $orgTypes = [
@@ -66,7 +66,7 @@
             <div class="micro-label"><span>01</span>PROCUREMENT INTAKE</div>
             <h2>{{ $page->translation('title') }}</h2>
             <div class="prose">{!! $page->translation('body') !!}</div>
-            <div class="rfq-contact-note"><strong>DIRECT PROCUREMENT EMAIL</strong><a href="mailto:info@fida.af">info@fida.af</a><span>{{ config('website.phone') }}</span></div>
+            <div class="rfq-contact-note"><strong>DIRECT PROCUREMENT EMAIL</strong><a href="mailto:{{ config('website.procurement_email') }}">{{ config('website.procurement_email') }}</a><span>{{ config('website.phone') }}</span></div>
         </aside>
 
         <form class="lead-form rfq-form reveal" action="{{ route('rfq.store') }}" method="post" enctype="multipart/form-data">
@@ -78,7 +78,7 @@
             <input type="hidden" name="utm_campaign" value="{{ request('utm_campaign') }}">
             <div class="honeypot" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
 
-            <div class="form-console"><span class="live-dot"></span><b>FORMAL RFQ CHANNEL</b><small>INFO@FIDA.AF</small></div>
+            <div class="form-console"><span class="live-dot"></span><b>FORMAL RFQ CHANNEL</b><small>{{ strtoupper(config('website.procurement_email')) }}</small></div>
             @if(session('rfq_success'))<div class="form-success" role="status" data-conversion="generate_lead">{{ session('rfq_success') }}</div>@endif
             @if($errors->any())<div class="form-errors" role="alert"><strong>Please review the highlighted fields.</strong></div>@endif
 

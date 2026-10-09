@@ -41,6 +41,18 @@ class WebsiteAnalyticsTest extends TestCase
         $this->assertSame(64, strlen((string) $view->ip_hash));
     }
 
+    public function test_country_header_is_preferred_when_available(): void
+    {
+        $this->withHeaders([
+            'User-Agent' => 'Mozilla/5.0 Safari/605.1.15',
+            'CF-IPCountry' => 'AF',
+        ])->get('/')->assertOk();
+
+        $view = WebsitePageView::query()->latest('id')->firstOrFail();
+
+        $this->assertSame('AF', $view->country_code);
+    }
+
     public function test_search_and_ai_crawlers_are_separated_from_human_traffic(): void
     {
         $this->withHeader('User-Agent', 'Mozilla/5.0 compatible; OAI-SearchBot/1.0')

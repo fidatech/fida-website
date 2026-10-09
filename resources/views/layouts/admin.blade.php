@@ -3,6 +3,10 @@
     $adminTheme = config('website.admin_appearance.current_theme_values', config('website.appearance.themes.midnight'));
     $adminColors = config('website.admin_appearance.current_colors', config('website.appearance.palettes.fida'));
     $adminRgb = config('website.admin_appearance.rgb', ['primary' => '201,255,74', 'secondary' => '132,108,255', 'highlight' => '78,232,255']);
+    $adminThemeKey = config('website.admin_appearance.current_theme', config('website.appearance.default_theme', 'midnight'));
+    $adminPaletteKey = config('website.admin_appearance.current_palette', config('website.appearance.default_palette', 'fida'));
+    $adminThemeOptions = config('website.appearance.themes', []);
+    $adminPaletteOptions = config('website.appearance.palettes', []);
     $adminRouteContent = request()->route('contentPage');
     $adminActiveContentType = request('type') ?: ($adminRouteContent instanceof \App\Models\ContentPage ? $adminRouteContent->type : null);
 @endphp
@@ -140,6 +144,43 @@
                     <strong>@yield('title', 'Console')</strong>
                 </div>
                 <div class="topbar-actions">
+                    @if(auth()->user()->allows('settings.manage'))
+                        <div class="admin-theme-menu" data-admin-theme-menu data-theme-url="{{ route('admin.settings.admin-appearance') }}">
+                            <button class="admin-theme-trigger" type="button" data-admin-theme-toggle aria-expanded="false" aria-label="Admin appearance">
+                                <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z"/></svg>
+                                <span>Admin theme</span>
+                            </button>
+                            <div class="admin-theme-popover">
+                                <div class="admin-theme-popover-head"><strong>Admin appearance</strong><small>Applies instantly</small></div>
+                                <div class="admin-theme-choice-group">
+                                    <small>Theme</small>
+                                    @foreach($adminThemeOptions as $key => $theme)
+                                        <button type="button" class="admin-theme-choice @if($adminThemeKey === $key) active @endif"
+                                            data-admin-theme-choice="{{ $key }}"
+                                            data-bg="{{ $theme['background'] }}"
+                                            data-soft="{{ $theme['background_soft'] }}"
+                                            data-surface="{{ $theme['surface'] }}">
+                                            <span style="--theme-dot:{{ $theme['background'] }}"></span>{{ $theme['label'] }}
+                                        </button>
+                                    @endforeach
+                                </div>
+                                <div class="admin-theme-choice-group">
+                                    <small>Accent</small>
+                                    @foreach($adminPaletteOptions as $key => $palette)
+                                        <button type="button" class="admin-palette-choice @if($adminPaletteKey === $key) active @endif"
+                                            data-admin-palette-choice="{{ $key }}"
+                                            data-primary="{{ $palette['primary'] }}"
+                                            data-secondary="{{ $palette['secondary'] }}"
+                                            data-highlight="{{ $palette['highlight'] }}">
+                                            <span class="admin-palette-dots"><i style="background:{{ $palette['primary'] }}"></i><i style="background:{{ $palette['secondary'] }}"></i><i style="background:{{ $palette['highlight'] }}"></i></span>
+                                            {{ $palette['label'] }}
+                                        </button>
+                                    @endforeach
+                                </div>
+                                <div class="admin-theme-status" data-admin-theme-status>Saved automatically</div>
+                            </div>
+                        </div>
+                    @endif
                     <a class="visit-site" href="{{ route('home') }}" target="_blank" rel="noopener">
                         <i></i> Live website
                         <svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg>

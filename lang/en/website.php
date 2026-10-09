@@ -3,8 +3,8 @@
 return [
     'seo' => [
         'home' => [
-            'title' => 'ERP & Enterprise Software Afghanistan | Fida Technologies',
-            'description' => 'Fida Technologies builds ERP, MIS, accounting, HR, sector-specific and custom software for organizations in Afghanistan. Explore solutions or request a proposal.',
+            'title' => 'Enterprise Technology Company Afghanistan | Fida Technologies',
+            'description' => 'Fida Technologies delivers ERP and custom software, web and mobile platforms, AI, IoT, data centers, networks, cloud, cybersecurity, hardware supply and systems integration for government, NGOs and enterprises in Afghanistan.',
         ],
         'social_image_alt' => 'Fida Technologies — enterprise software, ERP and digital transformation in Afghanistan',
     ],
@@ -30,8 +30,8 @@ return [
     ],
     'hero' => [
         'eyebrow' => 'Fida Technologies · Afghanistan',
-        'title_before' => 'Enterprise software, ERP &', 'title_emphasis' => 'digital transformation.',
-        'description' => 'We design and deliver ERP, MIS, financial systems, integrations and custom enterprise applications for government, NGOs, institutions and complex organizations in Afghanistan.',
+        'title_before' => 'Enterprise technology, software &', 'title_emphasis' => 'infrastructure delivery.',
+        'description' => 'We deliver software, ERP, web and mobile platforms, AI, IoT, data-center and network infrastructure, cloud, cybersecurity, hardware and systems integration for government, NGOs and complex organizations in Afghanistan.',
         'primary_cta' => 'Request a proposal', 'secondary_cta' => 'Explore enterprise solutions',
         'trust' => 'Technology experience since 2014. Fida Technologies serving organizations since 2022.',
         'dashboard_label' => 'Live business overview', 'revenue' => 'Revenue', 'operations' => 'Operations',
@@ -51,7 +51,7 @@ return [
     ],
     'sections' => [
         'solutions_eyebrow' => 'Enterprise capabilities', 'solutions_title' => 'Connected systems shaped around how your organization operates.',
-        'solutions_description' => 'From requirements analysis and integration to organization-wide ERP and MIS, every engagement is designed for control, accountability and long-term maintainability.',
+        'solutions_description' => 'From ERP, web and mobile development to AI, IoT, data centers, networks, cloud, cybersecurity, hardware supply and managed IT, every engagement is scoped for accountable institutional delivery.',
         'products_eyebrow' => 'Fida products', 'products_title' => 'Proven foundations for demanding industries.',
         'products_description' => 'Purpose-built platforms combine local workflow knowledge with modern engineering.',
         'industries_eyebrow' => 'Industry expertise', 'industries_title' => 'We understand the workflow before writing the code.',
@@ -61,10 +61,18 @@ return [
         'contact_description' => 'We will review your workflow and return with a clear recommendation, realistic scope and next step.',
     ],
     'solutions' => [
-        'erp' => ['title' => 'ERP & MIS Systems', 'description' => 'Connected finance, inventory, HR, approvals and reporting for multi-branch operations.'],
-        'accounting' => ['title' => 'Accounting Software', 'description' => 'Multi-currency ledgers, journals, statements and decision-ready financial reports.'],
-        'custom' => ['title' => 'Custom Software', 'description' => 'Secure platforms designed around your exact processes, users and business rules.'],
-        'mobile' => ['title' => 'Mobile Applications', 'description' => 'Fast Android and iOS experiences with reliable APIs and administration systems.'],
+        'erp' => ['title' => 'Custom ERP & Enterprise Software', 'description' => 'ERP, MIS, finance, HR, approvals and industry systems shaped around institutional workflows.'],
+        'web' => ['title' => 'Web Development & Digital Platforms', 'description' => 'Corporate websites, government and NGO portals, SaaS platforms and secure web applications.'],
+        'mobile' => ['title' => 'Mobile App Development', 'description' => 'Android and iOS applications for field teams, operations, customers and connected services.'],
+        'ai' => ['title' => 'AI & Intelligent Automation', 'description' => 'AI assistants, document processing, knowledge search and controlled workflow automation.'],
+        'iot' => ['title' => 'IoT & Smart Infrastructure', 'description' => 'Sensors, telemetry, asset monitoring and smart infrastructure integrations.'],
+        'datacenter' => ['title' => 'Data Center & IT Infrastructure', 'description' => 'Server rooms, racks, compute, storage, UPS, backup and infrastructure monitoring.'],
+        'network' => ['title' => 'Network Infrastructure & Operations', 'description' => 'LAN, WAN, routing, switching, Wi-Fi, structured cabling and network administration.'],
+        'cloud' => ['title' => 'Cloud & Server Infrastructure', 'description' => 'Servers, virtualization, private cloud, hybrid infrastructure, backup and recovery.'],
+        'cybersecurity' => ['title' => 'Cybersecurity & Infrastructure Security', 'description' => 'Firewalls, endpoint controls, identity, hardening, logging and security implementation.'],
+        'hardware' => ['title' => 'Enterprise Hardware & Technology Supply', 'description' => 'Servers, network equipment, workstations, storage, UPS and project technology supply.'],
+        'integration' => ['title' => 'Systems Integration & Deployment', 'description' => 'Connect software, APIs, infrastructure and devices with testing, commissioning and handover.'],
+        'managed' => ['title' => 'IT Consulting, Support & Managed Services', 'description' => 'Assessment, administration, monitoring, maintenance, support, training and documentation.'],
         'learn_more' => 'Learn more',
     ],
     'products' => [

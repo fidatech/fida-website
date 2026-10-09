@@ -267,7 +267,7 @@ final class SeoSchema
             'legalName' => config('website.legal_name'),
             'additionalType' => 'https://schema.org/ProfessionalService',
             'foundingDate' => '2022',
-            'description' => 'Fida Technologies is an Afghanistan-based enterprise software, ERP, MIS and digital transformation company. Operations began in 2022 following professional technology experience that started in 2014, and the company was formally licensed in 2024.',
+            'description' => 'Fida Technologies is an Afghanistan-based enterprise technology company delivering ERP and custom software, web and mobile platforms, AI and IoT solutions, data-center and network infrastructure, cloud, cybersecurity, enterprise hardware supply, systems integration and managed IT services. Operations began in 2022 following professional technology experience that started in 2014, and the company was formally licensed in 2024.',
             'url' => url('/'),
             'email' => config('website.email'),
             'telephone' => config('website.phone'),
@@ -293,6 +293,18 @@ final class SeoSchema
                 'email' => config('website.email'),
                 'areaServed' => config('website.address.country_code'),
                 'availableLanguage' => array_column(config('website.locales'), 'label'),
+            ],
+            'hasOfferCatalog' => [
+                '@type' => 'OfferCatalog',
+                'name' => 'Enterprise technology capabilities',
+                'itemListElement' => collect(config('website.featured_solutions', []))->map(fn (array $capability): array => [
+                    '@type' => 'Offer',
+                    'itemOffered' => [
+                        '@type' => 'Service',
+                        'name' => __("website.solutions.{$capability['key']}.title", locale: 'en'),
+                        'url' => url($capability['url']),
+                    ],
+                ])->all(),
             ],
         ];
 

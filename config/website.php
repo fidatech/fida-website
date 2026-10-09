@@ -45,6 +45,7 @@ return [
     'lead_intents' => [
         'proposal' => ['label' => 'Project proposal', 'project_type' => null],
         'tender' => ['label' => 'Tender or RFP invitation', 'project_type' => 'tender'],
+        'rfq' => ['label' => 'Formal RFQ submission', 'project_type' => 'tender'],
         'company-profile' => ['label' => 'Company profile request', 'project_type' => 'company-profile'],
     ],
     'discovery' => [
@@ -78,9 +79,9 @@ return [
         ],
         'home' => [
             'primary_query' => [
-                'en' => 'software company in Afghanistan',
-                'fa' => 'شرکت نرم‌افزاری در افغانستان',
-                'ps' => 'په افغانستان کې د سافټویر شرکت',
+                'en' => 'enterprise technology company Afghanistan',
+                'fa' => 'شرکت تکنالوژی سازمانی افغانستان',
+                'ps' => 'د سازماني ټکنالوژۍ شرکت افغانستان',
             ],
             'search_intent' => 'commercial',
         ],
@@ -239,11 +240,18 @@ return [
     ],
     'default_locale' => 'en',
     'expertise' => [
-        'ERP systems',
-        'accounting software',
-        'custom software development',
+        'ERP and enterprise software',
+        'web development and digital platforms',
         'mobile application development',
-        'business process automation',
+        'AI and intelligent automation',
+        'IoT and smart infrastructure',
+        'data center and IT infrastructure',
+        'network engineering and operations',
+        'cloud, servers and virtualization',
+        'cybersecurity and infrastructure security',
+        'enterprise hardware and technology supply',
+        'systems integration and deployment',
+        'managed IT services',
     ],
     'stats' => [
         ['value' => '2014', 'key' => 'experience'],
@@ -251,26 +259,18 @@ return [
         ['value' => '2024', 'key' => 'licensed'],
     ],
     'featured_solutions' => [
-        [
-            'key' => 'erp',
-            'icon' => 'layers',
-            'url' => '/erp-systems-afghanistan',
-        ],
-        [
-            'key' => 'accounting',
-            'icon' => 'chart',
-            'url' => '/accounting-software-afghanistan',
-        ],
-        [
-            'key' => 'custom',
-            'icon' => 'code',
-            'url' => '/custom-software-development-afghanistan',
-        ],
-        [
-            'key' => 'mobile',
-            'icon' => 'mobile',
-            'url' => '/mobile-app-development-afghanistan',
-        ],
+        ['key' => 'erp', 'icon' => 'layers', 'url' => '/enterprise-software-afghanistan'],
+        ['key' => 'web', 'icon' => 'code', 'url' => '/web-digital-platforms-afghanistan'],
+        ['key' => 'mobile', 'icon' => 'mobile', 'url' => '/mobile-app-development-afghanistan'],
+        ['key' => 'ai', 'icon' => 'chart', 'url' => '/ai-automation-solutions-afghanistan'],
+        ['key' => 'iot', 'icon' => 'layers', 'url' => '/iot-smart-infrastructure-afghanistan'],
+        ['key' => 'datacenter', 'icon' => 'chart', 'url' => '/data-center-it-infrastructure-afghanistan'],
+        ['key' => 'network', 'icon' => 'layers', 'url' => '/network-infrastructure-operations-afghanistan'],
+        ['key' => 'cloud', 'icon' => 'chart', 'url' => '/cloud-server-infrastructure-afghanistan'],
+        ['key' => 'cybersecurity', 'icon' => 'code', 'url' => '/cybersecurity-solutions-afghanistan'],
+        ['key' => 'hardware', 'icon' => 'layers', 'url' => '/enterprise-hardware-technology-supply-afghanistan'],
+        ['key' => 'integration', 'icon' => 'code', 'url' => '/systems-integration-deployment-afghanistan'],
+        ['key' => 'managed', 'icon' => 'chart', 'url' => '/managed-it-services-afghanistan'],
     ],
     'products' => [
         ['key' => 'realist', 'accent' => '#6f6bff', 'status' => 'ERP', 'url' => '/realist-real-estate-erp'],

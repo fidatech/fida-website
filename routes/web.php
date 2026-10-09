@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\WebsiteSettingsController as AdminWebsiteSettings
 use App\Http\Controllers\Admin\AutoArticleController as AdminAutoArticleController;
 use App\Http\Controllers\Admin\CaseStudyStudioController as AdminCaseStudyStudioController;
 use App\Http\Controllers\Admin\RankingMonitorController as AdminRankingMonitorController;
+use App\Http\Controllers\Admin\RfqController as AdminRfqController;
 use App\Http\Controllers\Admin\ClientController as AdminClientController;
 use App\Http\Controllers\Admin\ContractController as AdminContractController;
 use App\Http\Controllers\Admin\PortfolioProjectController as AdminPortfolioProjectController;
@@ -25,6 +26,7 @@ use App\Http\Controllers\LeadController;
 use App\Http\Controllers\LlmDiscoveryController;
 use App\Http\Controllers\MarketingPageController;
 use App\Http\Controllers\RobotsController;
+use App\Http\Controllers\RfqController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +45,11 @@ Route::get('/search', SearchController::class)->name('search');
 Route::post('/contact/lead', LeadController::class)
     ->middleware('throttle:5,1')
     ->name('leads.store');
+
+Route::get('/request-for-quotation', [RfqController::class, 'create'])->name('rfq.create');
+Route::post('/request-for-quotation', [RfqController::class, 'store'])
+    ->middleware('throttle:3,1')
+    ->name('rfq.store');
 
 Route::post('/analytics/event', AnalyticsEventController::class)
     ->middleware('throttle:60,1')
@@ -143,6 +150,15 @@ Route::prefix('admin')->name('admin.')->group(function (): void {
             ->only(['index', 'show', 'update'])
             ->middleware('capability:leads.manage');
 
+        Route::get('/rfqs', [AdminRfqController::class, 'index'])
+            ->middleware('capability:leads.manage')->name('rfqs.index');
+        Route::get('/rfqs/{rfq}', [AdminRfqController::class, 'show'])
+            ->middleware('capability:leads.manage')->name('rfqs.show');
+        Route::put('/rfqs/{rfq}', [AdminRfqController::class, 'update'])
+            ->middleware('capability:leads.manage')->name('rfqs.update');
+        Route::get('/rfqs/{rfq}/document', [AdminRfqController::class, 'download'])
+            ->middleware('capability:leads.manage')->name('rfqs.download');
+
         Route::resource('users', AdminUserController::class)
             ->except(['show', 'destroy'])
             ->middleware('capability:users.manage');
@@ -161,6 +177,7 @@ Route::prefix('{locale}')
     ->group(function (): void {
         Route::get('/', HomeController::class)->name('localized.home');
         Route::get('/search', SearchController::class)->name('localized.search');
+        Route::get('/request-for-quotation', [RfqController::class, 'create'])->name('localized.rfq.create');
         Route::get('/articles/category/{articleCategory:slug}', [ArticleTaxonomyController::class, 'category'])
             ->name('localized.articles.category');
         Route::get('/articles/author/{articleAuthor:slug}', [ArticleTaxonomyController::class, 'author'])

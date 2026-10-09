@@ -1,12 +1,12 @@
 <?php
 
 return [
-    'seo' => ['home' => ['title' => 'ERP و نرم‌افزار سازمانی افغانستان | Fida Technologies', 'description' => 'Fida Technologies برای سازمان‌های افغانستان ERP، MIS، حسابداری، HR، نرم‌افزارهای تخصصی و سیستم‌های اختصاصی طراحی و پیاده‌سازی می‌کند.'], 'social_image_alt' => 'Fida Technologies — نرم‌افزار سازمانی، ERP و تحول دیجیتال در افغانستان'],
+    'seo' => ['home' => ['title' => 'شرکت تکنالوژی سازمانی افغانستان | Fida Technologies', 'description' => 'Fida Technologies برای دولت، NGO و سازمان‌ها نرم‌افزار و ERP، وب و موبایل، AI، IoT، دیتاسنتر، شبکه، کلود، امنیت سایبری، تجهیزات و یکپارچه‌سازی ارائه می‌کند.'], 'social_image_alt' => 'Fida Technologies — نرم‌افزار سازمانی، ERP و تحول دیجیتال در افغانستان'],
     'nav' => ['home' => 'خانه', 'about' => 'درباره ما', 'company' => 'شرکت', 'services' => 'خدمات', 'projects' => 'پروژه‌ها', 'pricing' => 'قیمت‌گذاری', 'contact' => 'تماس', 'solutions' => 'راهکارها', 'products' => 'محصولات', 'industries' => 'صنایع', 'case_studies' => 'مطالعات موردی', 'articles' => 'دیدگاه‌ها', 'process' => 'روند کار', 'proposal' => 'درخواست پیشنهاد', 'menu' => 'باز کردن فهرست', 'light_mode' => 'حالت روز', 'dark_mode' => 'حالت شب', 'all_services' => 'همه خدمات', 'all_solutions' => 'همه راهکارها', 'all_products' => 'همه محصولات', 'all_industries' => 'همه صنایع', 'all_articles' => 'همه دیدگاه‌ها', 'company_facts' => 'مشخصات شرکت', 'answers' => 'پاسخ‌های فیدا'],
     'accessibility' => ['skip_to_content' => 'رفتن به محتوای اصلی', 'home' => 'صفحه اصلی :company', 'primary_navigation' => 'فهرست اصلی', 'change_language' => 'تغییر زبان', 'mobile_navigation' => 'فهرست موبایل', 'pagination' => 'صفحه‌بندی', 'technology_core' => 'هسته تکنالوژی تجارتی فیدا', 'capabilities' => 'توانایی‌های فیدا'],
     'hero' => [
-        'eyebrow' => 'Fida Technologies · افغانستان', 'title_before' => 'نرم‌افزار سازمانی، ERP و', 'title_emphasis' => 'تحول دیجیتال.',
-        'description' => 'برای دولت، نهادهای غیردولتی، مؤسسات و سازمان‌های دارای عملیات پیچیده در افغانستان، ERP، MIS، سیستم‌های مالی، یکپارچه‌سازی و نرم‌افزارهای اختصاصی سازمانی طراحی و تطبیق می‌کنیم.',
+        'eyebrow' => 'Fida Technologies · افغانستان', 'title_before' => 'تکنالوژی سازمانی، نرم‌افزار و', 'title_emphasis' => 'زیربنای دیجیتال.',
+        'description' => 'برای دولت، NGO و سازمان‌ها در افغانستان نرم‌افزار، ERP، وب و موبایل، AI، IoT، دیتاسنتر، شبکه، کلود، امنیت سایبری، تجهیزات و یکپارچه‌سازی ارائه می‌کنیم.',
         'primary_cta' => 'درخواست پیشنهاد', 'secondary_cta' => 'مشاهده راهکارهای سازمانی', 'trust' => 'تجربه تکنالوژی از ۲۰۱۴. خدمات Fida Technologies برای سازمان‌ها از ۲۰۲۲.',
         'dashboard_label' => 'نمای زنده تجارت', 'revenue' => 'درآمد', 'operations' => 'عملیات', 'growth' => 'رشد', 'active' => 'فعال', 'secure' => 'امنیت از پایه',
     ],
@@ -24,10 +24,18 @@ return [
         'contact_eyebrow' => 'آغاز گفتگو', 'contact_title' => 'بگویید تجارت شما چه چیزی را باید کنترول، خودکار یا بهتر کند.', 'contact_description' => 'روند کاری شما را بررسی کرده و با پیشنهاد روشن، محدوده واقعی و قدم بعدی برمی‌گردیم.',
     ],
     'solutions' => [
-        'erp' => ['title' => 'سیستم‌های ERP و MIS', 'description' => 'مالی، گدام، منابع بشری، تأییدی‌ها و گزارش‌دهی یکپارچه برای شرکت‌های چندشعبه‌ای.'],
-        'accounting' => ['title' => 'نرم‌افزار حسابداری', 'description' => 'دفاتر چندارزی، ژورنال، صورت‌حساب و گزارش‌های دقیق مالی.'],
-        'custom' => ['title' => 'نرم‌افزار اختصاصی', 'description' => 'پلتفرم‌های امن مطابق روندها، کاربران و قوانین واقعی تجارت شما.'],
-        'mobile' => ['title' => 'اپلیکیشن موبایل', 'description' => 'اپلیکیشن‌های سریع اندروید و iOS با API و سیستم مدیریتی قابل اعتماد.'],
+        'erp' => ['title' => 'ERP اختصاصی و نرم‌افزار سازمانی', 'description' => 'ERP، MIS، مالی، HR، تأییدی‌ها و سیستم‌های صنعتی مطابق روندهای سازمانی.'],
+        'web' => ['title' => 'توسعه وب و پلتفرم‌های دیجیتال', 'description' => 'وب‌سایت شرکتی، پورتال دولت و NGO، SaaS و اپلیکیشن امن وب.'],
+        'mobile' => ['title' => 'توسعه اپلیکیشن موبایل', 'description' => 'اپلیکیشن Android و iOS برای تیم‌های ساحوی، عملیات، مشتریان و خدمات متصل.'],
+        'ai' => ['title' => 'AI و اتوماسیون هوشمند', 'description' => 'دستیار AI، پردازش اسناد، جستجوی دانش و اتوماسیون کنترول‌شده روند.'],
+        'iot' => ['title' => 'IoT و زیربنای هوشمند', 'description' => 'سنسور، telemetry، نظارت دارایی و یکپارچه‌سازی زیربنای هوشمند.'],
+        'datacenter' => ['title' => 'دیتاسنتر و زیربنای IT', 'description' => 'اتاق سرور، rack، compute، storage، UPS، backup و monitoring.'],
+        'network' => ['title' => 'زیربنا و عملیات شبکه', 'description' => 'LAN، WAN، routing، switching، Wi‑Fi، structured cabling و مدیریت شبکه.'],
+        'cloud' => ['title' => 'زیربنای کلود و سرور', 'description' => 'سرور، virtualization، private cloud، hybrid infrastructure، backup و recovery.'],
+        'cybersecurity' => ['title' => 'امنیت سایبری و زیربنا', 'description' => 'Firewall، endpoint، identity، hardening، logging و تطبیق امنیت.'],
+        'hardware' => ['title' => 'تجهیزات و تأمین تکنالوژی سازمانی', 'description' => 'سرور، تجهیزات شبکه، workstation، storage، UPS و تجهیزات پروژه.'],
+        'integration' => ['title' => 'یکپارچه‌سازی و تطبیق سیستم‌ها', 'description' => 'اتصال نرم‌افزار، API، زیربنا و device همراه آزمایش، commissioning و تحویل.'],
+        'managed' => ['title' => 'مشاوره، پشتیبانی و خدمات مدیریت‌شده IT', 'description' => 'ارزیابی، مدیریت، monitoring، maintenance، پشتیبانی، آموزش و documentation.'],
         'learn_more' => 'معلومات بیشتر',
     ],
     'products' => [

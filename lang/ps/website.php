@@ -1,12 +1,12 @@
 <?php
 
 return [
-    'seo' => ['home' => ['title' => 'ERP او سازماني سافټویر افغانستان | Fida Technologies', 'description' => 'Fida Technologies د افغانستان ادارو لپاره ERP، MIS، حسابداري، HR، سکتوري او ځانګړي سافټویر سیسټمونه طرحه او پلي کوي.'], 'social_image_alt' => 'Fida Technologies — په افغانستان کې سازماني سافټویر، ERP او ډیجیټل بدلون'],
+    'seo' => ['home' => ['title' => 'د سازماني ټکنالوژۍ شرکت افغانستان | Fida Technologies', 'description' => 'Fida Technologies د دولت، NGO او سازمانونو لپاره سافټویر او ERP، وېب او موبایل، AI، IoT، ډیټا سنټر، شبکه، کلاوډ، سایبري امنیت، تجهیزات او ادغام برابروي.'], 'social_image_alt' => 'Fida Technologies — په افغانستان کې سازماني سافټویر، ERP او ډیجیټل بدلون'],
     'nav' => ['home' => 'کور', 'about' => 'زموږ په اړه', 'company' => 'شرکت', 'services' => 'خدمتونه', 'projects' => 'پروژې', 'pricing' => 'بیې', 'contact' => 'اړیکه', 'solutions' => 'حللارې', 'products' => 'محصولات', 'industries' => 'سکتورونه', 'case_studies' => 'قضیوي مطالعې', 'articles' => 'لیدلوري', 'process' => 'کاري بهیر', 'proposal' => 'د وړاندیز غوښتنه', 'menu' => 'مېنو پرانیستل', 'light_mode' => 'ورځنی حالت', 'dark_mode' => 'شپنی حالت', 'all_services' => 'ټول خدمتونه', 'all_solutions' => 'ټولې حللارې', 'all_products' => 'ټول محصولات', 'all_industries' => 'ټول سکتورونه', 'all_articles' => 'ټول لیدلوري', 'company_facts' => 'د شرکت معلومات', 'answers' => 'د فیدا ځوابونه'],
     'accessibility' => ['skip_to_content' => 'اصلي منځپانګې ته لاړ شئ', 'home' => 'د :company کورپاڼه', 'primary_navigation' => 'اصلي مېنو', 'change_language' => 'ژبه بدله کړئ', 'mobile_navigation' => 'د موبایل مېنو', 'pagination' => 'پاڼه بندي', 'technology_core' => 'د فیدا د سوداګریزې ټکنالوژۍ هسته', 'capabilities' => 'د فیدا وړتیاوې'],
     'hero' => [
-        'eyebrow' => 'Fida Technologies · افغانستان', 'title_before' => 'سازماني سافټویر، ERP او', 'title_emphasis' => 'ډیجیټل بدلون.',
-        'description' => 'په افغانستان کې د دولت، نادولتي موسسو، ادارو او پېچلو سازمانونو لپاره ERP، MIS، مالي سیسټمونه، ادغامونه او ځانګړي سازماني اپلېکېشنونه طرحه او پلي کوو.',
+        'eyebrow' => 'Fida Technologies · افغانستان', 'title_before' => 'سازماني ټکنالوژي، سافټویر او', 'title_emphasis' => 'ډیجیټل زیربنا.',
+        'description' => 'په افغانستان کې د دولت، NGO او سازمانونو لپاره سافټویر، ERP، وېب او موبایل، AI، IoT، ډیټا سنټر، شبکه، کلاوډ، سایبري امنیت، تجهیزات او ادغام برابروو.',
         'primary_cta' => 'د وړاندیز غوښتنه', 'secondary_cta' => 'سازماني حللارې وګورئ', 'trust' => 'له ۲۰۱۴ راهیسې د ټکنالوژۍ تجربه. Fida Technologies له ۲۰۲۲ راهیسې ادارو ته خدمت کوي.',
         'dashboard_label' => 'د سوداګرۍ ژوندی انځور', 'revenue' => 'عواید', 'operations' => 'عملیات', 'growth' => 'وده', 'active' => 'فعال', 'secure' => 'له بنسټه خوندي',
     ],
@@ -24,10 +24,18 @@ return [
         'contact_eyebrow' => 'خبرې پیل کړئ', 'contact_title' => 'ووایئ چې ستاسو سوداګري څه شی کنټرول، اتومات یا ښه کول غواړي.', 'contact_description' => 'ستاسو کاري بهیر ارزوو او له روښانه وړاندیز، واقعي حدودو او بل ګام سره درګرځو.',
     ],
     'solutions' => [
-        'erp' => ['title' => 'ERP او MIS سیسټمونه', 'description' => 'د څو څانګو لپاره یوځای مالي، زېرمتون، بشري سرچینې، تاییدونه او راپورونه.'],
-        'accounting' => ['title' => 'د حسابدارۍ سافټویر', 'description' => 'څو اسعارو لیجرونه، ژورنالونه، حساب‌لیکونه او کره مالي راپورونه.'],
-        'custom' => ['title' => 'ځانګړی سافټویر', 'description' => 'ستاسو د پروسو، کاروونکو او سوداګریزو اصولو مطابق خوندي پلېټفارمونه.'],
-        'mobile' => ['title' => 'موبایل اپلېکېشنونه', 'description' => 'چټک Android او iOS اپلېکېشنونه له باوري API او مدیریتي سیسټم سره.'],
+        'erp' => ['title' => 'ځانګړی ERP او سازماني سافټویر', 'description' => 'ERP، MIS، مالي، HR، تاییدونه او سکتوري سیسټمونه د ادارې د کاري بهیر مطابق.'],
+        'web' => ['title' => 'د وېب جوړول او ډیجیټل پلېټفارمونه', 'description' => 'شرکتي وېب‌سایټونه، د دولت او NGO پورټلونه، SaaS او خوندي وېب اپلېکېشنونه.'],
+        'mobile' => ['title' => 'د موبایل اپلېکېشن جوړول', 'description' => 'Android او iOS اپلېکېشنونه د ساحوي ټیمونو، عملیاتو، مشتریانو او تړلو خدمتونو لپاره.'],
+        'ai' => ['title' => 'AI او هوښیار اتومات', 'description' => 'AI مرستیالان، د اسنادو پروسس، د پوهې لټون او کنټرول شوی کاري اتومات.'],
+        'iot' => ['title' => 'IoT او هوښیار زیربنا', 'description' => 'سنسورونه، telemetry، د شتمنیو څارنه او د هوښیارې زیربنا ادغام.'],
+        'datacenter' => ['title' => 'ډیټا سنټر او IT زیربنا', 'description' => 'سرور خونې، rack، compute، storage، UPS، backup او monitoring.'],
+        'network' => ['title' => 'د شبکې زیربنا او عملیات', 'description' => 'LAN، WAN، routing، switching، Wi‑Fi، structured cabling او د شبکې اداره.'],
+        'cloud' => ['title' => 'د کلاوډ او سرور زیربنا', 'description' => 'سرورونه، virtualization، private cloud، hybrid infrastructure، backup او recovery.'],
+        'cybersecurity' => ['title' => 'سایبري او د زیربنا امنیت', 'description' => 'Firewall، endpoint، identity، hardening، logging او امنیتي پلي کول.'],
+        'hardware' => ['title' => 'سازماني تجهیزات او د ټکنالوژۍ عرضه', 'description' => 'سرورونه، شبکې تجهیزات، workstation، storage، UPS او پروژوي ټکنالوژي.'],
+        'integration' => ['title' => 'د سیسټمونو ادغام او پلي کول', 'description' => 'سافټویر، API، زیربنا او devices د ازموینې، commissioning او سپارنې سره ونښلوئ.'],
+        'managed' => ['title' => 'IT مشوره، ملاتړ او مدیریت شوي خدمتونه', 'description' => 'ارزونه، اداره، monitoring، maintenance، ملاتړ، روزنه او documentation.'],
         'learn_more' => 'نور معلومات',
     ],
     'products' => [

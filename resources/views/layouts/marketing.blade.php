@@ -80,10 +80,11 @@
     @isset($structuredData)
         <script type="application/ld+json">{!! json_encode($structuredData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
     @endisset
-    @if(config('website.indexable') && config('website.analytics.ga4_measurement_id'))
+    @if(config('website.indexable') && (config('website.analytics.gtm_container_id') || config('website.analytics.ga4_measurement_id')))
         <script>
             window.fidaAnalytics = {
                 measurementId: @json((string) config('website.analytics.ga4_measurement_id')),
+                tagManagerId: @json((string) config('website.analytics.gtm_container_id')),
                 requireConsent: @json((bool) config('website.analytics.require_consent')),
             };
         </script>
@@ -91,6 +92,9 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="marketing-body theme-{{ config('website.appearance.current_theme', 'midnight') }} palette-{{ config('website.appearance.current_palette', 'fida') }}">
+    @if(config('website.indexable') && config('website.analytics.gtm_container_id') && ! config('website.analytics.require_consent'))
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ urlencode((string) config('website.analytics.gtm_container_id')) }}" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
+    @endif
     <a class="skip-link" href="#main">{{ __('website.accessibility.skip_to_content') }}</a>
     <div class="page-noise" aria-hidden="true"></div>
     <div class="page-aurora page-aurora-one" aria-hidden="true"></div>

@@ -269,6 +269,65 @@ class AdminConsoleTest extends TestCase
         $this->assertSame('test-secret-api-key', Crypt::decryptString($value['api_key']));
     }
 
+    public function test_openai_growth_advisor_can_be_saved_with_blank_model(): void
+    {
+        $admin = User::factory()->admin()->create();
+        $payload = $this->settingsPayload();
+        $payload['ai_provider'] = 'openai';
+        $payload['ai_model'] = '';
+        $payload['ai_api_key'] = 'test-openai-key';
+        $payload['remove_ai_api_key'] = '0';
+
+        $this->actingAs($admin)
+            ->put(route('admin.settings.update'), $payload)
+            ->assertRedirect()
+            ->assertSessionHasNoErrors();
+
+        $value = SiteSetting::query()->where('key', 'analytics.ai')->firstOrFail()->value;
+
+        $this->assertSame('openai', $value['provider']);
+        $this->assertSame('', $value['model']);
+        $this->assertSame('test-openai-key', Crypt::decryptString($value['api_key']));
+    }
+
+    public function test_admin_appearance_autosaves_without_changing_public_theme(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        $this->actingAs($admin)
+            ->put(route('admin.settings.update'), $this->settingsPayload())
+            ->assertRedirect();
+
+        $this->actingAs($admin)
+            ->patchJson(route('admin.settings.admin-appearance'), [
+                'theme' => 'obsidian',
+                'palette' => 'royal',
+            ])
+            ->assertOk()
+            ->assertJson([
+                'ok' => true,
+                'theme' => 'obsidian',
+                'palette' => 'royal',
+            ]);
+
+        $appearance = SiteSetting::query()->where('key', 'website.appearance')->firstOrFail()->value;
+
+        $this->assertSame('deep_navy', $appearance['theme']);
+        $this->assertSame('electric', $appearance['palette']);
+        $this->assertSame('obsidian', $appearance['admin_theme']);
+        $this->assertSame('royal', $appearance['admin_palette']);
+
+        $this->actingAs($admin)
+            ->get(route('admin.dashboard'))
+            ->assertOk()
+            ->assertSee('--admin-bg:#050506', false)
+            ->assertSee('--admin-lime:#a78bfa', false);
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('theme-deep_navy palette-electric', false);
+    }
+
     public function test_website_settings_accept_google_maps_output_embed_url(): void
     {
         $admin = User::factory()->admin()->create();

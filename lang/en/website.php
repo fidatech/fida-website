@@ -3,8 +3,8 @@
 return [
     'seo' => [
         'home' => [
-            'title' => 'ERP & Enterprise Software Afghanistan | Fida Technologies',
-            'description' => 'Fida Technologies builds ERP, MIS, accounting, HR, sector-specific and custom software for organizations in Afghanistan. Explore solutions or request a proposal.',
+            'title' => 'Enterprise Technology Company Afghanistan | Fida Technologies',
+            'description' => 'Fida Technologies delivers ERP and custom software, web and mobile platforms, AI, IoT, data centers, networks, cloud, cybersecurity, hardware supply and systems integration for government, NGOs and enterprises in Afghanistan.',
         ],
         'social_image_alt' => 'Fida Technologies — enterprise software, ERP and digital transformation in Afghanistan',
     ],
@@ -30,8 +30,8 @@ return [
     ],
     'hero' => [
         'eyebrow' => 'Fida Technologies · Afghanistan',
-        'title_before' => 'Enterprise software, ERP &', 'title_emphasis' => 'digital transformation.',
-        'description' => 'We design and deliver ERP, MIS, financial systems, integrations and custom enterprise applications for government, NGOs, institutions and complex organizations in Afghanistan.',
+        'title_before' => 'Enterprise technology, software &', 'title_emphasis' => 'infrastructure delivery.',
+        'description' => 'We deliver software, ERP, web and mobile platforms, AI, IoT, data-center and network infrastructure, cloud, cybersecurity, hardware and systems integration for government, NGOs and complex organizations in Afghanistan.',
         'primary_cta' => 'Request a proposal', 'secondary_cta' => 'Explore enterprise solutions',
         'trust' => 'Technology experience since 2014. Fida Technologies serving organizations since 2022.',
         'dashboard_label' => 'Live business overview', 'revenue' => 'Revenue', 'operations' => 'Operations',
@@ -51,7 +51,7 @@ return [
     ],
     'sections' => [
         'solutions_eyebrow' => 'Enterprise capabilities', 'solutions_title' => 'Connected systems shaped around how your organization operates.',
-        'solutions_description' => 'From requirements analysis and integration to organization-wide ERP and MIS, every engagement is designed for control, accountability and long-term maintainability.',
+        'solutions_description' => 'From ERP, web and mobile development to AI, IoT, data centers, networks, cloud, cybersecurity, hardware supply and managed IT, every engagement is scoped for accountable institutional delivery.',
         'products_eyebrow' => 'Fida products', 'products_title' => 'Proven foundations for demanding industries.',
         'products_description' => 'Purpose-built platforms combine local workflow knowledge with modern engineering.',
         'industries_eyebrow' => 'Industry expertise', 'industries_title' => 'We understand the workflow before writing the code.',

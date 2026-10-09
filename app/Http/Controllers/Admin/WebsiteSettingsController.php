@@ -74,13 +74,11 @@ class WebsiteSettingsController extends Controller
                     'primary_color' => strtolower($data['primary_color']),
                     'secondary_color' => strtolower($data['secondary_color']),
                     'highlight_color' => strtolower($data['highlight_color']),
-                ]);
-                $this->put(WebsiteSettings::ADMIN_APPEARANCE_KEY, 'admin', [
-                    'theme' => $data['admin_theme'],
-                    'palette' => $data['admin_palette'],
-                    'primary_color' => strtolower($data['admin_primary_color']),
-                    'secondary_color' => strtolower($data['admin_secondary_color']),
-                    'highlight_color' => strtolower($data['admin_highlight_color']),
+                    'admin_theme' => $data['admin_theme'] ?? $current['admin_theme'],
+                    'admin_palette' => $data['admin_palette'] ?? $current['admin_palette'],
+                    'admin_primary_color' => strtolower($data['admin_primary_color'] ?? $current['admin_primary_color']),
+                    'admin_secondary_color' => strtolower($data['admin_secondary_color'] ?? $current['admin_secondary_color']),
+                    'admin_highlight_color' => strtolower($data['admin_highlight_color'] ?? $current['admin_highlight_color']),
                 ]);
 
                 $existingAi = SiteSetting::query()->where('key', 'analytics.ai')->first();

@@ -15,6 +15,13 @@ class RfqSubmissionTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->withoutVite();
+        config()->set('website.indexable', true);
+    }
+
     public function test_rfq_page_exposes_government_ngo_procurement_content(): void
     {
         $this->seed(GovernmentNgoCapabilitySeeder::class);

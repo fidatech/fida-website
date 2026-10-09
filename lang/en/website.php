@@ -46,7 +46,7 @@ return [
         'facts' => [
             ['label' => 'Based in', 'value' => 'Kabul, Afghanistan'],
             ['label' => 'Working languages', 'value' => 'English · Dari · Pashto'],
-            ['label' => 'Core capabilities', 'value' => 'ERP · MIS · Integration · Data · Mobile'],
+            ['label' => 'Core capabilities', 'value' => 'Software · AI · Infrastructure · Networks'],
         ],
     ],
     'sections' => [

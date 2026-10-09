@@ -74,6 +74,7 @@ return [
         'ograyi' => ['name' => 'Ograyi — Account Manager (Mobile App)', 'description' => 'Simple mobile credit, debit and relationship-based account management.'],
         'view' => 'View solution',
     ],
+    'products_catalog' => ['title' => 'Other reusable systems', 'description' => 'These systems can be adapted for another customer. Confirm the current release, modules and implementation scope before ordering.'],
     'industries' => [
         'real_estate' => 'Real estate', 'finance' => 'Finance & Sarafi', 'logistics' => 'Transport & logistics',
         'pharmacy' => 'Pharmacy & medicine', 'construction' => 'Construction', 'retail' => 'Wholesale & retail',

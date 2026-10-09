@@ -37,6 +37,8 @@ class AnalyticsController extends Controller
                 ->distinct('visitor_key')
                 ->count('visitor_key'),
             'bot_hits' => (clone $bots)->count(),
+            'country_known_visitors' => (clone $humans)->whereNotNull('country_code')->distinct('visitor_key')->count('visitor_key'),
+            'country_unknown_visitors' => (clone $humans)->whereNull('country_code')->distinct('visitor_key')->count('visitor_key'),
             'conversions' => WebsiteAnalyticsEvent::query()
                 ->whereBetween('occurred_at', [$from, $to])
                 ->whereIn('event_name', ['lead_submitted', 'rfq_submitted', 'cta_click', 'phone_click', 'email_click', 'whatsapp_click'])
@@ -57,7 +59,7 @@ class AnalyticsController extends Controller
             ->selectRaw('path, COUNT(*) as views, COUNT(DISTINCT visitor_key) as visitors')
             ->groupBy('path')
             ->orderByDesc('views')
-            ->limit(100)
+            ->limit(30)
             ->get();
 
         $sources = WebsitePageView::query()
@@ -66,16 +68,17 @@ class AnalyticsController extends Controller
             ->selectRaw("COALESCE(NULLIF(source, ''), 'direct') as source_name, COALESCE(NULLIF(medium, ''), 'direct') as medium_name, COUNT(*) as views, COUNT(DISTINCT visitor_key) as visitors")
             ->groupBy('source_name', 'medium_name')
             ->orderByDesc('views')
-            ->limit(100)
+            ->limit(30)
             ->get();
 
         $countries = WebsitePageView::query()
             ->where('is_bot', false)
             ->whereBetween('occurred_at', [$from, $to])
-            ->selectRaw("COALESCE(country_code, '—') as country, COUNT(*) as views, COUNT(DISTINCT visitor_key) as visitors")
-            ->groupBy('country')
+            ->whereNotNull('country_code')
+            ->selectRaw("country_code as country, COUNT(*) as views, COUNT(DISTINCT visitor_key) as visitors")
+            ->groupBy('country_code')
             ->orderByDesc('views')
-            ->limit(100)
+            ->limit(50)
             ->get();
 
         $devices = WebsitePageView::query()
@@ -134,7 +137,7 @@ class AnalyticsController extends Controller
             ->selectRaw("visitor_key, MAX(occurred_at) as last_seen, COUNT(*) as page_views, MAX(country_code) as country_code, MAX(source) as source_name, MAX(medium) as medium_name, MAX(device_type) as device_type, MAX(browser) as browser")
             ->groupBy('visitor_key')
             ->orderByDesc('last_seen')
-            ->limit(100)
+            ->limit(40)
             ->get();
 
         $searchPeriod = SearchConsoleMetric::query()->max('period_end');

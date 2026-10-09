@@ -92,7 +92,7 @@ class SearchAuthorityContentWaveSeeder extends Seeder
                 ],
                 ['en' => 'Accounting Software Afghanistan | Buyer Guide', 'fa' => 'نرم‌افزار حسابداری افغانستان | راهنمای انتخاب', 'ps' => 'حسابداري سافټویر افغانستان | د انتخاب لارښود'],
                 ['en' => 'Buyer guide for accounting software in Afghanistan covering ledgers, cash, bank, currencies, approvals, receivables, payables, audit and reports.', 'fa' => 'راهنمای انتخاب نرم‌افزار حسابداری افغانستان؛ ledger، صندوق، بانک، اسعار، تأییدی، بدهکار، طلبکار، audit و گزارش.', 'ps' => 'د افغانستان د حسابدارۍ سافټویر لارښود؛ ledger، نغدې، بانک، اسعار، تاییدونه، receivable، payable، audit او راپورونه.'],
-                ['en' => 'accounting software Afghanistan', 'fa' => 'نرم افزار حسابداری افغانستان', 'ps' => 'حسابدارۍ سافټویر افغانستان'],
+                ['en' => 'how to choose accounting software Afghanistan', 'fa' => 'راهنمای انتخاب نرم افزار حسابداری افغانستان', 'ps' => 'په افغانستان کې د حسابدارۍ سافټویر د انتخاب لارښود'],
                 ['accounting-software-afghanistan', 'erp-vs-accounting-software-afghanistan', 'financial-management-software-afghanistan']
             ),
             $this->article(
@@ -107,7 +107,7 @@ class SearchAuthorityContentWaveSeeder extends Seeder
                 ],
                 ['en' => 'NGO ERP & Finance Software Afghanistan | Guide', 'fa' => 'ERP و سیستم مالی NGO افغانستان | راهنما', 'ps' => 'د NGO ERP او مالي سافټویر افغانستان | لارښود'],
                 ['en' => 'Guide to NGO ERP and finance software in Afghanistan for grants, budgets, procurement, HR, assets, projects, approvals and donor reporting.', 'fa' => 'راهنمای ERP و سیستم مالی NGO افغانستان برای grant، بودجه، تدارکات، HR، دارایی، پروژه، تأییدی و donor report.', 'ps' => 'د افغانستان د NGO ERP او مالي سافټویر لارښود؛ grant، بودجه، تدارکات، HR، شتمنۍ، پروژې، تاییدونه او donor راپورونه.'],
-                ['en' => 'NGO software Afghanistan', 'fa' => 'سیستم NGO افغانستان', 'ps' => 'د NGO سافټویر افغانستان'],
+                ['en' => 'NGO ERP and finance software selection Afghanistan', 'fa' => 'راهنمای انتخاب ERP و سیستم مالی NGO افغانستان', 'ps' => 'په افغانستان کې د NGO ERP او مالي سافټویر د انتخاب لارښود'],
                 ['ngo-ingo-software-afghanistan', 'grant-management-system-afghanistan', 'financial-management-software-afghanistan']
             ),
             $this->article(

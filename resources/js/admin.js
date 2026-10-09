@@ -410,6 +410,7 @@ if (!bootRichEditors()) {
     };
 
     const applyTheme = (button) => {
+        root.dataset.adminTheme = button.dataset.adminThemeChoice;
         root.style.setProperty('--admin-bg', button.dataset.bg);
         root.style.setProperty('--admin-panel-soft', button.dataset.soft);
         root.style.setProperty('--admin-panel', button.dataset.surface);

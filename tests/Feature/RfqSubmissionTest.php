@@ -7,6 +7,7 @@ use App\Mail\RfqAcknowledgementMail;
 use App\Models\Rfq;
 use App\Models\WebsiteAnalyticsEvent;
 use Database\Seeders\GovernmentNgoCapabilitySeeder;
+use Database\Seeders\WebsiteSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Mail;
@@ -98,6 +99,7 @@ class RfqSubmissionTest extends TestCase
 
     public function test_solution_capability_pages_are_seeded_for_search_and_ai_discovery(): void
     {
+        $this->seed(WebsiteSeeder::class);
         $this->seed(GovernmentNgoCapabilitySeeder::class);
 
         foreach ([

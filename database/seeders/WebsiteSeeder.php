@@ -33,6 +33,7 @@ class WebsiteSeeder extends Seeder
         $this->call(ResourceInfrastructureIndustrySeeder::class);
         $this->call(TradeTelecommunicationsIndustrySeeder::class);
         $this->call(GovernmentTechnologySolutionsSeeder::class);
+        $this->call(RfqPageSeeder::class);
     }
 
     private function pages(): array

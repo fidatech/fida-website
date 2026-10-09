@@ -105,10 +105,10 @@ class WebsiteSettings
 
         $fallbackColors = $palettes[$palette === 'custom' ? $defaultPalette : $palette];
 
-        $adminTheme = array_key_exists((string) ($adminAppearance['theme'] ?? ''), $themes)
-            ? (string) $adminAppearance['theme']
+        $adminTheme = array_key_exists((string) ($adminAppearance['admin_theme'] ?? ''), $themes)
+            ? (string) $adminAppearance['admin_theme']
             : $defaultTheme;
-        $adminPalette = (string) ($adminAppearance['palette'] ?? $defaultPalette);
+        $adminPalette = (string) ($adminAppearance['admin_palette'] ?? $defaultPalette);
         if ($adminPalette !== 'custom' && ! array_key_exists($adminPalette, $palettes)) {
             $adminPalette = $defaultPalette;
         }
@@ -138,9 +138,9 @@ class WebsiteSettings
             'highlight_color' => $this->color($appearance['highlight_color'] ?? null, $fallbackColors['highlight']),
             'admin_theme' => $adminTheme,
             'admin_palette' => $adminPalette,
-            'admin_primary_color' => $this->color($adminAppearance['primary_color'] ?? null, $adminFallbackColors['primary']),
-            'admin_secondary_color' => $this->color($adminAppearance['secondary_color'] ?? null, $adminFallbackColors['secondary']),
-            'admin_highlight_color' => $this->color($adminAppearance['highlight_color'] ?? null, $adminFallbackColors['highlight']),
+            'admin_primary_color' => $this->color($adminAppearance['admin_primary_color'] ?? null, $adminFallbackColors['primary']),
+            'admin_secondary_color' => $this->color($adminAppearance['admin_secondary_color'] ?? null, $adminFallbackColors['secondary']),
+            'admin_highlight_color' => $this->color($adminAppearance['admin_highlight_color'] ?? null, $adminFallbackColors['highlight']),
         ];
     }
 

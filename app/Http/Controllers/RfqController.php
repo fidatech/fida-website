@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRfqRequest;
 use App\Mail\NewRfqNotificationMail;
+use App\Mail\RfqAcknowledgementMail;
 use App\Models\ContentPage;
 use App\Models\Rfq;
+use App\Models\WebsiteAnalyticsEvent;
 use App\Support\LocalizedUrl;
 use App\Support\SeoSchema;
+use App\Support\TrafficClassifier;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Mail;
@@ -59,6 +62,35 @@ class RfqController extends Controller
 
         try {
             Mail::to('info@fida.af')->send(new NewRfqNotificationMail($rfq));
+        } catch (\Throwable $exception) {
+            report($exception);
+        }
+
+        try {
+            Mail::to($rfq->email)->send(new RfqAcknowledgementMail($rfq));
+        } catch (\Throwable $exception) {
+            report($exception);
+        }
+
+        try {
+            $keys = TrafficClassifier::keys($request);
+            $now = now();
+
+            WebsiteAnalyticsEvent::create([
+                'occurred_at' => $now,
+                'day' => $now->toDateString(),
+                'visitor_key' => $keys['visitor_key'],
+                'session_key' => $keys['session_key'],
+                'event_name' => 'rfq_submitted',
+                'event_label' => $rfq->organization_type,
+                'path' => parse_url((string) $rfq->source_url, PHP_URL_PATH) ?: '/request-for-quotation',
+                'page_slug' => 'request-for-quotation',
+                'locale' => $rfq->locale,
+                'metadata' => [
+                    'reference' => $rfq->reference,
+                    'procurement_method' => $rfq->procurement_method,
+                ],
+            ]);
         } catch (\Throwable $exception) {
             report($exception);
         }

@@ -190,7 +190,7 @@ class MarketingWebsiteTest extends TestCase
         $this->get('/fa')
             ->assertOk()
             ->assertSee('<html lang="fa" dir="rtl"', false)
-            ->assertSee('نرم‌افزار سازمانی، ERP و')
+            ->assertSee('نرم‌افزار، زیربنا و')
             ->assertSee('تجربه تکنالوژی از ۲۰۱۴');
     }
 
@@ -536,7 +536,7 @@ class MarketingWebsiteTest extends TestCase
             ->assertSee('Requirements traceability and the technical offer')
             ->assertSee('Invite Fida to Tender')
             ->assertSee('Request Company Profile')
-            ->assertSee('request=tender', false)
+            ->assertSee('/request-for-quotation?interest=software-procurement-tender-support-afghanistan', false)
             ->assertSee('request=company-profile', false)
             ->assertSee('Can Fida respond to an RFP or software tender?')
             ->assertSee('"name":"software tender company Afghanistan"', false)
@@ -1131,7 +1131,7 @@ class MarketingWebsiteTest extends TestCase
 
         $this->get('/solutions')
             ->assertOk()
-            ->assertSee('Business Software Solutions')
+            ->assertSee('Enterprise Technology Solutions in Afghanistan')
             ->assertSee('ERP Systems in Afghanistan')
             ->assertSee('"@type":"CollectionPage"', false);
 
@@ -1376,7 +1376,7 @@ class MarketingWebsiteTest extends TestCase
             ->assertOk()
             ->assertSee('"@type":"Organization"', false)
             ->assertSee('"@type":"WebSite"', false)
-            ->assertSee('"name":"software company in Afghanistan"', false)
+            ->assertSee('"name":"enterprise technology company Afghanistan"', false)
             ->assertSee('"knowsAbout"', false);
     }
 

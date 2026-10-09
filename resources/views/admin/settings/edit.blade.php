@@ -84,48 +84,6 @@
                 </section>
 
 
-                <section class="console-card settings-panel appearance-panel admin-appearance-panel">
-                    <header>
-                        <div><small>ADMIN CONSOLE</small><h2>Admin theme — independent from website</h2></div>
-                        <span class="settings-state">PRIVATE</span>
-                    </header>
-                    <div class="settings-panel-body">
-                        <p class="settings-help">These controls affect only the private admin panel. Changing them will never change the public fida.af website.</p>
-                        <div class="theme-options">
-                            @foreach($themes as $key => $theme)
-                                <label class="theme-option" style="--preview-bg: {{ $theme['background'] }}; --preview-soft: {{ $theme['background_soft'] }}; --preview-surface: {{ $theme['surface'] }}">
-                                    <input type="radio" name="admin_theme" value="{{ $key }}" @checked(old('admin_theme', $settings['admin_theme']) === $key)>
-                                    <span class="theme-visual"><i></i><i></i><i></i></span>
-                                    <span class="theme-copy"><b>{{ $theme['label'] }}</b><small>{{ $theme['description'] }}</small></span>
-                                    <em>✓</em>
-                                </label>
-                            @endforeach
-                        </div>
-                        <div class="palette-options admin-palette-options">
-                            @foreach($palettes as $key => $palette)
-                                <label class="palette-option">
-                                    <input type="radio" name="admin_palette" value="{{ $key }}" @checked(old('admin_palette', $settings['admin_palette']) === $key)>
-                                    <span class="palette-swatches"><i style="background:{{ $palette['primary'] }}"></i><i style="background:{{ $palette['secondary'] }}"></i><i style="background:{{ $palette['highlight'] }}"></i></span>
-                                    <span><b>{{ $palette['label'] }}</b><small>{{ $palette['description'] }}</small></span>
-                                    <em>✓</em>
-                                </label>
-                            @endforeach
-                            <label class="palette-option">
-                                <input type="radio" name="admin_palette" value="custom" @checked(old('admin_palette', $settings['admin_palette']) === 'custom')>
-                                <span class="palette-swatches custom"><i></i><i></i><i></i></span>
-                                <span><b>Custom admin palette</b><small>Private console accent colors.</small></span>
-                                <em>✓</em>
-                            </label>
-                        </div>
-                        <div class="custom-color-lab">
-                            <div><small>ADMIN COLORS</small><strong>Fine-tune the private console</strong></div>
-                            <label><span>Primary</span><input type="color" name="admin_primary_color" value="{{ old('admin_primary_color', $settings['admin_primary_color']) }}"><code>{{ old('admin_primary_color', $settings['admin_primary_color']) }}</code></label>
-                            <label><span>Secondary</span><input type="color" name="admin_secondary_color" value="{{ old('admin_secondary_color', $settings['admin_secondary_color']) }}"><code>{{ old('admin_secondary_color', $settings['admin_secondary_color']) }}</code></label>
-                            <label><span>Highlight</span><input type="color" name="admin_highlight_color" value="{{ old('admin_highlight_color', $settings['admin_highlight_color']) }}"><code>{{ old('admin_highlight_color', $settings['admin_highlight_color']) }}</code></label>
-                        </div>
-                    </div>
-                </section>
-
                 <section class="console-card settings-panel palette-panel">
                     <header>
                         <div><small>COLOR SYSTEM</small><h2>Select the energy</h2></div>
@@ -214,12 +172,13 @@
                             <select name="ai_provider" data-ai-provider>
                                 <option value="gemini" @selected(old('ai_provider', $aiSettings['provider']) === 'gemini')>Google Gemini</option>
                                 <option value="openrouter" @selected(old('ai_provider', $aiSettings['provider']) === 'openrouter')>OpenRouter</option>
+                                <option value="openai" @selected(old('ai_provider', $aiSettings['provider']) === 'openai')>OpenAI API</option>
                             </select>
                         </label>
                         <label>
                             <span>Model</span>
-                            <input name="ai_model" maxlength="120" value="{{ old('ai_model', $aiSettings['model']) }}" placeholder="gemini-3.8-flash" required>
-                            <small>Recommended starting point: Gemini 3.8 Flash. For OpenRouter you can use a free model ID or <code>openrouter/free</code>.</small>
+                            <input name="ai_model" maxlength="120" value="{{ old('ai_model', $aiSettings['model']) }}" placeholder="Leave blank for automatic low-cost selection" data-ai-model>
+                            <small data-ai-model-help>Leave blank to auto-select the recommended economical model for the chosen provider.</small>
                         </label>
                         <label>
                             <span>API key @if($aiSettings['has_api_key'])<b>Configured</b>@endif</span>
@@ -236,7 +195,7 @@
                         @endif
                         <div class="ai-provider-note">
                             <strong>Free option</strong>
-                            <p>Gemini has a developer free tier for supported models. OpenRouter is useful when you want one key for multiple free models, but its free plan has a lower daily request allowance.</p>
+                            <p>Leave Model blank for automatic selection. OpenAI defaults to <code>gpt-5.6-luna</code> with reasoning disabled for this structured advisor task; OpenRouter defaults to <code>openrouter/free</code>; Gemini uses the Flash default.</p>
                         </div>
                     </div>
                 </section>

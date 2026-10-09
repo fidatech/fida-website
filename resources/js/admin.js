@@ -364,3 +364,113 @@ if (!bootRichEditors()) {
         node.textContent = String.fromCodePoint(...Array.from(code).map((char) => 127397 + char.charCodeAt(0)));
     });
 })();
+
+
+/* Growth advisor provider defaults */
+(() => {
+    const provider = document.querySelector('[data-ai-provider]');
+    const model = document.querySelector('[data-ai-model]');
+    const help = document.querySelector('[data-ai-model-help]');
+    if (!provider || !model) return;
+
+    const defaults = {
+        gemini: ['gemini-3.8-flash', 'Leave blank to use Gemini 3.8 Flash.'],
+        openrouter: ['openrouter/free', 'Leave blank to use OpenRouter free routing.'],
+        openai: ['gpt-5.6-luna', 'Leave blank to use GPT-5.6 Luna, OpenAI’s cost-sensitive model, with reasoning disabled for this advisor task.'],
+    };
+
+    const sync = () => {
+        const current = defaults[provider.value] || defaults.gemini;
+        model.placeholder = 'Auto: ' + current[0];
+        if (help) help.textContent = current[1];
+    };
+
+    provider.addEventListener('change', sync);
+    sync();
+})();
+
+/* Instant admin appearance picker */
+(() => {
+    const menu = document.querySelector('[data-admin-theme-menu]');
+    if (!menu) return;
+
+    const toggle = menu.querySelector('[data-admin-theme-toggle]');
+    const themeButtons = [...menu.querySelectorAll('[data-admin-theme-choice]')];
+    const paletteButtons = [...menu.querySelectorAll('[data-admin-palette-choice]')];
+    const status = menu.querySelector('[data-admin-theme-status]');
+    const root = document.documentElement;
+    const csrf = document.querySelector('meta[name="csrf-token"]')?.content;
+    let theme = themeButtons.find((button) => button.classList.contains('active'))?.dataset.adminThemeChoice || 'midnight';
+    let palette = paletteButtons.find((button) => button.classList.contains('active'))?.dataset.adminPaletteChoice || 'fida';
+    let saveTimer;
+
+    const hexToRgb = (hex) => {
+        const clean = hex.replace('#', '');
+        return [0, 2, 4].map((offset) => parseInt(clean.slice(offset, offset + 2), 16)).join(',');
+    };
+
+    const applyTheme = (button) => {
+        root.style.setProperty('--admin-bg', button.dataset.bg);
+        root.style.setProperty('--admin-panel-soft', button.dataset.soft);
+        root.style.setProperty('--admin-panel', button.dataset.surface);
+    };
+
+    const applyPalette = (button) => {
+        root.style.setProperty('--admin-lime', button.dataset.primary);
+        root.style.setProperty('--admin-violet', button.dataset.secondary);
+        root.style.setProperty('--admin-cyan', button.dataset.highlight);
+        root.style.setProperty('--admin-accent-rgb', hexToRgb(button.dataset.primary));
+        root.style.setProperty('--admin-secondary-rgb', hexToRgb(button.dataset.secondary));
+        root.style.setProperty('--admin-highlight-rgb', hexToRgb(button.dataset.highlight));
+    };
+
+    const persist = () => {
+        window.clearTimeout(saveTimer);
+        saveTimer = window.setTimeout(async () => {
+            if (status) status.textContent = 'Saving…';
+            try {
+                const response = await fetch(menu.dataset.themeUrl, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': csrf || '',
+                    },
+                    body: JSON.stringify({ theme, palette }),
+                });
+                if (!response.ok) throw new Error('Save failed');
+                if (status) status.textContent = 'Saved automatically';
+            } catch {
+                if (status) status.textContent = 'Could not save — try again';
+            }
+        }, 120);
+    };
+
+    toggle?.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const open = !menu.classList.contains('open');
+        menu.classList.toggle('open', open);
+        toggle.setAttribute('aria-expanded', String(open));
+    });
+
+    themeButtons.forEach((button) => button.addEventListener('click', () => {
+        theme = button.dataset.adminThemeChoice;
+        themeButtons.forEach((item) => item.classList.toggle('active', item === button));
+        applyTheme(button);
+        persist();
+    }));
+
+    paletteButtons.forEach((button) => button.addEventListener('click', () => {
+        palette = button.dataset.adminPaletteChoice;
+        paletteButtons.forEach((item) => item.classList.toggle('active', item === button));
+        applyPalette(button);
+        persist();
+    }));
+
+    document.addEventListener('click', (event) => {
+        if (!menu.contains(event.target)) {
+            menu.classList.remove('open');
+            toggle?.setAttribute('aria-expanded', 'false');
+        }
+    });
+})();

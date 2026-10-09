@@ -79,9 +79,9 @@ return [
         ],
         'home' => [
             'primary_query' => [
-                'en' => 'software company in Afghanistan',
-                'fa' => 'شرکت نرم‌افزاری در افغانستان',
-                'ps' => 'په افغانستان کې د سافټویر شرکت',
+                'en' => 'enterprise technology company Afghanistan',
+                'fa' => 'شرکت تکنالوژی سازمانی افغانستان',
+                'ps' => 'د سازماني ټکنالوژۍ شرکت افغانستان',
             ],
             'search_intent' => 'commercial',
         ],

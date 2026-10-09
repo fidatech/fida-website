@@ -287,12 +287,22 @@ final class SeoSchema
             ],
             'knowsAbout' => config('website.expertise'),
             'contactPoint' => [
-                '@type' => 'ContactPoint',
-                'contactType' => 'sales',
-                'telephone' => config('website.phone'),
-                'email' => config('website.email'),
-                'areaServed' => config('website.address.country_code'),
-                'availableLanguage' => array_column(config('website.locales'), 'label'),
+                [
+                    '@type' => 'ContactPoint',
+                    'contactType' => 'sales',
+                    'telephone' => config('website.phone'),
+                    'email' => config('website.email'),
+                    'areaServed' => config('website.address.country_code'),
+                    'availableLanguage' => array_column(config('website.locales'), 'label'),
+                ],
+                [
+                    '@type' => 'ContactPoint',
+                    'contactType' => 'procurement',
+                    'telephone' => config('website.phone'),
+                    'email' => config('website.rfq_email', config('website.email')),
+                    'areaServed' => config('website.address.country_code'),
+                    'availableLanguage' => array_column(config('website.locales'), 'label'),
+                ],
             ],
         ];
 

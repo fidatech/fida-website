@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\AnalyticsController as AdminAnalyticsController;
 use App\Http\Controllers\Admin\ContentPageController as AdminContentPageController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\LeadController as AdminLeadController;
+use App\Http\Controllers\Admin\RfqController as AdminRfqController;
 use App\Http\Controllers\Admin\PageRedirectController as AdminPageRedirectController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\WebsiteSettingsController as AdminWebsiteSettingsController;
@@ -25,6 +26,7 @@ use App\Http\Controllers\LeadController;
 use App\Http\Controllers\LlmDiscoveryController;
 use App\Http\Controllers\MarketingPageController;
 use App\Http\Controllers\RobotsController;
+use App\Http\Controllers\RfqController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +45,10 @@ Route::get('/search', SearchController::class)->name('search');
 Route::post('/contact/lead', LeadController::class)
     ->middleware('throttle:5,1')
     ->name('leads.store');
+
+Route::post('/request-for-quotation', [RfqController::class, 'store'])
+    ->middleware('throttle:3,1')
+    ->name('rfqs.store');
 
 Route::post('/analytics/event', AnalyticsEventController::class)
     ->middleware('throttle:60,1')
@@ -142,6 +148,14 @@ Route::prefix('admin')->name('admin.')->group(function (): void {
         Route::resource('leads', AdminLeadController::class)
             ->only(['index', 'show', 'update'])
             ->middleware('capability:leads.manage');
+
+        Route::resource('rfqs', AdminRfqController::class)
+            ->only(['index', 'show', 'update'])
+            ->middleware('capability:leads.manage');
+        Route::get('/rfqs/{rfq}/attachments/{attachment}', [AdminRfqController::class, 'attachment'])
+            ->whereNumber('attachment')
+            ->middleware('capability:leads.manage')
+            ->name('rfqs.attachments.show');
 
         Route::resource('users', AdminUserController::class)
             ->except(['show', 'destroy'])

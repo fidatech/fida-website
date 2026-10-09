@@ -37,6 +37,7 @@ class MarketingPageController extends Controller
             ...array_keys(config('website.content_hubs')),
         ], true) ? $page->slug : null;
         $collectionPages = $this->collectionPages($hubLayout);
+        $portfolioBody = $hubLayout === 'products' ? $this->portfolioBody() : null;
         $relatedPages = $this->relatedPages($page);
         $articleCategories = $hubLayout === 'articles'
             ? ArticleCategory::active()
@@ -66,6 +67,7 @@ class MarketingPageController extends Controller
             'hubLayout' => $hubLayout,
             'archive' => $archive,
             'collectionPages' => $collectionPages,
+            'portfolioBody' => $portfolioBody,
             'articleCategories' => $articleCategories,
             'relatedPages' => $relatedPages,
             'structuredData' => SeoSchema::page($page, $seo['title'], $seo['description'], $seo['canonical'], $faqs, $archive),
@@ -141,6 +143,23 @@ class MarketingPageController extends Controller
                 fn (string $contentType): bool => $contentType !== 'page',
             )),
         };
+    }
+
+    private function portfolioBody(): ?string
+    {
+        $projects = ContentPage::published()->where('slug', 'projects')->first();
+        $html = trim((string) $projects?->translation('body'));
+
+        if ($html === '') {
+            return null;
+        }
+
+        foreach (config('website.portfolio_systems', []) as $system) {
+            $needle = '<li><strong>'.$system['name'].'</strong>';
+            $html = str_replace($needle, '<li id="system-'.$system['slug'].'"><strong>'.$system['name'].'</strong>', $html);
+        }
+
+        return $html;
     }
 
     private function collectionPages(?string $hubLayout): Collection

@@ -41,6 +41,7 @@ return [
     ],
     'analytics' => [
         'ga4_measurement_id' => env('GOOGLE_ANALYTICS_ID'),
+        'gtm_container_id' => env('GOOGLE_TAG_MANAGER_ID'),
         'require_consent' => env('ANALYTICS_REQUIRE_CONSENT', true),
     ],
     'lead_intents' => [

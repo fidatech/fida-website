@@ -342,8 +342,47 @@
                         </div>
                     @endif
                 </div>
-                <div class="footer-coordinate"><span class="footer-heading">LOCAL / GLOBAL</span><strong>34.5553° N<br>69.2075° E</strong></div>
+                <div class="footer-coordinate"><span class="footer-heading">LOCAL / GLOBAL</span><strong>34.5143° N<br>69.1841° E</strong></div>
             </div>
+            @php
+                $footerMapEmbedUrl = config('website.map_embed_url') ?: 'https://www.google.com/maps?q=34.5143264,69.1840542&z=17&output=embed';
+                $footerMapUrl = 'https://www.google.com/maps/search/?api=1&query=34.5143264%2C69.1840542';
+                $footerMapLabel = match ($locale) {
+                    'fa' => 'باز کردن موقعیت Fida Technologies در Google Maps',
+                    'ps' => 'د Fida Technologies موقعیت په Google Maps کې پرانیستل',
+                    default => 'Open Fida Technologies in Google Maps',
+                };
+            @endphp
+            <div class="footer-map">
+                <iframe
+                    src="{{ $footerMapEmbedUrl }}"
+                    width="100%"
+                    height="300"
+                    style="border:0;"
+                    loading="lazy"
+                    allowfullscreen
+                    referrerpolicy="no-referrer-when-downgrade"
+                    title="{{ $footerMapLabel }}"
+                    tabindex="-1"
+                    aria-hidden="true"
+                ></iframe>
+                <a
+                    class="footer-map-link"
+                    href="{{ $footerMapUrl }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="{{ $footerMapLabel }}"
+                >
+                    <span>
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M12 21s6-5.3 6-11a6 6 0 1 0-12 0c0 5.7 6 11 6 11Z"/>
+                            <circle cx="12" cy="10" r="2.2"/>
+                        </svg>
+                        {{ $footerMapLabel }}
+                    </span>
+                </a>
+            </div>
+
             <div class="footer-bottom">
                 <span>© {{ now()->year }} {{ config('website.name') }}. {{ __('website.footer.rights') }}</span>
                 <span>LARAVEL · SECURE · MULTILINGUAL</span>

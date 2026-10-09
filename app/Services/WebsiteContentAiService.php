@@ -29,9 +29,14 @@ class WebsiteContentAiService
         $setting = SiteSetting::query()->where('key', 'analytics.ai')->first();
         $value = is_array($setting?->value) ? $setting->value : [];
 
+        $provider = in_array(($value['provider'] ?? null), ['gemini', 'openrouter', 'openai'], true)
+            ? $value['provider']
+            : 'gemini';
+        $savedModel = trim((string) ($value['model'] ?? ''));
+
         return [
-            'provider' => in_array(($value['provider'] ?? null), ['gemini', 'openrouter'], true) ? $value['provider'] : 'gemini',
-            'model' => trim((string) ($value['model'] ?? 'gemini-3.8-flash')),
+            'provider' => $provider,
+            'model' => $savedModel !== '' ? $savedModel : $this->defaultModel($provider),
             'api_key' => $this->decryptKey($value['api_key'] ?? null),
         ];
     }
@@ -44,9 +49,11 @@ class WebsiteContentAiService
             throw new RuntimeException('Add an AI API key in Brand & settings first.');
         }
 
-        $raw = $config['provider'] === 'openrouter'
-            ? $this->openRouter($config, $prompt, $maxTokens)
-            : $this->gemini($config, $prompt, $maxTokens);
+        $raw = match ($config['provider']) {
+            'openrouter' => $this->openRouter($config, $prompt, $maxTokens),
+            'openai' => $this->openAi($config, $prompt, $maxTokens),
+            default => $this->gemini($config, $prompt, $maxTokens),
+        };
 
         $candidate = trim($raw);
         $first = strpos($candidate, '{');
@@ -126,6 +133,58 @@ class WebsiteContentAiService
         return $text;
     }
 
+    private function openAi(array $config, string $prompt, int $maxTokens): string
+    {
+        $response = Http::withToken($config['api_key'])
+            ->acceptJson()
+            ->asJson()
+            ->timeout(75)
+            ->retry(2, 900)
+            ->post('https://api.openai.com/v1/responses', [
+                'model' => $config['model'],
+                'input' => [
+                    [
+                        'role' => 'system',
+                        'content' => [[
+                            'type' => 'input_text',
+                            'text' => 'Return only valid JSON. Never invent clients, facts, numbers, certifications, laws, prices, dates, quotations, product capabilities or outcomes. Do not reveal chain-of-thought.',
+                        ]],
+                    ],
+                    [
+                        'role' => 'user',
+                        'content' => [[
+                            'type' => 'input_text',
+                            'text' => $prompt,
+                        ]],
+                    ],
+                ],
+                'reasoning' => ['effort' => 'none'],
+                'max_output_tokens' => $maxTokens,
+                'text' => ['format' => ['type' => 'json_object']],
+            ]);
+
+        if (! $response->successful()) {
+            throw new RuntimeException('OpenAI request failed: '.$response->status().' '.$response->json('error.message', 'Unknown API error'));
+        }
+
+        $text = $response->json('output.0.content.0.text');
+
+        if (! is_string($text) || trim($text) === '') {
+            throw new RuntimeException('OpenAI returned empty content.');
+        }
+
+        return $text;
+    }
+
+    private function defaultModel(string $provider): string
+    {
+        return match ($provider) {
+            'openai' => 'gpt-5.6-luna',
+            'openrouter' => 'openrouter/free',
+            default => 'gemini-3.8-flash',
+        };
+    }
+
     private function articlePrompt(array $context): string
     {
         return <<<'PROMPT'
@@ -134,13 +193,18 @@ You are the multilingual editorial engine for Fida Technologies, an Afghanistan-
 Create ONE useful, original article that can earn search visibility and help a real buyer. Never create a thin doorway page.
 
 Hard rules:
-- Use only the evidence/context supplied below.
-- Do not invent customer names, market-share claims, legal requirements, statistics, prices, awards or product capabilities.
-- Avoid a topic or primary search intent that already exists in EXISTING CONTENT.
-- Prefer a high-intent opportunity from SEARCH OPPORTUNITIES or the editorial themes supplied.
-- The article must be useful even if the reader never buys from Fida.
-- English, Dari and Pashto must be natural localized versions, not word-for-word translations.
+- Use only the evidence/context supplied below. If the context does not support a factual or current claim, omit it or list it under facts_to_verify.
+- Do not invent customer names, market-share claims, laws, regulations, statistics, prices, awards, certifications, dates, quotations, product capabilities or outcomes.
+- Do not create a page just to target a keyword variation, city variation, industry-name variation or near-duplicate search phrase.
+- Avoid a topic or primary search intent already covered by EXISTING CONTENT.
+- Prefer a real buyer question or decision from SEARCH OPPORTUNITIES or the editorial themes.
+- Add practical value: decision criteria, workflow guidance, trade-offs, implementation steps, risks, checklists or examples that are clearly generic.
+- The article must be useful even if the reader never buys from Fida. Keep promotional copy secondary to the answer.
+- Never claim first-hand experience, a client implementation, local market fact or government requirement unless that evidence is explicitly present in CONTEXT.
+- Do not stuff keywords or repeat "Afghanistan", "ERP", "system", "database" or similar terms unnaturally.
+- English, Dari and Pashto must be natural localized versions, not word-for-word translations. Do not leave English filler inside Dari/Pashto when a clear local term is available.
 - In Dari/Pashto, naturally use Afghan terminology where relevant: دیتابیس / ډیټابیس, گدام / ګدام, سیستم, سافټویر.
+- Give each language clear substantive sections with at least two h2 headings and at least one practical list where appropriate.
 - HTML allowed only: h2,h3,p,ul,ol,li,strong,em,a. Do not output scripts, styles, iframes, images or markdown.
 - Keep title under 70 characters when practical and meta description under 160 characters.
 - Return only JSON.
@@ -156,7 +220,13 @@ Required JSON:
   "meta_description":{"en":"","fa":"","ps":""},
   "primary_query":{"en":"","fa":"","ps":""},
   "related_slugs":["existing-slug","existing-slug"],
-  "editor_note":"one short sentence explaining why this topic was selected"
+  "editor_note":"one short sentence explaining why this topic was selected",
+  "quality":{
+    "publishable":true,
+    "distinctive_value":"what this article gives the reader that existing pages do not",
+    "facts_to_verify":["any statement a human editor should verify before publishing"],
+    "sources_needed":["source or internal evidence needed for any unresolved claim"]
+  }
 }
 
 CONTEXT:

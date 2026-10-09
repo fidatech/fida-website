@@ -7,8 +7,8 @@
     <section class="page-heading">
         <div>
             <small class="section-code">01 / EDITORIAL AUTOMATION</small>
-            <h1>Publish useful content on schedule.</h1>
-            <p>Use Search Console demand, existing website content and your editorial themes to generate English, Dari and Pashto articles without duplicating topics.</p>
+            <h1>Generate useful drafts on schedule.</h1>
+            <p>Use Search Console demand, existing website content and your editorial themes to create English, Dari and Pashto drafts. AI drafts never publish automatically; a human review gate protects quality and search compliance.</p>
         </div>
         <form method="POST" action="{{ route('admin.auto-articles.generate') }}">
             @csrf
@@ -20,7 +20,7 @@
         <div class="website-settings-main">
             <section class="console-card settings-panel">
                 <header>
-                    <div><small>AUTOMATION CONTROL</small><h2>Daily publishing</h2></div>
+                    <div><small>AUTOMATION CONTROL</small><h2>Daily draft generation</h2></div>
                     <span class="settings-state">{{ $settings['enabled'] ? 'ACTIVE' : 'PAUSED' }}</span>
                 </header>
                 <form class="settings-panel-body console-form" method="POST" action="{{ route('admin.auto-articles.update') }}">
@@ -32,10 +32,10 @@
                         <span>Enable daily article generation</span>
                     </label>
 
-                    <label class="checkbox-row">
-                        <input type="checkbox" name="auto_publish" value="1" @checked($settings['auto_publish'])>
-                        <span>Publish automatically after generation</span>
-                    </label>
+                    <div class="ai-provider-note">
+                        <strong>Human review is mandatory</strong>
+                        <p>Generated articles are saved as In review. Before publication, confirm usefulness/originality, verify factual and current claims, review Dari/Pashto localization, and record the responsible author and reviewer.</p>
+                    </div>
 
                     <div class="console-form two-columns">
                         <label>
@@ -81,7 +81,7 @@
                                     <td><a class="row-action" href="{{ route('admin.content-pages.edit', $page) }}">↗</a></td>
                                 </tr>
                             @empty
-                                <tr><td colspan="4"><div class="empty-state"><i>✦</i><strong>No automated articles yet</strong><p>Generate one now or let the daily schedule create the first article.</p></div></td></tr>
+                                <tr><td colspan="4"><div class="empty-state"><i>✦</i><strong>No automated articles yet</strong><p>Generate one now or let the daily schedule create the first review draft.</p></div></td></tr>
                             @endforelse
                         </tbody>
                     </table>
@@ -98,7 +98,7 @@
                 <div class="settings-panel-body console-form">
                     <div class="ai-provider-note">
                         <strong>{{ $aiConfigured ? 'AI provider is ready' : 'Connect an AI API key' }}</strong>
-                        <p>{{ $aiConfigured ? 'The article engine can generate multilingual content using your configured provider.' : 'Open Brand & settings and add a Gemini or OpenRouter API key before generating articles.' }}</p>
+                        <p>{{ $aiConfigured ? 'The article engine can generate multilingual drafts using your configured provider.' : 'Open Brand & settings and add a Gemini, OpenRouter or OpenAI API key before generating drafts.' }}</p>
                     </div>
                     @unless($aiConfigured)
                         <a class="console-button console-button-primary" href="{{ route('admin.settings.edit') }}">Open AI settings <span>↗</span></a>
@@ -111,7 +111,7 @@
                 <div class="settings-panel-body">
                     <div class="admin-fact-list">
                         <div><span>Last generated</span><strong>{{ $settings['last_generated_on'] ?: 'Never' }}</strong></div>
-                        <div><span>Publishing mode</span><strong>{{ $settings['auto_publish'] ? 'Auto publish' : 'Review first' }}</strong></div>
+                        <div><span>Publishing mode</span><strong>Human review required</strong></div>
                         <div><span>Daily time</span><strong>{{ $settings['daily_time'] }} Kabul</strong></div>
                     </div>
                     @if($settings['last_error'])

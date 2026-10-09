@@ -18,6 +18,19 @@ class ContentPageRequest extends FormRequest
     {
         $prepared = ['featured' => $this->boolean('featured')];
 
+        $contentPage = $this->route('contentPage');
+
+        if ((string) $this->input('type') === 'article'
+            && filter_var(data_get($contentPage?->metadata, 'automation.generated', false), FILTER_VALIDATE_BOOL)) {
+            $metadata = (array) $this->input('metadata', []);
+
+            foreach (['editorial_reviewed', 'fact_checked', 'translations_reviewed'] as $key) {
+                data_set($metadata, "automation.{$key}", $this->boolean("metadata.automation.{$key}"));
+            }
+
+            $prepared['metadata'] = $metadata;
+        }
+
         if ((string) $this->input('type') === 'case-study') {
             $metadata = (array) $this->input('metadata', []);
 
@@ -119,6 +132,10 @@ class ContentPageRequest extends FormRequest
             'metadata.product.features' => ['nullable', 'array', 'max:10'],
             'metadata.product.features.*' => ['nullable', 'array'],
             'metadata.product.features.*.*' => ['nullable', 'string', 'max:190'],
+            'metadata.automation' => ['nullable', 'array'],
+            'metadata.automation.editorial_reviewed' => ['nullable', 'boolean'],
+            'metadata.automation.fact_checked' => ['nullable', 'boolean'],
+            'metadata.automation.translations_reviewed' => ['nullable', 'boolean'],
             'metadata.case_study' => ['nullable', 'array'],
             'metadata.case_study.client_identity_confirmed' => ['nullable', 'boolean'],
             'metadata.case_study.publication_permission_recorded' => ['nullable', 'boolean'],
@@ -163,6 +180,73 @@ class ContentPageRequest extends FormRequest
                     $validator->errors()->add('metadata.related_slugs', 'A page cannot link to itself as related content.');
                 }
 
+                if ((string) $this->input('type') === 'article' && (string) $this->input('status') === 'published') {
+                    foreach (array_keys(config('website.locales')) as $locale) {
+                        foreach (['title', 'summary', 'body', 'meta_title', 'meta_description', 'primary_query'] as $field) {
+                            if (! $this->filled("{$field}.{$locale}")) {
+                                $validator->errors()->add(
+                                    "{$field}.{$locale}",
+                                    'Complete every article language before publication.',
+                                );
+                            }
+                        }
+
+                        $plainBody = trim(strip_tags((string) $this->input("body.{$locale}")));
+                        $minimumWords = $locale === 'en' ? 240 : 170;
+                        if ($this->wordCount($plainBody) < $minimumWords) {
+                            $validator->errors()->add(
+                                "body.{$locale}",
+                                'Expand this article with substantive guidance before publication; do not publish a thin search-targeting page.',
+                            );
+                        }
+                    }
+
+                    if (! $this->filled('reviewer_name') || ! $this->filled('reviewed_at')) {
+                        $validator->errors()->add('reviewer_name', 'Record the editorial reviewer and review date before publishing an article.');
+                    }
+
+                    if (! $this->filled('article_author_id') && ! $this->filled('author_name')) {
+                        $validator->errors()->add('author_name', 'Identify the responsible author or expert before publishing an article.');
+                    }
+
+                    $currentPage = $this->route('contentPage');
+                    $otherPages = ContentPage::query()
+                        ->where('status', 'published')
+                        ->when($currentPage, fn ($query) => $query->whereKeyNot($currentPage->getKey()))
+                        ->get(['slug', 'primary_query']);
+
+                    foreach (array_keys(config('website.locales')) as $locale) {
+                        $topic = $this->normalizeTopic((string) $this->input("primary_query.{$locale}"));
+                        if ($topic === '') {
+                            continue;
+                        }
+
+                        foreach ($otherPages as $otherPage) {
+                            $otherTopic = $this->normalizeTopic((string) data_get($otherPage->primary_query, $locale));
+                            if ($otherTopic !== '' && $otherTopic === $topic) {
+                                $validator->errors()->add(
+                                    "primary_query.{$locale}",
+                                    "This search topic is already covered by /{$otherPage->slug}. Strengthen the existing page or choose a genuinely different reader intent.",
+                                );
+                                break;
+                            }
+                        }
+                    }
+
+                    $generated = filter_var(data_get($currentPage?->metadata, 'automation.generated', false), FILTER_VALIDATE_BOOL);
+                    if ($generated) {
+                        foreach ([
+                            'editorial_reviewed' => 'Confirm that a human editor improved the draft for usefulness, originality and clarity.',
+                            'fact_checked' => 'Confirm that factual, product, market and current claims were checked against reliable evidence.',
+                            'translations_reviewed' => 'Confirm that the Dari and Pashto versions were reviewed as natural localized content.',
+                        ] as $key => $message) {
+                            if (! $this->boolean("metadata.automation.{$key}")) {
+                                $validator->errors()->add("metadata.automation.{$key}", $message);
+                            }
+                        }
+                    }
+                }
+
                 if ((string) $this->input('type') === 'case-study' && (string) $this->input('status') === 'published') {
                     foreach (ContentPage::CASE_STUDY_EVIDENCE_CHECKS as $key => $label) {
                         if (! $this->boolean("metadata.case_study.{$key}")) {
@@ -192,5 +276,18 @@ class ContentPageRequest extends FormRequest
                 }
             },
         ];
+    }
+
+    private function normalizeTopic(string $value): string
+    {
+        $value = mb_strtolower(trim(strip_tags($value)));
+        $value = preg_replace('/[^\p{L}\p{N}]+/u', ' ', $value) ?? $value;
+
+        return trim(preg_replace('/\s+/u', ' ', $value) ?? $value);
+    }
+
+    private function wordCount(string $value): int
+    {
+        return $value === '' ? 0 : count(preg_split('/\s+/u', trim($value), -1, PREG_SPLIT_NO_EMPTY) ?: []);
     }
 }

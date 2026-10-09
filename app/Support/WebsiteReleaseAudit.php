@@ -32,6 +32,7 @@ final class WebsiteReleaseAudit
         $publishedPages = $allPages->where('status', 'published')->values();
         $pagesBySlug = $allPages->keyBy('slug');
         $relatedLinks = 0;
+        $primaryTopics = collect();
 
         foreach ($publishedPages as $page) {
             if (! in_array($page->type, $configuredTypes, true)) {
@@ -58,6 +59,21 @@ final class WebsiteReleaseAudit
 
                 if ($primaryQuery === '') {
                     $this->add($findings, 'warning', 'missing-primary-query', $page->slug, strtoupper($locale).' primary search topic is not documented.');
+                } else {
+                    $normalizedTopic = $this->normalizeTopic($primaryQuery);
+                    if ($normalizedTopic !== '') {
+                        $primaryTopics->push([
+                            'locale' => $locale,
+                            'topic' => $normalizedTopic,
+                            'slug' => $page->slug,
+                        ]);
+                    }
+                }
+
+                $bodyWords = $this->wordCount(trim(strip_tags((string) data_get($page->body, $locale))));
+                $minimumWords = $page->type === 'article' ? ($locale === 'en' ? 240 : 170) : 100;
+                if ($bodyWords < $minimumWords) {
+                    $this->add($findings, 'warning', 'thin-visible-content', $page->slug, strtoupper($locale)." visible content is only {$bodyWords} words; review whether the page gives the user enough distinct value.");
                 }
 
                 $metaTitleLength = mb_strlen(trim((string) data_get($page->meta_title, $locale)));
@@ -109,6 +125,27 @@ final class WebsiteReleaseAudit
                 }
             }
 
+            if ($page->type === 'article' && ! $page->byline()) {
+                $this->add($findings, 'warning', 'missing-article-author', $page->slug, 'The article has no responsible public author or expert.');
+            }
+
+            if ($page->type === 'article' && (! filled($page->reviewer_name) || $page->reviewed_at === null)) {
+                $this->add($findings, 'warning', 'missing-article-review', $page->slug, 'The article has no recorded editorial reviewer and review date.');
+            }
+
+            if ($page->type === 'article'
+                && filter_var(data_get($page->metadata, 'automation.generated', false), FILTER_VALIDATE_BOOL)) {
+                foreach ([
+                    'editorial_reviewed' => 'human editorial review',
+                    'fact_checked' => 'factual review',
+                    'translations_reviewed' => 'multilingual review',
+                ] as $check => $label) {
+                    if (! filter_var(data_get($page->metadata, "automation.{$check}", false), FILTER_VALIDATE_BOOL)) {
+                        $this->add($findings, 'warning', 'unreviewed-ai-content', $page->slug, "Published AI-generated content is missing {$label} confirmation.");
+                    }
+                }
+            }
+
             if ($page->type === 'article' && $page->article_category_id && ! $page->articleCategory?->active) {
                 $this->add($findings, 'warning', 'inactive-article-category', $page->slug, 'The assigned article category is inactive.');
             }
@@ -117,6 +154,22 @@ final class WebsiteReleaseAudit
                 $this->add($findings, 'warning', 'inactive-article-author', $page->slug, 'The assigned article author is inactive.');
             }
         }
+
+        $primaryTopics
+            ->groupBy(fn (array $item): string => $item['locale'].'|'.$item['topic'])
+            ->filter(fn ($group) => $group->count() > 1)
+            ->each(function ($group) use (&$findings): void {
+                $slugs = $group->pluck('slug')->unique()->values()->all();
+                foreach ($slugs as $slug) {
+                    $this->add(
+                        $findings,
+                        'warning',
+                        'duplicate-primary-topic',
+                        $slug,
+                        'The same primary search topic is assigned to multiple published pages: '.implode(', ', array_map(fn ($item) => '/'.$item, $slugs)).'.',
+                    );
+                }
+            });
 
         foreach (ArticleCategory::active()->get() as $category) {
             foreach ($locales as $locale) {
@@ -293,6 +346,19 @@ final class WebsiteReleaseAudit
         }
 
         return $redirects->count();
+    }
+
+    private function normalizeTopic(string $value): string
+    {
+        $value = mb_strtolower(trim(strip_tags($value)));
+        $value = preg_replace('/[^\p{L}\p{N}]+/u', ' ', $value) ?? $value;
+
+        return trim(preg_replace('/\s+/u', ' ', $value) ?? $value);
+    }
+
+    private function wordCount(string $value): int
+    {
+        return $value === '' ? 0 : count(preg_split('/\s+/u', trim($value), -1, PREG_SPLIT_NO_EMPTY) ?: []);
     }
 
     private function add(array &$findings, string $severity, string $code, ?string $page, string $message): void

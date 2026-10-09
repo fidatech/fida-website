@@ -42,7 +42,42 @@
                         </div>
                     </div>
                 @endif
-                @if($selectedType === 'product')
+                @if($selectedType === 'article' && filter_var(data_get($contentPage->metadata, 'automation.generated', false), FILTER_VALIDATE_BOOL))
+            <section class="discovery-controls editorial-controls">
+                <div class="form-section-head"><span>QA</span><div><h2>AI draft publication review</h2><p>This article was generated with AI. These confirmations are required before it can be published and are reset if the approved copy changes later.</p></div></div>
+                @if(data_get($contentPage->metadata, 'automation.quality.distinctive_value'))
+                    <div class="ai-provider-note">
+                        <strong>Distinct reader value</strong>
+                        <p>{{ data_get($contentPage->metadata, 'automation.quality.distinctive_value') }}</p>
+                    </div>
+                @endif
+                @if((array) data_get($contentPage->metadata, 'automation.quality.facts_to_verify', []) !== [])
+                    <div class="ai-provider-note danger-note">
+                        <strong>Facts to verify</strong>
+                        <p>{{ implode(' · ', (array) data_get($contentPage->metadata, 'automation.quality.facts_to_verify', [])) }}</p>
+                    </div>
+                @endif
+                <div class="console-form">
+                    <label class="checkbox-row">
+                        <input type="hidden" name="metadata[automation][editorial_reviewed]" value="0">
+                        <input type="checkbox" name="metadata[automation][editorial_reviewed]" value="1" @checked(old('metadata.automation.editorial_reviewed', data_get($contentPage->metadata, 'automation.editorial_reviewed', false)))>
+                        <span>Human editor reviewed and improved this draft for usefulness, originality and clarity.</span>
+                    </label>
+                    <label class="checkbox-row">
+                        <input type="hidden" name="metadata[automation][fact_checked]" value="0">
+                        <input type="checkbox" name="metadata[automation][fact_checked]" value="1" @checked(old('metadata.automation.fact_checked', data_get($contentPage->metadata, 'automation.fact_checked', false)))>
+                        <span>Factual, product, market and time-sensitive claims were checked against reliable evidence.</span>
+                    </label>
+                    <label class="checkbox-row">
+                        <input type="hidden" name="metadata[automation][translations_reviewed]" value="0">
+                        <input type="checkbox" name="metadata[automation][translations_reviewed]" value="1" @checked(old('metadata.automation.translations_reviewed', data_get($contentPage->metadata, 'automation.translations_reviewed', false)))>
+                        <span>Dari and Pashto were reviewed as natural localized content, not literal machine translations.</span>
+                    </label>
+                </div>
+            </section>
+        @endif
+
+        @if($selectedType === 'product')
                     <div class="seo-box content-profile-box">
                         <header><span>SYS</span><div><h3>Product profile</h3><p>Confirmed platform facts and capability labels for the product detail page.</p></div></header>
                         <div class="console-form two-columns">

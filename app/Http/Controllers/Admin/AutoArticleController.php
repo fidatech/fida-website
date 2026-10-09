@@ -35,7 +35,6 @@ class AutoArticleController extends Controller
     {
         $validated = $request->validate([
             'enabled' => ['nullable', 'boolean'],
-            'auto_publish' => ['nullable', 'boolean'],
             'daily_time' => ['required', 'date_format:H:i'],
             'category_id' => ['nullable', 'exists:article_categories,id'],
             'themes' => ['required', 'string', 'max:3000'],
@@ -44,7 +43,6 @@ class AutoArticleController extends Controller
         $automation->saveSettings([
             ...$validated,
             'enabled' => $request->boolean('enabled'),
-            'auto_publish' => $request->boolean('auto_publish'),
         ]);
 
         return back()->with('success', 'Article automation settings updated.');
@@ -56,7 +54,7 @@ class AutoArticleController extends Controller
             $page = $automation->generate($ai, true);
 
             return redirect()->route('admin.content-pages.edit', $page)
-                ->with('success', 'AI article generated. Review the multilingual draft before publishing.');
+                ->with('success', 'AI article draft generated. Complete factual, editorial and multilingual review before publishing.');
         } catch (Throwable $exception) {
             report($exception);
 

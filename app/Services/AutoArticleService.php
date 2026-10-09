@@ -6,7 +6,6 @@ use App\Models\ArticleCategory;
 use App\Models\ContentPage;
 use App\Models\SearchConsoleMetric;
 use App\Models\SiteSetting;
-use App\Support\DiscoveryPublisher;
 use Illuminate\Support\Str;
 use RuntimeException;
 
@@ -20,7 +19,7 @@ class AutoArticleService
 
         return [
             'enabled' => (bool) ($value['enabled'] ?? true),
-            'auto_publish' => (bool) ($value['auto_publish'] ?? true),
+            'auto_publish' => false,
             'daily_time' => preg_match('/^\d{2}:\d{2}$/', $dailyTime) ? $dailyTime : '09:00',
             'timezone' => (string) ($value['timezone'] ?? 'Asia/Kabul'),
             'category_id' => isset($value['category_id']) ? (int) $value['category_id'] : null,
@@ -41,7 +40,7 @@ class AutoArticleService
                 'group' => 'content',
                 'value' => [
                     'enabled' => (bool) ($data['enabled'] ?? false),
-                    'auto_publish' => (bool) ($data['auto_publish'] ?? false),
+                    'auto_publish' => false,
                     'daily_time' => $data['daily_time'] ?? $current['daily_time'],
                     'timezone' => 'Asia/Kabul',
                     'category_id' => $data['category_id'] ?? $current['category_id'],
@@ -99,8 +98,8 @@ class AutoArticleService
             ->map(fn (ContentPage $page) => [
                 'slug' => $page->slug,
                 'type' => $page->type,
-                'title' => $page->translation('title', 'en'),
-                'primary_query' => $page->primaryQuery('en'),
+                'title' => (array) $page->title,
+                'primary_query' => (array) $page->primary_query,
             ])->values()->all();
 
         try {
@@ -110,6 +109,8 @@ class AutoArticleService
                 'search_opportunities' => $searchOpportunities,
                 'existing_content' => $existing,
             ]);
+
+            $this->validateGeneratedArticle($generated, $existing);
 
             $slug = Str::slug((string) ($generated['slug'] ?? ''));
             if ($slug === '' || ContentPage::query()->where('slug', $slug)->exists()) {
@@ -148,17 +149,22 @@ class AutoArticleService
                         'generated' => true,
                         'editor_note' => mb_substr(strip_tags((string) ($generated['editor_note'] ?? '')), 0, 500),
                         'generated_at' => now()->toIso8601String(),
+                        'editorial_reviewed' => false,
+                        'fact_checked' => false,
+                        'translations_reviewed' => false,
+                        'reviewed_content_hash' => null,
+                        'quality' => [
+                            'distinctive_value' => mb_substr(strip_tags((string) data_get($generated, 'quality.distinctive_value', '')), 0, 1000),
+                            'facts_to_verify' => collect(data_get($generated, 'quality.facts_to_verify', []))->map(fn ($item) => mb_substr(strip_tags((string) $item), 0, 500))->filter()->take(12)->values()->all(),
+                            'sources_needed' => collect(data_get($generated, 'quality.sources_needed', []))->map(fn ($item) => mb_substr(strip_tags((string) $item), 0, 500))->filter()->take(12)->values()->all(),
+                        ],
                     ],
                 ],
-                'status' => $settings['auto_publish'] ? 'published' : 'review',
+                'status' => 'review',
                 'featured' => false,
                 'sort_order' => 1300,
-                'published_at' => $settings['auto_publish'] ? now() : null,
+                'published_at' => null,
             ]);
-
-            if ($page->status === 'published') {
-                app(DiscoveryPublisher::class)->schedule($page);
-            }
 
             $this->recordResult($page, null);
 
@@ -167,6 +173,64 @@ class AutoArticleService
             $this->recordResult(null, $exception->getMessage());
             throw $exception;
         }
+    }
+
+    private function validateGeneratedArticle(array $generated, array $existing): void
+    {
+        if (data_get($generated, 'quality.publishable') !== true) {
+            throw new RuntimeException('The AI could not produce a draft that passed the people-first quality check. Try a stronger topic or add better source context.');
+        }
+
+        $distinctiveValue = trim(strip_tags((string) data_get($generated, 'quality.distinctive_value', '')));
+        if (mb_strlen($distinctiveValue) < 40) {
+            throw new RuntimeException('The generated draft does not explain what unique value it adds for the reader.');
+        }
+
+        $required = ['title', 'summary', 'body', 'meta_title', 'meta_description', 'primary_query'];
+        $minimumWords = ['en' => 280, 'fa' => 200, 'ps' => 200];
+
+        foreach (['en', 'fa', 'ps'] as $locale) {
+            foreach ($required as $field) {
+                if (trim(strip_tags((string) data_get($generated, "{$field}.{$locale}", ''))) === '') {
+                    throw new RuntimeException("The generated article is incomplete: {$field}.{$locale} is missing.");
+                }
+            }
+
+            $body = (string) data_get($generated, "body.{$locale}", '');
+            if ($this->wordCount(strip_tags($body)) < $minimumWords[$locale]) {
+                throw new RuntimeException("The generated {$locale} article is too thin for editorial review.");
+            }
+
+            if (substr_count(mb_strtolower($body), '<h2') < 2) {
+                throw new RuntimeException("The generated {$locale} article needs clearer substantive sections.");
+            }
+        }
+
+        $existingQueries = collect($existing)
+            ->flatMap(fn (array $page) => array_values((array) ($page['primary_query'] ?? [])))
+            ->map(fn ($query) => $this->normalizeTopic((string) $query))
+            ->filter()
+            ->unique();
+
+        foreach ((array) ($generated['primary_query'] ?? []) as $query) {
+            $normalized = $this->normalizeTopic((string) $query);
+            if ($normalized !== '' && $existingQueries->contains($normalized)) {
+                throw new RuntimeException('The AI selected a primary search topic already covered by existing website content.');
+            }
+        }
+    }
+
+    private function normalizeTopic(string $value): string
+    {
+        $value = mb_strtolower(trim(strip_tags($value)));
+        $value = preg_replace('/[^\p{L}\p{N}]+/u', ' ', $value) ?? $value;
+
+        return trim(preg_replace('/\s+/u', ' ', $value) ?? $value);
+    }
+
+    private function wordCount(string $value): int
+    {
+        return $value === '' ? 0 : count(preg_split('/\s+/u', trim($value), -1, PREG_SPLIT_NO_EMPTY) ?: []);
     }
 
     private function recordResult(?ContentPage $page, ?string $error): void

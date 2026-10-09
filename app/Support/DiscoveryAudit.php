@@ -23,7 +23,8 @@ final class DiscoveryAudit
             $checks[] = $this->check("{$locale}:summary", mb_strlen($summary) >= 60, strtoupper($locale).' has a direct, useful summary.');
             $checks[] = $this->check("{$locale}:meta-title", mb_strlen($metaTitle) >= 25 && mb_strlen($metaTitle) <= 70, strtoupper($locale).' meta title is within the practical review range.');
             $checks[] = $this->check("{$locale}:meta-description", mb_strlen($metaDescription) >= 70 && mb_strlen($metaDescription) <= 180, strtoupper($locale).' meta description is within the practical review range.');
-            $checks[] = $this->check("{$locale}:body", $this->wordCount($body) >= 80, strtoupper($locale).' contains substantial visible content.');
+            $minimumBodyWords = $page->type === 'article' ? ($locale === 'en' ? 240 : 170) : 100;
+            $checks[] = $this->check("{$locale}:body", $this->wordCount($body) >= $minimumBodyWords, strtoupper($locale).' contains enough substantive visible content for editorial review.');
         }
 
         $checks[] = $this->check('intent', filled($page->search_intent), 'Search intent is documented.');
@@ -38,6 +39,25 @@ final class DiscoveryAudit
         if (in_array($page->type, ['article', 'case-study'], true)) {
             $checks[] = $this->check('author', filled($page->author_name), 'The responsible author is identified.');
             $checks[] = $this->check('review', filled($page->reviewer_name) && $page->reviewed_at !== null, 'Editorial review is recorded.');
+        }
+
+        if ($page->type === 'article'
+            && filter_var(data_get($page->metadata, 'automation.generated', false), FILTER_VALIDATE_BOOL)) {
+            $checks[] = $this->check(
+                'automation:editorial-review',
+                filter_var(data_get($page->metadata, 'automation.editorial_reviewed', false), FILTER_VALIDATE_BOOL),
+                'A human editor reviewed the AI draft for usefulness and originality.',
+            );
+            $checks[] = $this->check(
+                'automation:fact-check',
+                filter_var(data_get($page->metadata, 'automation.fact_checked', false), FILTER_VALIDATE_BOOL),
+                'Factual and current claims were checked against reliable evidence.',
+            );
+            $checks[] = $this->check(
+                'automation:translation-review',
+                filter_var(data_get($page->metadata, 'automation.translations_reviewed', false), FILTER_VALIDATE_BOOL),
+                'Dari and Pashto were reviewed as natural localized content.',
+            );
         }
 
         if (($caseStudyReadiness = $page->caseStudyReadiness()) !== null) {

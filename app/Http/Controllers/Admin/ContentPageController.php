@@ -120,7 +120,7 @@ class ContentPageController extends Controller
             ->values()
             ->all();
 
-        $metadata = array_replace($existingMetadata, $submittedMetadata);
+        $metadata = array_replace_recursive($existingMetadata, $submittedMetadata);
         $metadata['faqs'] = $faqs;
         $metadata['related_slugs'] = collect(data_get($submittedMetadata, 'related_slugs', []))
             ->map(fn (mixed $slug): string => trim((string) $slug))
@@ -166,6 +166,32 @@ class ContentPageController extends Controller
                 'status' => $this->cleanTranslations((array) data_get($product, 'status', [])),
                 'features' => $this->cleanLocalizedList((array) data_get($product, 'features', [])),
             ];
+        }
+
+        if ($data['type'] === 'article'
+            && filter_var(data_get($existingMetadata, 'automation.generated', false), FILTER_VALIDATE_BOOL)) {
+            $automation = (array) data_get($metadata, 'automation', []);
+            foreach (['editorial_reviewed', 'fact_checked', 'translations_reviewed'] as $key) {
+                $automation[$key] = filter_var(data_get($automation, $key, false), FILTER_VALIDATE_BOOL);
+            }
+
+            $previousHash = trim((string) data_get($existingMetadata, 'automation.reviewed_content_hash'));
+            $currentHash = $this->articleContentHash($data, $metadata);
+            if ($previousHash !== '' && ! hash_equals($previousHash, $currentHash)) {
+                $automation['editorial_reviewed'] = false;
+                $automation['fact_checked'] = false;
+                $automation['translations_reviewed'] = false;
+                $automation['reviewed_content_hash'] = null;
+                $data['status'] = 'review';
+                $data['published_at'] = null;
+            } elseif ($data['status'] === 'published'
+                && $automation['editorial_reviewed']
+                && $automation['fact_checked']
+                && $automation['translations_reviewed']) {
+                $automation['reviewed_content_hash'] = $currentHash;
+            }
+
+            $metadata['automation'] = $automation;
         }
 
         if ($data['type'] === 'case-study') {
@@ -239,6 +265,28 @@ class ContentPageController extends Controller
             ->filter()
             ->values()
             ->all();
+    }
+
+    private function articleContentHash(array $data, array $metadata): string
+    {
+        $publicContent = collect([
+            'title',
+            'eyebrow',
+            'summary',
+            'body',
+            'meta_title',
+            'meta_description',
+            'primary_query',
+            'social_image_url',
+            'author_name',
+            'reviewer_name',
+            'reviewed_at',
+        ])->mapWithKeys(fn (string $field): array => [$field => $data[$field] ?? null])->all();
+        $publicContent['faqs'] = data_get($metadata, 'faqs', []);
+        $publicContent['cta'] = data_get($metadata, 'cta', []);
+        $publicContent['related_slugs'] = data_get($metadata, 'related_slugs', []);
+
+        return hash('sha256', json_encode($publicContent, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
     }
 
     private function caseStudyContentHash(array $data, array $metadata): string

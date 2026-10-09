@@ -163,6 +163,8 @@
                             <span class="nav-cluster-heading">{{ __('website.nav.projects') }}</span>
                             <a class="nav-cluster-overview" href="{{ \App\Support\LocalizedUrl::path('/projects') }}">{{ __('website.nav.projects') }}<small>↗</small></a>
                             <a href="{{ \App\Support\LocalizedUrl::path('/case-studies') }}">{{ __('website.nav.case_studies') }}<small>↗</small></a>
+                            <a href="{{ \App\Support\LocalizedUrl::path('/projects') }}#project-real-estate-company-website-platform">Real Estate Company Website<small>↗</small></a>
+                            <a href="{{ \App\Support\LocalizedUrl::path('/projects') }}#project-technology-company-website-platform">Technology Company Website<small>↗</small></a>
                         </section>
                         <section>
                             <span class="nav-cluster-heading">{{ __('website.nav.products') }}</span>
@@ -171,7 +173,7 @@
                                 <a href="{{ \App\Support\LocalizedUrl::path('/'.$navPage->slug) }}">{{ $navPage->translation('title') }}<small>↗</small></a>
                             @endforeach
                             @foreach(config('website.portfolio_systems', []) as $system)
-                                <a href="{{ \App\Support\LocalizedUrl::path('/products') }}#system-{{ $system['slug'] }}">{{ $system['name'] }}<small>↗</small></a>
+                                <a href="{{ \App\Support\LocalizedUrl::path('/products') }}#system-{{ $system['slug'] }}">{{ $system['label'] ?? $system['name'] }}<small>↗</small></a>
                             @endforeach
                         </section>
                     </div>
@@ -256,9 +258,11 @@
                 <summary>{{ __('website.nav.products') }}<i>+</i></summary>
                 <div>
                     <a href="{{ \App\Support\LocalizedUrl::path('/case-studies') }}">{{ __('website.nav.case_studies') }}</a>
+                    <a href="{{ \App\Support\LocalizedUrl::path('/projects') }}#project-real-estate-company-website-platform">Real Estate Company Website</a>
+                    <a href="{{ \App\Support\LocalizedUrl::path('/projects') }}#project-technology-company-website-platform">Technology Company Website</a>
                     <a href="{{ \App\Support\LocalizedUrl::path('/products') }}">{{ __('website.nav.all_products') }}</a>
                     @foreach($navProducts as $navPage)<a href="{{ \App\Support\LocalizedUrl::path('/'.$navPage->slug) }}">{{ $navPage->translation('title') }}</a>@endforeach
-                    @foreach(config('website.portfolio_systems', []) as $system)<a href="{{ \App\Support\LocalizedUrl::path('/products') }}#system-{{ $system['slug'] }}">{{ $system['name'] }}</a>@endforeach
+                    @foreach(config('website.portfolio_systems', []) as $system)<a href="{{ \App\Support\LocalizedUrl::path('/products') }}#system-{{ $system['slug'] }}">{{ $system['label'] ?? $system['name'] }}</a>@endforeach
                 </div>
             </details>
             <details class="mobile-nav-group">

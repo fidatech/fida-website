@@ -703,7 +703,12 @@ class MarketingWebsiteTest extends TestCase
             ->assertSee('<li id="system-petromin-erp">', false)
             ->assertSee('<li id="system-contentos">', false)
             ->assertSee('/products#system-petromin-erp')
-            ->assertSee('Darmal Pharmacy');
+            ->assertSee('Darmal — Pharmacy &amp; Pharmaceutical ERP', false)
+            ->assertSee('Ograyi — Account Manager (Mobile App)')
+            ->assertSee('Prime Sarafi — Sarafi Management System')
+            ->assertSee('Realist ERP — Real Estate Management System')
+            ->assertDontSee('<li id="system-real-estate-company-website-platform">', false)
+            ->assertDontSee('<li id="system-technology-company-website-platform">', false);
 
         $this->get('/fa/products')
             ->assertOk()
@@ -714,6 +719,11 @@ class MarketingWebsiteTest extends TestCase
             ->assertOk()
             ->assertSee('سکتوري سیسټمونه')
             ->assertSee('<li id="system-tailor-shop-management-system">', false);
+
+        $this->get('/projects')
+            ->assertOk()
+            ->assertSee('<li id="project-real-estate-company-website-platform">', false)
+            ->assertSee('<li id="project-technology-company-website-platform">', false);
     }
 
     public function test_sitemap_contains_seeded_pages_and_localized_alternates(): void
@@ -808,7 +818,7 @@ class MarketingWebsiteTest extends TestCase
 
         $this->get('/realist-real-estate-erp')
             ->assertOk()
-            ->assertSee('<h1>Realist ERP for Real Estate &amp; Construction</h1>', false)
+            ->assertSee('<h1>Realist ERP — Real Estate Management System</h1>', false)
             ->assertSee('Property inventory')
             ->assertSee('Project-based implementation')
             ->assertSee('"@type":"SoftwareApplication"', false)
@@ -817,7 +827,7 @@ class MarketingWebsiteTest extends TestCase
         $this->get('/fa/prime-sarafi-software')
             ->assertOk()
             ->assertSee('<html lang="fa" dir="rtl"', false)
-            ->assertSee('نرم‌افزار مدیریت صرافی و حواله Prime')
+            ->assertSee('Prime Sarafi — سیستم مدیریت صرافی')
             ->assertSee('پلتفرم صرافی و حواله');
     }
 
@@ -1090,10 +1100,10 @@ class MarketingWebsiteTest extends TestCase
 
         $this->get('/projects')
             ->assertOk()
-            ->assertSee('Realist ERP for Real Estate &amp; Construction', false)
-            ->assertSee('Prime Sarafi &amp; Remittance Management Software', false)
-            ->assertSee('Darmal Pharmacy &amp; Pharmaceutical ERP', false)
-            ->assertSee('OGRAYI Mobile Credit &amp; Debit Account Manager', false)
+            ->assertSee('Realist ERP — Real Estate Management System', false)
+            ->assertSee('Prime Sarafi — Sarafi Management System', false)
+            ->assertSee('Darmal — Pharmacy &amp; Pharmaceutical ERP', false)
+            ->assertSee('Ograyi — Account Manager (Mobile App)', false)
             ->assertDontSee('publication draft');
     }
 
@@ -1110,7 +1120,7 @@ class MarketingWebsiteTest extends TestCase
         $this->get('/products')
             ->assertOk()
             ->assertSee('Fida Software Products')
-            ->assertSee('Realist ERP for Real Estate &amp; Construction', false);
+            ->assertSee('Realist ERP — Real Estate Management System', false);
 
         $this->get('/industries')
             ->assertOk()

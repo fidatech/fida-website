@@ -68,12 +68,13 @@ return [
         'learn_more' => 'Learn more',
     ],
     'products' => [
-        'realist' => ['name' => 'Realist ERP', 'description' => 'Property sales, construction, contracts, payments and accounting in one platform.'],
-        'prime' => ['name' => 'Prime Sarafi', 'description' => 'Currency exchange, remittance, multi-currency accounting and controlled operations.'],
-        'darmal' => ['name' => 'Darmal ERP', 'description' => 'Pharmacy and pharmaceutical operations from purchasing to expiry-aware inventory.'],
-        'ograyi' => ['name' => 'OGRAYI', 'description' => 'Simple mobile credit, debit and relationship-based account management.'],
+        'realist' => ['name' => 'Realist ERP — Real Estate Management System', 'description' => 'Property sales, construction, contracts, payments and accounting in one platform.'],
+        'prime' => ['name' => 'Prime Sarafi — Sarafi Management System', 'description' => 'Currency exchange, remittance, multi-currency accounting and controlled operations.'],
+        'darmal' => ['name' => 'Darmal — Pharmacy & Pharmaceutical ERP', 'description' => 'Pharmacy and pharmaceutical operations from purchasing to expiry-aware inventory.'],
+        'ograyi' => ['name' => 'Ograyi — Account Manager (Mobile App)', 'description' => 'Simple mobile credit, debit and relationship-based account management.'],
         'view' => 'View solution',
     ],
+    'products_catalog' => ['title' => 'Other reusable systems', 'description' => 'These systems can be adapted for another customer. Confirm the current release, modules and implementation scope before ordering.'],
     'industries' => [
         'real_estate' => 'Real estate', 'finance' => 'Finance & Sarafi', 'logistics' => 'Transport & logistics',
         'pharmacy' => 'Pharmacy & medicine', 'construction' => 'Construction', 'retail' => 'Wholesale & retail',

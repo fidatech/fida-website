@@ -38,6 +38,7 @@ class MarketingPageController extends Controller
         ], true) ? $page->slug : null;
         $collectionPages = $this->collectionPages($hubLayout);
         $portfolioBody = $hubLayout === 'products' ? $this->portfolioBody() : null;
+        $projectBody = $hubLayout === 'projects' ? $this->projectBody() : null;
         $relatedPages = $this->relatedPages($page);
         $articleCategories = $hubLayout === 'articles'
             ? ArticleCategory::active()
@@ -68,6 +69,7 @@ class MarketingPageController extends Controller
             'archive' => $archive,
             'collectionPages' => $collectionPages,
             'portfolioBody' => $portfolioBody,
+            'projectBody' => $projectBody,
             'articleCategories' => $articleCategories,
             'relatedPages' => $relatedPages,
             'structuredData' => SeoSchema::page($page, $seo['title'], $seo['description'], $seo['canonical'], $faqs, $archive),
@@ -154,12 +156,63 @@ class MarketingPageController extends Controller
             return null;
         }
 
-        foreach (config('website.portfolio_systems', []) as $system) {
-            $needle = '<li><strong>'.$system['name'].'</strong>';
-            $html = str_replace($needle, '<li id="system-'.$system['slug'].'"><strong>'.$system['name'].'</strong>', $html);
+        // The four detailed product profiles already appear above the catalogue.
+        // Bespoke company websites belong to the Projects hub.
+        $exclude = [
+            'Realist ERP', 'Prime Sarafi', 'Darmal ERP', 'OGRAYI',
+            'Real Estate Company Website Platform', 'Technology Company Website Platform',
+        ];
+
+        foreach ($exclude as $name) {
+            $html = preg_replace(
+                '/<li><strong>'.preg_quote($name, '/').'<\/strong>.*?<\/li>/s',
+                '',
+                $html
+            ) ?? $html;
         }
 
+        foreach (config('website.portfolio_systems', []) as $system) {
+            $needle = '<li><strong>'.$system['name'].'</strong>';
+            $label = e($system['label'] ?? $system['name']);
+            $html = str_replace($needle, '<li id="system-'.$system['slug'].'"><strong>'.$label.'</strong>', $html);
+        }
+
+        $html = preg_replace('/<h2>(?:Portfolio policy|سیاست پورتفولیو|د پورټفولیو تګلاره)<\/h2><p>.*?<\/p>/s', '', $html) ?? $html;
+
         return $html;
+    }
+
+    private function projectBody(): ?string
+    {
+        $projects = ContentPage::published()->where('slug', 'projects')->first();
+        $source = trim((string) $projects?->translation('body'));
+
+        if ($source === '') {
+            return null;
+        }
+
+        $items = [];
+
+        foreach ([
+            'real-estate-company-website-platform' => 'Real Estate Company Website Platform',
+            'technology-company-website-platform' => 'Technology Company Website Platform',
+        ] as $slug => $name) {
+            if (preg_match('/<li><strong>'.preg_quote($name, '/').'<\/strong>.*?<\/li>/s', $source, $match)) {
+                $items[] = str_replace('<li>', '<li id="project-'.$slug.'">', $match[0]);
+            }
+        }
+
+        if ($items === []) {
+            return null;
+        }
+
+        $heading = match (app()->getLocale()) {
+            'fa' => 'پروژه‌های وب‌سایت شرکتی',
+            'ps' => 'د شرکتونو د وېب‌سایټ پروژې',
+            default => 'Company website projects',
+        };
+
+        return '<h2>'.e($heading).'</h2><ul>'.implode('', $items).'</ul>';
     }
 
     private function collectionPages(?string $hubLayout): Collection

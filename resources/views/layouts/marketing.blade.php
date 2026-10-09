@@ -318,6 +318,10 @@
                     <a href="{{ \App\Support\LocalizedUrl::path('/erp-systems-afghanistan') }}">ERP Systems</a>
                     <a href="{{ \App\Support\LocalizedUrl::path('/custom-software-development-afghanistan') }}">Custom Software</a>
                     <a href="{{ \App\Support\LocalizedUrl::path('/mobile-app-development-afghanistan') }}">Mobile Apps</a>
+                    <a href="{{ \App\Support\LocalizedUrl::path('/data-center-it-infrastructure-afghanistan') }}">Data Center & IT Infrastructure</a>
+                    <a href="{{ \App\Support\LocalizedUrl::path('/network-engineering-operations-afghanistan') }}">Network Engineering</a>
+                    <a href="{{ \App\Support\LocalizedUrl::path('/enterprise-hardware-technology-supply-afghanistan') }}">Enterprise Hardware Supply</a>
+                    <a href="{{ \App\Support\LocalizedUrl::path('/request-for-quotation') }}">RFQ / RFP Submission</a>
                     <a href="{{ \App\Support\LocalizedUrl::path('/technology-company-afghanistan') }}">Technology Company</a>
                 </div>
                 <div>

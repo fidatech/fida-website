@@ -1375,7 +1375,7 @@ class MarketingWebsiteTest extends TestCase
             ->assertOk()
             ->assertSee('"@type":"Organization"', false)
             ->assertSee('"@type":"WebSite"', false)
-            ->assertSee('"name":"software company in Afghanistan"', false)
+            ->assertSee('"name":"enterprise technology company Afghanistan"', false)
             ->assertSee('"knowsAbout"', false);
     }
 

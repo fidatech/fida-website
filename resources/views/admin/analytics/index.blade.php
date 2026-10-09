@@ -218,7 +218,7 @@
     <section class="analytics-section analytics-section-clean">
         <header class="analytics-section-head">
             <div>
-                <small>GOOGLE SEARCH CONSOLE</small>
+                <small>Google Search Console</small>
                 <h2>Search visibility</h2>
                 <p>Search demand is kept separate from website traffic so rankings, impressions and clicks stay easy to understand.</p>
             </div>

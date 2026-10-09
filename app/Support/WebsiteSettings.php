@@ -14,6 +14,8 @@ class WebsiteSettings
 
     public const APPEARANCE_KEY = 'website.appearance';
 
+    public const ADMIN_APPEARANCE_KEY = 'admin.appearance';
+
     /** @var array<string, array<string, mixed>>|null */
     private ?array $stored = null;
 
@@ -31,6 +33,18 @@ class WebsiteSettings
                 'highlight' => $form['highlight_color'],
             ]
             : config("website.appearance.palettes.{$form['palette']}");
+
+        $adminTheme = config("website.appearance.themes.{$form['admin_theme']}");
+        $adminPalette = $form['admin_palette'] === 'custom'
+            ? [
+                'label' => 'Custom admin',
+                'description' => 'Administrator-defined console colors.',
+                'primary' => $form['admin_primary_color'],
+                'primary_soft' => $this->mixWithWhite($form['admin_primary_color'], .58),
+                'secondary' => $form['admin_secondary_color'],
+                'highlight' => $form['admin_highlight_color'],
+            ]
+            : config("website.appearance.palettes.{$form['admin_palette']}");
 
         config([
             'website.name' => $form['company_name'],
@@ -56,6 +70,15 @@ class WebsiteSettings
                 'secondary' => $this->hexToRgb($palette['secondary']),
                 'highlight' => $this->hexToRgb($palette['highlight']),
             ],
+            'website.admin_appearance.current_theme' => $form['admin_theme'],
+            'website.admin_appearance.current_palette' => $form['admin_palette'],
+            'website.admin_appearance.current_theme_values' => $adminTheme,
+            'website.admin_appearance.current_colors' => $adminPalette,
+            'website.admin_appearance.rgb' => [
+                'primary' => $this->hexToRgb($adminPalette['primary']),
+                'secondary' => $this->hexToRgb($adminPalette['secondary']),
+                'highlight' => $this->hexToRgb($adminPalette['highlight']),
+            ],
         ]);
     }
 
@@ -66,6 +89,7 @@ class WebsiteSettings
         $general = $stored[self::GENERAL_KEY] ?? [];
         $branding = $stored[self::BRANDING_KEY] ?? [];
         $appearance = $stored[self::APPEARANCE_KEY] ?? [];
+        $adminAppearance = $stored[self::ADMIN_APPEARANCE_KEY] ?? [];
 
         $themes = config('website.appearance.themes', []);
         $palettes = config('website.appearance.palettes', []);
@@ -81,6 +105,15 @@ class WebsiteSettings
         }
 
         $fallbackColors = $palettes[$palette === 'custom' ? $defaultPalette : $palette];
+
+        $adminTheme = array_key_exists((string) ($adminAppearance['theme'] ?? ''), $themes)
+            ? (string) $adminAppearance['theme']
+            : $defaultTheme;
+        $adminPalette = (string) ($adminAppearance['palette'] ?? $defaultPalette);
+        if ($adminPalette !== 'custom' && ! array_key_exists($adminPalette, $palettes)) {
+            $adminPalette = $defaultPalette;
+        }
+        $adminFallbackColors = $palettes[$adminPalette === 'custom' ? $defaultPalette : $adminPalette];
 
         return [
             'company_name' => $this->text($general['company_name'] ?? null, config('website.name'), 160),
@@ -104,6 +137,11 @@ class WebsiteSettings
             'primary_color' => $this->color($appearance['primary_color'] ?? null, $fallbackColors['primary']),
             'secondary_color' => $this->color($appearance['secondary_color'] ?? null, $fallbackColors['secondary']),
             'highlight_color' => $this->color($appearance['highlight_color'] ?? null, $fallbackColors['highlight']),
+            'admin_theme' => $adminTheme,
+            'admin_palette' => $adminPalette,
+            'admin_primary_color' => $this->color($adminAppearance['primary_color'] ?? null, $adminFallbackColors['primary']),
+            'admin_secondary_color' => $this->color($adminAppearance['secondary_color'] ?? null, $adminFallbackColors['secondary']),
+            'admin_highlight_color' => $this->color($adminAppearance['highlight_color'] ?? null, $adminFallbackColors['highlight']),
         ];
     }
 
@@ -121,7 +159,7 @@ class WebsiteSettings
 
         try {
             $this->stored = SiteSetting::query()
-                ->whereIn('key', [self::GENERAL_KEY, self::BRANDING_KEY, self::APPEARANCE_KEY])
+                ->whereIn('key', [self::GENERAL_KEY, self::BRANDING_KEY, self::APPEARANCE_KEY, self::ADMIN_APPEARANCE_KEY])
                 ->get()
                 ->mapWithKeys(fn (SiteSetting $setting): array => [$setting->key => is_array($setting->value) ? $setting->value : []])
                 ->all();

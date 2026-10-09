@@ -14,7 +14,6 @@ class WebsiteSettings
 
     public const APPEARANCE_KEY = 'website.appearance';
 
-    public const ADMIN_APPEARANCE_KEY = 'admin.appearance';
 
     /** @var array<string, array<string, mixed>>|null */
     private ?array $stored = null;
@@ -89,7 +88,7 @@ class WebsiteSettings
         $general = $stored[self::GENERAL_KEY] ?? [];
         $branding = $stored[self::BRANDING_KEY] ?? [];
         $appearance = $stored[self::APPEARANCE_KEY] ?? [];
-        $adminAppearance = $stored[self::ADMIN_APPEARANCE_KEY] ?? [];
+        $adminAppearance = $appearance;
 
         $themes = config('website.appearance.themes', []);
         $palettes = config('website.appearance.palettes', []);
@@ -159,7 +158,7 @@ class WebsiteSettings
 
         try {
             $this->stored = SiteSetting::query()
-                ->whereIn('key', [self::GENERAL_KEY, self::BRANDING_KEY, self::APPEARANCE_KEY, self::ADMIN_APPEARANCE_KEY])
+                ->whereIn('key', [self::GENERAL_KEY, self::BRANDING_KEY, self::APPEARANCE_KEY])
                 ->get()
                 ->mapWithKeys(fn (SiteSetting $setting): array => [$setting->key => is_array($setting->value) ? $setting->value : []])
                 ->all();

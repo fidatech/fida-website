@@ -97,6 +97,20 @@ class MarketingWebsiteTest extends TestCase
         $response->assertSee(rawurlencode('Hello, I came from the Fida Technologies website.'), false);
     }
 
+    public function test_footer_shows_clickable_google_map_for_office_location(): void
+    {
+        config()->set('website.map_embed_url', 'https://www.google.com/maps?q=34.5143264,69.1840542&z=17&output=embed');
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('class="footer-map"', false)
+            ->assertSee('src="https://www.google.com/maps?q=34.5143264,69.1840542&amp;z=17&amp;output=embed"', false)
+            ->assertSee('href="https://www.google.com/maps/search/?api=1&amp;query=34.5143264%2C69.1840542"', false)
+            ->assertSee('Open Fida Technologies in Google Maps')
+            ->assertSee('34.5143° N', false)
+            ->assertSee('69.1841° E', false);
+    }
+
     public function test_public_layout_has_accessible_back_to_top_control(): void
     {
         $this->get('/')

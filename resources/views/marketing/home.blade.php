@@ -58,14 +58,14 @@
         @foreach(config('website.stats') as $stat)
             <article><span>0{{ $loop->iteration }}</span><strong>{{ $stat['value'] }}</strong><p>{{ __("website.stats.{$stat['key']}") }}</p></article>
         @endforeach
-        <article class="metric-stack"><span>04</span><div><b>ERP</b><b>MIS</b><b>DATA</b><b>INTEGRATION</b></div><p>ENTERPRISE CAPABILITIES</p></article>
+        <article class="metric-stack"><span>04</span><div><b>ERP</b><b>AI</b><b>NETWORK</b><b>INFRA</b></div><p>ENTERPRISE CAPABILITIES</p></article>
     </div>
 </section>
 
 <section class="ticker" aria-label="{{ __('website.accessibility.capabilities') }}">
     <div class="ticker-track">
         @for($i = 0; $i < 2; $i++)
-            <span>ENTERPRISE SOFTWARE <b>✦</b> ERP & MIS <b>✦</b> SYSTEM INTEGRATION <b>✦</b> FINANCIAL SYSTEMS <b>✦</b> DATA ENGINEERING <b>✦</b> AI AUTOMATION <b>✦</b></span>
+            <span>ENTERPRISE SOFTWARE <b>✦</b> ERP & MIS <b>✦</b> WEB & MOBILE <b>✦</b> AI & IOT <b>✦</b> DATA CENTERS <b>✦</b> NETWORKS <b>✦</b> CYBERSECURITY <b>✦</b> HARDWARE SUPPLY <b>✦</b></span>
         @endfor
     </div>
 </section>
@@ -132,7 +132,7 @@
                 ['title' => 'Documentation + Handover', 'text' => 'اسناد معماری، configuration، acceptance، آموزش و حدود support برای تحویل قابل حسابرسی.'],
             ],
             'cta' => 'ارسال RFQ رسمی',
-            'secondary' => 'مشاهده تمام راهکارها',
+            'secondary' => 'راهکارهای دولت و NGO',
         ],
         'ps' => [
             'eyebrow' => 'دولت · NGO · INGO · سازمانونه',
@@ -144,7 +144,7 @@
                 ['title' => 'Documentation + Handover', 'text' => 'معماري، configuration، acceptance، روزنه او support حدود د حساب وړ سپارنې لپاره.'],
             ],
             'cta' => 'رسمي RFQ وسپارئ',
-            'secondary' => 'ټولې حللارې وګورئ',
+            'secondary' => 'د دولت او NGO حللارې',
         ],
         default => [
             'eyebrow' => 'GOVERNMENT · NGO · INGO · ENTERPRISE',
@@ -156,7 +156,7 @@
                 ['title' => 'Documentation + Handover', 'text' => 'Architecture, configuration, acceptance, training and support boundaries for an auditable handover.'],
             ],
             'cta' => 'Submit formal RFQ',
-            'secondary' => 'Explore all solutions',
+            'secondary' => 'Government & NGO delivery',
         ],
     };
 @endphp
@@ -168,7 +168,7 @@
             <p>{{ $institutional['description'] }}</p>
             <div class="institutional-actions">
                 <a class="button button-lime button-large" href="{{ App\Support\LocalizedUrl::path('/request-for-quotation') }}" data-track-event="cta_click" data-track-label="government_rfq">{{ $institutional['cta'] }}<span class="button-arrow">↗</span></a>
-                <a class="button button-wire button-large" href="{{ App\Support\LocalizedUrl::path('/solutions') }}">{{ $institutional['secondary'] }}<span class="button-arrow">↗</span></a>
+                <a class="button button-wire button-large" href="{{ App\Support\LocalizedUrl::path('/government-ngo-technology-solutions-afghanistan') }}" data-track-event="cta_click" data-track-label="government_ngo_solution">{{ $institutional['secondary'] }}<span class="button-arrow">↗</span></a>
             </div>
         </div>
         <div class="institutional-cards">

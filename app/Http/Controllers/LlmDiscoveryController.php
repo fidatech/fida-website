@@ -32,6 +32,7 @@ class LlmDiscoveryController extends Controller
                 'industries',
                 'articles',
                 'request-for-quotation',
+                'government-ngo-technology-solutions-afghanistan',
                 'web-digital-platforms-afghanistan',
                 'ai-automation-solutions-afghanistan',
                 'iot-smart-infrastructure-afghanistan',

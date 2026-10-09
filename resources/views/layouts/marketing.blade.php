@@ -187,6 +187,7 @@
                             <a class="nav-cluster-overview" href="{{ \App\Support\LocalizedUrl::path('/about') }}">{{ __('website.nav.about') }}<small>↗</small></a>
                             <a class="nav-cluster-overview" href="{{ \App\Support\LocalizedUrl::path('/company-facts') }}">{{ __('website.nav.company_facts') }}<small>↗</small></a>
                             <a class="nav-cluster-overview" href="{{ \App\Support\LocalizedUrl::path('/software-answers-afghanistan') }}">{{ __('website.nav.answers') }}<small>↗</small></a>
+                            <a class="nav-cluster-overview" href="{{ \App\Support\LocalizedUrl::path('/request-for-quotation') }}">{{ __('website.procurement.rfq_cta') }}<small>↗</small></a>
                             <a class="nav-cluster-overview" href="{{ \App\Support\LocalizedUrl::path('/articles') }}">{{ __('website.nav.all_articles') }}<small>↗</small></a>
                             @foreach($navArticles as $navPage)
                                 <a href="{{ \App\Support\LocalizedUrl::path('/'.$navPage->slug) }}">{{ $navPage->translation('title') }}<small>↗</small></a>
@@ -231,6 +232,7 @@
             <div class="mobile-nav-priority">
                 <a href="{{ \App\Support\LocalizedUrl::path('/projects') }}">{{ __('website.nav.projects') }}</a>
                 <a href="{{ \App\Support\LocalizedUrl::path('/pricing') }}">{{ __('website.nav.pricing') }}</a>
+                <a href="{{ \App\Support\LocalizedUrl::path('/request-for-quotation') }}">RFQ</a>
                 <a href="{{ \App\Support\LocalizedUrl::path('/contact') }}">{{ __('website.nav.contact') }}</a>
             </div>
             <details class="mobile-nav-group">
@@ -275,6 +277,7 @@
             <a href="{{ \App\Support\LocalizedUrl::path('/about') }}">{{ __('website.nav.company') }}</a>
             <a href="{{ \App\Support\LocalizedUrl::path('/company-facts') }}">{{ __('website.nav.company_facts') }}</a>
             <a href="{{ \App\Support\LocalizedUrl::path('/software-answers-afghanistan') }}">{{ __('website.nav.answers') }}</a>
+            <a href="{{ \App\Support\LocalizedUrl::path('/request-for-quotation') }}">{{ __('website.procurement.rfq_cta') }}</a>
         </nav>
     </header>
 

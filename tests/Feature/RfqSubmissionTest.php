@@ -3,7 +3,9 @@
 namespace Tests\Feature;
 
 use App\Mail\NewRfqNotificationMail;
+use App\Mail\RfqAcknowledgementMail;
 use App\Models\Rfq;
+use App\Models\WebsiteAnalyticsEvent;
 use Database\Seeders\GovernmentNgoCapabilitySeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -82,6 +84,16 @@ class RfqSubmissionTest extends TestCase
         Mail::assertSent(NewRfqNotificationMail::class, function (NewRfqNotificationMail $mail) use ($rfq): bool {
             return $mail->hasTo('info@fida.af') && $mail->rfq->is($rfq);
         });
+
+        Mail::assertSent(RfqAcknowledgementMail::class, function (RfqAcknowledgementMail $mail) use ($rfq): bool {
+            return $mail->hasTo('procurement@example.org') && $mail->rfq->is($rfq);
+        });
+
+        $this->assertDatabaseHas('website_analytics_events', [
+            'event_name' => 'rfq_submitted',
+            'event_label' => 'ngo',
+            'page_slug' => 'request-for-quotation',
+        ]);
     }
 
     public function test_solution_capability_pages_are_seeded_for_search_and_ai_discovery(): void
@@ -89,6 +101,7 @@ class RfqSubmissionTest extends TestCase
         $this->seed(GovernmentNgoCapabilitySeeder::class);
 
         foreach ([
+            'government-ngo-technology-solutions-afghanistan',
             'web-digital-platforms-afghanistan',
             'ai-automation-solutions-afghanistan',
             'iot-smart-infrastructure-afghanistan',
@@ -106,9 +119,21 @@ class RfqSubmissionTest extends TestCase
                 ->assertSee('"@type":"FAQPage"', false);
         }
 
+        $this->get('/government-ngo-technology-solutions-afghanistan')
+            ->assertOk()
+            ->assertSee('Government &amp; NGO Technology Solutions', false)
+            ->assertSee('Procurement-ready project structure')
+            ->assertSee('"audience":[', false)
+            ->assertSee('"audienceType":"Government"', false);
+
+        $this->get('/solutions')
+            ->assertOk()
+            ->assertSee('Government &amp; NGO Technology Solutions', false);
+
         $this->get('/llms.txt')
             ->assertOk()
             ->assertSee('Data centers, servers, storage and backup')
-            ->assertSee('Formal RFQ / RFP / tender submission');
+            ->assertSee('Formal RFQ / RFP / tender submission')
+            ->assertSee('Government & NGO Technology Solutions');
     }
 }

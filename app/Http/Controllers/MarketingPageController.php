@@ -217,6 +217,21 @@ class MarketingPageController extends Controller
 
     private function collectionPages(?string $hubLayout): Collection
     {
+        if ($hubLayout === 'solutions') {
+            $slugs = collect(config('website.featured_solutions', []))
+                ->pluck('url')
+                ->map(fn (string $url): string => trim($url, '/'))
+                ->values();
+            $positions = array_flip($slugs->all());
+
+            return ContentPage::published()
+                ->whereIn('slug', $slugs)
+                ->with(['articleCategory', 'articleAuthor'])
+                ->get()
+                ->sortBy(fn (ContentPage $page): int => $positions[$page->slug] ?? PHP_INT_MAX)
+                ->values();
+        }
+
         $types = config("website.content_hubs.{$hubLayout}.types", []);
 
         if ($types === []) {

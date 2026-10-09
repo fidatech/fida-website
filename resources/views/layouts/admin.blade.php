@@ -10,7 +10,7 @@
     $adminRouteContent = request()->route('contentPage');
     $adminActiveContentType = request('type') ?: ($adminRouteContent instanceof \App\Models\ContentPage ? $adminRouteContent->type : null);
 @endphp
-<html lang="en" dir="ltr" style="--admin-bg:{{ $adminTheme['background'] }};--admin-panel:{{ $adminTheme['surface'] }};--admin-panel-soft:{{ $adminTheme['background_soft'] }};--admin-lime:{{ $adminColors['primary'] }};--admin-violet:{{ $adminColors['secondary'] }};--admin-cyan:{{ $adminColors['highlight'] }};--admin-accent-rgb:{{ $adminRgb['primary'] }};--admin-secondary-rgb:{{ $adminRgb['secondary'] }};--admin-highlight-rgb:{{ $adminRgb['highlight'] }}">
+<html lang="en" dir="ltr" data-admin-theme="{{ $adminThemeKey }}" style="--admin-bg:{{ $adminTheme['background'] }};--admin-panel:{{ $adminTheme['surface'] }};--admin-panel-soft:{{ $adminTheme['background_soft'] }};--admin-lime:{{ $adminColors['primary'] }};--admin-violet:{{ $adminColors['secondary'] }};--admin-cyan:{{ $adminColors['highlight'] }};--admin-accent-rgb:{{ $adminRgb['primary'] }};--admin-secondary-rgb:{{ $adminRgb['secondary'] }};--admin-highlight-rgb:{{ $adminRgb['highlight'] }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">

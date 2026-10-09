@@ -267,7 +267,7 @@ final class SeoSchema
             'legalName' => config('website.legal_name'),
             'additionalType' => 'https://schema.org/ProfessionalService',
             'foundingDate' => '2022',
-            'description' => 'Fida Technologies is an Afghanistan-based enterprise software, ERP, MIS and digital transformation company. Operations began in 2022 following professional technology experience that started in 2014, and the company was formally licensed in 2024.',
+            'description' => 'Fida Technologies is an Afghanistan-based enterprise technology company delivering ERP and custom software, web and mobile platforms, AI and IoT, data centers, networks, servers, cybersecurity, enterprise hardware, systems integration and managed IT services. Operations began in 2022 following professional technology experience that started in 2014, and the company was formally licensed in 2024.',
             'url' => url('/'),
             'email' => config('website.email'),
             'telephone' => config('website.phone'),

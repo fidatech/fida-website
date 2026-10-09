@@ -66,6 +66,14 @@
 </section>
 @endif
 
+@if($hubLayout === 'products' && filled($portfolioBody))
+<section class="hub-portfolio-section" aria-label="{{ $page->translation('title') }}">
+    <div class="container">
+        <article class="prose portfolio-catalog reveal">{!! $portfolioBody !!}</article>
+    </div>
+</section>
+@endif
+
 @if($hubLayout === 'pricing')
 <section class="hub-pricing-section">
     <div class="container">
@@ -94,7 +102,14 @@
 @if($hubLayout !== 'contact')
 <section class="page-content-section hub-content-section">
     <div class="container content-layout">
-        <article class="prose reveal">{!! $page->translation('body') !!}</article>
+        <article class="prose reveal">
+            @if($hubLayout === 'projects')
+                <h2>{{ __('website.nav.products') }}</h2>
+                <p><a href="{{ App\Support\LocalizedUrl::path('/products') }}">{{ __('website.nav.all_products') }} ↗</a></p>
+            @else
+                {!! $page->translation('body') !!}
+            @endif
+        </article>
         <aside class="page-cta reveal">
             <span>{{ config('website.name') }}</span>
             <h2>{{ __('website.page.cta_title') }}</h2>

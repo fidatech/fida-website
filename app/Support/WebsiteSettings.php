@@ -94,7 +94,8 @@ class WebsiteSettings
             'city' => $this->text($general['city'] ?? null, config('website.address.city'), 100),
             'country' => $this->text($general['country'] ?? null, config('website.address.country'), 100),
             'country_code' => $this->countryCode($general['country_code'] ?? null, config('website.address.country_code')),
-            'map_embed_url' => $this->mapEmbedUrl($general['map_embed_url'] ?? null),
+            'map_embed_url' => $this->mapEmbedUrl($general['map_embed_url'] ?? config('website.map_embed_url'))
+                ?? $this->mapEmbedUrl(config('website.map_embed_url')),
             'brand_name' => $this->text($branding['brand_name'] ?? null, config('website.branding.name', 'Fida'), 80),
             'brand_tagline' => $this->text($branding['brand_tagline'] ?? null, config('website.branding.tagline', 'Technologies'), 80),
             'logo_path' => $this->logoPath($branding['logo_path'] ?? null),
@@ -195,7 +196,12 @@ class WebsiteSettings
         $path = strtolower((string) parse_url($url, PHP_URL_PATH));
         $googleHost = $host === 'google.com' || str_ends_with($host, '.google.com');
         $openStreetMapHost = $host === 'openstreetmap.org' || str_ends_with($host, '.openstreetmap.org');
-        $allowed = ($googleHost && str_starts_with($path, '/maps/embed'))
+
+        parse_str((string) parse_url($url, PHP_URL_QUERY), $query);
+        $googleEmbed = str_starts_with($path, '/maps/embed')
+            || (rtrim($path, '/') === '/maps' && strtolower((string) ($query['output'] ?? '')) === 'embed');
+
+        $allowed = ($googleHost && $googleEmbed)
             || ($openStreetMapHost && str_starts_with($path, '/export/embed'));
 
         return $allowed ? mb_substr($url, 0, 2048) : null;

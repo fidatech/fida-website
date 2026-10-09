@@ -1,12 +1,12 @@
 <?php
 
 return [
-    'seo' => ['home' => ['title' => 'ERP او سازماني سافټویر افغانستان | Fida Technologies', 'description' => 'Fida Technologies د افغانستان ادارو لپاره ERP، MIS، حسابداري، HR، سکتوري او ځانګړي سافټویر سیسټمونه طرحه او پلي کوي.'], 'social_image_alt' => 'Fida Technologies — په افغانستان کې سازماني سافټویر، ERP او ډیجیټل بدلون'],
+    'seo' => ['home' => ['title' => 'د سازماني ټکنالوژۍ شرکت افغانستان | Fida Technologies', 'description' => 'Fida Technologies د دولت، NGO او سازمانونو لپاره سافټویر او ERP، وېب او موبایل، AI، IoT، ډیټا سنټر، شبکه، کلاوډ، سایبري امنیت، تجهیزات او ادغام برابروي.'], 'social_image_alt' => 'Fida Technologies — په افغانستان کې سازماني سافټویر، ERP او ډیجیټل بدلون'],
     'nav' => ['home' => 'کور', 'about' => 'زموږ په اړه', 'company' => 'شرکت', 'services' => 'خدمتونه', 'projects' => 'پروژې', 'pricing' => 'بیې', 'contact' => 'اړیکه', 'solutions' => 'حللارې', 'products' => 'محصولات', 'industries' => 'سکتورونه', 'case_studies' => 'قضیوي مطالعې', 'articles' => 'لیدلوري', 'process' => 'کاري بهیر', 'proposal' => 'د وړاندیز غوښتنه', 'menu' => 'مېنو پرانیستل', 'light_mode' => 'ورځنی حالت', 'dark_mode' => 'شپنی حالت', 'all_services' => 'ټول خدمتونه', 'all_solutions' => 'ټولې حللارې', 'all_products' => 'ټول محصولات', 'all_industries' => 'ټول سکتورونه', 'all_articles' => 'ټول لیدلوري', 'company_facts' => 'د شرکت معلومات', 'answers' => 'د فیدا ځوابونه'],
     'accessibility' => ['skip_to_content' => 'اصلي منځپانګې ته لاړ شئ', 'home' => 'د :company کورپاڼه', 'primary_navigation' => 'اصلي مېنو', 'change_language' => 'ژبه بدله کړئ', 'mobile_navigation' => 'د موبایل مېنو', 'pagination' => 'پاڼه بندي', 'technology_core' => 'د فیدا د سوداګریزې ټکنالوژۍ هسته', 'capabilities' => 'د فیدا وړتیاوې'],
     'hero' => [
-        'eyebrow' => 'Fida Technologies · افغانستان', 'title_before' => 'سازماني سافټویر، ERP او', 'title_emphasis' => 'ډیجیټل بدلون.',
-        'description' => 'په افغانستان کې د دولت، نادولتي موسسو، ادارو او پېچلو سازمانونو لپاره ERP، MIS، مالي سیسټمونه، ادغامونه او ځانګړي سازماني اپلېکېشنونه طرحه او پلي کوو.',
+        'eyebrow' => 'Fida Technologies · افغانستان', 'title_before' => 'سازماني ټکنالوژي، سافټویر او', 'title_emphasis' => 'ډیجیټل زیربنا.',
+        'description' => 'په افغانستان کې د دولت، NGO او سازمانونو لپاره سافټویر، ERP، وېب او موبایل، AI، IoT، ډیټا سنټر، شبکه، کلاوډ، سایبري امنیت، تجهیزات او ادغام برابروو.',
         'primary_cta' => 'د وړاندیز غوښتنه', 'secondary_cta' => 'سازماني حللارې وګورئ', 'trust' => 'له ۲۰۱۴ راهیسې د ټکنالوژۍ تجربه. Fida Technologies له ۲۰۲۲ راهیسې ادارو ته خدمت کوي.',
         'dashboard_label' => 'د سوداګرۍ ژوندی انځور', 'revenue' => 'عواید', 'operations' => 'عملیات', 'growth' => 'وده', 'active' => 'فعال', 'secure' => 'له بنسټه خوندي',
     ],

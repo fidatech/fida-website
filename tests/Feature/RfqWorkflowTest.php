@@ -6,6 +6,8 @@ use App\Mail\NewRfqNotificationMail;
 use App\Mail\RfqAcknowledgementMail;
 use App\Models\Rfq;
 use App\Models\User;
+use Database\Seeders\GovernmentTechnologySolutionsSeeder;
+use Database\Seeders\RfqPageSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Mail;
@@ -23,6 +25,11 @@ class RfqWorkflowTest extends TestCase
         $this->withoutVite();
         config()->set('website.indexable', true);
         config()->set('website.rfq_email', 'info@fida.af');
+
+        $this->seed([
+            GovernmentTechnologySolutionsSeeder::class,
+            RfqPageSeeder::class,
+        ]);
     }
 
     public function test_enterprise_infrastructure_and_procurement_pages_are_indexable_and_structured(): void
@@ -31,7 +38,7 @@ class RfqWorkflowTest extends TestCase
             ->assertOk()
             ->assertSee('Data Center &amp; IT Infrastructure in Afghanistan', false)
             ->assertSee('Data center and server-room design')
-            ->assertSee('Government, NGOs and enterprise operations')
+            ->assertSee('government, NGOs and enterprise operations')
             ->assertSee('"@type":"Service"', false)
             ->assertSee('"@type":"FAQPage"', false);
 

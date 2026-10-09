@@ -269,6 +269,25 @@ class AdminConsoleTest extends TestCase
         $this->assertSame('test-secret-api-key', Crypt::decryptString($value['api_key']));
     }
 
+    public function test_website_settings_accept_google_maps_output_embed_url(): void
+    {
+        $admin = User::factory()->admin()->create();
+        $payload = $this->settingsPayload();
+        $payload['map_embed_url'] = 'https://www.google.com/maps?q=34.5143264,69.1840542&z=17&output=embed';
+
+        $this->actingAs($admin)
+            ->put(route('admin.settings.update'), $payload)
+            ->assertRedirect()
+            ->assertSessionHasNoErrors();
+
+        $stored = SiteSetting::query()->where('key', 'website.general')->firstOrFail()->value;
+
+        $this->assertSame(
+            'https://www.google.com/maps?q=34.5143264,69.1840542&z=17&output=embed',
+            $stored['map_embed_url'],
+        );
+    }
+
     public function test_website_settings_reject_unsafe_map_provider(): void
     {
         $admin = User::factory()->admin()->create();

@@ -1,6 +1,5 @@
 <?php
 
-use Database\Seeders\GovernmentNgoCapabilitySeeder;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -45,8 +44,6 @@ return new class extends Migration
             $table->timestamp('reviewed_at')->nullable();
             $table->timestamps();
         });
-
-        (new GovernmentNgoCapabilitySeeder())->run();
     }
 
     public function down(): void

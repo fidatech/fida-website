@@ -65,7 +65,7 @@
 <section class="ticker" aria-label="{{ __('website.accessibility.capabilities') }}">
     <div class="ticker-track">
         @for($i = 0; $i < 2; $i++)
-            <span>ENTERPRISE SOFTWARE <b>✦</b> ERP & MIS <b>✦</b> SYSTEM INTEGRATION <b>✦</b> FINANCIAL SYSTEMS <b>✦</b> DATA ENGINEERING <b>✦</b> AI AUTOMATION <b>✦</b></span>
+            <span>ERP & ENTERPRISE SOFTWARE <b>✦</b> WEB & MOBILE <b>✦</b> AI & IOT <b>✦</b> DATA CENTERS <b>✦</b> NETWORKS & CLOUD <b>✦</b> CYBERSECURITY <b>✦</b> HARDWARE SUPPLY <b>✦</b> SYSTEMS INTEGRATION <b>✦</b></span>
         @endfor
     </div>
 </section>
@@ -97,25 +97,31 @@
             <div class="heading-aside"><span>MODULAR / SCALABLE / SECURE</span><p>{{ __('website.sections.solutions_description') }}</p></div>
         </div>
 
-        <div class="solution-universe">
+        <div class="capability-grid">
             @foreach($solutions as $solution)
-                <a class="solution-card reveal" data-tilt href="{{ App\Support\LocalizedUrl::path($solution['url']) }}">
-                    <div class="card-grid" aria-hidden="true"></div>
-                    <div class="solution-top"><span class="solution-index">0{{ $loop->iteration }}</span><span class="solution-link">↗</span></div>
-                    <div class="solution-object object-{{ $solution['icon'] }}" aria-hidden="true">
-                        @if($solution['icon'] === 'layers')
-                            <i></i><i></i><i></i><b>ERP</b>
-                        @elseif($solution['icon'] === 'chart')
-                            <span></span><span></span><span></span><span></span><b>DATA</b>
-                        @elseif($solution['icon'] === 'code')
-                            <i>&lt;/&gt;</i><span></span><span></span>
-                        @else
-                            <i><span></span><b>APP</b></i><em></em>
-                        @endif
-                    </div>
-                    <div class="solution-copy"><h3>{{ __("website.solutions.{$solution['key']}.title") }}</h3><p>{{ __("website.solutions.{$solution['key']}.description") }}</p><span class="text-link">{{ __('website.solutions.learn_more') }}<b>↗</b></span></div>
+                <a class="capability-card reveal" href="{{ App\Support\LocalizedUrl::path($solution['url']) }}">
+                    <header><span>{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span><b>{{ $solution['code'] }}</b><i>↗</i></header>
+                    <div class="capability-symbol" aria-hidden="true"><span>{{ $solution['code'] }}</span></div>
+                    <h3>{{ __("website.capabilities.{$solution['key']}.title") }}</h3>
+                    <p>{{ __("website.capabilities.{$solution['key']}.description") }}</p>
+                    <strong>{{ __('website.solutions.learn_more') }} ↗</strong>
                 </a>
             @endforeach
+        </div>
+
+        <div class="institutional-procurement reveal">
+            <div>
+                <span class="micro-label"><b>RFQ</b>{{ __('website.procurement.eyebrow') }}</span>
+                <h3>{{ __('website.procurement.title') }}</h3>
+                <p>{{ __('website.procurement.description') }}</p>
+                <div class="procurement-tags">
+                    <span>GOVERNMENT</span><span>NGO / INGO</span><span>DATA CENTER</span><span>NETWORK</span><span>SOFTWARE</span><span>HARDWARE</span>
+                </div>
+            </div>
+            <div class="institutional-procurement-actions">
+                <a class="button button-lime" href="{{ App\Support\LocalizedUrl::path('/request-for-quotation') }}" data-track-event="cta_click" data-track-label="home_rfq">{{ __('website.procurement.rfq_cta') }} <span class="button-arrow">↗</span></a>
+                <a class="button button-wire" href="{{ App\Support\LocalizedUrl::path('/government-ngo-technology-procurement-afghanistan') }}">{{ __('website.procurement.capabilities_cta') }}</a>
+            </div>
         </div>
     </div>
 </section>

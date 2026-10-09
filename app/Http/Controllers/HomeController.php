@@ -22,7 +22,7 @@ class HomeController extends Controller
         return view('marketing.home', [
             'seo' => $seo,
             'structuredData' => SeoSchema::home($seo['title'], $seo['description'], $seo['canonical'], $topic, $seo['image']),
-            'solutions' => config('website.featured_solutions'),
+            'solutions' => config('website.enterprise_capabilities'),
             'products' => config('website.products'),
             'industries' => config('website.industries'),
         ]);

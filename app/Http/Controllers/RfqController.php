@@ -61,7 +61,7 @@ class RfqController extends Controller
         $rfq->save();
 
         try {
-            Mail::to('info@fida.af')->send(new NewRfqNotificationMail($rfq));
+            Mail::to(config('website.procurement_email'))->send(new NewRfqNotificationMail($rfq));
         } catch (\Throwable $exception) {
             report($exception);
         }

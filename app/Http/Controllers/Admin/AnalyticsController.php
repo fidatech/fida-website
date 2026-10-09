@@ -39,7 +39,7 @@ class AnalyticsController extends Controller
             'bot_hits' => (clone $bots)->count(),
             'conversions' => WebsiteAnalyticsEvent::query()
                 ->whereBetween('occurred_at', [$from, $to])
-                ->whereIn('event_name', ['lead_submitted', 'cta_click', 'phone_click', 'email_click', 'whatsapp_click'])
+                ->whereIn('event_name', ['lead_submitted', 'rfq_submitted', 'cta_click', 'phone_click', 'email_click', 'whatsapp_click'])
                 ->count(),
         ];
 

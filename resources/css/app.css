@@ -1259,3 +1259,17 @@ html[data-color-mode="light"] .analytics-consent p { color: #5d6673; }
     .enterprise-capability-grid .solution-card { min-height: 370px; }
     .institutional-shell { padding: 24px; border-radius: 22px; }
 }
+
+.header-rfq-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 9px;
+    border-radius: 9px;
+    color: var(--lime);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .09em;
+}
+.header-rfq-link:hover { background: rgba(var(--accent-rgb),.07); }
+@media (max-width: 1180px) { .header-rfq-link { display: none; } }

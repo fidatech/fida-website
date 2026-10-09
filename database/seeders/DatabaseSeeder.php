@@ -1,9 +1,9 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
+use Illuminate\\Database\\Console\\Seeds\\WithoutModelEvents;
+use Illuminate\\Database\\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -24,5 +24,6 @@ class DatabaseSeeder extends Seeder
         $this->call(SearchAuthorityContentWaveSeeder::class);
         $this->call(SearchAuthorityContentWaveTwoSeeder::class);
         $this->call(SearchAuthorityContentWaveThreeSeeder::class);
+        $this->call(AfghanIndustryOpportunitySeeder::class);
     }
 }

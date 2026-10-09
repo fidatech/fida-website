@@ -101,6 +101,12 @@
                         @php($consoleNewLeads = \App\Models\Lead::query()->where('status', 'new')->count())
                         @if($consoleNewLeads)<b class="nav-count">{{ $consoleNewLeads }}</b>@endif
                     </a>
+                    <a @class(['active' => request()->routeIs('admin.rfqs.*')]) href="{{ route('admin.rfqs.index') }}">
+                        <svg viewBox="0 0 24 24"><path d="M5 3h10l4 4v14H5V3Z"/><path d="M15 3v5h5M8 12h8M8 16h6"/></svg>
+                        RFQs & tenders
+                        @php($consoleNewRfqs = \App\Models\Rfq::query()->where('status', 'new')->count())
+                        @if($consoleNewRfqs)<b class="nav-count">{{ $consoleNewRfqs }}</b>@endif
+                    </a>
                 @endif
 
                 @if(auth()->user()->allows('users.manage'))

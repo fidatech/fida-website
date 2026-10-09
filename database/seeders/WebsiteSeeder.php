@@ -236,7 +236,7 @@ class WebsiteSeeder extends Seeder
             ),
             $this->product(
                 slug: 'realist-real-estate-erp',
-                title: ['en' => 'Realist ERP for Real Estate & Construction', 'fa' => 'Realist ERP برای املاک و ساختمان', 'ps' => 'د املاکو او ساختمان لپاره Realist ERP'],
+                title: ['en' => 'Realist ERP — Real Estate Management System', 'fa' => 'Realist ERP — سیستم مدیریت املاک', 'ps' => 'Realist ERP — د املاکو مدیریت سیستم'],
                 eyebrow: ['en' => 'Property operations, connected', 'fa' => 'عملیات یکپارچه املاک', 'ps' => 'یوځای د املاکو عملیات'],
                 summary: [
                     'en' => 'Connect property inventory, sales, contracts, customer payments, construction workflows and accounting in one controlled real estate ERP.',
@@ -273,7 +273,7 @@ class WebsiteSeeder extends Seeder
             ),
             $this->product(
                 slug: 'prime-sarafi-software',
-                title: ['en' => 'Prime Sarafi & Remittance Management Software', 'fa' => 'نرم‌افزار مدیریت صرافی و حواله Prime', 'ps' => 'د Prime صرافۍ او حوالو مدیریت سافټویر'],
+                title: ['en' => 'Prime Sarafi — Sarafi Management System', 'fa' => 'Prime Sarafi — سیستم مدیریت صرافی', 'ps' => 'Prime Sarafi — د صرافۍ مدیریت سیستم'],
                 eyebrow: ['en' => 'Controlled multi-currency operations', 'fa' => 'عملیات کنترول‌شده چندارزی', 'ps' => 'کنټرول شوي څو اسعارو عملیات'],
                 summary: ['en' => 'Manage currency exchange, remittances, customer accounts, cash positions, approvals and multi-currency accounting through one professional platform.', 'fa' => 'تبادله اسعار، حواله، حساب مشتری، موجودی نقد، تأییدی و حسابداری چندارزی را در یک پلتفرم مدیریت کنید.', 'ps' => 'د اسعارو تبادله، حوالې، د پیرودونکو حسابونه، نغدي حالت، تاییدونه او څو اسعارو حسابداري په یوه پلېټفارم کې مدیریت کړئ.'],
                 body: [
@@ -306,7 +306,7 @@ class WebsiteSeeder extends Seeder
             ),
             $this->product(
                 slug: 'darmal-pharmacy-erp',
-                title: ['en' => 'Darmal Pharmacy & Pharmaceutical ERP', 'fa' => 'Darmal ERP برای دواخانه و شرکت دارویی', 'ps' => 'د درملتون او درملو شرکت لپاره Darmal ERP'],
+                title: ['en' => 'Darmal — Pharmacy & Pharmaceutical ERP', 'fa' => 'Darmal — سیستم دواخانه و شرکت دارویی', 'ps' => 'Darmal — د درملتون او درملو شرکت ERP'],
                 eyebrow: ['en' => 'Expiry-aware medicine operations', 'fa' => 'عملیات دوا با کنترول تاریخ انقضا', 'ps' => 'د ختمېدو نېټې له کنټرول سره د درملو عملیات'],
                 summary: ['en' => 'An actively developed ERP for pharmacy retail, medicine wholesale and pharmaceutical operations from purchasing to expiry-aware inventory and finance.', 'fa' => 'ERP در حال توسعه برای پرچون دواخانه، فروش عمده دوا و عملیات شرکت دارویی از خرید تا گدام و امور مالی.', 'ps' => 'د درملتون پرچون، درملو عمده پلور او درملو شرکت عملیاتو لپاره د پراختیا په حال ERP.'],
                 body: [
@@ -339,7 +339,7 @@ class WebsiteSeeder extends Seeder
             ),
             $this->product(
                 slug: 'ograyi-account-manager',
-                title: ['en' => 'OGRAYI Mobile Credit & Debit Account Manager', 'fa' => 'OGRAYI برای مدیریت حساب قرض و طلب', 'ps' => 'OGRAYI د پور او طلب حسابونو مدیریت'],
+                title: ['en' => 'Ograyi — Account Manager (Mobile App)', 'fa' => 'OGRAYI برای مدیریت حساب قرض و طلب', 'ps' => 'OGRAYI د پور او طلب حسابونو مدیریت'],
                 eyebrow: ['en' => 'Everyday accounts, made clearer', 'fa' => 'حساب‌های روزمره، روشن‌تر', 'ps' => 'ورځني حسابونه، لا روښانه'],
                 summary: ['en' => 'A mobile-first product for recording customer and supplier credit, debit and everyday account activity with a connected administration system.', 'fa' => 'محصول موبایل‌محور برای ثبت قرض، طلب و فعالیت روزمره حساب مشتری و عرضه‌کننده با سیستم مدیریتی مرتبط.', 'ps' => 'موبایل‌محور محصول د پیرودونکي او عرضه کوونکي پور، طلب او ورځنیو حسابونو لپاره له تړلي مدیریتي سیسټم سره.'],
                 body: [

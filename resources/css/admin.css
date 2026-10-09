@@ -977,3 +977,51 @@ svg { display: block; fill: none; stroke: currentColor; stroke-linecap: round; s
 .danger-note { border-color:rgba(255,100,119,.15) !important; background:rgba(255,100,119,.035) !important; }
 .danger-note strong { color:#ff9ba7 !important; }
 .project-gallery-panel { margin-top:16px; }
+
+
+/* Analytics v2 — compact owner dashboard */
+.analytics-hero-clean { align-items: end; }
+.analytics-summary-clean { margin-bottom: 22px; }
+.analytics-section-clean { margin-top: 22px; }
+.analytics-chart-clean { padding-bottom: 16px; }
+.analytics-overview-grid { display:grid; grid-template-columns:1.05fr .95fr .95fr; gap:16px; margin-top:16px; }
+.analytics-market-panel { min-width:0; }
+.country-coverage { align-self:center; padding:6px 9px; border:1px solid rgba(var(--admin-accent-rgb),.18); border-radius:999px; color:var(--admin-lime); background:rgba(var(--admin-accent-rgb),.06); font:700 9px ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.08em; text-transform:uppercase; white-space:nowrap; }
+.country-label { display:inline-flex; align-items:center; gap:8px; }
+.country-label [data-country-flag] { font-size:17px; line-height:1; }
+.analytics-muted { color:var(--admin-muted); }
+.analytics-data-warning { display:grid; gap:6px; margin:0 0 14px; padding:13px 14px; border:1px solid rgba(255,174,77,.18); border-radius:14px; background:rgba(255,174,77,.055); }
+.analytics-data-warning strong { font-size:12px; color:#ffd09a; }
+.analytics-data-warning span { color:var(--admin-muted); font-size:11px; line-height:1.55; }
+.analytics-data-warning.compact { margin-top:16px; }
+.analytics-mini-clean { margin-top:16px; }
+.analytics-search-kpis { margin-bottom:16px; }
+.analytics-advanced { margin-top:16px; border:1px solid var(--admin-line); border-radius:16px; background:rgba(255,255,255,.018); overflow:hidden; }
+.analytics-advanced > summary { display:flex; align-items:center; justify-content:space-between; padding:15px 17px; cursor:pointer; color:#d9dce2; font-size:11px; font-weight:750; list-style:none; }
+.analytics-advanced > summary::-webkit-details-marker { display:none; }
+.analytics-advanced > summary::after { content:"+"; color:var(--admin-lime); font-size:18px; font-weight:400; }
+.analytics-advanced[open] > summary::after { content:"−"; }
+.analytics-advanced-body { padding:0 16px 16px; border-top:1px solid var(--admin-line); }
+.analytics-advanced-body.analytics-grid { padding-top:16px; }
+.analytics-owner-brief { display:grid; grid-template-columns:.72fr 1.28fr; gap:18px; margin-top:16px; padding:18px; border:1px solid rgba(var(--admin-secondary-rgb),.16); border-radius:18px; background:linear-gradient(135deg,rgba(var(--admin-secondary-rgb),.06),rgba(var(--admin-accent-rgb),.025)); }
+.analytics-owner-brief > div:first-child small { color:var(--admin-violet); font:800 8px ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.15em; }
+.analytics-owner-brief h3 { margin:7px 0 8px; font-size:20px; letter-spacing:-.035em; }
+.analytics-owner-brief p { margin:0; color:var(--admin-muted); font-size:11px; line-height:1.6; }
+.analytics-owner-priorities { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+.analytics-owner-priorities article { padding:13px; border:1px solid var(--admin-line); border-radius:14px; background:rgba(0,0,0,.12); }
+.analytics-owner-priorities span { display:block; margin-bottom:6px; color:var(--admin-cyan); font:750 8px ui-monospace,SFMono-Regular,Menlo,monospace; text-transform:uppercase; letter-spacing:.1em; }
+.analytics-owner-priorities strong { display:block; font-size:12px; line-height:1.35; }
+.analytics-owner-priorities p { margin-top:7px; font-size:10px; }
+.admin-appearance-panel { border-color:rgba(var(--admin-secondary-rgb),.2); }
+.admin-palette-options { margin-top:16px; }
+
+@media (max-width: 1180px) {
+    .analytics-overview-grid { grid-template-columns:1fr 1fr; }
+    .analytics-overview-grid > :first-child { grid-column:1 / -1; }
+    .analytics-owner-brief { grid-template-columns:1fr; }
+}
+@media (max-width: 760px) {
+    .analytics-overview-grid { grid-template-columns:1fr; }
+    .analytics-overview-grid > :first-child { grid-column:auto; }
+    .analytics-owner-priorities { grid-template-columns:1fr; }
+}

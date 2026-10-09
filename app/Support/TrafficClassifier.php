@@ -37,6 +37,8 @@ class TrafficClassifier
             $request->server('COUNTRY_CODE'),
         ])->first(fn ($value) => is_string($value) && preg_match('/^[A-Za-z]{2}$/', trim($value)));
 
+        $country ??= self::localCountry($request->ip());
+
         return [
             'user_agent' => $userAgent ?: null,
             'is_bot' => $isBot,
@@ -67,6 +69,54 @@ class TrafficClassifier
             'session_key' => $sessionId !== '' ? hash_hmac('sha256', $sessionId, $secret) : null,
             'ip_hash' => $ip !== '' ? hash_hmac('sha256', $ip, $secret) : null,
         ];
+    }
+
+    private static function localCountry(?string $ip): ?string
+    {
+        if (! is_string($ip) || filter_var($ip, FILTER_VALIDATE_IP) === false) {
+            return null;
+        }
+
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false) {
+            return null;
+        }
+
+        if (function_exists('geoip_country_code_by_name')) {
+            try {
+                $country = geoip_country_code_by_name($ip);
+
+                if (is_string($country) && preg_match('/^[A-Za-z]{2}$/', trim($country))) {
+                    return strtoupper(trim($country));
+                }
+            } catch (\Throwable) {
+                // Continue to the command-line GeoIP fallback when available.
+            }
+        }
+
+        if (! function_exists('shell_exec')) {
+            return null;
+        }
+
+        $disabled = array_filter(array_map('trim', explode(',', (string) ini_get('disable_functions'))));
+        if (in_array('shell_exec', $disabled, true)) {
+            return null;
+        }
+
+        $binary = trim((string) shell_exec('command -v geoiplookup 2>/dev/null'));
+        if ($binary === '') {
+            return null;
+        }
+
+        $output = shell_exec(escapeshellarg($binary).' '.escapeshellarg($ip).' 2>/dev/null');
+        if (! is_string($output)) {
+            return null;
+        }
+
+        if (preg_match('/:\s*([A-Z]{2})\b/', strtoupper($output), $matches) === 1) {
+            return $matches[1];
+        }
+
+        return null;
     }
 
     private static function bot(string $ua): array

@@ -66,7 +66,12 @@ class WebsiteSettingsRequest extends FormRequest
             $path = strtolower((string) parse_url((string) $value, PHP_URL_PATH));
             $googleHost = $host === 'google.com' || str_ends_with($host, '.google.com');
             $openStreetMapHost = $host === 'openstreetmap.org' || str_ends_with($host, '.openstreetmap.org');
-            $allowed = ($googleHost && str_starts_with($path, '/maps/embed'))
+
+            parse_str((string) parse_url((string) $value, PHP_URL_QUERY), $query);
+            $googleEmbed = str_starts_with($path, '/maps/embed')
+                || (rtrim($path, '/') === '/maps' && strtolower((string) ($query['output'] ?? '')) === 'embed');
+
+            $allowed = ($googleHost && $googleEmbed)
                 || ($openStreetMapHost && str_starts_with($path, '/export/embed'));
 
             if (! $allowed) {

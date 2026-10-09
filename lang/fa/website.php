@@ -1,12 +1,12 @@
 <?php
 
 return [
-    'seo' => ['home' => ['title' => 'ERP و نرم‌افزار سازمانی افغانستان | Fida Technologies', 'description' => 'Fida Technologies برای سازمان‌های افغانستان ERP، MIS، حسابداری، HR، نرم‌افزارهای تخصصی و سیستم‌های اختصاصی طراحی و پیاده‌سازی می‌کند.'], 'social_image_alt' => 'Fida Technologies — نرم‌افزار سازمانی، ERP و تحول دیجیتال در افغانستان'],
+    'seo' => ['home' => ['title' => 'شرکت تکنالوژی سازمانی افغانستان | Fida Technologies', 'description' => 'Fida Technologies برای دولت، NGO و سازمان‌ها نرم‌افزار و ERP، وب و موبایل، AI، IoT، دیتاسنتر، شبکه، کلود، امنیت سایبری، تجهیزات و یکپارچه‌سازی ارائه می‌کند.'], 'social_image_alt' => 'Fida Technologies — نرم‌افزار سازمانی، ERP و تحول دیجیتال در افغانستان'],
     'nav' => ['home' => 'خانه', 'about' => 'درباره ما', 'company' => 'شرکت', 'services' => 'خدمات', 'projects' => 'پروژه‌ها', 'pricing' => 'قیمت‌گذاری', 'contact' => 'تماس', 'solutions' => 'راهکارها', 'products' => 'محصولات', 'industries' => 'صنایع', 'case_studies' => 'مطالعات موردی', 'articles' => 'دیدگاه‌ها', 'process' => 'روند کار', 'proposal' => 'درخواست پیشنهاد', 'menu' => 'باز کردن فهرست', 'light_mode' => 'حالت روز', 'dark_mode' => 'حالت شب', 'all_services' => 'همه خدمات', 'all_solutions' => 'همه راهکارها', 'all_products' => 'همه محصولات', 'all_industries' => 'همه صنایع', 'all_articles' => 'همه دیدگاه‌ها', 'company_facts' => 'مشخصات شرکت', 'answers' => 'پاسخ‌های فیدا'],
     'accessibility' => ['skip_to_content' => 'رفتن به محتوای اصلی', 'home' => 'صفحه اصلی :company', 'primary_navigation' => 'فهرست اصلی', 'change_language' => 'تغییر زبان', 'mobile_navigation' => 'فهرست موبایل', 'pagination' => 'صفحه‌بندی', 'technology_core' => 'هسته تکنالوژی تجارتی فیدا', 'capabilities' => 'توانایی‌های فیدا'],
     'hero' => [
-        'eyebrow' => 'Fida Technologies · افغانستان', 'title_before' => 'نرم‌افزار سازمانی، ERP و', 'title_emphasis' => 'تحول دیجیتال.',
-        'description' => 'برای دولت، نهادهای غیردولتی، مؤسسات و سازمان‌های دارای عملیات پیچیده در افغانستان، ERP، MIS، سیستم‌های مالی، یکپارچه‌سازی و نرم‌افزارهای اختصاصی سازمانی طراحی و تطبیق می‌کنیم.',
+        'eyebrow' => 'Fida Technologies · افغانستان', 'title_before' => 'تکنالوژی سازمانی، نرم‌افزار و', 'title_emphasis' => 'زیربنای دیجیتال.',
+        'description' => 'برای دولت، NGO و سازمان‌ها در افغانستان نرم‌افزار، ERP، وب و موبایل، AI، IoT، دیتاسنتر، شبکه، کلود، امنیت سایبری، تجهیزات و یکپارچه‌سازی ارائه می‌کنیم.',
         'primary_cta' => 'درخواست پیشنهاد', 'secondary_cta' => 'مشاهده راهکارهای سازمانی', 'trust' => 'تجربه تکنالوژی از ۲۰۱۴. خدمات Fida Technologies برای سازمان‌ها از ۲۰۲۲.',
         'dashboard_label' => 'نمای زنده تجارت', 'revenue' => 'درآمد', 'operations' => 'عملیات', 'growth' => 'رشد', 'active' => 'فعال', 'secure' => 'امنیت از پایه',
     ],

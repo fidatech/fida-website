@@ -97,7 +97,7 @@
             <div class="heading-aside"><span>MODULAR / SCALABLE / SECURE</span><p>{{ __('website.sections.solutions_description') }}</p></div>
         </div>
 
-        <div class="solution-universe">
+        <div class="solution-universe enterprise-capability-grid">
             @foreach($solutions as $solution)
                 <a class="solution-card reveal" data-tilt href="{{ App\Support\LocalizedUrl::path($solution['url']) }}">
                     <div class="card-grid" aria-hidden="true"></div>
@@ -115,6 +115,65 @@
                     </div>
                     <div class="solution-copy"><h3>{{ __("website.solutions.{$solution['key']}.title") }}</h3><p>{{ __("website.solutions.{$solution['key']}.description") }}</p><span class="text-link">{{ __('website.solutions.learn_more') }}<b>↗</b></span></div>
                 </a>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+@php
+    $institutional = match (app()->getLocale()) {
+        'fa' => [
+            'eyebrow' => 'دولت · NGO · INGO · سازمان‌ها',
+            'title' => 'از نرم‌افزار تا دیتاسنتر؛ یک شریک پاسخگو برای پروژه‌های سازمانی.',
+            'description' => 'فیدا می‌تواند software، hardware، network، server، cybersecurity، integration، installation، configuration، training و support را در یک پاسخ تخنیکی و تجارتی واضح تنظیم کند.',
+            'items' => [
+                ['title' => 'RFQ / RFP / Tender', 'text' => 'پاسخ تخنیکی و تجارتی مطابق scope، BOQ، deadline و شرایط تدارکات.'],
+                ['title' => 'Supply + Implementation', 'text' => 'تفکیک تجهیزات، لایسنس، نصب، تنظیم، testing، commissioning و training.'],
+                ['title' => 'Documentation + Handover', 'text' => 'اسناد معماری، configuration، acceptance، آموزش و حدود support برای تحویل قابل حسابرسی.'],
+            ],
+            'cta' => 'ارسال RFQ رسمی',
+            'secondary' => 'مشاهده تمام راهکارها',
+        ],
+        'ps' => [
+            'eyebrow' => 'دولت · NGO · INGO · سازمانونه',
+            'title' => 'له سافټویر څخه تر ډیټا سنټر پورې؛ د سازماني پروژو لپاره یو مسؤل شریک.',
+            'description' => 'فیدا software، hardware، network، server، cybersecurity، integration، installation، configuration، training او support په یوه روښانه تخنیکي او سوداګریز ځواب کې تنظیمولای شي.',
+            'items' => [
+                ['title' => 'RFQ / RFP / Tender', 'text' => 'د scope، BOQ، deadline او تدارکاتي شرایطو مطابق تخنیکي او سوداګریز ځواب.'],
+                ['title' => 'Supply + Implementation', 'text' => 'تجهیزات، لایسنس، نصب، تنظیم، testing، commissioning او training جلا او واضح.'],
+                ['title' => 'Documentation + Handover', 'text' => 'معماري، configuration، acceptance، روزنه او support حدود د حساب وړ سپارنې لپاره.'],
+            ],
+            'cta' => 'رسمي RFQ وسپارئ',
+            'secondary' => 'ټولې حللارې وګورئ',
+        ],
+        default => [
+            'eyebrow' => 'GOVERNMENT · NGO · INGO · ENTERPRISE',
+            'title' => 'From software to data centers, one accountable technology partner.',
+            'description' => 'Fida can combine software, hardware, networks, servers, cybersecurity, integration, installation, configuration, training and support into one clear technical and commercial response.',
+            'items' => [
+                ['title' => 'RFQ / RFP / Tender', 'text' => 'Technical and commercial responses aligned to scope, BOQ, deadline and procurement requirements.'],
+                ['title' => 'Supply + Implementation', 'text' => 'Equipment, licenses, installation, configuration, testing, commissioning and training separated clearly.'],
+                ['title' => 'Documentation + Handover', 'text' => 'Architecture, configuration, acceptance, training and support boundaries for an auditable handover.'],
+            ],
+            'cta' => 'Submit formal RFQ',
+            'secondary' => 'Explore all solutions',
+        ],
+    };
+@endphp
+<section class="section institutional-section">
+    <div class="container institutional-shell reveal">
+        <div class="institutional-copy">
+            <div class="micro-label"><span>GOV</span>{{ $institutional['eyebrow'] }}</div>
+            <h2>{{ $institutional['title'] }}</h2>
+            <p>{{ $institutional['description'] }}</p>
+            <div class="institutional-actions">
+                <a class="button button-lime button-large" href="{{ App\Support\LocalizedUrl::path('/request-for-quotation') }}" data-track-event="cta_click" data-track-label="government_rfq">{{ $institutional['cta'] }}<span class="button-arrow">↗</span></a>
+                <a class="button button-wire button-large" href="{{ App\Support\LocalizedUrl::path('/solutions') }}">{{ $institutional['secondary'] }}<span class="button-arrow">↗</span></a>
+            </div>
+        </div>
+        <div class="institutional-cards">
+            @foreach($institutional['items'] as $item)
+                <article><span>0{{ $loop->iteration }}</span><h3>{{ $item['title'] }}</h3><p>{{ $item['text'] }}</p></article>
             @endforeach
         </div>
     </div>

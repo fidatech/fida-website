@@ -16,7 +16,8 @@ class NewRfqNotificationMail extends Mailable
 
     public function build(): self
     {
-        $mail = $this->subject('[RFQ] '.$this->rfq->reference.' · '.$this->rfq->organization_name)
+        $mail = $this->replyTo($this->rfq->email, $this->rfq->contact_name)
+            ->subject('[RFQ] '.$this->rfq->reference.' · '.$this->rfq->organization_name)
             ->view('emails.new-rfq')
             ->with([
                 'rfq' => $this->rfq,

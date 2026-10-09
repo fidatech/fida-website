@@ -157,7 +157,7 @@
                     </div>
                 </div>
                 <div @class(['nav-cluster', 'active' => $projectsActive]) data-nav-cluster>
-                    <button type="button" data-nav-cluster-button aria-expanded="false">{{ __('website.nav.projects') }}<svg viewBox="0 0 16 16"><path d="m4 6 4 4 4-4"/></svg></button>
+                    <button type="button" data-nav-cluster-button aria-expanded="false">{{ __('website.nav.products') }}<svg viewBox="0 0 16 16"><path d="m4 6 4 4 4-4"/></svg></button>
                     <div class="nav-cluster-menu nav-mega-menu nav-mega-menu-projects nav-mega-menu-align-right">
                         <section>
                             <span class="nav-cluster-heading">{{ __('website.nav.projects') }}</span>
@@ -169,6 +169,9 @@
                             <a class="nav-cluster-overview" href="{{ \App\Support\LocalizedUrl::path('/products') }}">{{ __('website.nav.all_products') }}<small>↗</small></a>
                             @foreach($navProducts as $navPage)
                                 <a href="{{ \App\Support\LocalizedUrl::path('/'.$navPage->slug) }}">{{ $navPage->translation('title') }}<small>↗</small></a>
+                            @endforeach
+                            @foreach(config('website.portfolio_systems', []) as $system)
+                                <a href="{{ \App\Support\LocalizedUrl::path('/products') }}#system-{{ $system['slug'] }}">{{ $system['name'] }}<small>↗</small></a>
                             @endforeach
                         </section>
                     </div>
@@ -255,6 +258,7 @@
                     <a href="{{ \App\Support\LocalizedUrl::path('/case-studies') }}">{{ __('website.nav.case_studies') }}</a>
                     <a href="{{ \App\Support\LocalizedUrl::path('/products') }}">{{ __('website.nav.all_products') }}</a>
                     @foreach($navProducts as $navPage)<a href="{{ \App\Support\LocalizedUrl::path('/'.$navPage->slug) }}">{{ $navPage->translation('title') }}</a>@endforeach
+                    @foreach(config('website.portfolio_systems', []) as $system)<a href="{{ \App\Support\LocalizedUrl::path('/products') }}#system-{{ $system['slug'] }}">{{ $system['name'] }}</a>@endforeach
                 </div>
             </details>
             <details class="mobile-nav-group">

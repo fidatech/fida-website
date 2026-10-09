@@ -15,7 +15,7 @@
         </div>
         <p>Our team will review the submitted scope, technical requirements, deadline and procurement information before confirming the next commercial or technical step.</p>
         <p>If you need to add information, reply to this email and include the reference above.</p>
-        <p style="margin-top:24px">Fida Technologies<br><a href="mailto:info@fida.af">info@fida.af</a><br>{{ config('website.phone') }}</p>
+        <p style="margin-top:24px">Fida Technologies<br><a href="mailto:{{ config('website.procurement_email') }}">{{ config('website.procurement_email') }}</a><br>{{ config('website.phone') }}</p>
     </div>
 </div>
 </body>

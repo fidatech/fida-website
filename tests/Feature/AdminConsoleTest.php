@@ -115,9 +115,106 @@ class AdminConsoleTest extends TestCase
         $this->actingAs($editor)
             ->get(route('admin.auto-articles.index'))
             ->assertOk()
-            ->assertSee('Publish useful content on schedule.')
+            ->assertSee('Generate useful drafts on schedule.')
             ->assertSee('Generated history test')
             ->assertSee('09:00');
+    }
+
+    public function test_automated_article_cannot_publish_without_human_quality_review(): void
+    {
+        $editor = User::factory()->admin('editor')->create();
+        $bodyEn = '<h2>Decision context</h2><p>'.str_repeat('practical guidance for business software selection ', 250).'</p><h2>Implementation checklist</h2><ul><li>Review workflow ownership</li></ul>';
+        $bodyFa = '<h2>زمینه تصمیم</h2><p>'.str_repeat('راهنمای عملی برای انتخاب سیستم و بررسی نیازهای واقعی کسب و کار ', 180).'</p><h2>چک‌لیست تطبیق</h2><ul><li>مسئولیت جریان کاری را بررسی کنید</li></ul>';
+        $bodyPs = '<h2>د پرېکړې زمینه</h2><p>'.str_repeat('د سوداګرۍ د سیسټم د انتخاب او رښتینو اړتیاوو لپاره عملي لارښود ', 180).'</p><h2>د پلي کولو لست</h2><ul><li>د کاري بهیر مسؤلیت وڅېړئ</li></ul>';
+
+        $page = ContentPage::query()->create([
+            'type' => 'article',
+            'slug' => 'review-gated-ai-article',
+            'title' => ['en' => 'Review gated AI article', 'fa' => 'مقاله نیازمند بازبینی', 'ps' => 'د بیاکتنې مقاله'],
+            'eyebrow' => ['en' => 'Fida Answers', 'fa' => 'پاسخ‌های فیدا', 'ps' => 'د فیدا ځوابونه'],
+            'summary' => ['en' => str_repeat('Useful buyer guidance. ', 8), 'fa' => str_repeat('راهنمای مفید برای خریدار. ', 8), 'ps' => str_repeat('د پېرودونکي لپاره ګټور لارښود. ', 8)],
+            'body' => ['en' => $bodyEn, 'fa' => $bodyFa, 'ps' => $bodyPs],
+            'meta_title' => ['en' => 'Review Gated AI Article | Fida', 'fa' => 'مقاله بازبینی‌شده فیدا', 'ps' => 'د فیدا بیاکتل شوې مقاله'],
+            'meta_description' => ['en' => str_repeat('Practical guidance for reviewing software decisions. ', 2), 'fa' => str_repeat('راهنمای عملی برای بازبینی تصمیم‌های نرم‌افزاری. ', 2), 'ps' => str_repeat('د سافټویر پرېکړو د بیاکتنې لپاره عملي لارښود. ', 2)],
+            'primary_query' => ['en' => 'review gated software article', 'fa' => 'مقاله بازبینی نرم افزار', 'ps' => 'د سافټویر بیاکتنې مقاله'],
+            'search_intent' => 'informational',
+            'robots_directive' => config('website.discovery.default_robots'),
+            'sitemap_included' => true,
+            'sitemap_priority' => 0.7,
+            'sitemap_change_frequency' => 'monthly',
+            'metadata' => ['automation' => ['generated' => true]],
+            'status' => 'review',
+            'featured' => false,
+            'sort_order' => 100,
+        ]);
+
+        $payload = [
+            'type' => 'article',
+            'slug' => $page->slug,
+            'title' => $page->title,
+            'eyebrow' => $page->eyebrow,
+            'summary' => $page->summary,
+            'body' => $page->body,
+            'meta_title' => $page->meta_title,
+            'meta_description' => $page->meta_description,
+            'primary_query' => $page->primary_query,
+            'search_intent' => 'informational',
+            'robots_directive' => config('website.discovery.default_robots'),
+            'sitemap_included' => '1',
+            'sitemap_priority' => '0.7',
+            'sitemap_change_frequency' => 'monthly',
+            'author_name' => 'Fida Editorial Team',
+            'reviewer_name' => 'Fida Reviewer',
+            'reviewed_at' => now()->format('Y-m-d H:i:s'),
+            'status' => 'published',
+            'featured' => '0',
+            'sort_order' => 100,
+        ];
+
+        $this->actingAs($editor)
+            ->put(route('admin.content-pages.update', $page), $payload)
+            ->assertSessionHasErrors([
+                'metadata.automation.editorial_reviewed',
+                'metadata.automation.fact_checked',
+                'metadata.automation.translations_reviewed',
+            ]);
+
+        $payload['metadata']['automation'] = [
+            'editorial_reviewed' => '1',
+            'fact_checked' => '1',
+            'translations_reviewed' => '1',
+        ];
+
+        $this->actingAs($editor)
+            ->put(route('admin.content-pages.update', $page), $payload)
+            ->assertRedirect()
+            ->assertSessionHasNoErrors();
+
+        $page->refresh();
+        $this->assertSame('published', $page->status);
+        $this->assertTrue((bool) data_get($page->metadata, 'automation.editorial_reviewed'));
+        $this->assertNotEmpty(data_get($page->metadata, 'automation.reviewed_content_hash'));
+    }
+
+    public function test_auto_article_settings_never_enable_autonomous_publishing(): void
+    {
+        SiteSetting::query()->create([
+            'key' => 'content.automation',
+            'group' => 'content',
+            'value' => [
+                'enabled' => true,
+                'auto_publish' => true,
+                'daily_time' => '09:00',
+                'timezone' => 'Asia/Kabul',
+            ],
+            'type' => 'json',
+            'is_public' => false,
+        ]);
+
+        $settings = app(\App\Services\AutoArticleService::class)->settings();
+
+        $this->assertTrue($settings['enabled']);
+        $this->assertFalse($settings['auto_publish']);
     }
 
     public function test_editor_manages_insight_taxonomies_and_article_publication_state(): void

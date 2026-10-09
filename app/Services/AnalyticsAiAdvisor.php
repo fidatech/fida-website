@@ -14,9 +14,14 @@ class AnalyticsAiAdvisor
         $setting = SiteSetting::query()->where('key', 'analytics.ai')->first();
         $value = is_array($setting?->value) ? $setting->value : [];
 
+        $provider = in_array(($value['provider'] ?? null), ['gemini', 'openrouter', 'openai'], true)
+            ? $value['provider']
+            : 'gemini';
+        $savedModel = trim((string) ($value['model'] ?? ''));
+
         return [
-            'provider' => in_array(($value['provider'] ?? null), ['gemini', 'openrouter'], true) ? $value['provider'] : 'gemini',
-            'model' => trim((string) ($value['model'] ?? 'gemini-3.8-flash')),
+            'provider' => $provider,
+            'model' => $savedModel !== '' ? $savedModel : $this->defaultModel($provider),
             'api_key' => $this->decryptKey($value['api_key'] ?? null),
         ];
     }
@@ -35,9 +40,11 @@ class AnalyticsAiAdvisor
         }
 
         $prompt = $this->prompt($summary);
-        $raw = $config['provider'] === 'openrouter'
-            ? $this->openRouter($config, $prompt)
-            : $this->gemini($config, $prompt);
+        $raw = match ($config['provider']) {
+            'openrouter' => $this->openRouter($config, $prompt),
+            'openai' => $this->openAi($config, $prompt),
+            default => $this->gemini($config, $prompt),
+        };
 
         $decision = $this->extractDecision($raw);
 
@@ -114,6 +121,60 @@ class AnalyticsAiAdvisor
         }
 
         return $text;
+    }
+
+    private function openAi(array $config, string $prompt): string
+    {
+        $response = Http::withToken($config['api_key'])
+            ->acceptJson()
+            ->asJson()
+            ->timeout(45)
+            ->retry(2, 700)
+            ->post('https://api.openai.com/v1/responses', [
+                'model' => $config['model'],
+                'input' => [
+                    [
+                        'role' => 'system',
+                        'content' => [[
+                            'type' => 'input_text',
+                            'text' => 'Return only the requested JSON object. Do not reveal chain-of-thought, hidden reasoning, analysis steps, scratch work, or a thinking process. Base every recommendation on supplied evidence.',
+                        ]],
+                    ],
+                    [
+                        'role' => 'user',
+                        'content' => [[
+                            'type' => 'input_text',
+                            'text' => $prompt,
+                        ]],
+                    ],
+                ],
+                'reasoning' => ['effort' => 'none'],
+                'max_output_tokens' => 2200,
+                'text' => [
+                    'format' => ['type' => 'json_object'],
+                ],
+            ]);
+
+        if (! $response->successful()) {
+            throw new RuntimeException('OpenAI request failed: '.$response->status().' '.$response->json('error.message', 'Unknown API error'));
+        }
+
+        $text = $response->json('output.0.content.0.text');
+
+        if (! is_string($text) || trim($text) === '') {
+            throw new RuntimeException('OpenAI returned an empty recommendation.');
+        }
+
+        return $text;
+    }
+
+    private function defaultModel(string $provider): string
+    {
+        return match ($provider) {
+            'openai' => 'gpt-5.6-luna',
+            'openrouter' => 'openrouter/free',
+            default => 'gemini-3.8-flash',
+        };
     }
 
     private function prompt(array $summary): string

@@ -328,6 +328,34 @@ class AdminConsoleTest extends TestCase
             ->assertSee('theme-deep_navy palette-electric', false);
     }
 
+    public function test_admin_light_theme_can_be_selected_and_persisted(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        $this->actingAs($admin)
+            ->patchJson(route('admin.settings.admin-appearance'), [
+                'theme' => 'light',
+                'palette' => 'electric',
+            ])
+            ->assertOk()
+            ->assertJson([
+                'ok' => true,
+                'theme' => 'light',
+                'palette' => 'electric',
+            ]);
+
+        $appearance = SiteSetting::query()->where('key', 'website.appearance')->firstOrFail()->value;
+
+        $this->assertSame('light', $appearance['admin_theme']);
+        $this->assertSame('electric', $appearance['admin_palette']);
+
+        $this->actingAs($admin)
+            ->get(route('admin.dashboard'))
+            ->assertOk()
+            ->assertSee('data-admin-theme="light"', false)
+            ->assertSee('--admin-bg:#f5f7fb', false);
+    }
+
     public function test_website_settings_accept_google_maps_output_embed_url(): void
     {
         $admin = User::factory()->admin()->create();

@@ -239,7 +239,12 @@ class GovernmentNgoCapabilitySeeder extends Seeder
                 'ps' => '<h2>'.$title['ps'].'</h2><p>'.$summary['ps'].'</p><h2>د دولت او NGO لپاره سپارنه</h2><p>حدود کې تجهیزات، لایسنس، مسلکي خدمتونه، نصب، تنظیم، ازموینه، روزنه، اسناد، ملاتړ او warranty شرایط جلا ښودل کېدای شي.</p>',
             ],
             'meta_title' => [
-                'en' => $title['en'].' Afghanistan | Fida Technologies',
+                'en' => match ($definition['slug']) {
+                    'cybersecurity-solutions-afghanistan' => 'Cybersecurity Solutions Afghanistan | Fida Technologies',
+                    'enterprise-hardware-technology-supply-afghanistan' => 'Enterprise IT Hardware Afghanistan | Fida Technologies',
+                    'managed-it-services-afghanistan' => 'Managed IT Services Afghanistan | Fida Technologies',
+                    default => $title['en'].' Afghanistan | Fida Technologies',
+                },
                 'fa' => $title['fa'].' افغانستان | فیدا',
                 'ps' => $title['ps'].' افغانستان | فیدا',
             ],

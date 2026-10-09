@@ -218,9 +218,13 @@ class MarketingPageController extends Controller
     private function collectionPages(?string $hubLayout): Collection
     {
         if ($hubLayout === 'solutions') {
-            $slugs = collect(config('website.featured_solutions', []))
-                ->pluck('url')
-                ->map(fn (string $url): string => trim($url, '/'))
+            $slugs = collect(['government-ngo-technology-solutions-afghanistan'])
+                ->concat(
+                    collect(config('website.featured_solutions', []))
+                        ->pluck('url')
+                        ->map(fn (string $url): string => trim($url, '/'))
+                )
+                ->unique()
                 ->values();
             $positions = array_flip($slugs->all());
 

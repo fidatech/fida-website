@@ -81,7 +81,7 @@ final class SeoSchema
         $breadcrumbId = $canonical.'#breadcrumb';
         $webPageType = match ($page->slug) {
             'about' => 'AboutPage',
-            'contact' => 'ContactPage',
+            'contact', 'request-for-quotation' => 'ContactPage',
             'services', 'projects', 'solutions', 'products', 'industries', 'case-studies', 'articles' => 'CollectionPage',
             default => 'WebPage',
         };

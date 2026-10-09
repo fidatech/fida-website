@@ -218,6 +218,7 @@
                         @endforeach
                     </div>
                 </div>
+                <a class="header-rfq-link" href="{{ \App\Support\LocalizedUrl::path('/request-for-quotation') }}" data-track-event="cta_click" data-track-label="header_rfq">RFQ</a>
                 <a class="button button-small button-lime header-cta" href="{{ \App\Support\LocalizedUrl::path('/contact') }}" data-track-event="cta_click" data-track-label="header_contact">
                     {{ __('website.nav.contact') }}<span class="button-arrow">↗</span>
                 </a>
@@ -232,6 +233,7 @@
                 <a href="{{ \App\Support\LocalizedUrl::path('/projects') }}">{{ __('website.nav.projects') }}</a>
                 <a href="{{ \App\Support\LocalizedUrl::path('/pricing') }}">{{ __('website.nav.pricing') }}</a>
                 <a href="{{ \App\Support\LocalizedUrl::path('/contact') }}">{{ __('website.nav.contact') }}</a>
+                <a href="{{ \App\Support\LocalizedUrl::path('/request-for-quotation') }}">RFQ</a>
             </div>
             <details class="mobile-nav-group">
                 <summary>{{ __('website.nav.solutions') }}<i>+</i></summary>
@@ -308,6 +310,7 @@
                     <a href="{{ \App\Support\LocalizedUrl::path('/projects') }}">{{ __('website.nav.projects') }}</a>
                     <a href="{{ \App\Support\LocalizedUrl::path('/pricing') }}">{{ __('website.nav.pricing') }}</a>
                     <a href="{{ \App\Support\LocalizedUrl::path('/contact') }}">{{ __('website.nav.contact') }}</a>
+                    <a href="{{ \App\Support\LocalizedUrl::path('/request-for-quotation') }}">RFQ / RFP / Tender</a>
                     <a href="{{ \App\Support\LocalizedUrl::path('/privacy-policy') }}">{{ __('website.footer.privacy') }}</a>
                 </div>
                 <div>

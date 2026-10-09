@@ -25,6 +25,40 @@
 </section>
 @endif
 
+@if($hubLayout === 'solutions')
+<section class="hub-capability-section">
+    <div class="container">
+        <div class="hub-section-heading reveal">
+            <div class="micro-label"><span>CAP</span>{{ __('website.sections.solutions_eyebrow') }}</div>
+            <h2>{{ __('website.sections.solutions_title') }}</h2>
+            <p>{{ __('website.sections.solutions_description') }}</p>
+        </div>
+        <div class="capability-grid">
+            @foreach(config('website.enterprise_capabilities', []) as $capability)
+                <a class="capability-card reveal" href="{{ App\Support\LocalizedUrl::path($capability['url']) }}">
+                    <header><span>{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span><b>{{ $capability['code'] }}</b><i>↗</i></header>
+                    <div class="capability-symbol" aria-hidden="true"><span>{{ $capability['code'] }}</span></div>
+                    <h3>{{ __("website.capabilities.{$capability['key']}.title") }}</h3>
+                    <p>{{ __("website.capabilities.{$capability['key']}.description") }}</p>
+                    <strong>{{ __('website.solutions.learn_more') }} ↗</strong>
+                </a>
+            @endforeach
+        </div>
+        <div class="institutional-procurement reveal">
+            <div>
+                <span class="micro-label"><b>RFQ</b>{{ __('website.procurement.eyebrow') }}</span>
+                <h3>{{ __('website.procurement.title') }}</h3>
+                <p>{{ __('website.procurement.description') }}</p>
+            </div>
+            <div class="institutional-procurement-actions">
+                <a class="button button-lime" href="{{ App\Support\LocalizedUrl::path('/request-for-quotation') }}">{{ __('website.procurement.rfq_cta') }} <span class="button-arrow">↗</span></a>
+                <a class="button button-wire" href="{{ App\Support\LocalizedUrl::path('/government-ngo-technology-procurement-afghanistan') }}">{{ __('website.procurement.capabilities_cta') }}</a>
+            </div>
+        </div>
+    </div>
+</section>
+@endif
+
 @if(config("website.content_hubs.{$hubLayout}"))
 <section class="hub-collection-section">
     <div class="container">

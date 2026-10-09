@@ -58,14 +58,14 @@
         @foreach(config('website.stats') as $stat)
             <article><span>0{{ $loop->iteration }}</span><strong>{{ $stat['value'] }}</strong><p>{{ __("website.stats.{$stat['key']}") }}</p></article>
         @endforeach
-        <article class="metric-stack"><span>04</span><div><b>ERP</b><b>MIS</b><b>DATA</b><b>INTEGRATION</b></div><p>ENTERPRISE CAPABILITIES</p></article>
+        <article class="metric-stack"><span>04</span><div><b>ERP</b><b>AI</b><b>NETWORK</b><b>INFRA</b></div><p>ENTERPRISE CAPABILITIES</p></article>
     </div>
 </section>
 
 <section class="ticker" aria-label="{{ __('website.accessibility.capabilities') }}">
     <div class="ticker-track">
         @for($i = 0; $i < 2; $i++)
-            <span>ENTERPRISE SOFTWARE <b>✦</b> ERP & MIS <b>✦</b> SYSTEM INTEGRATION <b>✦</b> FINANCIAL SYSTEMS <b>✦</b> DATA ENGINEERING <b>✦</b> AI AUTOMATION <b>✦</b></span>
+            <span>ENTERPRISE SOFTWARE <b>✦</b> ERP & MIS <b>✦</b> WEB & MOBILE <b>✦</b> AI & IOT <b>✦</b> DATA CENTERS <b>✦</b> NETWORKS <b>✦</b> CYBERSECURITY <b>✦</b> HARDWARE SUPPLY <b>✦</b></span>
         @endfor
     </div>
 </section>

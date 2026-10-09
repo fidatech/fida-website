@@ -51,8 +51,8 @@ class MarketingWebsiteTest extends TestCase
         $this->get('/')
             ->assertOk()
             ->assertSee('<html lang="en" dir="ltr"', false)
-            ->assertSee('ERP &amp; Enterprise Software Afghanistan | Fida Technologies', false)
-            ->assertSee('Enterprise software, ERP &amp;', false)
+            ->assertSee('Enterprise Technology Company Afghanistan | Fida Technologies', false)
+            ->assertSee('Enterprise technology, software &amp;', false)
             ->assertSee('Technology experience since 2014.')
             ->assertSee('Fida operations began in 2022')
             ->assertSee('formally licensed in 2024')
@@ -60,7 +60,9 @@ class MarketingWebsiteTest extends TestCase
             ->assertDontSee('70+')
             ->assertSee('<span class="legacy-anchor" id="services" aria-hidden="true"></span>', false)
             ->assertSee('<span class="legacy-anchor" id="projects" aria-hidden="true"></span>', false)
-            ->assertSee('ERP &amp; MIS Systems', false);
+            ->assertSee('Custom ERP &amp; Enterprise Software', false)
+            ->assertSee('Data Center &amp; IT Infrastructure', false)
+            ->assertSee('Submit formal RFQ');
     }
 
     public function test_homepage_exposes_google_search_console_verification(): void

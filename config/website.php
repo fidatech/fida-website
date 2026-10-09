@@ -146,6 +146,13 @@ return [
                 'background_soft' => '#09111f',
                 'surface' => '#0d1728',
             ],
+            'light' => [
+                'label' => 'Light',
+                'description' => 'A clean professional light workspace.',
+                'background' => '#f5f7fb',
+                'background_soft' => '#eef2f7',
+                'surface' => '#ffffff',
+            ],
         ],
         'palettes' => [
             'fida' => [

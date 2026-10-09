@@ -339,7 +339,7 @@ class WebsiteSeeder extends Seeder
             ),
             $this->product(
                 slug: 'ograyi-account-manager',
-                title: ['en' => 'Ograyi — Account Manager (Mobile App)', 'fa' => 'OGRAYI برای مدیریت حساب قرض و طلب', 'ps' => 'OGRAYI د پور او طلب حسابونو مدیریت'],
+                title: ['en' => 'Ograyi — Account Manager (Mobile App)', 'fa' => 'Ograyi — مدیریت حساب (اپلیکیشن موبایل)', 'ps' => 'Ograyi — د حساب مدیریت (موبایل اپلېکېشن)'],
                 eyebrow: ['en' => 'Everyday accounts, made clearer', 'fa' => 'حساب‌های روزمره، روشن‌تر', 'ps' => 'ورځني حسابونه، لا روښانه'],
                 summary: ['en' => 'A mobile-first product for recording customer and supplier credit, debit and everyday account activity with a connected administration system.', 'fa' => 'محصول موبایل‌محور برای ثبت قرض، طلب و فعالیت روزمره حساب مشتری و عرضه‌کننده با سیستم مدیریتی مرتبط.', 'ps' => 'موبایل‌محور محصول د پیرودونکي او عرضه کوونکي پور، طلب او ورځنیو حسابونو لپاره له تړلي مدیریتي سیسټم سره.'],
                 body: [

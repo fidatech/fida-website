@@ -51,7 +51,7 @@ class MarketingWebsiteTest extends TestCase
         $this->get('/')
             ->assertOk()
             ->assertSee('<html lang="en" dir="ltr"', false)
-            ->assertSee('Enterprise Technology Company Afghanistan | Fida Technologies', false)
+            ->assertSee('Software Company in Afghanistan | ERP Systems | Fida Technologies', false)
             ->assertSee('Enterprise technology, software &amp;', false)
             ->assertSee('Technology experience since 2014.')
             ->assertSee('Fida operations began in 2022')

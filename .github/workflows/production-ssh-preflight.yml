@@ -1,0 +1,58 @@
+name: Production SSH preflight
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/production-ssh-preflight.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check configured SSH secrets
+        env:
+          PROD_REPO_PATH: ${{ secrets.PROD_REPO_PATH }}
+          PROD_SSH_HOST: ${{ secrets.PROD_SSH_HOST }}
+          PROD_SSH_PORT: ${{ secrets.PROD_SSH_PORT }}
+          PROD_SSH_PRIVATE_KEY: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
+          PROD_SSH_USER: ${{ secrets.PROD_SSH_USER }}
+          PROD_WEB_ROOT: ${{ secrets.PROD_WEB_ROOT }}
+        run: |
+          set -euo pipefail
+          for name in PROD_REPO_PATH PROD_SSH_HOST PROD_SSH_PORT PROD_SSH_PRIVATE_KEY PROD_SSH_USER PROD_WEB_ROOT; do
+            [[ -n "${!name}" ]] || { echo "::error::Missing $name"; exit 1; }
+          done
+          [[ "$PROD_SSH_PORT" =~ ^[0-9]+$ ]] || exit 1
+          install -m 0700 -d ~/.ssh
+          printf '%s\n' "$PROD_SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 0600 ~/.ssh/id_ed25519
+          ssh-keyscan -p "$PROD_SSH_PORT" -H "$PROD_SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          chmod 0600 ~/.ssh/known_hosts
+          {
+            printf '%q ' "$PROD_REPO_PATH" "$PROD_WEB_ROOT"
+          } > /tmp/ssh-arguments
+          ssh -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=15 -p "$PROD_SSH_PORT" "$PROD_SSH_USER@$PROD_SSH_HOST" "bash -s -- $(cat /tmp/ssh-arguments)" <<'REMOTE'
+          set -euo pipefail
+          repo="$1"; web="$2"
+          echo "Remote username: $(id -un)"
+          echo "Repository path exists: $([[ -d "$repo" ]] && echo yes || echo no)"
+          echo "Web root exists: $([[ -d "$web" ]] && echo yes || echo no)"
+          if [[ -d "$repo/.git" || -f "$repo/.git" ]]; then
+            echo "Repository head: $(git -C "$repo" rev-parse --short HEAD)"
+            echo "Repository branch: $(git -C "$repo" branch --show-current)"
+            echo "Repository worktree clean: $([[ -z "$(git -C "$repo" status --porcelain --untracked-files=no)" ]] && echo yes || echo no)"
+          fi
+          for p in "$web/index.php" "$web/.htaccess" "$web/build/manifest.json" "$repo/vendor/autoload.php" "$repo/.env"; do
+            [[ -e "$p" ]] && echo "Present: ${p##*/}" || echo "Missing: ${p##*/}"
+          done
+          echo "Public HTTP checks:"
+          for u in https://fida.af/ https://fida.af/robots.txt https://fida.af/sitemap.xml https://fida.af/llms.txt; do
+            curl -sS -L -o /dev/null --max-time 15 -w '%{http_code} %{url_effective}\n' "$u" || true
+          done
+          REMOTE

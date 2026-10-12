@@ -3,8 +3,8 @@
 return [
     'seo' => [
         'home' => [
-            'title' => 'Enterprise Technology Company Afghanistan | Fida Technologies',
-            'description' => 'Fida Technologies delivers ERP and custom software, web and mobile platforms, AI, IoT, data centers, networks, cloud, cybersecurity, hardware supply and systems integration for government, NGOs and enterprises in Afghanistan.',
+            'title' => 'Software Company in Afghanistan | ERP Systems | Fida Technologies',
+            'description' => 'Fida Technologies is a software company in Afghanistan providing ERP systems, custom software, web and mobile apps, AI, infrastructure and IT services for organizations.',
         ],
         'social_image_alt' => 'Fida Technologies — enterprise software, ERP and digital transformation in Afghanistan',
     ],
@@ -31,7 +31,7 @@ return [
     'hero' => [
         'eyebrow' => 'Fida Technologies · Afghanistan',
         'title_before' => 'Enterprise technology, software &', 'title_emphasis' => 'infrastructure delivery.',
-        'description' => 'We deliver software, ERP, web and mobile platforms, AI, IoT, data-center and network infrastructure, cloud, cybersecurity, hardware and systems integration for government, NGOs and complex organizations in Afghanistan.',
+        'description' => 'Fida Technologies is a software company in Afghanistan providing ERP systems, custom business software, web and mobile applications, AI, data centers, networks, cloud and security services for government, NGOs and enterprises.',
         'primary_cta' => 'Request a proposal', 'secondary_cta' => 'Explore enterprise solutions',
         'trust' => 'Technology experience since 2014. Fida Technologies serving organizations since 2022.',
         'dashboard_label' => 'Live business overview', 'revenue' => 'Revenue', 'operations' => 'Operations',

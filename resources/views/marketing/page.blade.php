@@ -76,6 +76,8 @@
     </div>
 </section>
 
+@include('marketing.partials.commercial-search-guide')
+
 @if($faqs !== [])
 <section class="page-faq-section" id="frequently-asked-questions">
     <div class="container page-section-grid">

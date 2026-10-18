@@ -125,7 +125,7 @@ return [
         'default_template' => 'technology',
         'templates' => [
             'technology' => ['label' => 'Technology Dark', 'description' => 'Original Fida dark interface.'],
-            'corporate' => ['label' => 'Corporate Clean', 'description' => 'Clear light corporate layout.'],
+            'corporate' => ['label' => 'Corporate Clean', 'description' => 'Clean corporate layout with Fida logo-inspired navy and orange.'],
         ],
         'default_theme' => 'midnight',
         'default_palette' => 'fida',

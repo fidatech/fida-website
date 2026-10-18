@@ -17,83 +17,178 @@ $capabilities=['Accounting & finance','Inventory & warehouses','Sales & CRM','Pu
 @endphp
 @section('content')
 <style>
-.erp-landing{--e-accent:#c9ff4a;color:#f1f5f9}.erp-landing .erp-wrap{width:min(1180px,calc(100% - 40px));margin:auto}.erp-landing .erp-hero{padding:100px 0 85px;background:radial-gradient(ellipse at 83% 10%,rgba(153,255,95,.15),transparent 50%),linear-gradient(160deg,#0c1721,#101f29 65%,#0c161f)}.erp-landing .erp-hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:55px;align-items:center}.erp-landing .erp-kicker{display:inline-flex;border:1px solid rgba(201,255,74,.35);border-radius:40px;padding:9px 16px;color:#c9ff4a;font-size:12px;font-weight:800;letter-spacing:.07em}.erp-landing h1{font-size:clamp(2.5rem,4.7vw,5rem);line-height:1.08;letter-spacing:-.04em;margin:25px 0}.erp-landing .erp-hero p{font-size:1.1rem;color:#bdc9d3;line-height:1.8;max-width:610px}.erp-landing .erp-button{display:inline-flex;justify-content:center;align-items:center;padding:14px 22px;text-decoration:none!important;background:var(--e-accent);border-radius:12px;color:#102017!important;font-weight:800;margin-top:20px}.erp-landing .erp-button.ghost{background:transparent;color:#f3f7fa!important;border:1px solid #526572;margin-inline-start:10px}.erp-landing .erp-shot{background:#f8fafc;padding:12px;border-radius:20px;box-shadow:0 28px 85px #0008;transform:rotate(-2deg)}.erp-landing .erp-shot img{display:block;width:100%;aspect-ratio:1.4;object-fit:cover;object-position:top;border-radius:10px}.erp-landing .erp-credit{font-size:12px;color:#b0bcc7;margin-top:22px}.erp-landing .erp-section{padding:82px 0}.erp-landing .erp-heading{text-align:center;max-width:760px;margin:0 auto 42px}.erp-landing .erp-heading h2{font-size:clamp(2rem,3.4vw,3rem);letter-spacing:-.025em;line-height:1.16;margin:0 0 14px}.erp-landing .erp-heading p{color:#aebfc9;line-height:1.7}.erp-landing .erp-prices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}.erp-landing .erp-plan{position:relative;background:linear-gradient(150deg,#1a2c36,#101f2a);border:1px solid #344954;border-radius:22px;padding:32px;display:flex;flex-direction:column;box-shadow:0 12px 35px #0002}.erp-landing .erp-plan.featured{border:2px solid #c9ff4a;background:linear-gradient(155deg,#22382d,#152a2b)}.erp-landing .erp-pill{font-size:11px;font-weight:800;color:#c9ff4a;letter-spacing:.11em}.erp-landing .erp-plan h3{font-size:24px;margin:14px 0}.erp-landing .erp-plan .price{font-size:clamp(2.5rem,4vw,3.4rem);font-weight:850;letter-spacing:-.05em;line-height:1.05;color:#fff}.erp-landing .erp-plan .year{border-top:1px solid #3d5359;margin-top:19px;padding-top:17px;font-size:15px}.erp-landing .erp-plan .year strong{color:#c9ff4a;font-size:21px}.erp-landing .erp-plan p,.erp-landing .erp-plan li{color:#c2ced3;line-height:1.65}.erp-landing .erp-plan ul{margin:15px 0 22px;padding-inline-start:18px;flex:1}.erp-landing .erp-plan li{margin:10px 0}.erp-landing .erp-plan .erp-button{width:100%}.erp-landing .erp-fineprint{text-align:center;color:#afbdc7;font-size:13px;line-height:1.8;margin:26px auto;max-width:850px}.erp-landing .erp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.erp-landing .erp-tile{padding:28px;background:#182a35;border:1px solid #334851;border-radius:18px;font-size:17px;font-weight:700}.erp-landing .erp-tile span{display:block;color:#c9ff4a;margin-bottom:20px;font-size:12px}.erp-landing .erp-gallery{display:grid;grid-template-columns:1fr 1fr;gap:24px}.erp-landing figure{margin:0;background:#f8fafc;padding:12px;border-radius:20px;color:#304254}.erp-landing figure img{width:100%;aspect-ratio:1.6;object-fit:cover;object-position:top;border-radius:12px;display:block}.erp-landing figcaption{font-size:13px;padding:10px 6px 2px}.erp-landing .erp-training{background:linear-gradient(120deg,#213c32,#10292c);border:1px solid #386b4b;border-radius:26px;padding:42px;margin-top:20px}.erp-landing .erp-training h2{font-size:2.1rem;margin:0 0 12px}.erp-landing .erp-training p{max-width:770px;color:#d3ddd8;line-height:1.8}.erp-landing .erp-faq{max-width:840px;margin:auto}.erp-landing .erp-faq details{border-bottom:1px solid #3a4b54;padding:18px 0}.erp-landing .erp-faq summary{cursor:pointer;font-weight:700;font-size:17px}.erp-landing .erp-faq p{color:#bdcbd2;line-height:1.8}.erp-landing .erp-muted{color:#b0bdc5;text-align:center;margin-top:18px;font-size:13px}@media(max-width:900px){.erp-landing .erp-hero-grid,.erp-landing .erp-gallery{grid-template-columns:1fr}.erp-landing .erp-prices{grid-template-columns:1fr}.erp-landing .erp-grid{grid-template-columns:repeat(2,1fr)}.erp-landing .erp-hero{padding:65px 0}.erp-landing .erp-shot{transform:none}}@media(max-width:540px){.erp-landing .erp-grid{grid-template-columns:1fr}.erp-landing .erp-wrap{width:min(100% - 28px,1180px)}.erp-landing .erp-plan{padding:25px}.erp-landing .erp-section{padding:58px 0}.erp-landing .erp-button.ghost{margin-inline-start:0}}
-
-/* ERPNext mobile header clearance, unclipped product imagery and denser editorial layout */
-.erp-landing{overflow:hidden;isolation:isolate}
-.erp-landing .erp-hero{padding-top:clamp(145px,13vw,190px);padding-bottom:85px}
-.erp-landing .erp-hero-grid{gap:clamp(28px,4vw,64px)}
-.erp-landing .erp-hero-copy{min-width:0}
-.erp-landing .erp-hero p{margin:18px 0 0}
-.erp-landing .erp-kicker{max-width:100%;white-space:normal;line-height:1.4}
-.erp-landing .erp-hero-visual{min-width:0}
-.erp-landing .erp-shot{padding:9px;background:#edf1f3;border:1px solid rgba(255,255,255,.65);border-radius:18px;transform:rotate(-1.5deg);overflow:hidden}
-.erp-landing .erp-browser{height:30px;display:flex;align-items:center;gap:5px;padding:0 11px 8px;direction:ltr;color:#34424b}
-.erp-landing .erp-browser span{height:7px;width:7px;border-radius:50%;background:#ff666a}
-.erp-landing .erp-browser span:nth-child(2){background:#ffbf48}
-.erp-landing .erp-browser span:nth-child(3){background:#35c687}
-.erp-landing .erp-browser strong{font-size:10px;letter-spacing:.01em;font-weight:700;margin-inline-start:12px}
-.erp-landing .erp-shot img{display:block;width:100%;height:auto;aspect-ratio:auto;object-fit:contain;object-position:center;border-radius:9px;border:1px solid #d8e0e4}
-.erp-landing .erp-visual-caption{color:#a4b2b9;font-size:11px;line-height:1.5;margin:14px 0 0}
-.erp-landing .erp-gallery figure{overflow:hidden;background:#eef2f5;padding:10px;border:1px solid #d6e0e5}
-.erp-landing .erp-gallery-media{overflow:hidden;border-radius:11px;background:#fff}
-.erp-landing .erp-gallery-media img{display:block;width:100%;height:auto;aspect-ratio:auto;object-fit:contain}
-.erp-landing .erp-gallery figcaption{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 8px 6px;color:#263945}
-.erp-landing .erp-gallery figcaption strong{font-size:14px}
-.erp-landing .erp-gallery figcaption small{font-size:11px;color:#536875}
-.erp-landing .erp-gallery figcaption a{color:#12698d;text-decoration:underline}
-.erp-landing #pricing{scroll-margin-top:125px}
-.erp-landing .erp-plan ul li::marker{color:#c9ff4a}
-@media(max-width:900px){
- .erp-landing .erp-hero{padding:140px 0 48px}
- .erp-landing .erp-hero-grid{gap:32px}
- .erp-landing .erp-shot{transform:none}
- .erp-landing .erp-hero h1{font-size:clamp(34px,6.2vw,50px);line-height:1.15;letter-spacing:-.032em;margin:21px 0 16px}
- .erp-landing .erp-hero p{font-size:16px;line-height:1.68}
- .erp-landing .erp-hero .erp-button{margin-top:20px}
- .erp-landing .erp-visual-caption{font-size:11px}
+/* ERPNext landing: the same navy, orange and warm ivory as Fida Corporate Clean. */
+.erp-landing{
+  --erp-navy:#102a3a;--erp-ink:#19394a;--erp-orange:#e97828;
+  --erp-orange-deep:#a7440a;--erp-ivory:#fff8f2;--erp-border:#e8ded5;
+  --erp-muted:#5d7180;--erp-white:#fff;color:var(--erp-ink);background:#fffdfb;
+  overflow-x:clip;isolation:isolate;
+}
+.erp-landing *{box-sizing:border-box}
+.erp-landing .erp-wrap{width:min(1160px,calc(100% - 40px));margin-inline:auto;min-width:0}
+.erp-landing .erp-hero{
+  background:linear-gradient(125deg,#fffdfb 0%,#fff8f2 57%,#ffecdb 100%);
+  border-bottom:1px solid #eedbd0;padding:76px 0 78px
+}
+.site-template-technology .erp-landing .erp-hero{padding-top:155px}
+.erp-landing .erp-hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(26px,5vw,64px)}
+.erp-landing .erp-hero-copy,.erp-landing .erp-hero-visual{min-width:0}
+.erp-landing .erp-kicker{
+  display:inline-flex;align-items:center;max-width:100%;padding:8px 13px;
+  border:1px solid #efc9aa;border-radius:999px;background:#fff3e7;color:var(--erp-orange-deep);
+  font-size:11px;letter-spacing:.055em;font-weight:800;line-height:1.45;white-space:normal
+}
+.erp-landing h1{font-size:clamp(37px,4.5vw,60px);line-height:1.10;letter-spacing:-.045em;font-weight:820;color:var(--erp-navy);margin:21px 0}
+.erp-landing .erp-hero p{color:#51687a;line-height:1.78;font-size:16px;margin:0;max-width:585px}
+.erp-landing .erp-hero .erp-actions{display:flex;gap:11px;align-items:center;flex-wrap:wrap;margin-top:27px}
+.erp-landing .erp-button{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  min-height:46px;padding:12px 19px;border-radius:10px;font-weight:800;
+  font-size:13px;text-decoration:none!important;line-height:1.4;
+  background:var(--erp-orange);color:var(--erp-navy)!important;
+  border:1px solid var(--erp-orange);transition:background .16s,border-color .16s,transform .16s
+}
+.erp-landing .erp-button:hover{background:#f39149;border-color:#f39149;transform:translateY(-2px)}
+.erp-landing .erp-button.ghost{background:#fff;border-color:#d7bea9;color:var(--erp-navy)!important}
+.erp-landing .erp-button.ghost:hover{background:#fff1e6}
+.erp-landing .erp-shot{
+  position:relative;background:#fff;border-radius:17px;
+  padding:11px;border:1px solid #e2e6eb;box-shadow:0 30px 65px rgba(26,57,76,.15);
+  overflow:hidden;transform:none
+}
+.erp-landing .erp-browser{height:26px;display:flex;align-items:center;gap:5px;direction:ltr;padding:0 8px 9px;color:#596b78}
+.erp-landing .erp-browser span{width:7px;height:7px;background:#ff6d64;border-radius:50%}
+.erp-landing .erp-browser span:nth-child(2){background:#f8bf45}
+.erp-landing .erp-browser span:nth-child(3){background:#48bd7a}
+.erp-landing .erp-browser strong{margin-inline-start:9px;font-size:9px;letter-spacing:.02em}
+.erp-landing .erp-shot img{display:block;max-width:100%;width:100%;height:auto;aspect-ratio:auto;object-fit:contain;border:1px solid #eef0f2;border-radius:8px}
+.erp-landing .erp-visual-caption{margin:12px 0 0;color:#718392;font-size:11px;line-height:1.6}
+.erp-landing .erp-section{padding:clamp(54px,7vw,90px) 0}
+.erp-landing .erp-section.erp-pricing-section{background:#fffdfb}
+.erp-landing .erp-section.erp-capabilities-section{background:#fff6ed;border-block:1px solid #f0e0d2}
+.erp-landing .erp-section.erp-gallery-section{background:#fff}
+.erp-landing .erp-section.erp-faq-section{background:#fff7ef;border-top:1px solid #eadace}
+.erp-landing .erp-heading{max-width:745px;margin:0 auto 35px;text-align:center}
+.erp-landing .erp-heading .erp-kicker{margin-bottom:13px}
+.erp-landing .erp-heading h2{margin:0 0 13px;font-size:clamp(29px,3.35vw,43px);line-height:1.18;letter-spacing:-.037em;color:var(--erp-navy);font-weight:800}
+.erp-landing .erp-heading p{margin:0;color:#607487;line-height:1.75;font-size:14px}
+.erp-landing .erp-prices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:stretch}
+.erp-landing .erp-plan{
+  display:flex;flex-direction:column;position:relative;min-width:0;padding:27px;
+  border:1px solid #e8dbcf;border-radius:18px;background:#fff;
+  box-shadow:0 14px 36px rgba(31,54,69,.06);
+  color:var(--erp-ink)
+}
+.erp-landing .erp-plan.featured{border:2px solid var(--erp-orange);padding:26px;box-shadow:0 20px 50px rgba(177,94,38,.12)}
+.erp-landing .erp-plan:before{position:absolute;inset:0 0 auto;height:5px;content:"";border-radius:17px 17px 0 0;background:#d2dce2}
+.erp-landing .erp-plan.featured:before{background:var(--erp-orange)}
+.erp-landing .erp-pill{font-size:10px;letter-spacing:.08em;font-weight:900;color:#a14d16;text-transform:uppercase}
+.erp-landing .erp-plan.featured .erp-pill{display:inline-flex;align-self:flex-start;padding:7px 10px;background:#fff0e4;border-radius:6px}
+.erp-landing .erp-plan h3{margin:16px 0 13px;font-size:26px;line-height:1.2;color:var(--erp-navy);font-weight:800}
+.erp-landing .erp-plan .erp-price-row{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+.erp-landing .erp-plan .price{font-weight:900;color:var(--erp-navy);font-size:clamp(39px,3.8vw,53px);letter-spacing:-.055em;line-height:1}
+.erp-landing .erp-plan .erp-setup-label{margin:7px 0 0;color:#617284;font-size:12px}
+.erp-landing .erp-plan .year{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  margin-top:21px;padding:13px 15px;border:1px solid #f0dfd1;
+  border-radius:11px;background:#fff7f0;color:#516879;font-size:11px;line-height:1.45
+}
+.erp-landing .erp-plan .year strong{color:#9b470e;font-size:20px;white-space:nowrap}
+.erp-landing .erp-plan .erp-desc{color:#526879;font-size:13px;line-height:1.75;margin:20px 0 14px;min-height:68px}
+.erp-landing .erp-plan ul{padding:0;margin:0 0 23px;list-style:none;flex:1}
+.erp-landing .erp-plan li{
+  display:grid;grid-template-columns:17px minmax(0,1fr);align-items:start;
+  gap:9px;margin:12px 0;color:#425b6c;font-size:12px;line-height:1.6
+}
+.erp-landing .erp-plan li:before{content:"✓";display:grid;place-items:center;width:17px;height:17px;border-radius:50%;font-size:11px;font-weight:900;color:#93420a;background:#ffe6d2;line-height:1}
+.erp-landing .erp-plan .erp-button{width:100%;margin-top:auto}
+.erp-landing .erp-fineprint{max-width:900px;margin:26px auto 0;color:#627586;font-size:12px;line-height:1.8;text-align:center}
+.erp-landing .erp-fineprint span{display:block;margin-top:11px}
+.erp-landing .erp-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.erp-landing .erp-tile{display:flex;flex-direction:column;gap:20px;min-width:0;min-height:124px;padding:21px;border:1px solid #ecd8c7;background:#fffdfb;border-radius:13px;color:var(--erp-navy);font-size:15px;font-weight:780;line-height:1.5}
+.erp-landing .erp-tile span{color:var(--erp-orange-deep);font-weight:900;font-size:11px;letter-spacing:.08em}
+.erp-landing .erp-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.erp-landing .erp-gallery figure{margin:0;min-width:0;background:#fff;border:1px solid #e3e9ed;padding:10px;border-radius:16px;box-shadow:0 10px 28px #1830400a;overflow:hidden}
+.erp-landing .erp-gallery-media{background:#f5f8fa;overflow:hidden;border-radius:10px}
+.erp-landing .erp-gallery-media img{width:100%;max-width:100%;height:auto;object-fit:contain;display:block}
+.erp-landing .erp-gallery figcaption{padding:12px 6px 6px;display:flex;gap:9px;justify-content:space-between;flex-wrap:wrap;color:var(--erp-navy)}
+.erp-landing .erp-gallery figcaption strong{font-size:13px}
+.erp-landing .erp-gallery figcaption small{font-size:11px;color:#728491}
+.erp-landing .erp-gallery figcaption a{color:#9a4813;text-decoration:underline}
+.erp-landing .erp-training{display:flex;align-items:center;justify-content:space-between;gap:25px;padding:clamp(25px,4vw,38px);margin-top:27px;background:var(--erp-navy);border-radius:17px}
+.erp-landing .erp-training h2{font-size:clamp(23px,2.6vw,32px);margin:0 0 10px;color:#fff;line-height:1.2}
+.erp-landing .erp-training p{max-width:720px;color:#d1dfe7;font-size:13px;line-height:1.75;margin:0}
+.erp-landing .erp-training .erp-button{flex:none}
+.erp-landing .erp-faq{max-width:865px;margin:auto;background:#fff;border:1px solid #e9d8ca;border-radius:15px;padding:0 25px}
+.erp-landing .erp-faq details{padding:19px 0;border-bottom:1px solid #e8e0d9}
+.erp-landing .erp-faq details:last-child{border-bottom:0}
+.erp-landing .erp-faq summary{color:var(--erp-navy);cursor:pointer;font-size:15px;font-weight:750;line-height:1.5}
+.erp-landing .erp-faq p{color:#627588;font-size:13px;line-height:1.8;margin:12px 0 0}
+.erp-landing #pricing{scroll-margin-top:95px}
+.site-template-technology .erp-landing #pricing{scroll-margin-top:110px}
+@media(max-width:980px){
+ .erp-landing .erp-hero-grid{grid-template-columns:1fr;gap:29px}
+ .erp-landing .erp-prices{gap:12px}
+ .erp-landing .erp-plan{padding:21px}
+ .erp-landing .erp-plan.featured{padding:20px}
+ .erp-landing .erp-plan .year{display:block}
+ .erp-landing .erp-plan .year strong{display:block;margin-top:5px}
+ .erp-landing .erp-plan .erp-desc{min-height:0}
+}
+@media(max-width:760px){
+ .erp-landing .erp-prices{grid-template-columns:1fr;gap:15px}
+ .erp-landing .erp-plan,.erp-landing .erp-plan.featured{padding:25px}
+ .erp-landing .erp-plan .year{display:flex}
+ .erp-landing .erp-plan .year strong{display:inline;margin-top:0}
+ .erp-landing .erp-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .erp-landing .erp-gallery{grid-template-columns:1fr}
+ .erp-landing .erp-training{display:block}
+ .erp-landing .erp-training .erp-button{margin-top:21px}
+ .erp-landing .erp-plan .erp-desc{margin-top:16px}
 }
 @media(max-width:540px){
- .erp-landing .erp-hero{padding-top:146px;padding-bottom:40px}
- .erp-landing .erp-hero-grid{gap:27px}
- .erp-landing .erp-hero h1{font-size:clamp(32px,9vw,39px);line-height:1.14;letter-spacing:-.032em;margin:17px 0 12px}
- .erp-landing .erp-kicker{padding:8px 12px;font-size:10px;letter-spacing:.04em}
- .erp-landing .erp-hero p{font-size:15px;line-height:1.65;margin:14px 0 0}
- .erp-landing .erp-hero .erp-button{display:flex;width:100%;margin:18px 0 0;padding:13px 16px;font-size:14px;min-height:48px}
- .erp-landing .erp-hero .erp-button.ghost{margin:9px 0 0}
- .erp-landing .erp-shot{padding:6px;border-radius:15px}
- .erp-landing .erp-browser{height:24px;padding:0 6px 5px}
- .erp-landing .erp-browser strong{font-size:9px;margin-inline-start:8px}
- .erp-landing .erp-visual-caption{font-size:10px;margin:10px 3px 0}
- .erp-landing .erp-heading h2{font-size:clamp(26px,8vw,34px)}
- .erp-landing .erp-gallery{gap:18px}
- .erp-landing .erp-gallery figcaption{align-items:flex-start;flex-direction:column;gap:4px}
- .erp-landing .erp-training{padding:26px}
- .erp-landing .erp-training h2{font-size:25px}
+ .erp-landing .erp-wrap{width:min(calc(100% - 28px),1160px)}
+ .erp-landing .erp-hero{padding:43px 0 42px}
+ .site-template-technology .erp-landing .erp-hero{padding-top:143px}
+ .erp-landing h1{font-size:clamp(33px,9vw,42px);margin:17px 0}
+ .erp-landing .erp-hero p{font-size:14px}
+ .erp-landing .erp-hero .erp-actions{display:grid;grid-template-columns:1fr;gap:8px;margin-top:22px}
+ .erp-landing .erp-hero .erp-button{width:100%}
+ .erp-landing .erp-shot{padding:6px;border-radius:11px}
+ .erp-landing .erp-browser{height:24px}
+ .erp-landing .erp-section{padding:50px 0}
+ .erp-landing .erp-heading{margin-bottom:27px}
+ .erp-landing .erp-plan,.erp-landing .erp-plan.featured{padding:22px}
+ .erp-landing .erp-plan h3{font-size:23px}
+ .erp-landing .erp-plan .price{font-size:43px}
+ .erp-landing .erp-tile{padding:16px;min-height:108px;font-size:13px}
+ .erp-landing .erp-faq{padding:0 17px}
+ .erp-landing .erp-gallery figcaption{display:block}
+ .erp-landing .erp-gallery figcaption small{display:block;margin-top:5px}
 }
 </style>
 <div class="erp-landing">
 <section class="erp-hero"><div class="erp-wrap erp-hero-grid">
-<div class="erp-hero-copy"><span class="erp-kicker">{{ $copy['eyebrow'] }}</span><h1>{{ $copy['hero'] }}</h1><p>{{ $copy['intro'] }}</p><a class="erp-button" href="{{ \App\Support\LocalizedUrl::path('/contact') }}?interest=erpnext-afghanistan#contact">{{ $copy['consult'] }} ↗</a><a class="erp-button ghost" href="#pricing">{{ $locale === 'fa' ? 'دیدن قیمت‌ها' : ($locale === 'ps' ? 'بیې وګورئ' : 'See pricing') }} ↓</a></div>
+<div class="erp-hero-copy"><span class="erp-kicker">{{ $copy['eyebrow'] }}</span><h1>{{ $copy['hero'] }}</h1><p>{{ $copy['intro'] }}</p><div class="erp-actions"><a class="erp-button" href="{{ \App\Support\LocalizedUrl::path('/contact') }}?interest=erpnext-afghanistan#contact">{{ $copy['consult'] }} ↗</a><a class="erp-button ghost" href="#pricing">{{ $locale === 'fa' ? 'دیدن قیمت‌ها' : ($locale === 'ps' ? 'بیې وګورئ' : 'See pricing') }} ↓</a></div></div>
 <div class="erp-hero-visual"><div class="erp-shot"><div class="erp-browser"><span></span><span></span><span></span><strong>ERPNext · Company dashboard</strong></div><img src="https://frappe.io/files/image6f308b.png" loading="eager" fetchpriority="high" alt="ERPNext company dashboard with sales, stock, purchasing and business analytics from Frappe" width="1000" height="625"></div><p class="erp-visual-caption">{{ $copy['gallerynote'] }}</p></div>
 </div></section>
-<section class="erp-section" id="pricing"><div class="erp-wrap"><div class="erp-heading"><span class="erp-kicker">IMPLEMENTATION PACKAGES</span><h2>{{ $copy['prices'] }}</h2><p>{{ $copy['pricesIntro'] }}</p></div><div class="erp-prices">
+<section class="erp-section erp-pricing-section" id="pricing"><div class="erp-wrap"><div class="erp-heading"><span class="erp-kicker">{{ $locale === 'fa' ? 'بسته‌های تطبیق' : ($locale === 'ps' ? 'د پلي کولو بستې' : 'IMPLEMENTATION PACKAGES') }}</span><h2>{{ $copy['prices'] }}</h2><p>{{ $copy['pricesIntro'] }}</p></div><div class="erp-prices">
 @foreach($plans as $plan)
 <article @class(['erp-plan','featured'=>$plan['slug']==='business'])>
 <span class="erp-pill">{{ $plan['slug']==='business' ? $copy['popular'] : 'FIDA ERPNext' }}</span>
 <h3>{{ $plan['name'] }}</h3>
-<div class="price">{{ $plan['price'] }}</div>
-<small>{{ $copy['setup'] }}</small>
-<div class="year">{{ $copy['year'] }} <strong>{{ $plan['annual'] }}</strong> / year</div>
-<p>{{ $plan['desc'] }}</p><ul>@foreach($plan['features'] as $feature)<li>{{ $feature }}</li>@endforeach</ul>
+<div class="erp-price-row"><strong class="price">{{ $plan['price'] }}</strong></div>
+<div class="erp-setup-label">{{ $copy['setup'] }}</div>
+<div class="year"><span>{{ $copy['year'] }}</span><strong>{{ $plan['annual'] }} <small>/ {{ $locale === 'fa' ? 'سال' : ($locale === 'ps' ? 'کال' : 'year') }}</small></strong></div>
+<p class="erp-desc">{{ $plan['desc'] }}</p><ul>@foreach($plan['features'] as $feature)<li><span>{{ $feature }}</span></li>@endforeach</ul>
 <a class="erp-button" href="{{ \App\Support\LocalizedUrl::path('/contact') }}?interest=erpnext-afghanistan&amp;plan={{ $plan['slug'] }}#contact">{{ $copy['contact'] }} ↗</a>
 </article>
 @endforeach
 </div><p class="erp-fineprint">{{ $copy['scope'] }}<span style="display:block;margin-top:12px">{{ $copy['independent'] }}</span></p></div></section>
-<section class="erp-section" style="background:#10212b"><div class="erp-wrap"><div class="erp-heading"><h2>{{ $copy['modules'] }}</h2></div><div class="erp-grid">@foreach($capabilities as $capability)<div class="erp-tile"><span>0{{ $loop->iteration }}</span>{{ $capability }}</div>@endforeach</div></div></section>
-<section class="erp-section"><div class="erp-wrap"><div class="erp-heading"><h2>{{ $copy['gallery'] }}</h2><p>{{ $copy['gallerynote'] }}</p></div><div class="erp-gallery"><figure><div class="erp-gallery-media"><img loading="lazy" src="https://frappe.io/files/sales.png" alt="ERPNext Selling Dashboard, including sales order trends and customer summary" width="1000" height="507"></div><figcaption><strong>Sales and customer overview</strong><small>ERPNext Selling · <a href="https://frappe.io/erpnext/usa" rel="noopener noreferrer" target="_blank">Frappe</a></small></figcaption></figure><figure><div class="erp-gallery-media"><img loading="lazy" src="https://docs.frappe.io/files/production-analytics.png" alt="ERPNext manufacturing production analytics with status chart and work orders" width="1000" height="562"></div><figcaption><strong>Production analytics</strong><small>ERPNext Manufacturing · <a href="https://docs.frappe.io/erpnext/manufacturing-dashboard" rel="noopener noreferrer" target="_blank">Frappe documentation</a></small></figcaption></figure></div><div class="erp-training"><h2>{{ $copy['training'] }}</h2><p>{{ $copy['trainingtext'] }}</p><a class="erp-button" href="{{ \App\Support\LocalizedUrl::path('/contact') }}?interest=erpnext-afghanistan#contact">{{ $copy['consult'] }} ↗</a></div></div></section>
+<section class="erp-section erp-capabilities-section"><div class="erp-wrap"><div class="erp-heading"><h2>{{ $copy['modules'] }}</h2></div><div class="erp-grid">@foreach($capabilities as $capability)<div class="erp-tile"><span>0{{ $loop->iteration }}</span>{{ $capability }}</div>@endforeach</div></div></section>
+<section class="erp-section erp-gallery-section"><div class="erp-wrap"><div class="erp-heading"><h2>{{ $copy['gallery'] }}</h2><p>{{ $copy['gallerynote'] }}</p></div><div class="erp-gallery"><figure><div class="erp-gallery-media"><img loading="lazy" src="https://frappe.io/files/sales.png" alt="ERPNext Selling Dashboard, including sales order trends and customer summary" width="1000" height="507"></div><figcaption><strong>Sales and customer overview</strong><small>ERPNext Selling · <a href="https://frappe.io/erpnext/usa" rel="noopener noreferrer" target="_blank">Frappe</a></small></figcaption></figure><figure><div class="erp-gallery-media"><img loading="lazy" src="https://docs.frappe.io/files/production-analytics.png" alt="ERPNext manufacturing production analytics with status chart and work orders" width="1000" height="562"></div><figcaption><strong>Production analytics</strong><small>ERPNext Manufacturing · <a href="https://docs.frappe.io/erpnext/manufacturing-dashboard" rel="noopener noreferrer" target="_blank">Frappe documentation</a></small></figcaption></figure></div><div class="erp-training"><div><h2>{{ $copy['training'] }}</h2><p>{{ $copy['trainingtext'] }}</p></div><a class="erp-button" href="{{ \App\Support\LocalizedUrl::path('/contact') }}?interest=erpnext-afghanistan#contact">{{ $copy['consult'] }} ↗</a></div></div></section>
 @if($faqs !== [])
-<section class="erp-section" style="background:#10212b"><div class="erp-wrap"><div class="erp-heading"><h2>{{ $copy['faq'] }}</h2></div><div class="erp-faq">@foreach($faqs as $faq)<details @if($loop->first) open @endif><summary>{{ $faq['question'] }}</summary><p>{{ $faq['answer'] }}</p></details>@endforeach</div></div></section>
+<section class="erp-section erp-faq-section"><div class="erp-wrap"><div class="erp-heading"><h2>{{ $copy['faq'] }}</h2></div><div class="erp-faq">@foreach($faqs as $faq)<details @if($loop->first) open @endif><summary>{{ $faq['question'] }}</summary><p>{{ $faq['answer'] }}</p></details>@endforeach</div></div></section>
 @endif
 </div>
 @endsection

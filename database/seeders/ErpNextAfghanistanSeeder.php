@@ -57,7 +57,7 @@ HTML],
                 'metadata' => [
                     'related_slugs' => ['erp-systems-afghanistan', 'manufacturing-erp-software-afghanistan'],
                     'faqs' => [
-                        ['question' => ['en' => 'How much does ERPNext implementation cost in Afghanistan?'], 'answer' => ['en' => 'Fida's indicative one-time fees start at $500–$700 for Starter, $900–$1,500 for Business and $1,800–$3,500+ for Enterprise. Hosting and maintenance are billed annually, with scope confirmed before contracting.']],
+                        ['question' => ['en' => 'How much does ERPNext implementation cost in Afghanistan?'], 'answer' => ['en' => 'Fida indicative one-time fees start at $500–$700 for Starter, $900–$1,500 for Business and $1,800–$3,500+ for Enterprise. Hosting and maintenance are billed annually, with scope confirmed before contracting.']],
                         ['question' => ['en' => 'Is ERPNext free software?'], 'answer' => ['en' => 'ERPNext is open-source software. Fida charges separately for managed hosting, configuration, data work, training, customizations and support.']],
                         ['question' => ['en' => 'Does the price include ERPNext training?'], 'answer' => ['en' => 'Starter includes up to six hours of standard workflow training and Business up to twelve hours. Enterprise training and additional sessions are specified in the quotation.']],
                         ['question' => ['en' => 'Can ERPNext support manufacturing or construction businesses?'], 'answer' => ['en' => 'ERPNext includes manufacturing, project, inventory and accounting functionality. Fida assesses the actual processes, required integrations and reporting before confirming fit or scope.']],

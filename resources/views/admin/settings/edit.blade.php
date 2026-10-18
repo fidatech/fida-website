@@ -64,6 +64,37 @@
                     </div>
                 </section>
 
+                <section class="console-card settings-panel">
+                    <header>
+                        <div><small>WEBSITE TEMPLATE</small><h2>Choose the public layout</h2></div>
+                        <span class="settings-state">DESIGN SYSTEM</span>
+                    </header>
+                    <div class="settings-panel-body">
+                        <p class="settings-help">Both templates share the same pages, translations, metadata and lead forms. Your current Technology Dark design stays active until you save another selection.</p>
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px">
+                            @foreach($templates as $key => $template)
+                                <label style="display:block;padding:18px;border:1px solid var(--line);border-radius:16px;cursor:pointer">
+                                    <span style="display:flex;align-items:center;gap:10px">
+                                        <input type="radio" name="template" value="{{ $key }}" @checked(old('template', $settings['template']) === $key)>
+                                        <strong>{{ $template['label'] }}</strong>
+                                    </span>
+                                    <span style="display:block;margin-top:12px;height:72px;padding:10px;border-radius:9px;background:{{ $key === 'corporate' ? '#f1f5f9' : '#0e1724' }}">
+                                        <span style="display:block;height:10px;margin-bottom:9px;border-radius:3px;background:{{ $key === 'corporate' ? '#ffffff' : '#293645' }}"></span>
+                                        <span style="display:grid;grid-template-columns:2fr 1fr;gap:7px;height:33px">
+                                            <i style="border-radius:4px;background:{{ $key === 'corporate' ? '#dbeafe' : '#1e3a41' }}"></i>
+                                            <i style="border-radius:4px;background:{{ $key === 'corporate' ? '#0b4c93' : '#c9ff4a' }}"></i>
+                                        </span>
+                                    </span>
+                                    <small style="display:block;margin-top:10px">{{ $template['description'] }}</small>
+                                </label>
+                            @endforeach
+                        </div>
+                        @error('template')<small class="field-error">{{ $message }}</small>@enderror
+                        <p class="settings-help" style="margin-top:15px">Preview does not publish the design. The preview is visible only to authenticated website-settings administrators.</p>
+                        <a class="console-button console-button-quiet" href="{{ route('home', ['template_preview' => 'corporate']) }}" target="_blank" rel="noopener noreferrer">Preview Corporate Clean ↗</a>
+                    </div>
+                </section>
+
                 <section class="console-card settings-panel appearance-panel">
                     <header>
                         <div><small>SURFACE THEME</small><h2>Choose the atmosphere</h2></div>

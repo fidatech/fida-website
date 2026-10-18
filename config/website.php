@@ -122,6 +122,11 @@ return [
         'logo_url' => null,
     ],
     'appearance' => [
+        'default_template' => 'technology',
+        'templates' => [
+            'technology' => ['label' => 'Technology Dark', 'description' => 'Original Fida dark interface.'],
+            'corporate' => ['label' => 'Corporate Clean', 'description' => 'Clear light corporate layout.'],
+        ],
         'default_theme' => 'midnight',
         'default_palette' => 'fida',
         'themes' => [

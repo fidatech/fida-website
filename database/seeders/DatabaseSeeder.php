@@ -26,5 +26,6 @@ class DatabaseSeeder extends Seeder
         $this->call(SearchAuthorityContentWaveThreeSeeder::class);
         $this->call(AfghanIndustryOpportunitySeeder::class);
         $this->call(GovernmentNgoCapabilitySeeder::class);
+        $this->call(ErpNextAfghanistanSeeder::class);
     }
 }

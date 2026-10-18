@@ -60,6 +60,7 @@ class WebsiteSettings
             'website.branding.tagline' => $form['brand_tagline'],
             'website.branding.logo_path' => $form['logo_path'],
             'website.branding.logo_url' => $this->logoUrl($form['logo_path']),
+            'website.appearance.current_template' => $form['template'],
             'website.appearance.current_theme' => $form['theme'],
             'website.appearance.current_palette' => $form['palette'],
             'website.appearance.current_theme_values' => $theme,
@@ -131,6 +132,9 @@ class WebsiteSettings
             'brand_name' => $this->text($branding['brand_name'] ?? null, config('website.branding.name', 'Fida'), 80),
             'brand_tagline' => $this->text($branding['brand_tagline'] ?? null, config('website.branding.tagline', 'Technologies'), 80),
             'logo_path' => $this->logoPath($branding['logo_path'] ?? null),
+            'template' => array_key_exists((string) ($appearance['template'] ?? ''), config('website.appearance.templates', []))
+                ? (string) $appearance['template']
+                : (string) config('website.appearance.default_template', 'technology'),
             'theme' => $theme,
             'palette' => $palette,
             'primary_color' => $this->color($appearance['primary_color'] ?? null, $fallbackColors['primary']),

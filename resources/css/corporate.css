@@ -529,3 +529,34 @@ body.site-template-corporate {
     outline:3px solid #57788d;
     outline-offset:3px;
 }
+
+/* Navigation toggles and map action complete the navy button treatment. */
+.site-template-corporate .corp-mobile-menu summary{
+    background:var(--fida-button-navy)!important;
+    border-color:var(--fida-button-navy)!important;
+}
+.site-template-corporate .corp-mobile-menu summary span{
+    background:#fff!important;
+}
+.site-template-corporate .corp-mobile-menu summary:hover{
+    background:var(--fida-button-hover)!important;
+}
+.site-template-corporate .corp-footer-map-button{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    min-height:42px;
+    margin-top:17px;
+    padding:10px 14px;
+    color:#fff!important;
+    background:transparent;
+    border:1px solid rgba(255,255,255,.58);
+    border-radius:8px;
+    text-decoration:none!important;
+}
+.site-template-corporate .corp-footer-map-button:is(:hover,:focus-visible){
+    color:#fff!important;
+    border-color:#fff;
+    background:rgba(255,255,255,.09);
+}

@@ -56,7 +56,7 @@ class MarketingPageController extends Controller
             default => 'marketing.page',
         };
 
-        return view($hubLayout ? 'marketing.hub' : $detailView, [
+        return view($page->slug === 'erpnext-afghanistan' ? 'marketing.erpnext' : ($hubLayout ? 'marketing.hub' : $detailView), [
             'page' => $page,
             'seo' => $seo,
             'faqs' => $faqs,

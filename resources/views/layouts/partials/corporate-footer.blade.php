@@ -8,6 +8,7 @@
             'contact' => 'تماس با ما',
             'company' => 'شرکت',
             'solutions' => 'خدمات و راهکارها',
+            'custom' => 'توسعه سافتویر اختصاصی',
             'products' => 'محصولات',
             'find' => 'دفتر ما',
             'map' => 'مشاهده در نقشه',
@@ -22,6 +23,7 @@
             'contact' => 'اړیکه ونیسئ',
             'company' => 'شرکت',
             'solutions' => 'خدمتونه او حللارې',
+            'custom' => 'د ځانګړي سافټویر جوړول',
             'products' => 'محصولات',
             'find' => 'زموږ دفتر',
             'map' => 'په نقشه کې یې وګورئ',
@@ -36,6 +38,7 @@
             'contact' => 'Contact our team',
             'company' => 'Company',
             'solutions' => 'Services & solutions',
+            'custom' => 'Custom software development',
             'products' => 'Business software',
             'find' => 'Visit our office',
             'map' => 'View on Google Maps',
@@ -90,7 +93,7 @@
                     <h3>{{ $footerText['solutions'] }}</h3>
                     <a href="{{ \App\Support\LocalizedUrl::path('/erpnext-afghanistan') }}">ERPNext</a>
                     <a href="{{ \App\Support\LocalizedUrl::path('/enterprise-software-afghanistan') }}">{{ __('website.solutions.erp.title') }}</a>
-                    <a href="{{ \App\Support\LocalizedUrl::path('/custom-software-development-afghanistan') }}">{{ __('website.footer.expertise') }}</a>
+                    <a href="{{ \App\Support\LocalizedUrl::path('/custom-software-development-afghanistan') }}">{{ $footerText['custom'] }}</a>
                     <a href="{{ \App\Support\LocalizedUrl::path('/web-digital-platforms-afghanistan') }}">{{ __('website.solutions.web.title') }}</a>
                     <a href="{{ \App\Support\LocalizedUrl::path('/services') }}">{{ __('website.nav.all_services') }}</a>
                 </div>

@@ -4,6 +4,10 @@
 @section('eyebrow', 'Control / public identity')
 
 @section('content')
+    {{-- The admin typography selector previews open-license Google Fonts. Site fonts are loaded separately. --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700&amp;family=Manrope:wght@600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap">
     <form action="{{ route('admin.settings.update') }}" method="post" enctype="multipart/form-data" data-settings-form>
         @csrf
         @method('PUT')

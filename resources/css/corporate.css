@@ -325,3 +325,24 @@ body.site-template-corporate {
 .site-template-corporate summary:focus-visible { outline-color:var(--corp-orange-dark) }
 .site-template-corporate .corp-preview-bar { background:var(--corp-navy);color:#fff }
 .site-template-corporate .corp-preview-bar a { color:#ffd6ad }
+
+/* Align custom ERPNext landing page accents with the same Fida brand palette. */
+.site-template-corporate .erp-landing { --e-accent: #e97828; }
+.site-template-corporate .erp-landing .erp-hero {
+    background: radial-gradient(ellipse at 82% 8%,rgba(233,120,40,.17),transparent 52%),
+                linear-gradient(155deg,#102a3a,#193b4c 65%,#102a3a);
+}
+.site-template-corporate .erp-landing .erp-kicker,
+.site-template-corporate .erp-landing .erp-plan .year strong,
+.site-template-corporate .erp-landing .erp-pill,
+.site-template-corporate .erp-landing .erp-tile span { color:#ffb27c; }
+.site-template-corporate .erp-landing .erp-kicker { border-color:rgba(233,120,40,.55); }
+.site-template-corporate .erp-landing .erp-plan.featured { border-color:#e97828;background:linear-gradient(150deg,#263c46,#162e3e); }
+.site-template-corporate .erp-landing .erp-plan { background:linear-gradient(155deg,#1c3444,#102a3a); }
+.site-template-corporate .erp-landing .erp-plan .erp-button,
+.site-template-corporate .erp-landing .erp-hero .erp-button:not(.ghost),
+.site-template-corporate .erp-landing .erp-training .erp-button {
+    background:#e97828;
+    color:#102a3a!important;
+}
+.site-template-corporate .erp-landing .erp-training { background:linear-gradient(120deg,#263d4b,#102a3a);border-color:#a75c27; }

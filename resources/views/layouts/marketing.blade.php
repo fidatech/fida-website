@@ -303,6 +303,9 @@
     @endif
     <main id="main">@yield('content')</main>
 
+    @if($corporateTemplate)
+        @include('layouts.partials.corporate-footer')
+    @else
     <footer class="site-footer">
         <div class="container footer-shell">
             <div class="footer-top">
@@ -415,6 +418,7 @@
             </div>
         </div>
     </footer>
+    @endif
 
     @if($isTemplatePreview)
         <script>

@@ -45,12 +45,12 @@ $capabilities=['Accounting & finance','Inventory & warehouses','Sales & CRM','Pu
   display:inline-flex;align-items:center;justify-content:center;gap:9px;
   min-height:46px;padding:12px 19px;border-radius:10px;font-weight:800;
   font-size:13px;text-decoration:none!important;line-height:1.4;
-  background:var(--erp-orange);color:var(--erp-navy)!important;
-  border:1px solid var(--erp-orange);transition:background .16s,border-color .16s,transform .16s
+  background:var(--erp-navy);color:#fff!important;
+  border:1px solid var(--erp-navy);transition:background .16s,border-color .16s,transform .16s
 }
-.erp-landing .erp-button:hover{background:#f39149;border-color:#f39149;transform:translateY(-2px)}
-.erp-landing .erp-button.ghost{background:#fff;border-color:#d7bea9;color:var(--erp-navy)!important}
-.erp-landing .erp-button.ghost:hover{background:#fff1e6}
+.erp-landing .erp-button:hover{background:#244b61;border-color:#244b61;color:#fff!important;transform:translateY(-2px)}
+.erp-landing .erp-button.ghost{background:#fff;border-color:var(--erp-navy);color:var(--erp-navy)!important}
+.erp-landing .erp-button.ghost:hover{background:#e9f0f4;border-color:var(--erp-navy);color:var(--erp-navy)!important}
 .erp-landing .erp-shot{
   position:relative;background:#fff;border-radius:17px;
   padding:11px;border:1px solid #e2e6eb;box-shadow:0 30px 65px rgba(26,57,76,.15);

@@ -78,11 +78,11 @@
                                         <input type="radio" name="template" value="{{ $key }}" @checked(old('template', $settings['template']) === $key)>
                                         <strong>{{ $template['label'] }}</strong>
                                     </span>
-                                    <span style="display:block;margin-top:12px;height:72px;padding:10px;border-radius:9px;background:{{ $key === 'corporate' ? '#f1f5f9' : '#0e1724' }}">
-                                        <span style="display:block;height:10px;margin-bottom:9px;border-radius:3px;background:{{ $key === 'corporate' ? '#ffffff' : '#293645' }}"></span>
+                                    <span style="display:block;margin-top:12px;height:72px;padding:10px;border-radius:9px;background:{{ $key === 'corporate' ? '#fff8f2' : '#0e1724' }}">
+                                        <span style="display:block;height:10px;margin-bottom:9px;border-radius:3px;background:{{ $key === 'corporate' ? '#102a3a' : '#293645' }}"></span>
                                         <span style="display:grid;grid-template-columns:2fr 1fr;gap:7px;height:33px">
-                                            <i style="border-radius:4px;background:{{ $key === 'corporate' ? '#dbeafe' : '#1e3a41' }}"></i>
-                                            <i style="border-radius:4px;background:{{ $key === 'corporate' ? '#0b4c93' : '#c9ff4a' }}"></i>
+                                            <i style="border-radius:4px;background:{{ $key === 'corporate' ? '#fff0e2' : '#1e3a41' }}"></i>
+                                            <i style="border-radius:4px;background:{{ $key === 'corporate' ? '#e97828' : '#c9ff4a' }}"></i>
                                         </span>
                                     </span>
                                     <small style="display:block;margin-top:10px">{{ $template['description'] }}</small>

@@ -125,6 +125,7 @@ body.site-template-corporate{color:#19334d!important;background:#f5f8fc!importan
 .site-template-corporate .contact-direct a,.site-template-corporate .contact-direct div{color:#264860}
 .site-template-corporate .lead-form{background:#fff;border:1px solid #d5e3ee;box-shadow:0 18px 45px rgba(22,65,105,.08)}
 .site-template-corporate .form-grid label>span,.site-template-corporate .form-console{color:#507089}
+.site-template-corporate .form-console small{display:none}
 .site-template-corporate .form-grid input,.site-template-corporate .form-grid select,.site-template-corporate .form-grid textarea{background:#f7fafc;color:#142e46;border:1px solid #d8e4ed}
 .site-template-corporate .site-footer{background:#102d46!important;color:#e5eff8}
 .site-template-corporate .site-footer p,.site-template-corporate .site-footer .footer-grid a,.site-template-corporate .site-footer .footer-grid span,.site-template-corporate .footer-bottom{color:#a9bfd3}

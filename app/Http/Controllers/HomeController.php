@@ -19,7 +19,9 @@ class HomeController extends Controller
         ];
         $topic = (string) data_get(config('website.discovery.home.primary_query'), app()->getLocale(), data_get(config('website.discovery.home.primary_query'), config('website.default_locale')));
 
-        return view('marketing.home', [
+        return view(\App\Support\WebsiteTemplate::resolve($request) === 'corporate'
+            ? 'marketing.templates.corporate.home'
+            : 'marketing.home', [
             'seo' => $seo,
             'structuredData' => SeoSchema::home($seo['title'], $seo['description'], $seo['canonical'], $topic, $seo['image']),
             'solutions' => config('website.featured_solutions'),

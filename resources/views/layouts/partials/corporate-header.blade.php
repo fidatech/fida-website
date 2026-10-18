@@ -37,7 +37,7 @@
                     <a href="{{ \App\Support\LocalizedUrl::path('/pricing') }}">{{ __('website.nav.pricing') }}</a>
                     <a href="{{ \App\Support\LocalizedUrl::path('/about') }}">{{ __('website.nav.about') }}</a>
                     <a href="{{ \App\Support\LocalizedUrl::path('/contact') }}">{{ __('website.nav.contact') }}</a>
-                    <a href="{{ \App\Support\LocalizedUrl::path('/search') }}">{{ __('website.nav.search') }}</a>
+                    <a href="{{ \App\Support\LocalizedUrl::path('/search') }}">{{ __('website.search.submit') }}</a>
                 </nav>
             </details>
         </div>

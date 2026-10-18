@@ -184,3 +184,144 @@ body.site-template-corporate{color:#19334d!important;background:#f5f8fc!importan
  .site-template-corporate .corp-erpnext-banner{flex-direction:column;align-items:flex-start;padding:22px}
  .site-template-corporate .corp-hero-links small{font-size:10px}
 }
+
+/* Fida FR logo-aligned corporate brand palette */
+/*
+   The current uploaded FR logo uses charcoal/deep navy and warm orange.
+   Approximate palette sampled from the previously shared mobile logo image.
+   Kept separate from Technology Dark's lime/violet styling.
+*/
+html:has(body.site-template-corporate) {
+    --corp-navy: #102a3a;
+    --corp-ink: #19394a;
+    --corp-orange: #e97828;
+    --corp-orange-dark: #a7440a;
+    --corp-cream: #fff8f2;
+    --corp-orange-soft: #fff0e2;
+    --corp-border: #e8ded5;
+    --lime: var(--corp-orange-dark) !important;
+    --lime-soft: #ffe3cb !important;
+    --violet: #aa4912 !important;
+    --cyan: #d96e20 !important;
+    --ink: #fffaf6 !important;
+    --ink-soft: #fff4e9 !important;
+    --text: var(--corp-navy) !important;
+}
+body.site-template-corporate {
+    background: #fffaf6 !important;
+    color: var(--corp-navy) !important;
+}
+/* Identity and navigation */
+.site-template-corporate .corporate-header { border-bottom-color:var(--corp-border);background:#fff!important }
+.site-template-corporate .corp-brand,
+.site-template-corporate .corp-brand strong,
+.site-template-corporate .corp-desktop-nav a,
+.site-template-corporate .corp-lang summary { color:var(--corp-navy) }
+.site-template-corporate .corp-brand-mark { background:var(--corp-navy);color:#fff }
+.site-template-corporate .corp-desktop-nav a:hover,
+.site-template-corporate .corp-lang-menu a:hover { color:var(--corp-orange-dark) }
+.site-template-corporate .corp-lang-menu a:hover { background:var(--corp-orange-soft) }
+.site-template-corporate .corp-nav-cta,
+.site-template-corporate .corp-button-primary,
+.site-template-corporate .button-lime {
+    background:var(--corp-orange);
+    color:var(--corp-navy)!important;
+    border-color:var(--corp-orange);
+}
+.site-template-corporate .corp-nav-cta:hover,
+.site-template-corporate .corp-button-primary:hover,
+.site-template-corporate .button-lime:hover {
+    background:#f18a3b;
+    color:var(--corp-navy)!important;
+    border-color:#f18a3b;
+}
+.site-template-corporate .corp-button-outline,
+.site-template-corporate .button-wire {
+    color:var(--corp-navy)!important;
+    border-color:#d8bca6;
+    background:#fff;
+}
+.site-template-corporate .corp-button-outline:hover,
+.site-template-corporate .button-wire:hover { background:var(--corp-orange-soft) }
+.site-template-corporate .corp-lang summary { border-color:var(--corp-border) }
+/* Hero: elegant ivory field with the orange R accent from the FR symbol. */
+.site-template-corporate .corp-hero {
+    background:linear-gradient(135deg,#fffdfa 0%,#fff5eb 65%,#fde8d5 100%)!important;
+    border-bottom-color:var(--corp-border);
+}
+.site-template-corporate .corp-hero h1,
+.site-template-corporate .corp-section-head h2,
+.site-template-corporate .corp-company h2,
+.site-template-corporate .corp-erpnext-banner h3 { color:var(--corp-navy) }
+.site-template-corporate .corp-hero h1 span,
+.site-template-corporate .corp-eyebrow,
+.site-template-corporate .corp-card-number,
+.site-template-corporate .corp-card-link,
+.site-template-corporate .corp-service-arrow,
+.site-template-corporate .corp-panel-heading strong,
+.site-template-corporate .corp-panel-more,
+.site-template-corporate .corp-product-card a { color:var(--corp-orange-dark) }
+.site-template-corporate .corp-service-icon { background:var(--corp-orange-soft);color:var(--corp-orange-dark) }
+.site-template-corporate .corp-hero-panel,
+.site-template-corporate .corp-service-card,
+.site-template-corporate .corp-product-card,
+.site-template-corporate .corp-company-facts>div { border-color:var(--corp-border) }
+.site-template-corporate .corp-service-card:hover,
+.site-template-corporate .corp-product-card:hover { border-color:var(--corp-orange);box-shadow:0 12px 34px rgba(117,57,15,.09) }
+.site-template-corporate .corp-stats,
+.site-template-corporate .corp-section { background:#fffdfa }
+.site-template-corporate .corp-section.corp-alt { background:#fff6ee }
+.site-template-corporate .corp-stats-grid strong { color:var(--corp-navy) }
+.site-template-corporate .corp-industries>div { background:#fffdfb;border-color:var(--corp-border) }
+.site-template-corporate .corp-industries span { color:var(--corp-orange-dark) }
+.site-template-corporate .corp-product-symbol {
+    background:var(--corp-orange-soft);
+    color:var(--corp-navy);
+    box-shadow:inset 0 0 0 1px #f1d8c4;
+}
+.site-template-corporate .corp-erpnext-banner {
+    background:linear-gradient(110deg,#fff0e3,#fffaf5);
+    border-color:#efd1b8;
+}
+.site-template-corporate .corp-erpnext-banner .corp-button { flex-shrink:0 }
+/* Restyle existing content pages without changing the underlying content or URLs. */
+.site-template-corporate .page-hero,
+.site-template-corporate .hub-page-hero,
+.site-template-corporate .detail-page-hero {
+    background:linear-gradient(135deg,#fffdfb,#fff0e2)!important;
+}
+.site-template-corporate .page-hero h1,
+.site-template-corporate .hub-section-heading h2,
+.site-template-corporate .page-cta h2,
+.site-template-corporate .prose h2,
+.site-template-corporate .prose h3 { color:var(--corp-navy) }
+.site-template-corporate .page-breadcrumbs a,
+.site-template-corporate .prose a,
+.site-template-corporate .hub-card strong,
+.site-template-corporate .related-page-card b,
+.site-template-corporate .micro-label,
+.site-template-corporate .page-hero .micro-label,
+.site-template-corporate .pricing-card strong { color:var(--corp-orange-dark) }
+.site-template-corporate .micro-label span { border-color:#efc3a2;color:var(--corp-orange-dark) }
+.site-template-corporate .page-cta,
+.site-template-corporate .hub-card,
+.site-template-corporate .related-page-card,
+.site-template-corporate .pricing-card,
+.site-template-corporate .product-profile-shell,
+.site-template-corporate .portfolio-catalog li { border-color:var(--corp-border);background:#fffaf5!important }
+.site-template-corporate .contact-section { background:#fff3e8!important }
+.site-template-corporate .contact-copy h2 { color:var(--corp-navy) }
+.site-template-corporate .lead-form { border-color:#edcfb8 }
+.site-template-corporate .form-grid input:focus,
+.site-template-corporate .form-grid select:focus,
+.site-template-corporate .form-grid textarea:focus { border-color:var(--corp-orange);outline-color:var(--corp-orange) }
+.site-template-corporate .site-footer { background:var(--corp-navy)!important }
+.site-template-corporate .corp-mobile-menu summary { background:var(--corp-orange-soft);border-color:#ebc7ab }
+.site-template-corporate .corp-mobile-menu summary span { background:var(--corp-navy) }
+.site-template-corporate .corp-mobile-menu>nav { border-color:#ebcbb1 }
+.site-template-corporate .corp-mobile-menu>nav a:hover { background:var(--corp-orange-soft) }
+.site-template-corporate a:focus-visible,
+.site-template-corporate button:focus-visible,
+.site-template-corporate summary:focus-visible { outline-color:var(--corp-orange-dark) }
+.site-template-corporate .corp-preview-bar { background:var(--corp-navy);color:#fff }
+.site-template-corporate .corp-preview-bar a { color:#ffd6ad }

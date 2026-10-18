@@ -47,7 +47,8 @@
         ],
     };
     $footerProfiles = array_filter(config('website.official_profiles', []), fn ($url) => is_string($url) && filter_var($url, FILTER_VALIDATE_URL));
-    $footerMapUrl = config('website.google_maps_url');
+    $footerMapUrl = config('website.google_maps_url') ?: 'https://www.google.com/maps/search/?api=1&query=34.5143264%2C69.1840542';
+    $footerMapEmbedUrl = config('website.map_embed_url') ?: 'https://www.google.com/maps?q=34.5143264,69.1840542&z=17&output=embed';
 @endphp
 <footer class="site-footer corp-footer">
     <div class="container">
@@ -107,30 +108,32 @@
             </nav>
         </div>
 
-        <div class="corp-footer-details">
-            <div class="corp-footer-address">
-                <div class="corp-footer-address-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>
-                </div>
-                <div>
-                    <strong>{{ $footerText['find'] }}</strong>
-                    <p>@if(config('website.address.line')){{ config('website.address.line') }}, @endif{{ config('website.address.city') }}, {{ config('website.address.country') }}</p>
-                    @if($footerMapUrl)
-                        <a href="{{ $footerMapUrl }}" target="_blank" rel="noopener noreferrer">{{ $footerText['map'] }} ↗</a>
-                    @endif
-                </div>
-            </div>
-            @if($footerProfiles !== [])
-                <div class="corp-footer-follow">
-                    <strong>{{ $footerText['follow'] }}</strong>
-                    <div class="corp-footer-social">
-                        @foreach($footerProfiles as $network => $profileUrl)
-                            <a href="{{ $profileUrl }}" target="_blank" rel="me noopener noreferrer">{{ ucfirst($network) }} ↗</a>
-                        @endforeach
+        <section class="corp-footer-location" aria-label="{{ $footerText['find'] }}">
+            <div class="corp-footer-location-content">
+                <span class="corp-footer-location-kicker">{{ $footerText['find'] }}</span>
+                <h3>{{ config('website.address.city') }}, {{ config('website.address.country') }}</h3>
+                <p>@if(config('website.address.line')){{ config('website.address.line') }}@endif</p>
+                <a class="corp-footer-map-button" href="{{ $footerMapUrl }}" target="_blank" rel="noopener noreferrer">{{ $footerText['map'] }} <span aria-hidden="true">↗</span></a>
+                @if($footerProfiles !== [])
+                    <div class="corp-footer-follow">
+                        <strong>{{ $footerText['follow'] }}</strong>
+                        <div class="corp-footer-social">
+                            @foreach($footerProfiles as $network => $profileUrl)
+                                <a href="{{ $profileUrl }}" target="_blank" rel="me noopener noreferrer">{{ ucfirst($network) }} ↗</a>
+                            @endforeach
+                        </div>
                     </div>
-                </div>
-            @endif
-        </div>
+                @endif
+            </div>
+            <div class="corp-footer-map-frame">
+                <iframe src="{{ $footerMapEmbedUrl }}"
+                        title="{{ $footerText['find'] }} — {{ config('website.name') }}"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        allowfullscreen
+                        tabindex="-1"></iframe>
+            </div>
+        </section>
 
         <div class="corp-footer-bottom">
             <span>© {{ now()->year }} {{ config('website.name') }}. {{ $footerText['rights'] }}</span>

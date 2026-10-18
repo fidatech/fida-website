@@ -95,6 +95,45 @@
                     </div>
                 </section>
 
+                <section class="console-card settings-panel">
+                    <header>
+                        <div><small>PUBLIC TYPOGRAPHY</small><h2>Fonts & reading experience</h2></div>
+                        <span class="settings-state">CORPORATE CLEAN</span>
+                    </header>
+                    <div class="settings-panel-body" style="display:grid;gap:19px">
+                        <p class="settings-help">Choose how the Corporate Clean website reads. The Technology Dark template and admin console keep their existing fonts. Dari and Pashto use a compatible Arabic-script typeface for legibility.</p>
+                        <fieldset style="border:0;margin:0;padding:0;min-width:0">
+                            <legend style="margin-bottom:12px;font-size:13px;font-weight:800">Font pairing</legend>
+                            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:11px">
+                                @foreach($fontPresets as $key => $preset)
+                                    <label style="cursor:pointer;padding:15px;border:1px solid var(--line);border-radius:13px;display:grid;gap:9px">
+                                        <span style="display:flex;align-items:center;gap:10px;font-size:13px;font-weight:750">
+                                            <input type="radio" name="font_preset" value="{{ $key }}" @checked(old('font_preset', $settings['font_preset']) === $key)>
+                                            {{ $preset['label'] }}
+                                        </span>
+                                        <strong style="font-family:{{ $key === 'editorial' ? "'Plus Jakarta Sans',sans-serif" : ($key === 'modern' ? "'Manrope',sans-serif" : "'Inter',sans-serif") }};font-size:25px;line-height:1.15;letter-spacing:-.04em">Aa Brand</strong>
+                                        <small>{{ $preset['description'] }}</small>
+                                    </label>
+                                @endforeach
+                            </div>
+                            @error('font_preset')<small class="field-error">{{ $message }}</small>@enderror
+                        </fieldset>
+                        <fieldset style="border:0;margin:0;padding:0">
+                            <legend style="margin-bottom:12px;font-size:13px;font-weight:800">Heading size</legend>
+                            <div style="display:flex;flex-wrap:wrap;gap:12px">
+                                @foreach($typeScales as $key => $scale)
+                                    <label style="display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:10px;padding:10px 13px;cursor:pointer;font-size:13px">
+                                        <input type="radio" name="type_scale" value="{{ $key }}" @checked(old('type_scale', $settings['type_scale']) === $key)>
+                                        <span>{{ $scale['label'] }}</span>
+                                    </label>
+                                @endforeach
+                            </div>
+                            @error('type_scale')<small class="field-error">{{ $message }}</small>@enderror
+                        </fieldset>
+                        <p class="settings-help">Font choices apply to Corporate Clean when saved. Use its private preview link above to review English, Dari and Pashto before publishing.</p>
+                    </div>
+                </section>
+
                 <section class="console-card settings-panel appearance-panel">
                     <header>
                         <div><small>SURFACE THEME</small><h2>Choose the atmosphere</h2></div>

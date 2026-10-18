@@ -1,6 +1,6 @@
 /* Corporate Clean: independent light enterprise presentation for the existing Fida CMS. */
 /* This asset loads only when the Corporate Clean template is selected or privately previewed. */
-html:has(body.site-template-corporate){color-scheme:light;background:#f5f8fc;--ink:#f5f8fc;--ink-soft:#edf2f8;--panel-solid:#fff;--line:rgba(23,52,87,.12);--line-strong:rgba(23,52,87,.22);--text:#142942;--muted:#536981;--lime:#0b5ca8;--lime-soft:#deefff;--violet:#2563eb;--cyan:#0d8ba8}
+html:has(body.site-template-corporate){color-scheme:light;background:#f5f8fc;--ink:#f5f8fc!important;--ink-soft:#edf2f8!important;--panel-solid:#fff!important;--line:rgba(23,52,87,.12)!important;--line-strong:rgba(23,52,87,.22)!important;--text:#142942!important;--muted:#536981!important;--lime:#0b5ca8!important;--lime-soft:#deefff!important;--violet:#2563eb!important;--cyan:#0d8ba8!important}
 body.site-template-corporate{color:#19334d!important;background:#f5f8fc!important;font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:clip}
 .site-template-corporate .page-aurora,.site-template-corporate .page-noise{display:none!important}
 .site-template-corporate .container{width:min(calc(100% - 40px),1160px)}

@@ -424,7 +424,7 @@
                 try {
                     const url = new URL(link.href, window.location.href);
                     if (url.origin !== window.location.origin || url.pathname.startsWith('/admin')) return;
-                    url.searchParams.set('template_preview', 'corporate');
+                    url.searchParams.set('template_preview', @json($siteTemplate));
                     link.href = url.toString();
                 } catch (_) {}
             });

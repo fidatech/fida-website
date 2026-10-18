@@ -1273,3 +1273,212 @@ html[data-color-mode="light"] .analytics-consent p { color: #5d6673; }
 }
 .header-rfq-link:hover { background: rgba(var(--accent-rgb),.07); }
 @media (max-width: 1180px) { .header-rfq-link { display: none; } }
+
+/* Fida mobile viewport containment and two-column homepage cards (2026-10-18) */
+/* Contain decorative transforms without turning the document into a horizontal scroller.
+   overflow: clip keeps normal vertical scrolling and avoids creating a nested scroll container. */
+@media (max-width: 820px) {
+    html, body {
+        max-width: 100%;
+        overflow-x: hidden; /* Fallback for older WebKit browsers. */
+        overscroll-behavior-x: none;
+    }
+    @supports (overflow: clip) {
+        html, body, .marketing-body > main {
+            overflow-x: clip;
+        }
+    }
+    .marketing-body > main,
+    .site-footer,
+    .container {
+        min-width: 0;
+        max-width: 100%;
+    }
+    .hero-copy,
+    .section-heading-grid > *,
+    .institutional-copy,
+    .product-copy {
+        min-width: 0;
+    }
+    .hero h1,
+    .section h2,
+    .company-proof-copy h2,
+    .solution-copy h3,
+    .product-copy h3,
+    .prose {
+        overflow-wrap: anywhere;
+    }
+    .hero, .ticker, .products-section {
+        max-width: 100%;
+        overflow-x: clip;
+    }
+}
+/* Mobile-first card density: maintain two useful, readable columns on the homepage.
+   Large decorative mockups are replaced by compact editorial cards on narrow screens. */
+@media (max-width: 680px) {
+    .solutions-section .solution-universe.enterprise-capability-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+    .solutions-section .solution-card {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        min-height: 238px;
+        padding: 16px;
+        border-radius: 18px;
+        background:
+            radial-gradient(circle at 100% 0%, rgba(var(--accent-rgb), .075), transparent 70%),
+            linear-gradient(150deg, rgba(255,255,255,.06), rgba(255,255,255,.012));
+    }
+    .solutions-section .solution-card .solution-object {
+        display: none;
+    }
+    .solutions-section .solution-card .solution-top {
+        align-items: center;
+        margin-bottom: 18px;
+    }
+    .solutions-section .solution-card .solution-link {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
+    .solutions-section .solution-card .solution-copy {
+        position: relative;
+        inset: auto;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-width: 0;
+        margin-top: auto;
+    }
+    .solutions-section .solution-copy h3 {
+        margin: 0 0 9px;
+        font-size: clamp(15px, 3.8vw, 19px);
+        line-height: 1.28;
+        letter-spacing: -.025em;
+    }
+    .solutions-section .solution-copy p {
+        display: -webkit-box;
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4;
+        line-clamp: 4;
+        font-size: 11px;
+        line-height: 1.55;
+    }
+    .solutions-section .solution-copy .text-link {
+        margin-top: auto;
+        padding-top: 13px;
+        gap: 4px;
+        font-size: 9px;
+        letter-spacing: .01em;
+    }
+    .products-section .product-bento {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+    .products-section .product-bento > .product-card,
+    .products-section .product-bento > .product-card:nth-child(even),
+    .products-section .product-bento > .product-card:nth-child(3),
+    .products-section .product-bento > .product-card:nth-child(4) {
+        grid-column: span 1;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        min-height: 248px;
+        padding: 16px;
+        border-radius: 18px;
+    }
+    .products-section .product-card::before {
+        width: 160px;
+        height: 160px;
+        right: -70px;
+        top: -65px;
+        filter: blur(48px);
+        opacity: .2;
+    }
+    .products-section .product-card .product-meta {
+        align-items: flex-start;
+        gap: 5px;
+        font-size: 8px;
+        letter-spacing: 0;
+    }
+    .products-section .product-card .product-status {
+        gap: 5px;
+    }
+    .products-section .product-card .product-meta > span:last-child {
+        display: none;
+    }
+    .products-section .product-card .product-copy,
+    .products-section .product-card:nth-child(even) .product-copy,
+    .products-section .product-card:nth-child(3) .product-copy {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        width: 100%;
+        min-width: 0;
+        margin-top: 28px;
+    }
+    .products-section .product-card .product-copy h3 {
+        font-size: clamp(17px, 4.1vw, 22px);
+        line-height: 1.22;
+        letter-spacing: -.03em;
+        margin-bottom: 10px;
+    }
+    .products-section .product-card .product-copy p {
+        display: -webkit-box;
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4;
+        line-clamp: 4;
+        font-size: 11px;
+        line-height: 1.55;
+    }
+    .products-section .product-card .product-copy a {
+        margin-top: auto;
+        padding-top: 14px;
+        font-size: 10px;
+        letter-spacing: .01em;
+    }
+    .products-section .product-card .product-interface {
+        display: none;
+    }
+    /* The full-width hero visualization previously used negative 20% side margins. */
+    .hero .core-stage {
+        width: 100%;
+        min-width: 0;
+        min-height: 340px;
+        margin: 8px 0 0;
+        transform: none;
+        overflow: clip;
+        border-radius: 20px;
+    }
+    .hero .stage-readout {
+        left: 6%;
+        right: 6%;
+    }
+    /* The rotated marquee is decorative; keep it inside the viewport. */
+    .ticker {
+        transform: none;
+    }
+}
+@media (max-width: 380px) {
+    .solutions-section .solution-universe.enterprise-capability-grid,
+    .products-section .product-bento {
+        gap: 8px;
+    }
+    .solutions-section .solution-card,
+    .products-section .product-bento > .product-card,
+    .products-section .product-bento > .product-card:nth-child(even),
+    .products-section .product-bento > .product-card:nth-child(3),
+    .products-section .product-bento > .product-card:nth-child(4) {
+        padding: 12px;
+    }
+    .solutions-section .solution-copy h3 {
+        font-size: 15px;
+    }
+    .products-section .product-card .product-copy h3 {
+        font-size: 16px;
+    }
+}

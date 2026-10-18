@@ -23,6 +23,7 @@ class WebsiteSettingsController extends Controller
     {
         return view('admin.settings.edit', [
             'settings' => $settings->formData(),
+            'templates' => config('website.appearance.templates'),
             'themes' => config('website.appearance.themes'),
             'palettes' => config('website.appearance.palettes'),
             'aiSettings' => $this->aiSettings(),
@@ -71,6 +72,7 @@ class WebsiteSettingsController extends Controller
                     'logo_path' => $logoPath,
                 ]);
                 $this->put(WebsiteSettings::APPEARANCE_KEY, 'appearance', [
+                    'template' => $data['template'],
                     'theme' => $data['theme'],
                     'palette' => $data['palette'],
                     'primary_color' => strtolower($data['primary_color']),

@@ -466,3 +466,66 @@ body.site-template-corporate {
  .site-template-corporate .corp-footer-map-frame iframe{height:210px}
  .site-template-corporate .corp-footer-bottom{align-items:flex-start;flex-direction:column;gap:12px}
 }
+
+/* Corporate Clean action colors: navy is the universal CTA, orange remains an accent. */
+.site-template-corporate{
+    --fida-button-navy:#102a3a;
+    --fida-button-hover:#244b61;
+    --fida-button-shadow:rgba(16,42,58,.16);
+}
+/* Covers navigation, hero, product CTAs, contact forms, pricing and footer. */
+.site-template-corporate :is(
+    .corp-nav-cta,
+    .corp-button-primary,
+    .button-lime,
+    .form-submit,
+    .corp-footer-primary
+){
+    background:var(--fida-button-navy)!important;
+    border-color:var(--fida-button-navy)!important;
+    color:#fff!important;
+    box-shadow:0 8px 21px var(--fida-button-shadow);
+}
+.site-template-corporate :is(
+    .corp-nav-cta,
+    .corp-button-primary,
+    .button-lime,
+    .form-submit,
+    .corp-footer-primary
+):is(:hover,:focus-visible){
+    background:var(--fida-button-hover)!important;
+    border-color:var(--fida-button-hover)!important;
+    color:#fff!important;
+    box-shadow:0 10px 24px var(--fida-button-shadow);
+}
+.site-template-corporate :is(
+    .corp-button-outline,
+    .corp-footer-secondary,
+    .button-wire
+){
+    background:#fff!important;
+    border-color:#8da4b1!important;
+    color:var(--fida-button-navy)!important;
+}
+.site-template-corporate :is(
+    .corp-button-outline,
+    .corp-footer-secondary,
+    .button-wire
+):is(:hover,:focus-visible){
+    background:#edf3f6!important;
+    border-color:var(--fida-button-navy)!important;
+    color:var(--fida-button-navy)!important;
+}
+/* Secondary arrows and focus rings harmonize with the button rather than orange. */
+.site-template-corporate .button-lime .button-arrow{
+    color:var(--fida-button-navy);
+    background:#fff;
+}
+.site-template-corporate .button-wire .button-arrow{
+    color:#fff;
+    background:var(--fida-button-navy);
+}
+.site-template-corporate :is(.corp-button,.button,.corp-nav-cta,.corp-footer-primary,.corp-footer-secondary):focus-visible{
+    outline:3px solid #57788d;
+    outline-offset:3px;
+}

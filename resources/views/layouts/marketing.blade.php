@@ -19,6 +19,9 @@
     $navProducts = $navigationPages->get('product', collect());
     $navIndustries = $navigationPages->get('industry', collect());
     $navArticles = $navigationPages->get('article', collect());
+    $siteTemplate = \App\Support\WebsiteTemplate::resolve(request());
+    $corporateTemplate = $siteTemplate === 'corporate';
+    $isTemplatePreview = \App\Support\WebsiteTemplate::isAuthorizedPreview(request());
     $siteTheme = config('website.appearance.current_theme_values', config('website.appearance.themes.midnight'));
     $siteColors = config('website.appearance.current_colors', config('website.appearance.palettes.fida'));
     $siteRgb = config('website.appearance.rgb', ['primary' => '201,255,74', 'secondary' => '132,108,255', 'highlight' => '78,232,255']);
@@ -45,7 +48,7 @@
 
     <title>{{ $seo['title'] }}</title>
     <meta name="description" content="{{ $seo['description'] }}">
-    <meta name="robots" content="{{ config('website.indexable') ? ($seo['robots'] ?? 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1') : 'noindex,nofollow,noarchive' }}">
+    <meta name="robots" content="{{ $isTemplatePreview ? 'noindex,nofollow,noarchive' : (config('website.indexable') ? ($seo['robots'] ?? 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1') : 'noindex,nofollow,noarchive') }}">
     @if(config('website.search_verification.google'))<meta name="google-site-verification" content="{{ config('website.search_verification.google') }}">@endif
     @if(config('website.search_verification.bing'))<meta name="msvalidate.01" content="{{ config('website.search_verification.bing') }}">@endif
     <link rel="canonical" href="{{ $seo['canonical'] }}">
@@ -90,8 +93,11 @@
         </script>
     @endif
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @if($corporateTemplate)
+        @vite('resources/css/corporate.css')
+    @endif
 </head>
-<body class="marketing-body theme-{{ config('website.appearance.current_theme', 'midnight') }} palette-{{ config('website.appearance.current_palette', 'fida') }}">
+<body class="marketing-body theme-{{ config('website.appearance.current_theme', 'midnight') }} palette-{{ config('website.appearance.current_palette', 'fida') }} site-template-{{ $siteTemplate }}">
     @if(config('website.indexable') && config('website.analytics.gtm_container_id') && ! config('website.analytics.require_consent'))
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ urlencode((string) config('website.analytics.gtm_container_id')) }}" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
     @endif
@@ -101,6 +107,9 @@
     <div class="page-aurora page-aurora-two" aria-hidden="true"></div>
     <div class="scroll-progress" data-scroll-progress aria-hidden="true"></div>
 
+    @if($corporateTemplate)
+        @include('layouts.partials.corporate-header')
+    @else
     <header class="site-header" data-header>
         <div class="container header-shell">
             <a class="brand" href="{{ \App\Support\LocalizedUrl::path('/') }}" aria-label="{{ __('website.accessibility.home', ['company' => config('website.name')]) }}">
@@ -283,7 +292,15 @@
             <a href="{{ \App\Support\LocalizedUrl::path('/software-answers-afghanistan') }}">{{ __('website.nav.answers') }}</a>
         </nav>
     </header>
+    @endif
 
+    @if($isTemplatePreview)
+        <div class="corp-preview-bar">
+            Corporate Clean preview · Only website-settings administrators can view this version.
+            <a href="{{ route('admin.settings.edit') }}">Appearance settings ↗</a>
+            <a href="{{ url()->current() }}">Exit preview</a>
+        </div>
+    @endif
     <main id="main">@yield('content')</main>
 
     <footer class="site-footer">
@@ -399,6 +416,20 @@
         </div>
     </footer>
 
+    @if($isTemplatePreview)
+        <script>
+            // Keep preview navigation inside the private template preview, without changing public URLs.
+            document.querySelectorAll('a[href]').forEach((link) => {
+                if (link.hasAttribute('data-no-template-preview')) return;
+                try {
+                    const url = new URL(link.href, window.location.href);
+                    if (url.origin !== window.location.origin || url.pathname.startsWith('/admin')) return;
+                    url.searchParams.set('template_preview', 'corporate');
+                    link.href = url.toString();
+                } catch (_) {}
+            });
+        </script>
+    @endif
     @if(config('website.indexable') && config('website.analytics.ga4_measurement_id'))
         <aside class="analytics-consent" data-analytics-consent hidden aria-label="{{ __('website.analytics.title') }}">
             <div>

@@ -13,19 +13,22 @@
             </div>
             <p class="corp-proof">{{ __('website.hero.trust') }}</p>
         </div>
-        <div class="corp-hero-panel">
-            <div class="corp-panel-heading"><span>{{ __('website.sections.solutions_eyebrow') }}</span><strong>{{ __('website.nav.solutions') }}</strong></div>
-            <div class="corp-hero-links">
-                @foreach(array_slice($solutions, 0, 4) as $solution)
-                    <a href="{{ \App\Support\LocalizedUrl::path($solution['url']) }}">
-                        <span class="corp-service-icon" aria-hidden="true">{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
-                        <span><strong>{{ __("website.solutions.{$solution['key']}.title") }}</strong><small>{{ __("website.solutions.{$solution['key']}.description") }}</small></span>
-                        <span class="corp-service-arrow" aria-hidden="true">↗</span>
-                    </a>
-                @endforeach
+        <figure class="corp-hero-visual">
+            <div class="corp-product-window">
+                <div class="corp-window-toolbar" aria-hidden="true">
+                    <span class="corp-window-dots"><i></i><i></i><i></i></span>
+                    <span>ERPNext · {{ config('website.name') }}</span>
+                    <span class="corp-window-live">ERP</span>
+                </div>
+                <img src="https://frappe.io/files/image6f308b.png"
+                     alt="ERPNext business dashboard example from the official Frappe website"
+                     loading="eager" fetchpriority="high" width="1000" height="625">
             </div>
-            <a class="corp-panel-more" href="{{ \App\Support\LocalizedUrl::path('/solutions') }}">{{ __('website.nav.all_solutions') }} <span aria-hidden="true">↗</span></a>
-        </div>
+            <figcaption>
+                <span>{{ __('website.editorial.showcase_note') }}</span>
+                <a href="{{ \App\Support\LocalizedUrl::path('/erpnext-afghanistan') }}">ERPNext ↗</a>
+            </figcaption>
+        </figure>
     </div>
 </section>
 
@@ -34,6 +37,35 @@
         @foreach(config('website.stats') as $stat)
             <div><strong>{{ $stat['value'] }}</strong><span>{{ __("website.stats.{$stat['key']}") }}</span></div>
         @endforeach
+    </div>
+</section>
+
+<section class="corp-editorial-story">
+    <div class="container corp-editorial-grid">
+        <div class="corp-editorial-visual">
+            <div class="corp-editorial-visual-head">
+                <span>ERPNext / {{ __('website.nav.products') }}</span>
+                <span aria-hidden="true">↗</span>
+            </div>
+            <img src="https://frappe.io/files/sales.png"
+                 loading="lazy" width="1000" height="507"
+                 alt="ERPNext sales dashboard example showing sales orders and operational metrics">
+            <small>{{ __('website.editorial.showcase_note') }}</small>
+        </div>
+        <div class="corp-editorial-narrative">
+            <p class="corp-eyebrow">{{ __('website.sections.process_eyebrow') }}</p>
+            <h2>{{ __('website.sections.process_title') }}</h2>
+            <p class="corp-editorial-summary">{{ __('website.editorial.process_intro') }}</p>
+            <div class="corp-editorial-steps">
+                @foreach(__('website.editorial.steps') as $step)
+                    <div class="corp-editorial-step">
+                        <span>{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                        <div><h3>{{ $step['title'] }}</h3><p>{{ $step['description'] }}</p></div>
+                    </div>
+                @endforeach
+            </div>
+            <a class="corp-editorial-link" href="{{ \App\Support\LocalizedUrl::path('/services') }}">{{ __('website.nav.all_services') }} <span aria-hidden="true">→</span></a>
+        </div>
     </div>
 </section>
 

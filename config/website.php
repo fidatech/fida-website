@@ -127,6 +127,18 @@ return [
             'technology' => ['label' => 'Technology Dark', 'description' => 'Original Fida dark interface.'],
             'corporate' => ['label' => 'Corporate Clean', 'description' => 'Clean corporate layout with Fida logo-inspired navy and orange.'],
         ],
+        'default_font_preset' => 'editorial',
+        'font_presets' => [
+            'editorial' => ['label' => 'Editorial', 'description' => 'Plus Jakarta Sans headings with DM Sans body text.'],
+            'modern' => ['label' => 'Modern', 'description' => 'Manrope headlines with readable Inter text.'],
+            'classic' => ['label' => 'Classic', 'description' => 'Consistent Inter typography throughout the site.'],
+        ],
+        'default_type_scale' => 'balanced',
+        'type_scales' => [
+            'compact' => ['label' => 'Compact', 'description' => 'Tighter type for information-dense pages.'],
+            'balanced' => ['label' => 'Balanced', 'description' => 'Comfortable and professional typography.'],
+            'expressive' => ['label' => 'Expressive', 'description' => 'Larger, more editorial headlines.'],
+        ],
         'default_theme' => 'midnight',
         'default_palette' => 'fida',
         'themes' => [

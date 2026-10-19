@@ -21,6 +21,8 @@
     $navArticles = $navigationPages->get('article', collect());
     $siteTemplate = \App\Support\WebsiteTemplate::resolve(request());
     $corporateTemplate = $siteTemplate === 'corporate';
+    $fontPreset = config('website.appearance.current_font_preset', 'editorial');
+    $typeScale = config('website.appearance.current_type_scale', 'balanced');
     $isTemplatePreview = \App\Support\WebsiteTemplate::isAuthorizedPreview(request());
     $siteTheme = config('website.appearance.current_theme_values', config('website.appearance.themes.midnight'));
     $siteColors = config('website.appearance.current_colors', config('website.appearance.palettes.fida'));
@@ -44,7 +46,7 @@
             document.documentElement.dataset.colorMode = mode;
         })();
     </script>
-    <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}?v=fr-20261019">
 
     <title>{{ $seo['title'] }}</title>
     <meta name="description" content="{{ $seo['description'] }}">
@@ -94,10 +96,22 @@
     @endif
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @if($corporateTemplate)
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        @if($fontPreset === 'editorial')
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
+        @elseif($fontPreset === 'modern')
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap">
+        @else
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap">
+        @endif
+        @if(in_array($locale, ['fa', 'ps'], true))
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&amp;display=swap">
+        @endif
         @vite('resources/css/corporate.css')
     @endif
 </head>
-<body class="marketing-body theme-{{ config('website.appearance.current_theme', 'midnight') }} palette-{{ config('website.appearance.current_palette', 'fida') }} site-template-{{ $siteTemplate }}">
+<body class="marketing-body theme-{{ config('website.appearance.current_theme', 'midnight') }} palette-{{ config('website.appearance.current_palette', 'fida') }} site-template-{{ $siteTemplate }} font-preset-{{ $fontPreset }} type-scale-{{ $typeScale }}">
     @if(config('website.indexable') && config('website.analytics.gtm_container_id') && ! config('website.analytics.require_consent'))
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ urlencode((string) config('website.analytics.gtm_container_id')) }}" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
     @endif

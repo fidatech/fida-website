@@ -8,8 +8,8 @@
             <h1>{{ __('website.hero.title_before') }} <span>{{ __('website.hero.title_emphasis') }}</span></h1>
             <p class="corp-lead">{{ __('website.hero.description') }}</p>
             <div class="corp-actions">
-                <a class="corp-button corp-button-primary" href="{{ \App\Support\LocalizedUrl::path('/contact') }}" data-track-event="cta_click" data-track-label="corporate_hero_contact">{{ __('website.hero.primary_cta') }} <span aria-hidden="true">↗</span></a>
-                <a class="corp-button corp-button-outline" href="{{ \App\Support\LocalizedUrl::path('/solutions') }}">{{ __('website.hero.secondary_cta') }} <span aria-hidden="true">→</span></a>
+                <a class="corp-button corp-button-primary" href="{{ \App\Support\LocalizedUrl::path('/contact') }}" data-track-event="cta_click" data-track-label="corporate_hero_contact" aria-label="{{ __('website.hero.primary_cta') }}"><span class="corp-cta-desktop-label">{{ __('website.hero.primary_cta') }}</span><span class="corp-cta-mobile-label">{{ __('website.mobile_cta.proposal') }}</span><span class="corp-cta-arrow" aria-hidden="true">↗</span></a>
+                <a class="corp-button corp-button-outline" href="{{ \App\Support\LocalizedUrl::path('/solutions') }}" aria-label="{{ __('website.hero.secondary_cta') }}"><span class="corp-cta-desktop-label">{{ __('website.hero.secondary_cta') }}</span><span class="corp-cta-mobile-label">{{ __('website.mobile_cta.solutions') }}</span><span class="corp-cta-arrow" aria-hidden="true">→</span></a>
             </div>
             <p class="corp-proof">{{ __('website.hero.trust') }}</p>
         </div>

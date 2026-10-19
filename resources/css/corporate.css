@@ -560,3 +560,62 @@ body.site-template-corporate {
     border-color:#fff;
     background:rgba(255,255,255,.09);
 }
+
+/* Mobile paired hero CTAs: navy styling, equal widths, no horizontal overflow. */
+.site-template-corporate .corp-cta-mobile-label{display:none}
+.site-template-corporate .corp-actions .corp-button-outline{
+    background:#244b61!important;
+    border-color:#244b61!important;
+    color:#fff!important;
+}
+.site-template-corporate .corp-actions .corp-button-outline:is(:hover,:focus-visible){
+    background:#315b71!important;
+    border-color:#315b71!important;
+    color:#fff!important;
+}
+.site-template-corporate .corp-actions .corp-button{
+    white-space:normal;
+    text-align:center;
+}
+@media (max-width:650px){
+    .site-template-corporate .corp-hero .corp-actions{
+        display:grid;
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:9px;
+        width:100%;
+        min-width:0;
+        margin-top:24px;
+    }
+    .site-template-corporate .corp-hero .corp-actions .corp-button{
+        box-sizing:border-box;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        gap:7px;
+        min-width:0;
+        width:100%;
+        min-height:49px;
+        padding:10px 9px;
+        border-radius:10px;
+        font-size:clamp(11px,3.1vw,13px);
+        font-weight:800;
+        line-height:1.3;
+        letter-spacing:-.02em;
+        overflow-wrap:normal;
+    }
+    .site-template-corporate .corp-actions .corp-cta-desktop-label{display:none}
+    .site-template-corporate .corp-actions .corp-cta-mobile-label{display:inline;min-width:0}
+    .site-template-corporate .corp-actions .corp-cta-arrow{
+        flex:none;
+        font-size:13px;
+        line-height:1;
+    }
+}
+@media(max-width:350px){
+    .site-template-corporate .corp-hero .corp-actions{gap:7px}
+    .site-template-corporate .corp-hero .corp-actions .corp-button{
+        padding-inline:7px;
+        gap:5px;
+        font-size:11px;
+    }
+}

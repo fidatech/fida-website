@@ -42,6 +42,8 @@ class WebsiteSettingsRequest extends FormRequest
             'logo' => ['nullable', 'image', 'mimes:png,jpg,jpeg,webp', 'max:2048', 'dimensions:min_width=48,min_height=48,max_width=2400,max_height=2400'],
             'remove_logo' => ['required', 'boolean'],
             'template' => ['sometimes', Rule::in(array_keys(config('website.appearance.templates', [])))],
+            'font_preset' => ['sometimes', Rule::in(array_keys(config('website.appearance.font_presets', [])))],
+            'type_scale' => ['sometimes', Rule::in(array_keys(config('website.appearance.type_scales', [])))],
             'theme' => ['required', Rule::in(array_keys(config('website.appearance.themes', [])))],
             'palette' => ['required', Rule::in([...array_keys(config('website.appearance.palettes', [])), 'custom'])],
             'primary_color' => ['required', 'regex:/^#[0-9a-fA-F]{6}$/'],

@@ -61,6 +61,8 @@ class WebsiteSettings
             'website.branding.logo_path' => $form['logo_path'],
             'website.branding.logo_url' => $this->logoUrl($form['logo_path']),
             'website.appearance.current_template' => $form['template'],
+            'website.appearance.current_font_preset' => $form['font_preset'],
+            'website.appearance.current_type_scale' => $form['type_scale'],
             'website.appearance.current_theme' => $form['theme'],
             'website.appearance.current_palette' => $form['palette'],
             'website.appearance.current_theme_values' => $theme,
@@ -135,6 +137,12 @@ class WebsiteSettings
             'template' => array_key_exists((string) ($appearance['template'] ?? ''), config('website.appearance.templates', []))
                 ? (string) $appearance['template']
                 : (string) config('website.appearance.default_template', 'technology'),
+            'font_preset' => array_key_exists((string) ($appearance['font_preset'] ?? ''), config('website.appearance.font_presets', []))
+                ? (string) $appearance['font_preset']
+                : (string) config('website.appearance.default_font_preset', 'editorial'),
+            'type_scale' => array_key_exists((string) ($appearance['type_scale'] ?? ''), config('website.appearance.type_scales', []))
+                ? (string) $appearance['type_scale']
+                : (string) config('website.appearance.default_type_scale', 'balanced'),
             'theme' => $theme,
             'palette' => $palette,
             'primary_color' => $this->color($appearance['primary_color'] ?? null, $fallbackColors['primary']),

@@ -24,6 +24,8 @@ class WebsiteSettingsController extends Controller
         return view('admin.settings.edit', [
             'settings' => $settings->formData(),
             'templates' => config('website.appearance.templates'),
+            'fontPresets' => config('website.appearance.font_presets'),
+            'typeScales' => config('website.appearance.type_scales'),
             'themes' => config('website.appearance.themes'),
             'palettes' => config('website.appearance.palettes'),
             'aiSettings' => $this->aiSettings(),
@@ -73,6 +75,8 @@ class WebsiteSettingsController extends Controller
                 ]);
                 $this->put(WebsiteSettings::APPEARANCE_KEY, 'appearance', [
                     'template' => $data['template'] ?? $current['template'],
+                    'font_preset' => $data['font_preset'] ?? $current['font_preset'],
+                    'type_scale' => $data['type_scale'] ?? $current['type_scale'],
                     'theme' => $data['theme'],
                     'palette' => $data['palette'],
                     'primary_color' => strtolower($data['primary_color']),

@@ -50,6 +50,15 @@ return [
             ['label' => 'Core capabilities', 'value' => 'Software · AI · Infrastructure · Networks'],
         ],
     ],
+    'editorial' => [
+        'showcase_note' => 'Official ERPNext example · Frappe. Not Fida customer data.',
+        'process_intro' => 'We start with your actual workflow, not a generic list of features. Each system is configured, tested and introduced to the people who will use it.',
+        'steps' => [
+            ['title' => 'Understand the workflow', 'description' => 'Review teams, approvals, reports and operational requirements before defining scope.'],
+            ['title' => 'Implement with clarity', 'description' => 'Configure the software, roles, data and integrations around agreed deliverables.'],
+            ['title' => 'Train and support', 'description' => 'Prepare your team for go-live and keep a practical support path in place.'],
+        ],
+    ],
     'sections' => [
         'solutions_eyebrow' => 'Enterprise capabilities', 'solutions_title' => 'Connected systems shaped around how your organization operates.',
         'solutions_description' => 'From ERP, web and mobile development to AI, IoT, data centers, networks, cloud, cybersecurity, hardware supply and managed IT, every engagement is scoped for accountable institutional delivery.',

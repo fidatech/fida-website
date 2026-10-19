@@ -466,3 +466,156 @@ body.site-template-corporate {
  .site-template-corporate .corp-footer-map-frame iframe{height:210px}
  .site-template-corporate .corp-footer-bottom{align-items:flex-start;flex-direction:column;gap:12px}
 }
+
+/* Corporate Clean action colors: navy is the universal CTA, orange remains an accent. */
+.site-template-corporate{
+    --fida-button-navy:#102a3a;
+    --fida-button-hover:#244b61;
+    --fida-button-shadow:rgba(16,42,58,.16);
+}
+/* Covers navigation, hero, product CTAs, contact forms, pricing and footer. */
+.site-template-corporate :is(
+    .corp-nav-cta,
+    .corp-button-primary,
+    .button-lime,
+    .form-submit,
+    .corp-footer-primary
+){
+    background:var(--fida-button-navy)!important;
+    border-color:var(--fida-button-navy)!important;
+    color:#fff!important;
+    box-shadow:0 8px 21px var(--fida-button-shadow);
+}
+.site-template-corporate :is(
+    .corp-nav-cta,
+    .corp-button-primary,
+    .button-lime,
+    .form-submit,
+    .corp-footer-primary
+):is(:hover,:focus-visible){
+    background:var(--fida-button-hover)!important;
+    border-color:var(--fida-button-hover)!important;
+    color:#fff!important;
+    box-shadow:0 10px 24px var(--fida-button-shadow);
+}
+.site-template-corporate :is(
+    .corp-button-outline,
+    .corp-footer-secondary,
+    .button-wire
+){
+    background:#fff!important;
+    border-color:#8da4b1!important;
+    color:var(--fida-button-navy)!important;
+}
+.site-template-corporate :is(
+    .corp-button-outline,
+    .corp-footer-secondary,
+    .button-wire
+):is(:hover,:focus-visible){
+    background:#edf3f6!important;
+    border-color:var(--fida-button-navy)!important;
+    color:var(--fida-button-navy)!important;
+}
+/* Secondary arrows and focus rings harmonize with the button rather than orange. */
+.site-template-corporate .button-lime .button-arrow{
+    color:var(--fida-button-navy);
+    background:#fff;
+}
+.site-template-corporate .button-wire .button-arrow{
+    color:#fff;
+    background:var(--fida-button-navy);
+}
+.site-template-corporate :is(.corp-button,.button,.corp-nav-cta,.corp-footer-primary,.corp-footer-secondary):focus-visible{
+    outline:3px solid #57788d;
+    outline-offset:3px;
+}
+
+/* Navigation toggles and map action complete the navy button treatment. */
+.site-template-corporate .corp-mobile-menu summary{
+    background:var(--fida-button-navy)!important;
+    border-color:var(--fida-button-navy)!important;
+}
+.site-template-corporate .corp-mobile-menu summary span{
+    background:#fff!important;
+}
+.site-template-corporate .corp-mobile-menu summary:hover{
+    background:var(--fida-button-hover)!important;
+}
+.site-template-corporate .corp-footer-map-button{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    min-height:42px;
+    margin-top:17px;
+    padding:10px 14px;
+    color:#fff!important;
+    background:transparent;
+    border:1px solid rgba(255,255,255,.58);
+    border-radius:8px;
+    text-decoration:none!important;
+}
+.site-template-corporate .corp-footer-map-button:is(:hover,:focus-visible){
+    color:#fff!important;
+    border-color:#fff;
+    background:rgba(255,255,255,.09);
+}
+
+/* Mobile paired hero CTAs: navy styling, equal widths, no horizontal overflow. */
+.site-template-corporate .corp-cta-mobile-label{display:none}
+.site-template-corporate .corp-actions .corp-button-outline{
+    background:#244b61!important;
+    border-color:#244b61!important;
+    color:#fff!important;
+}
+.site-template-corporate .corp-actions .corp-button-outline:is(:hover,:focus-visible){
+    background:#315b71!important;
+    border-color:#315b71!important;
+    color:#fff!important;
+}
+.site-template-corporate .corp-actions .corp-button{
+    white-space:normal;
+    text-align:center;
+}
+@media (max-width:650px){
+    .site-template-corporate .corp-hero .corp-actions{
+        display:grid;
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:9px;
+        width:100%;
+        min-width:0;
+        margin-top:24px;
+    }
+    .site-template-corporate .corp-hero .corp-actions .corp-button{
+        box-sizing:border-box;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        gap:7px;
+        min-width:0;
+        width:100%;
+        min-height:49px;
+        padding:10px 9px;
+        border-radius:10px;
+        font-size:clamp(11px,3.1vw,13px);
+        font-weight:800;
+        line-height:1.3;
+        letter-spacing:-.02em;
+        overflow-wrap:normal;
+    }
+    .site-template-corporate .corp-actions .corp-cta-desktop-label{display:none}
+    .site-template-corporate .corp-actions .corp-cta-mobile-label{display:inline;min-width:0}
+    .site-template-corporate .corp-actions .corp-cta-arrow{
+        flex:none;
+        font-size:13px;
+        line-height:1;
+    }
+}
+@media(max-width:350px){
+    .site-template-corporate .corp-hero .corp-actions{gap:7px}
+    .site-template-corporate .corp-hero .corp-actions .corp-button{
+        padding-inline:7px;
+        gap:5px;
+        font-size:11px;
+    }
+}

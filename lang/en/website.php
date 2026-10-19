@@ -28,6 +28,7 @@ return [
         'technology_core' => 'Fida business technology core',
         'capabilities' => 'Fida capabilities',
     ],
+    'mobile_cta' => ['proposal' => 'Get proposal', 'solutions' => 'Solutions'],
     'hero' => [
         'eyebrow' => 'Fida Technologies · Afghanistan',
         'title_before' => 'Enterprise technology, software &', 'title_emphasis' => 'infrastructure delivery.',

@@ -550,7 +550,7 @@ class MarketingWebsiteTest extends TestCase
             ->assertOk()
             ->assertSee('<html lang="fa" dir="rtl"', false)
             ->assertSee('آمادگی تدارکاتی پیش از نوشتن پیشنهاد آغاز می‌شود')
-            ->assertSee('دعوت فیدا به داوطلبی');
+            ->assertSee('دعوت فدا به داوطلبی');
 
         $this->get('/ps/software-security-hosting-afghanistan')
             ->assertOk()
@@ -952,7 +952,7 @@ class MarketingWebsiteTest extends TestCase
         $this->get('/ps/about')
             ->assertOk()
             ->assertSee('<html lang="ps" dir="rtl"', false)
-            ->assertSee('د فیدا تر شا د ټکنالوژۍ تجربه په ۲۰۱۴ کې')
+            ->assertSee('د فدا تر شا د ټکنالوژۍ تجربه په ۲۰۱۴ کې')
             ->assertSee('د Fida Technologies فعالیت په ۲۰۲۲ کې پیل شو');
     }
 

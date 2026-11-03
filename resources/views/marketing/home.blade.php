@@ -125,7 +125,7 @@
         'fa' => [
             'eyebrow' => 'دولت · NGO · INGO · سازمان‌ها',
             'title' => 'از نرم‌افزار تا دیتاسنتر؛ یک شریک پاسخگو برای پروژه‌های سازمانی.',
-            'description' => 'فیدا می‌تواند software، hardware، network، server، cybersecurity، integration، installation، configuration، training و support را در یک پاسخ تخنیکی و تجارتی واضح تنظیم کند.',
+            'description' => 'فدا می‌تواند software، hardware، network، server، cybersecurity، integration، installation، configuration، training و support را در یک پاسخ تخنیکی و تجارتی واضح تنظیم کند.',
             'items' => [
                 ['title' => 'RFQ / RFP / Tender', 'text' => 'پاسخ تخنیکی و تجارتی مطابق scope، BOQ، deadline و شرایط تدارکات.'],
                 ['title' => 'Supply + Implementation', 'text' => 'تفکیک تجهیزات، لایسنس، نصب، تنظیم، testing، commissioning و training.'],
@@ -137,7 +137,7 @@
         'ps' => [
             'eyebrow' => 'دولت · NGO · INGO · سازمانونه',
             'title' => 'له سافټویر څخه تر ډیټا سنټر پورې؛ د سازماني پروژو لپاره یو مسؤل شریک.',
-            'description' => 'فیدا software، hardware، network، server، cybersecurity، integration، installation، configuration، training او support په یوه روښانه تخنیکي او سوداګریز ځواب کې تنظیمولای شي.',
+            'description' => 'فدا software، hardware، network، server، cybersecurity، integration، installation، configuration، training او support په یوه روښانه تخنیکي او سوداګریز ځواب کې تنظیمولای شي.',
             'items' => [
                 ['title' => 'RFQ / RFP / Tender', 'text' => 'د scope، BOQ، deadline او تدارکاتي شرایطو مطابق تخنیکي او سوداګریز ځواب.'],
                 ['title' => 'Supply + Implementation', 'text' => 'تجهیزات، لایسنس، نصب، تنظیم، testing، commissioning او training جلا او واضح.'],

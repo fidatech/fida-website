@@ -62,7 +62,7 @@ HTML,
 <h2>د لابراتوار quality مرجع</h2><p>ماډل د نړیوال روغتیا سازمان له <a href="https://www.who.int/publications/i/item/9789241548274">Laboratory Quality Management System لارښود</a> سره د sample management، process control، information، equipment او quality responsibility په برخه کې پرتله شوی. دا endorsement، accreditation یا certification نه دی.</p>
 HTML,
             ],
-            metaTitle: ['en' => 'Laboratory Information System Afghanistan | Fida', 'fa' => 'سیستم معلومات لابراتوار افغانستان | فیدا', 'ps' => 'د لابراتوار معلوماتي سیسټم افغانستان | فیدا'],
+            metaTitle: ['en' => 'Laboratory Information System Afghanistan | Fida', 'fa' => 'سیستم معلومات لابراتوار افغانستان | فدا', 'ps' => 'د لابراتوار معلوماتي سیسټم افغانستان | فدا'],
             metaDescription: ['en' => 'LIS for test requests, specimens, accession, processing, quality control, authorized results, reports, analyzers, inventory, billing and auditability.', 'fa' => 'LIS برای request، specimen، accession، processing، quality control، نتیجه مجاز، report، analyzer، inventory، billing و audit.', 'ps' => 'LIS د request، specimen، accession، processing، quality control، مجاز result، report، analyzer، inventory، billing او audit لپاره.'],
             primaryQuery: ['en' => 'laboratory information system Afghanistan', 'fa' => 'سیستم معلومات لابراتوار افغانستان', 'ps' => 'د لابراتوار معلوماتي سیسټم افغانستان'],
             faqs: [
@@ -135,7 +135,7 @@ HTML,
 <h2>د education data مرجع</h2><p>د ادارې عملیات او سکتوري reporting توپیر د یونسکو له <a href="https://www.unesco.org/sdg4education2030/en/knowledge-hub/operational-guide-using-emis-monitor-sdg4">Operational Guide to Using EMIS to Monitor SDG 4</a> سره پرتله شوی. دا د یونسکو endorsement نه دی.</p>
 HTML,
             ],
-            metaTitle: ['en' => 'School Management ERP Afghanistan | Fida', 'fa' => 'سیستم مدیریت مکتب افغانستان | فیدا', 'ps' => 'د ښوونځي مدیریت ERP افغانستان | فیدا'],
+            metaTitle: ['en' => 'School Management ERP Afghanistan | Fida', 'fa' => 'سیستم مدیریت مکتب افغانستان | فدا', 'ps' => 'د ښوونځي مدیریت ERP افغانستان | فدا'],
             metaDescription: ['en' => 'School ERP for admissions, student records, attendance, assessments, fees, staff, timetables, guardians, portals, inventory and reporting.', 'fa' => 'School ERP برای admission، student record، attendance، assessment، fee، staff، timetable، guardian، portal، inventory و reporting.', 'ps' => 'School ERP د admission، student record، attendance، assessment، fee، staff، timetable، guardian، portal، inventory او reporting لپاره.'],
             primaryQuery: ['en' => 'school management software Afghanistan', 'fa' => 'سیستم مدیریت مکتب افغانستان', 'ps' => 'د ښوونځي مدیریت سافټویر افغانستان'],
             faqs: [
@@ -211,7 +211,7 @@ HTML,
 <h2>د higher-education data مرجع</h2><p>ماډل د UNESCO IESALC له <a href="https://www.iesalc.unesco.org/en/articles/bridging-data-gap-higher-education-policymaking-challenges-and-opportunities-evidence-based">higher-education data governance لارښود</a> او د یونسکو EMIS operational guidance سره پرتله شوی. دا د یونسکو endorsement نه دی.</p>
 HTML,
             ],
-            metaTitle: ['en' => 'University MIS Afghanistan | Fida Technologies', 'fa' => 'سیستم معلومات مدیریت دانشگاه افغانستان | فیدا', 'ps' => 'د پوهنتون مدیریت معلوماتي سیسټم افغانستان | فیدا'],
+            metaTitle: ['en' => 'University MIS Afghanistan | Fida Technologies', 'fa' => 'سیستم معلومات مدیریت دانشگاه افغانستان | فدا', 'ps' => 'د پوهنتون مدیریت معلوماتي سیسټم افغانستان | فدا'],
             metaDescription: ['en' => 'University MIS for admissions, programmes, curricula, registration, teaching, assessment, progression, fees, transcripts, graduation and reporting.', 'fa' => 'University MIS برای admission، programme، curriculum، registration، teaching، assessment، progression، fee، transcript، graduation و reporting.', 'ps' => 'University MIS د admission، programme، curriculum، registration، teaching، assessment، progression، fee، transcript، graduation او reporting لپاره.'],
             primaryQuery: ['en' => 'university management information system Afghanistan', 'fa' => 'سیستم معلومات مدیریت دانشگاه افغانستان', 'ps' => 'د پوهنتون مدیریت معلوماتي سیسټم افغانستان'],
             faqs: [

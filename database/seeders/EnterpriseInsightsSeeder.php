@@ -29,8 +29,8 @@ class EnterpriseInsightsSeeder extends Seeder
                 ],
                 'meta_title' => [
                     'en' => 'Software Security & Resilience Insights | Fida',
-                    'fa' => 'راهنماهای امنیت و تاب‌آوری نرم‌افزار | فیدا',
-                    'ps' => 'د سافټویر امنیت او پایښت لارښودونه | فیدا',
+                    'fa' => 'راهنماهای امنیت و تاب‌آوری نرم‌افزار | فدا',
+                    'ps' => 'د سافټویر امنیت او پایښت لارښودونه | فدا',
                 ],
                 'meta_description' => [
                     'en' => 'Multilingual guidance for software security requirements, verification, hosting, recovery and operational responsibility.',
@@ -111,8 +111,8 @@ HTML,
                 ],
                 metaTitle: [
                     'en' => 'ERP Procurement & Tender Guide Afghanistan | Fida',
-                    'fa' => 'راهنمای تدارکات و داوطلبی ERP افغانستان | فیدا',
-                    'ps' => 'د ERP تدارکاتو او داوطلبۍ لارښود افغانستان | فیدا',
+                    'fa' => 'راهنمای تدارکات و داوطلبی ERP افغانستان | فدا',
+                    'ps' => 'د ERP تدارکاتو او داوطلبۍ لارښود افغانستان | فدا',
                 ],
                 metaDescription: [
                     'en' => 'A practical ERP tender guide for requirements, demonstrations, evaluation, implementation responsibility, security, cost and acceptance.',
@@ -183,7 +183,7 @@ HTML,
 <h2>۷. ساختار، تعداد و ارزش را reconciliation کنید</h2><ul><li>تعداد ثبت بر اساس شرکت، شعبه، وضعیت و دوره</li><li>تراز آزمایشی و بیلانس حساب</li><li>طلب و بدهی مشتری و عرضه‌کننده</li><li>تعداد و ارزش موجودی بر جنس و محل</li><li>سفارش، تعهد و مجموع سند باز</li><li>رابطه، ضمیمه و نمونه تاریخچه</li></ul><p>حد قابل قبول، مسئول استثنا و شواهد sign-off را از قبل تعیین کنید.</p>
 <h2>۸. cutover، freeze، rollback و ارتباط را پلان کنید</h2><p>آخرین معامله سیستم قبلی، توقف ثبت، استخراج نهایی، ترتیب load، reconciliation، فعال‌سازی ادغام، بازشدن دسترسی و مرجع go-live را مشخص کنید. rollback باید trigger، حالت امن، معامله ایجادشده و مرجع تصمیم را واضح سازد.</p>
 <h2>۹. شواهد را حفظ و دسترسی موقت را ببندید</h2><p>پس از پذیرش، mapping، تنظیم یا script، extract، reconciliation، استثنا و sign-off را مطابق پالیسی نگهدارید. credentials و فایل موقت را حذف و مالک دوامدار کیفیت معلومات را مشخص کنید.</p>
-<h2>منابع اصلی این راهنما</h2><p>چک‌لیست با راهنمای رسمی Microsoft درباره <a href="https://learn.microsoft.com/en-us/dynamics365/guidance/implementation-guide/data-management-configuration-data-migration">معلومات تنظیم و انتقال</a>، <a href="https://learn.microsoft.com/en-us/dynamics365/guidance/implementation-guide/data-management-check-list">چک‌لیست مدیریت معلومات</a> و <a href="https://learn.microsoft.com/en-us/dynamics365/guidance/implementation-guide/project-governance-key-project-areas">حاکمیت انتقال و هماهنگی cutover</a> مقایسه شده است. اصول به شکل عمومی استفاده شده و به معنی استفاده یا فروش Dynamics 365 توسط فیدا نیست.</p>
+<h2>منابع اصلی این راهنما</h2><p>چک‌لیست با راهنمای رسمی Microsoft درباره <a href="https://learn.microsoft.com/en-us/dynamics365/guidance/implementation-guide/data-management-configuration-data-migration">معلومات تنظیم و انتقال</a>، <a href="https://learn.microsoft.com/en-us/dynamics365/guidance/implementation-guide/data-management-check-list">چک‌لیست مدیریت معلومات</a> و <a href="https://learn.microsoft.com/en-us/dynamics365/guidance/implementation-guide/project-governance-key-project-areas">حاکمیت انتقال و هماهنگی cutover</a> مقایسه شده است. اصول به شکل عمومی استفاده شده و به معنی استفاده یا فروش Dynamics 365 توسط فدا نیست.</p>
 HTML,
                 'ps' => <<<'HTML'
 <h2>د معلوماتو لېږد یوه کنټرول شوې سوداګریزه پرېکړه ده</h2><p>لېږد یوازې ځکه بریالی نه دی چې فایل بې خطا import شي. هدف ثبتونه باید د تایید شوي بهیر لپاره بشپړ، سمې معنا ته mapping، له باوري سرچینو سره reconciliation او د مجاز مالک له خوا منل شوي وي.</p><p>اداره د سرچینه معلوماتو د معنا او تایید مالکه ده. د پلي کولو ټیم یې کتلی، mapping، بدل او load کولی شي؛ خو تکراري مشتری، افتتاحي بیلانس یا سم تاریخ باید په خپله ونه ټاکي.</p>
@@ -196,13 +196,13 @@ HTML,
 <h2>۷. جوړښت، شمېر او ارزښت reconciliation کړئ</h2><ul><li>د شرکت، څانګې، حالت او دورې له مخې د ثبت شمېر</li><li>ازمایښتي بیلانس او حسابي بیلانسونه</li><li>د مشتری او عرضه کوونکي طلب او بدهی</li><li>د جنس او ځای له مخې موجودي او ارزښت</li><li>پرانیستي فرمایشونه، تعهدات او مجموعې</li><li>اړیکې، ضمیمې او نمونوي تاریخ</li></ul><p>د منلو حد، د استثنا مسؤل او د sign-off شواهد مخکې وټاکئ.</p>
 <h2>۸. cutover، freeze، rollback او اړیکه پلان کړئ</h2><p>د زاړه سیسټم وروستۍ معامله، د ثبت درول، وروستی استخراج، load ترتیب، reconciliation، د ادغام فعالول، لاسرسی او د go-live اجازه مشخص کړئ. rollback باید trigger، خوندي حالت، د هڅې پر مهال معاملې او د پرېکړې مسؤل روښانه کړي.</p>
 <h2>۹. شواهد وساتئ او موقتي لاسرسی بند کړئ</h2><p>تر منلو وروسته mapping، script یا تنظیم، extract، reconciliation، استثنا او sign-off د پالیسي مطابق وساتئ. موقتي credentials او فایلونه حذف او د معلوماتو د کیفیت دوامدار مالک وټاکئ.</p>
-<h2>د دې لارښود اصلي سرچینې</h2><p>چک‌لېست د Microsoft د <a href="https://learn.microsoft.com/en-us/dynamics365/guidance/implementation-guide/data-management-configuration-data-migration">تنظیم او لېږد معلوماتو</a>، <a href="https://learn.microsoft.com/en-us/dynamics365/guidance/implementation-guide/data-management-check-list">معلوماتو مدیریت چک‌لېست</a> او <a href="https://learn.microsoft.com/en-us/dynamics365/guidance/implementation-guide/project-governance-key-project-areas">د لېږد حاکمیت او cutover همغږۍ</a> له رسمي لارښود سره پرتله شوی. اصول په عمومي ډول کارول شوي او دا نه ښيي چې فیدا Dynamics 365 کاروي یا پلوري.</p>
+<h2>د دې لارښود اصلي سرچینې</h2><p>چک‌لېست د Microsoft د <a href="https://learn.microsoft.com/en-us/dynamics365/guidance/implementation-guide/data-management-configuration-data-migration">تنظیم او لېږد معلوماتو</a>، <a href="https://learn.microsoft.com/en-us/dynamics365/guidance/implementation-guide/data-management-check-list">معلوماتو مدیریت چک‌لېست</a> او <a href="https://learn.microsoft.com/en-us/dynamics365/guidance/implementation-guide/project-governance-key-project-areas">د لېږد حاکمیت او cutover همغږۍ</a> له رسمي لارښود سره پرتله شوی. اصول په عمومي ډول کارول شوي او دا نه ښيي چې فدا Dynamics 365 کاروي یا پلوري.</p>
 HTML,
             ],
             metaTitle: [
                 'en' => 'ERP Data Migration Checklist Afghanistan | Fida',
-                'fa' => 'چک‌لیست انتقال معلومات ERP افغانستان | فیدا',
-                'ps' => 'د ERP معلوماتو لېږد چک‌لېست افغانستان | فیدا',
+                'fa' => 'چک‌لیست انتقال معلومات ERP افغانستان | فدا',
+                'ps' => 'د ERP معلوماتو لېږد چک‌لېست افغانستان | فدا',
             ],
             metaDescription: [
                 'en' => 'ERP data migration checklist covering ownership, source inventory, mapping, cleansing, trial loads, reconciliation, cutover and rollback.',
@@ -291,8 +291,8 @@ HTML,
             ],
             metaTitle: [
                 'en' => 'Software Security Requirements Checklist | Fida',
-                'fa' => 'چک‌لیست نیازمندی امنیت نرم‌افزار | فیدا',
-                'ps' => 'د سافټویر امنیتي اړتیاوو چک‌لېست | فیدا',
+                'fa' => 'چک‌لیست نیازمندی امنیت نرم‌افزار | فدا',
+                'ps' => 'د سافټویر امنیتي اړتیاوو چک‌لېست | فدا',
             ],
             metaDescription: [
                 'en' => 'A practical checklist for software security requirements, access, data, secure development, verification, hosting, recovery and support.',

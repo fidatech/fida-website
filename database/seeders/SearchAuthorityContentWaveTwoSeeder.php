@@ -30,7 +30,7 @@ class SearchAuthorityContentWaveTwoSeeder extends Seeder
                     'fa'=>'<h2>حسابداری چندارزی به نرخ تاریخی نیاز دارد</h2><p>سیستم قابل اعتماد ارز معامله، مبلغ، نرخ تبدیل و معادل ارز پایه را در زمان ثبت حفظ می‌کند. تغییر نرخ آینده نباید معامله گذشته را تغییر دهد.</p><h2>کنترول‌های مهم</h2><ul><li>ارز پایه قابل تنظیم</li><li>نرخ دستی یا تأییدشده</li><li>بیلانس صندوق و بانک به تفکیک ارز</li><li>طلب و بدهی با ارز اصلی</li><li>سود/زیان تفاوت نرخ در صورت نیاز</li><li>گزارش موقعیت اسعار</li></ul>',
                     'ps'=>'<h2>د څو اسعارو حسابداري تاریخي نرخ ته اړتیا لري</h2><p>باوري سیسټم د معاملې اسعار، مبلغ، د تبادلې نرخ او د base currency معادل د ثبت پر وخت ساتي. راتلونکی نرخ باید پخوانۍ معامله بدله نه کړي.</p><h2>مهم کنټرولونه</h2><ul><li>د تنظیم وړ base currency</li><li>لاسي یا تایید شوی نرخ</li><li>د نغدو او بانک بیلانس د اسعارو له مخې</li><li>receivable او payable په اصلي اسعارو</li><li>د اړتیا په صورت کې exchange gain/loss</li><li>د اسعارو موقعیت راپور</li></ul>'
                 ],
-                ['en'=>'Multi-Currency Accounting Afghanistan | Fida','fa'=>'حسابداری چندارزی افغانستان | فیدا','ps'=>'څو اسعارو حسابداري افغانستان | فیدا'],
+                ['en'=>'Multi-Currency Accounting Afghanistan | Fida','fa'=>'حسابداری چندارزی افغانستان | فدا','ps'=>'څو اسعارو حسابداري افغانستان | فدا'],
                 ['en'=>'Guide to multi-currency accounting software in Afghanistan for AFN, USD and other currencies with historical rates, balances and reporting.','fa'=>'راهنمای حسابداری چندارزی افغانستان برای AFN، USD و سایر اسعار با نرخ تاریخی و گزارش دقیق.','ps'=>'د افغانستان د څو اسعارو حسابدارۍ لارښود د AFN، USD او نورو اسعارو لپاره.'],
                 ['en'=>'multi currency accounting software Afghanistan','fa'=>'حسابداری چندارزی افغانستان','ps'=>'څو اسعارو حسابداري افغانستان'],
                 ['accounting-software-afghanistan','financial-management-software-afghanistan','erp-systems-afghanistan']
@@ -150,7 +150,7 @@ class SearchAuthorityContentWaveTwoSeeder extends Seeder
             'article_category_id'=>$categoryId,
             'slug'=>$slug,
             'title'=>$title,
-            'eyebrow'=>['en'=>'Fida Answers','fa'=>'پاسخ‌های فیدا','ps'=>'د فیدا ځوابونه'],
+            'eyebrow'=>['en'=>'Fida Answers','fa'=>'پاسخ‌های فدا','ps'=>'د فدا ځوابونه'],
             'summary'=>$summary,
             'body'=>$body,
             'meta_title'=>$metaTitle,

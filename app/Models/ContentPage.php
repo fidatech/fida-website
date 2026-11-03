@@ -132,6 +132,14 @@ class ContentPage extends Model
                     $question = trim((string) data_get($faq, "question.{$fallbackLocale}"));
                     $answer = trim((string) data_get($faq, "answer.{$fallbackLocale}"));
                     $contentLocale = $fallbackLocale;
+
+                    // Use the reviewed Dari/Pashto translation when the stored FAQ has none.
+                    $translated = self::contentFallback('faqs', $question, $locale);
+                    if (is_array($translated) && filled($translated['question'] ?? null) && filled($translated['answer'] ?? null)) {
+                        $question = $translated['question'];
+                        $answer = $translated['answer'];
+                        $contentLocale = $locale;
+                    }
                 }
 
                 return [
@@ -395,15 +403,35 @@ class ContentPage extends Model
         return collect(data_get($this->metadata, $path, []))
             ->map(function (mixed $item) use ($locale): string {
                 if (! is_array($item)) {
-                    return trim((string) $item);
+                    $item = [config('website.default_locale') => (string) $item];
                 }
 
-                return trim((string) ($item[$locale]
-                    ?? $item[config('website.default_locale')]
-                    ?? collect($item)->first()));
+                if (filled($item[$locale] ?? null)) {
+                    return trim((string) $item[$locale]);
+                }
+
+                $source = trim((string) ($item[config('website.default_locale')] ?? collect($item)->first()));
+                $translated = self::contentFallback('tags', $source, $locale);
+
+                return is_string($translated) && $translated !== '' ? $translated : $source;
             })
             ->filter()
             ->values()
             ->all();
+    }
+
+    /**
+     * Reviewed Dari/Pashto translations for content stored only in English
+     * (lang/{locale}/content_fallbacks.php, keyed by the English text).
+     */
+    public static function contentFallback(string $group, string $english, string $locale): mixed
+    {
+        if ($english === '' || $locale === config('website.default_locale')) {
+            return null;
+        }
+
+        $translations = trans('content_fallbacks.'.$group, [], $locale);
+
+        return is_array($translations) ? ($translations[$english] ?? null) : null;
     }
 }

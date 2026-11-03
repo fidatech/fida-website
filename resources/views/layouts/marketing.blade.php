@@ -21,6 +21,7 @@
     $navArticles = $navigationPages->get('article', collect());
     $siteTemplate = \App\Support\WebsiteTemplate::resolve(request());
     $corporateTemplate = $siteTemplate === 'corporate';
+    $modernTemplate = $siteTemplate === 'modern';
     $fontPreset = config('website.appearance.current_font_preset', 'editorial');
     $typeScale = config('website.appearance.current_type_scale', 'balanced');
     $isTemplatePreview = \App\Support\WebsiteTemplate::isAuthorizedPreview(request());
@@ -33,8 +34,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    @if($modernTemplate)
+    <meta name="theme-color" content="#173244">
+    <meta name="color-scheme" content="light">
+    @else
     <meta name="theme-color" content="{{ $siteTheme['background'] }}" data-theme-color data-dark-color="{{ $siteTheme['background'] }}">
     <meta name="color-scheme" content="dark light">
+    @endif
     <script>
         (() => {
             const key = 'fida_color_mode';
@@ -110,18 +116,28 @@
         @endif
         @vite('resources/css/corporate.css')
     @endif
+    @if($modernTemplate)
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&amp;family=Noto+Sans+Arabic:wght@400;500;600;700&amp;display=swap">
+        @vite('resources/css/modern.css')
+    @endif
 </head>
 <body class="marketing-body theme-{{ config('website.appearance.current_theme', 'midnight') }} palette-{{ config('website.appearance.current_palette', 'fida') }} site-template-{{ $siteTemplate }} font-preset-{{ $fontPreset }} type-scale-{{ $typeScale }}">
     @if(config('website.indexable') && config('website.analytics.gtm_container_id') && ! config('website.analytics.require_consent'))
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ urlencode((string) config('website.analytics.gtm_container_id')) }}" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
     @endif
     <a class="skip-link" href="#main">{{ __('website.accessibility.skip_to_content') }}</a>
+    @unless($modernTemplate)
     <div class="page-noise" aria-hidden="true"></div>
     <div class="page-aurora page-aurora-one" aria-hidden="true"></div>
     <div class="page-aurora page-aurora-two" aria-hidden="true"></div>
     <div class="scroll-progress" data-scroll-progress aria-hidden="true"></div>
+    @endunless
 
-    @if($corporateTemplate)
+    @if($modernTemplate)
+        @include('layouts.partials.modern-header')
+    @elseif($corporateTemplate)
         @include('layouts.partials.corporate-header')
     @else
     <header class="site-header" data-header>
@@ -310,14 +326,16 @@
 
     @if($isTemplatePreview)
         <div class="corp-preview-bar">
-            Corporate Clean preview · Only website-settings administrators can view this version.
+            {{ config("website.appearance.templates.{$siteTemplate}.label", 'Template') }} preview. Only website-settings administrators can view this version.
             <a href="{{ route('admin.settings.edit') }}">Appearance settings ↗</a>
             <a href="{{ url()->current() }}">Exit preview</a>
         </div>
     @endif
     <main id="main">@yield('content')</main>
 
-    @if($corporateTemplate)
+    @if($modernTemplate)
+        @include('layouts.partials.modern-footer')
+    @elseif($corporateTemplate)
         @include('layouts.partials.corporate-footer')
     @else
     <footer class="site-footer">

@@ -173,7 +173,10 @@ class MarketingPageController extends Controller
 
         foreach (config('website.portfolio_systems', []) as $system) {
             $needle = '<li><strong>'.$system['name'].'</strong>';
-            $label = e($system['label'] ?? $system['name']);
+            // English shows "Name (what it does)"; Dari and Pashto already describe the system after the name.
+            $label = e(app()->getLocale() === config('website.default_locale')
+                ? ($system['label'] ?? $system['name'])
+                : \App\Support\ModernNav::systemName($system));
             $html = str_replace($needle, '<li id="system-'.$system['slug'].'"><strong>'.$label.'</strong>', $html);
         }
 

@@ -122,10 +122,14 @@ return [
         'logo_url' => null,
     ],
     'appearance' => [
-        'default_template' => 'technology',
+        // Used until a template is saved in Website settings. Set WEBSITE_TEMPLATE=modern on staging to review Lapis 2026.
+        'default_template' => env('WEBSITE_TEMPLATE', 'technology'),
+        // The 2026-11-04 launch migration switches the saved template to 'modern'. Tests turn this off.
+        'activate_modern_on_migrate' => (bool) env('WEBSITE_ACTIVATE_MODERN_ON_MIGRATE', true),
         'templates' => [
             'technology' => ['label' => 'Technology Dark', 'description' => 'Original Fida dark interface.'],
             'corporate' => ['label' => 'Corporate Clean', 'description' => 'Clean corporate layout with Fida logo-inspired navy and orange.'],
+            'modern' => ['label' => 'Fida 2026', 'description' => 'New 2026 design in the exact logo colors: floating navigation, product showcase, bento grid, catalog and Academy.'],
         ],
         'default_font_preset' => 'editorial',
         'font_presets' => [
@@ -326,4 +330,28 @@ return [
         ['slug' => 'contentos', 'name' => 'ContentOS', 'label' => 'ContentOS (AI Content Publishing)'],
     ],
     'industries' => ['real_estate', 'finance', 'logistics', 'pharmacy', 'construction', 'retail'],
+
+    // Lapis 2026 template. Figures are stated company facts; edit here as they grow.
+    'modern' => [
+        'figures' => [
+            ['value' => '40+', 'key' => 'products'],
+            ['value' => '32', 'key' => 'solutions'],
+            ['value' => '20+', 'key' => 'industries'],
+            ['value' => '30+', 'key' => 'sarafi'],
+            ['value' => '2014', 'key' => 'since'],
+        ],
+        // Solution pages grouped under the Infrastructure & security pillar; all other solutions sit under Software.
+        'infrastructure_slugs' => [
+            'data-center-it-infrastructure-afghanistan',
+            'network-infrastructure-operations-afghanistan',
+            'cloud-server-infrastructure-afghanistan',
+            'cybersecurity-solutions-afghanistan',
+            'enterprise-hardware-technology-supply-afghanistan',
+            'systems-integration-deployment-afghanistan',
+            'managed-it-services-afghanistan',
+            'iot-smart-infrastructure-afghanistan',
+        ],
+        'academy_tracks' => ['cybersecurity', 'linux', 'programming', 'networking', 'capacity', 'industry'],
+        'process_steps' => 4,
+    ],
 ];

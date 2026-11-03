@@ -52,7 +52,7 @@
                 </label>
                 <label class="mx-form-wide"><span>{{ __('website.contact.message') }}</span><textarea name="message" rows="5" required @if($errors->has('message')) aria-invalid="true" @endif>{{ old('message') }}</textarea></label>
             </div>
-            <button class="mx-button mx-button-saffron" type="submit">{{ __('modern.contact.send') }}</button>
+            <button class="mx-button mx-button-primary" type="submit">{{ __('modern.contact.send') }}</button>
         </form>
     </div>
 </section>

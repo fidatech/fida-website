@@ -7,7 +7,7 @@
     <div class="mx-wrap">
         <div class="mx-footer-grid">
             <div class="mx-footer-brand">
-                <p class="mx-footer-name">{{ config('website.name') }}</p>
+                <p class="mx-footer-name">@include('marketing.templates.modern.partials.logo', ['uid' => 'footer', 'height' => 30, 'light' => true]) <span>{{ config('website.name') }}</span></p>
                 <p>{{ __('modern.footer.description') }}</p>
                 <ul class="mx-footer-langs">
                     @foreach(config('website.locales') as $code => $language)

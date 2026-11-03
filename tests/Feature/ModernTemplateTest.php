@@ -29,7 +29,7 @@ class ModernTemplateTest extends TestCase
             ->assertViewIs('marketing.templates.modern.home')
             ->assertSee('site-template-modern', false)
             ->assertSee('Software, infrastructure and training for organizations in Afghanistan.')
-            ->assertSee('Five ways we work with you')
+            ->assertSee('Everything your organization runs on')
             ->assertSee('Infrastructure and security')
             ->assertSee('Fida Academy')
             ->assertSee('Linux administration')
@@ -56,7 +56,7 @@ class ModernTemplateTest extends TestCase
 
         $this->get('/ps')
             ->assertOk()
-            ->assertSee(trans('modern.pillars.title', [], 'ps'));
+            ->assertSee(trans('modern.bento.title', [], 'ps'));
     }
 
     public function test_the_menu_shows_short_labels_without_repeating_the_country(): void

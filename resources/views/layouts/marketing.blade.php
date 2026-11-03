@@ -35,7 +35,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @if($modernTemplate)
-    <meta name="theme-color" content="#0f2257">
+    <meta name="theme-color" content="#173244">
     <meta name="color-scheme" content="light">
     @else
     <meta name="theme-color" content="{{ $siteTheme['background'] }}" data-theme-color data-dark-color="{{ $siteTheme['background'] }}">
@@ -119,7 +119,7 @@
     @if($modernTemplate)
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=Noto+Sans+Arabic:wght@400;500;600;700&amp;display=swap">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&amp;family=Noto+Sans+Arabic:wght@400;500;600;700&amp;display=swap">
         @vite('resources/css/modern.css')
     @endif
 </head>

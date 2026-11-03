@@ -127,7 +127,7 @@ return [
         'templates' => [
             'technology' => ['label' => 'Technology Dark', 'description' => 'Original Fida dark interface.'],
             'corporate' => ['label' => 'Corporate Clean', 'description' => 'Clean corporate layout with Fida logo-inspired navy and orange.'],
-            'modern' => ['label' => 'Lapis 2026', 'description' => 'New 2026 design: lapis and saffron, five-pillar navigation, catalog and Academy.'],
+            'modern' => ['label' => 'Fida 2026', 'description' => 'New 2026 design in the exact logo colors: floating navigation, product showcase, bento grid, catalog and Academy.'],
         ],
         'default_font_preset' => 'editorial',
         'font_presets' => [

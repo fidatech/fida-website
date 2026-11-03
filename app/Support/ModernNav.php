@@ -49,6 +49,26 @@ final class ModernNav
     }
 
     /**
+     * "Prime Sarafi — Sarafi Management System" becomes "Prime Sarafi".
+     */
+    public static function productShortName(string $name): string
+    {
+        return trim(preg_split('/\s+[—–-]\s+/u', $name, 2)[0] ?? $name);
+    }
+
+    /**
+     * Industry chips: "Construction ERP Software in Afghanistan" becomes "Construction".
+     * Only English wording is trimmed; Dari and Pashto titles keep their full short label.
+     */
+    public static function industryShortName(string $title): string
+    {
+        $label = self::label($title);
+        $trimmed = preg_replace('/\s+(ERP\s+Software|Software\s+Systems|Management\s+Software|Management\s+System|OSS\/BSS\s+Software|Software)$/u', '', $label);
+
+        return is_string($trimmed) && $trimmed !== '' ? $trimmed : $label;
+    }
+
+    /**
      * Portfolio systems are stored as "Name (what it does)"; return the description part.
      */
     public static function systemDescription(array $system): string

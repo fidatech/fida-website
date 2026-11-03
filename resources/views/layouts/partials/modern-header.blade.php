@@ -9,13 +9,9 @@
     $systems = config('website.portfolio_systems', []);
 @endphp
 <header class="mx-header">
-    <div class="mx-wrap mx-header-bar">
+    <div class="mx-header-bar">
         <a class="mx-brand" href="{{ LocalizedUrl::path('/') }}" aria-label="{{ config('website.name') }}">
-            @if(config('website.branding.logo_url'))
-                <img src="{{ config('website.branding.logo_url') }}" alt="" width="36" height="36">
-            @else
-                <svg viewBox="0 0 36 36" width="36" height="36" aria-hidden="true"><rect width="36" height="36" rx="8" fill="var(--mx-lapis)"/><path d="M10 8h17v5H15.5v4.5h9.5v5h-9.5V28H10z" fill="#fff"/><path d="M23 23h5v5h-5z" fill="var(--mx-saffron)"/></svg>
-            @endif
+            @include('marketing.templates.modern.partials.logo', ['uid' => 'header', 'height' => 28])
             <span><strong>{{ config('website.branding.name', 'Fida') }}</strong> Technologies</span>
         </a>
 
@@ -129,7 +125,7 @@
                     <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
                 </a>
                 <details class="mx-menu mx-lang">
-                    <summary aria-label="{{ __('modern.nav.language') }}">{{ $locales[$currentLocale]['native'] ?? strtoupper($currentLocale) }}</summary>
+                    <summary aria-label="{{ __('modern.nav.language') }}">{{ $currentLocale === 'en' ? 'EN' : ($locales[$currentLocale]['native'] ?? strtoupper($currentLocale)) }}</summary>
                     <div class="mx-panel mx-panel-end">
                         <ul class="mx-links">
                             @foreach($locales as $code => $language)
@@ -138,7 +134,7 @@
                         </ul>
                     </div>
                 </details>
-                <a class="mx-button mx-button-saffron" href="{{ LocalizedUrl::path('/contact') }}#contact" data-track-event="cta_click" data-track-label="modern_header_proposal">{{ __('modern.nav.cta') }}</a>
+                <a class="mx-button mx-button-primary" href="{{ LocalizedUrl::path('/contact') }}#contact" data-track-event="cta_click" data-track-label="modern_header_proposal">{{ __('modern.nav.cta') }}</a>
             </div>
         </nav>
     </div>

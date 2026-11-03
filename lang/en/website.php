@@ -110,7 +110,7 @@ return [
         'success' => 'Thank you. Your request has been received and our team will contact you.',
         'project_options' => [
             'erp' => 'ERP or MIS system', 'accounting' => 'Accounting software', 'mobile' => 'Mobile application',
-            'website' => 'Professional website', 'saas' => 'SaaS platform', 'tender' => 'Tender or RFP invitation',
+            'website' => 'Professional website', 'saas' => 'SaaS platform', 'tender' => 'Tender or RFP invitation', 'training' => 'Training or course for staff',
             'company-profile' => 'Company profile request', 'other' => 'Another requirement',
         ],
         'budget_options' => [

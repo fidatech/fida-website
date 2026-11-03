@@ -98,4 +98,33 @@ class ModernTemplateTest extends TestCase
         $this->assertSame('training', $lead->project_type);
         $this->assertSame('academy-linux', $lead->interest_slug);
     }
+
+    public function test_inner_pages_use_the_new_design_and_keep_their_content(): void
+    {
+        $this->get('/prime-sarafi-software')
+            ->assertOk()
+            ->assertSee('class="mx-page-hero"', false)
+            ->assertSee('class="mx-profile"', false)
+            ->assertSee('id="frequently-asked-questions"', false)
+            ->assertSee('Prime Sarafi')
+            ->assertDontSee('product-profile-orbit', false);
+
+        $this->get('/erp-systems-afghanistan')->assertOk()->assertSee('class="mx-prose"', false);
+        $this->get('/solutions')->assertOk()->assertSee('class="mx-card"', false);
+        $this->get('/how-to-choose-erp-system-afghanistan')->assertOk()->assertSee('class="mx-article-meta"', false);
+        $this->get('/contact')->assertOk()->assertSee('action="'.route('leads.store').'"', false)->assertSee('mx-form', false);
+        $this->get('/request-for-quotation')->assertOk()->assertSee('action="'.route('rfq.store').'"', false)->assertSee('name="capabilities[]"', false);
+        $this->get('/search?q=erp')->assertOk()->assertSee('class="mx-search"', false);
+        $this->get('/fa/prime-sarafi-software')->assertOk()->assertSee('dir="rtl"', false)->assertSee('class="mx-profile"', false);
+    }
+
+    public function test_the_live_template_keeps_its_original_inner_pages(): void
+    {
+        config()->set('website.appearance.default_template', 'technology');
+
+        $this->get('/prime-sarafi-software')
+            ->assertOk()
+            ->assertSee('product-profile-section', false)
+            ->assertDontSee('class="mx-page-hero"', false);
+    }
 }

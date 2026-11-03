@@ -66,7 +66,7 @@ HTML,
 <h2>امنیت، محرمیت و حساب‌دهی</h2><p>معلومات پرسونل و معاش حساس است. دسترسی نقش‌محور، ادمین ممتاز، تاریخ تأیید، export، حفاظت سند، نگهداری، بکاپ و incident باید تعریف شود. گزارش‌ها نباید معلومات شخصی غیرضروری را نمایش دهد.</p>
 <h2>تطبیق و انتقال</h2><p>تطبیق با ساختار، پالیسی، تقویم معاش، اجزا، منبع حاضری، مسئولیت و گزارش تأییدشده آغاز می‌شود. هویت، حالت فعال، بیلانس رخصتی یا قرض و اجزای معاش پیش از نشر باید reconciliation و sign-off شود.</p>
 <h2>گزارش مدیریتی</h2><p>گزارش می‌تواند headcount، اشغال بست، قرارداد، استثنای حاضری، رخصتی، variance معاش، هزینه واحد و شاخص نیروی کار را پوشش دهد. تعریف و دسترسی شاخص باید میان HR، مالی و مدیریت یکسان باشد.</p>
-<h2>مرجع پلان‌گذاری</h2><p>مدل با اهداف کنترول HRMIS در یک <a href="https://www.worldbank.org/en/news/press-release/2022/12/08/-20-million-grant-to-improve-fiscal-and-human-resource-management-in-guinea-bissau">برنامه بانک جهانی</a> درباره headcount، کنترول تکرار و نظارت معاش مقایسه شده است. این منبع به معنی اشتراک فیدا یا قابل اجرا بودن قواعد آن در افغانستان نیست.</p>
+<h2>مرجع پلان‌گذاری</h2><p>مدل با اهداف کنترول HRMIS در یک <a href="https://www.worldbank.org/en/news/press-release/2022/12/08/-20-million-grant-to-improve-fiscal-and-human-resource-management-in-guinea-bissau">برنامه بانک جهانی</a> درباره headcount، کنترول تکرار و نظارت معاش مقایسه شده است. این منبع به معنی اشتراک فدا یا قابل اجرا بودن قواعد آن در افغانستان نیست.</p>
 HTML,
                 'ps' => <<<'HTML'
 <h2>HRMIS باید د استخدام پرېکړه د معاش له شواهدو سره ونښلوي</h2><p>ګټور HRMIS یوازې د کارکوونکو لست نه دی. سیسټم باید له تایید شوي بست او استخدامي ثبت څخه تر حاضري، رخصتي، تعدیل، د معاش کتنې، د تادیې لارښوونې او مالي ثبت پورې مجاز لاره وساتي.</p><p>د استخدام، مالیې، تقاعد، امتیاز او معاش قواعد باید د ادارې مجاز HR، مالي او حقوقي متخصصین تایید کړي. سافټویر حقوقي پالیسي نه جوړوي.</p>
@@ -78,10 +78,10 @@ HTML,
 <h2>امنیت، محرمیت او حساب ورکونه</h2><p>پرسونل او معاش معلومات حساس دي. رول‌محور لاسرسی، ممتاز اډمین، د تایید تاریخ، export، د سند ساتنه، retention، بیک‌اپ او incident مسؤلیتونه باید تعریف شي. راپور باید غیرضروري شخصي معلومات ونه ښيي.</p>
 <h2>پلي کول او لېږد</h2><p>پلي کول له تایید شوي جوړښت، پالیسي، معاش تقویم، اجزاوو، حاضري سرچینې، مسؤلیت او راپورونو پیلېږي. هویت، فعال حالت، د رخصتۍ یا پور بیلانس او معاشي اجزا باید تر نشر مخکې reconciliation او sign-off شي.</p>
 <h2>مدیریتي راپورونه</h2><p>راپورونه headcount، د بست اشغال، قرارداد، د حاضري استثنا، رخصتي، معاش variance، د واحد لګښت او کاري ځواک شاخصونه پوښلی شي. تعریف او لاسرسی باید د HR، مالي او مدیریت ترمنځ یو شان وي.</p>
-<h2>د پلان مرجع</h2><p>ماډل د <a href="https://www.worldbank.org/en/news/press-release/2022/12/08/-20-million-grant-to-improve-fiscal-and-human-resource-management-in-guinea-bissau">نړیوال بانک د HRMIS پروګرام</a> له headcount، تکرار کنټرول او معاش څارنې موخو سره پرتله شوی. دا سرچینه نه د فیدا د ګډون ادعا ده او نه یې قواعد په افغانستان کې حتمي دي.</p>
+<h2>د پلان مرجع</h2><p>ماډل د <a href="https://www.worldbank.org/en/news/press-release/2022/12/08/-20-million-grant-to-improve-fiscal-and-human-resource-management-in-guinea-bissau">نړیوال بانک د HRMIS پروګرام</a> له headcount، تکرار کنټرول او معاش څارنې موخو سره پرتله شوی. دا سرچینه نه د فدا د ګډون ادعا ده او نه یې قواعد په افغانستان کې حتمي دي.</p>
 HTML,
             ],
-            metaTitle: ['en' => 'HRMIS & Payroll Software Afghanistan | Fida', 'fa' => 'نرم‌افزار HRMIS و معاشات افغانستان | فیدا', 'ps' => 'د HRMIS او معاشونو سافټویر افغانستان | فیدا'],
+            metaTitle: ['en' => 'HRMIS & Payroll Software Afghanistan | Fida', 'fa' => 'نرم‌افزار HRMIS و معاشات افغانستان | فدا', 'ps' => 'د HRMIS او معاشونو سافټویر افغانستان | فدا'],
             metaDescription: ['en' => 'HRMIS and payroll software for employee, position, attendance, leave, approved payroll, self-service and workforce reporting workflows.', 'fa' => 'HRMIS و معاشات برای کارمند، بست، حاضری، رخصتی، معاش تأییدشده، self-service و گزارش نیروی کار.', 'ps' => 'د کارکوونکو، بستونو، حاضري، رخصتي، تایید شوي معاش، self-service او کاري ځواک راپورونو لپاره HRMIS.'],
             primaryQuery: ['en' => 'HRMIS payroll software Afghanistan', 'fa' => 'نرم‌افزار HRMIS و معاشات افغانستان', 'ps' => 'د HRMIS او معاشونو سافټویر افغانستان'],
             faqs: [
@@ -154,7 +154,7 @@ HTML,
 <h2>د پلان مراجع</h2><p>بهیر د Microsoft عمومي <a href="https://learn.microsoft.com/en-us/dynamics365/supply-chain/procurement/procurement-sourcing-overview">تدارکاتو او سرچینې</a> او <a href="https://learn.microsoft.com/en-us/dynamics365/guidance/business-processes/inventory-to-deliver-overview">موجودۍ تر سپارلو</a> لارښود سره پرتله شوی. دا نه د محصول اړیکه ده او نه د افغانستان قانون.</p>
 HTML,
             ],
-            metaTitle: ['en' => 'Procurement & Inventory Software Afghanistan | Fida', 'fa' => 'نرم‌افزار تدارکات و موجودی افغانستان | فیدا', 'ps' => 'د تدارکاتو او موجودۍ سافټویر افغانستان | فیدا'],
+            metaTitle: ['en' => 'Procurement & Inventory Software Afghanistan | Fida', 'fa' => 'نرم‌افزار تدارکات و موجودی افغانستان | فدا', 'ps' => 'د تدارکاتو او موجودۍ سافټویر افغانستان | فدا'],
             metaDescription: ['en' => 'Procurement and inventory software for requisitions, sourcing, purchase orders, receiving, warehouses, stock control and invoice matching.', 'fa' => 'نرم‌افزار تدارکات و موجودی برای درخواست، منبع‌یابی، سفارش، دریافت، گدام، کنترول stock و تطبیق بل.', 'ps' => 'د غوښتنو، سرچینې، پېر امر، ترلاسه کولو، ګدام، موجودي کنټرول او بل تصفیې لپاره سافټویر.'],
             primaryQuery: ['en' => 'procurement inventory management software Afghanistan', 'fa' => 'نرم‌افزار مدیریت تدارکات و موجودی افغانستان', 'ps' => 'د تدارکاتو او موجودۍ مدیریت سافټویر افغانستان'],
             faqs: [
@@ -230,7 +230,7 @@ HTML,
 <h2>د اسنادو مدیریت مرجع</h2><p>د ژوند دوره د امریکا ملي آرشیف له <a href="https://www.archives.gov/records-mgmt/policy/universalermrequirements">عمومي برېښنايي اسنادو اړتیاوو</a> سره د capture، کارونې، disposal، transfer، metadata او reporting په برخه کې پرتله شوې. دا د افغانستان قانون یا certification نه دی.</p>
 HTML,
             ],
-            metaTitle: ['en' => 'Document Management & Workflow Afghanistan | Fida', 'fa' => 'سیستم مدیریت اسناد و جریان کار افغانستان | فیدا', 'ps' => 'د اسنادو مدیریت او کاري بهیر افغانستان | فیدا'],
+            metaTitle: ['en' => 'Document Management & Workflow Afghanistan | Fida', 'fa' => 'سیستم مدیریت اسناد و جریان کار افغانستان | فدا', 'ps' => 'د اسنادو مدیریت او کاري بهیر افغانستان | فدا'],
             metaDescription: ['en' => 'Document management and workflow for capture, classification, versions, access, approval, search, retention, disposition and audit evidence.', 'fa' => 'مدیریت اسناد و workflow برای دریافت، طبقه‌بندی، نسخه، دسترسی، منظوری، search، retention، disposal و audit.', 'ps' => 'د capture، طبقه‌بندۍ، نسخې، لاسرسي، تایید، search، retention، disposal او audit لپاره د اسنادو سیستم.'],
             primaryQuery: ['en' => 'document management workflow system Afghanistan', 'fa' => 'سیستم مدیریت اسناد و جریان کار افغانستان', 'ps' => 'د اسنادو مدیریت او کاري بهیر سیسټم افغانستان'],
             faqs: [
@@ -303,7 +303,7 @@ HTML,
 <h2>د analytics پلان مراجع</h2><p>لار د Microsoft له عمومي <a href="https://learn.microsoft.com/en-us/power-bi/guidance/powerbi-implementation-planning-bi-strategy-bi-solution-planning">BI پلان</a>، <a href="https://learn.microsoft.com/en-us/power-bi/guidance/powerbi-implementation-planning-content-lifecycle-management-plan-design">content lifecycle</a> او <a href="https://learn.microsoft.com/en-us/power-bi/guidance/powerbi-implementation-planning-content-lifecycle-management-validate">validation</a> لارښود سره پرتله شوې. دا د محصول اړیکه یا certification نه دی.</p>
 HTML,
             ],
-            metaTitle: ['en' => 'Business Intelligence & Reporting Afghanistan | Fida', 'fa' => 'هوش تجارتی و گزارش‌دهی افغانستان | فیدا', 'ps' => 'سوداګریز هوښیارتیا او راپور ورکول افغانستان | فیدا'],
+            metaTitle: ['en' => 'Business Intelligence & Reporting Afghanistan | Fida', 'fa' => 'هوش تجارتی و گزارش‌دهی افغانستان | فدا', 'ps' => 'سوداګریز هوښیارتیا او راپور ورکول افغانستان | فدا'],
             metaDescription: ['en' => 'Business intelligence and reporting for governed metrics, source integration, data quality, dashboards, security, validation and controlled releases.', 'fa' => 'BI و reporting برای شاخص دارای حاکمیت، integration، کیفیت data، dashboard، امنیت، validation و نشر کنترول‌شده.', 'ps' => 'د حاکمیت شاخصونو، integration، data کیفیت، dashboard، امنیت، validation او کنټرول شوي نشر لپاره BI.'],
             primaryQuery: ['en' => 'business intelligence reporting Afghanistan', 'fa' => 'هوش تجارتی و گزارش‌دهی افغانستان', 'ps' => 'سوداګریز هوښیارتیا او راپور ورکول افغانستان'],
             faqs: [

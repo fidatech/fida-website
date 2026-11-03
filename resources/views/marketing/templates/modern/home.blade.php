@@ -85,7 +85,7 @@
                         <li><a href="{{ LocalizedUrl::path($product['url']) }}" data-track-event="product_view" data-track-label="{{ $product['key'] }}"><b aria-hidden="true">{{ mb_strtoupper(mb_substr($product['key'], 0, 1)) }}</b>{{ ModernNav::productShortName(__("website.products.{$product['key']}.name")) }}</a></li>
                     @endforeach
                     @foreach(array_slice($systems, 0, 2) as $system)
-                        <li><a href="{{ LocalizedUrl::path('/products') }}#system-{{ $system['slug'] }}"><b aria-hidden="true">{{ mb_strtoupper(mb_substr($system['name'], 0, 1)) }}</b>{{ $system['name'] }}</a></li>
+                        <li><a href="{{ LocalizedUrl::path('/products') }}#system-{{ $system['slug'] }}"><b aria-hidden="true">{{ mb_strtoupper(mb_substr($system['name'], 0, 1)) }}</b>{{ ModernNav::systemName($system) }}</a></li>
                     @endforeach
                 </ul>
                 <a class="mx-tile-cta" href="{{ LocalizedUrl::path('/products') }}">{{ __('modern.bento.products_cta') }}</a>
@@ -152,7 +152,7 @@
             @endforeach
             @foreach(array_slice($systems, 0, 8) as $system)
                 <a class="mx-catalog-row" role="row" href="{{ LocalizedUrl::path('/products') }}#system-{{ $system['slug'] }}">
-                    <span role="cell" class="mx-catalog-name"><b aria-hidden="true">{{ mb_strtoupper(mb_substr($system['name'], 0, 1)) }}</b>{{ $system['name'] }}</span>
+                    <span role="cell" class="mx-catalog-name"><b aria-hidden="true">{{ mb_strtoupper(mb_substr($system['name'], 0, 1)) }}</b>{{ ModernNav::systemName($system) }}</span>
                     <span role="cell">{{ ModernNav::systemDescription($system) }}</span>
                 </a>
             @endforeach

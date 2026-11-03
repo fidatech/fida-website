@@ -213,7 +213,7 @@ Required JSON:
 {
   "slug":"lowercase-kebab-case",
   "title":{"en":"","fa":"","ps":""},
-  "eyebrow":{"en":"Fida Answers","fa":"پاسخ‌های فیدا","ps":"د فیدا ځوابونه"},
+  "eyebrow":{"en":"Fida Answers","fa":"پاسخ‌های فدا","ps":"د فدا ځوابونه"},
   "summary":{"en":"","fa":"","ps":""},
   "body":{"en":"<h2>...</h2>...","fa":"...","ps":"..."},
   "meta_title":{"en":"","fa":"","ps":""},

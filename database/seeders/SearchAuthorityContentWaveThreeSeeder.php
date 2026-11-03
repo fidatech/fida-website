@@ -180,7 +180,7 @@ class SearchAuthorityContentWaveThreeSeeder extends Seeder
             'article_category_id'=>$categoryId,
             'slug'=>$slug,
             'title'=>$title,
-            'eyebrow'=>['en'=>'Fida Answers','fa'=>'پاسخ‌های فیدا','ps'=>'د فیدا ځوابونه'],
+            'eyebrow'=>['en'=>'Fida Answers','fa'=>'پاسخ‌های فدا','ps'=>'د فدا ځوابونه'],
             'summary'=>$summary,
             'body'=>$body,
             'meta_title'=>$metaTitle,

@@ -61,7 +61,7 @@
                         <p class="mx-panel-heading">{{ __('modern.nav.more_products') }}</p>
                         <ul class="mx-links mx-links-columns">
                             @foreach($systems as $system)
-                                <li><a href="{{ LocalizedUrl::path('/products') }}#system-{{ $system['slug'] }}">{{ $system['name'] }}</a></li>
+                                <li><a href="{{ LocalizedUrl::path('/products') }}#system-{{ $system['slug'] }}">{{ ModernNav::systemName($system) }}</a></li>
                             @endforeach
                         </ul>
                     </div>

@@ -73,8 +73,38 @@ final class ModernNav
      */
     public static function systemDescription(array $system): string
     {
+        $key = 'modern.systems.'.($system['slug'] ?? '').'.description';
+        if (app()->getLocale() !== config('website.default_locale') && trans()->has($key)) {
+            return (string) __($key);
+        }
+
         $label = (string) ($system['label'] ?? '');
 
         return preg_match('/\(([^)]+)\)\s*$/u', $label, $match) === 1 ? $match[1] : '';
+    }
+
+    /**
+     * Brand names stay as they are; descriptive system names are translated for Dari and Pashto.
+     */
+    public static function systemName(array $system): string
+    {
+        $key = 'modern.systems.'.($system['slug'] ?? '').'.name';
+        if (app()->getLocale() !== config('website.default_locale') && trans()->has($key)) {
+            return (string) __($key);
+        }
+
+        return (string) ($system['name'] ?? '');
+    }
+
+    /**
+     * Office address in the visitor's language; English uses the address saved in Website settings.
+     */
+    public static function address(): string
+    {
+        if (app()->getLocale() !== config('website.default_locale') && trans()->has('modern.contact.address')) {
+            return (string) __('modern.contact.address');
+        }
+
+        return trim(config('website.address.line').', '.config('website.address.city'), ', ');
     }
 }

@@ -124,6 +124,8 @@ return [
     'appearance' => [
         // Used until a template is saved in Website settings. Set WEBSITE_TEMPLATE=modern on staging to review Lapis 2026.
         'default_template' => env('WEBSITE_TEMPLATE', 'technology'),
+        // The 2026-11-04 launch migration switches the saved template to 'modern'. Tests turn this off.
+        'activate_modern_on_migrate' => (bool) env('WEBSITE_ACTIVATE_MODERN_ON_MIGRATE', true),
         'templates' => [
             'technology' => ['label' => 'Technology Dark', 'description' => 'Original Fida dark interface.'],
             'corporate' => ['label' => 'Corporate Clean', 'description' => 'Clean corporate layout with Fida logo-inspired navy and orange.'],

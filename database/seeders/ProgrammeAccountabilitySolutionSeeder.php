@@ -79,7 +79,7 @@ HTML,
 <h2>reconciliation و بسته‌شدن دوره</h2><p>بانک، نقد، مشتری، تأمین‌کننده، موجودی، معاش و control account باید مالک، دوره، شواهد و روش حل داشته باشد. close checklist موارد unposted، منظوری ناقص، unmatched، accrual، adjustment و sign-off را آشکار می‌کند.</p>
 <h2>صورت مالی و گزارش مدیریتی</h2><p>محدوده می‌تواند ledger، statement، trial balance، income statement، balance sheet، cash flow، aging، budget versus actual، نتیجه شعبه یا پروژه و consolidation را شامل شود. هر خروجی filter، دوره، comparative و مسئول validation می‌خواهد.</p>
 <h2>تطبیق، انتقال و integration</h2><p>تطبیق با شناخت پالیسی و روند آغاز می‌شود. انتقال چارت حساب، طرف‌ها، opening balance، open item، asset و تاریخچه انتخابی را با trial import و control total امضاشده تطبیق می‌کند. اتصال فروش، تدارکات، موجودی، payroll یا پروژه نیازمند identifier، posting trigger، error و reconciliation است.</p>
-<h2>مرجع پلان‌گذاری</h2><p>مدل با <a href="https://www.worldbank.org/en/topic/governance/brief/financial-management-information-systems-fmis">مرور عمومی FMIS بانک جهانی</a> درباره بودجه، accounting، treasury و reporting مقایسه شده است. این منبع ادعای اشتراک فیدا یا تطبیق قواعد دولتی بر هر سازمان نیست.</p>
+<h2>مرجع پلان‌گذاری</h2><p>مدل با <a href="https://www.worldbank.org/en/topic/governance/brief/financial-management-information-systems-fmis">مرور عمومی FMIS بانک جهانی</a> درباره بودجه، accounting، treasury و reporting مقایسه شده است. این منبع ادعای اشتراک فدا یا تطبیق قواعد دولتی بر هر سازمان نیست.</p>
 HTML,
                 'ps' => <<<'HTML'
 <h2>د حسابدارۍ سافټویر باید هر مهم بیلانس تشریح کړي</h2><p>باوري پلېټفارم سرچینه معامله، مسؤل کاروونکی، سند، تایید، ژورنال، ledger، reconciliation او راپور سره نښلوي. اصلاح باید ښکاره وي او مالي تاریخ په بې‌دلیله بدلون له منځه ولاړ نه شي.</p><p>مجاز مالي، مالیاتي، audit او حقوقي متخصصین باید د حسابونو چارت، پالیسي، راپور مبنا، مالیه او قانوني مکلفیت تایید کړي. سافټویر audit opinion یا compliance پرېکړه نه ورکوي.</p>
@@ -91,10 +91,10 @@ HTML,
 <h2>reconciliation او د دورې تړل</h2><p>بانک، نقد، مشتری، عرضه کوونکی، موجودي، معاش او control account باید مالک، وخت، شواهد او د حل لاره ولري. close checklist unposted، نیمګړي تایید، unmatched، accrual، adjustment او sign-off ښکاره کوي.</p>
 <h2>مالي صورتونه او مدیریتي راپور</h2><p>حدود ledger، statement، trial balance، income statement، balance sheet، cash flow، aging، budget versus actual، د څانګې یا پروژې نتیجه او consolidation شاملولی شي. هر output filter، دوره، comparative او validation مسؤل غواړي.</p>
 <h2>پلي کول، لېږد او integration</h2><p>پلي کول د پالیسي او بهیر له پېژندنې پیلېږي. لېږد د حسابونو چارت، اړخونه، opening balance، open item، asset او ټاکلی تاریخ له trial import او لاسلیک شوي control total سره تصفیه کوي. د پلور، تدارکاتو، موجودۍ، payroll یا پروژې اتصال identifier، posting trigger، error او reconciliation غواړي.</p>
-<h2>د پلان مرجع</h2><p>ماډل د نړیوال بانک له <a href="https://www.worldbank.org/en/topic/governance/brief/financial-management-information-systems-fmis">عمومي FMIS کتنې</a> سره د بودیجې، accounting، treasury او reporting په برخه کې پرتله شوی. دا نه د فیدا د ګډون ادعا ده او نه دولتي قواعد پر هرې ادارې تطبیقوي.</p>
+<h2>د پلان مرجع</h2><p>ماډل د نړیوال بانک له <a href="https://www.worldbank.org/en/topic/governance/brief/financial-management-information-systems-fmis">عمومي FMIS کتنې</a> سره د بودیجې، accounting، treasury او reporting په برخه کې پرتله شوی. دا نه د فدا د ګډون ادعا ده او نه دولتي قواعد پر هرې ادارې تطبیقوي.</p>
 HTML,
             ],
-            metaTitle: ['en' => 'Accounting & Financial Software Afghanistan | Fida', 'fa' => 'نرم‌افزار حسابداری و مالی افغانستان | فیدا', 'ps' => 'د حسابدارۍ او مالي سافټویر افغانستان | فیدا'],
+            metaTitle: ['en' => 'Accounting & Financial Software Afghanistan | Fida', 'fa' => 'نرم‌افزار حسابداری و مالی افغانستان | فدا', 'ps' => 'د حسابدارۍ او مالي سافټویر افغانستان | فدا'],
             metaDescription: ['en' => 'Accounting and financial management software for ledgers, receivables, payables, cash, banks, budgets, multi-currency, reconciliation and reporting.', 'fa' => 'نرم‌افزار حسابداری و مالی برای ledger، دریافتنی، پرداختنی، نقد، بانک، بودجه، چندارزی، reconciliation و reporting.', 'ps' => 'د ledger، ترلاسه کېدونکو، ورکول کېدونکو، نقد، بانک، بودیجې، څو اسعار، reconciliation او reporting لپاره مالي سافټویر.'],
             primaryQuery: ['en' => 'accounting software Afghanistan', 'fa' => 'نرم‌افزار حسابداری افغانستان', 'ps' => 'د حسابدارۍ سافټویر افغانستان'],
             faqs: [
@@ -161,7 +161,7 @@ HTML,
 <h2>د grant دورې مرجع</h2><p>طرح د <a href="https://www.grants.gov/learn-grants/grants-101/the-grant-lifecycle">Grants.gov عمومي دورې</a> له pre-award، award او post-award، reporting او closeout سره پرتله شوې. دا د امریکا قواعد پر افغان اداره یا donor نه تطبیقوي.</p>
 HTML,
             ],
-            metaTitle: ['en' => 'Grant Management System Afghanistan | Fida', 'fa' => 'سیستم مدیریت کمک مالی افغانستان | فیدا', 'ps' => 'د مرستو مدیریت سیسټم افغانستان | فیدا'],
+            metaTitle: ['en' => 'Grant Management System Afghanistan | Fida', 'fa' => 'سیستم مدیریت کمک مالی افغانستان | فدا', 'ps' => 'د مرستو مدیریت سیسټم افغانستان | فدا'],
             metaDescription: ['en' => 'Grant management for opportunities, applications, awards, budgets, deliverables, disbursements, reports, changes, risks and closeout.', 'fa' => 'مدیریت grant برای فرصت، درخواست، award، بودجه، deliverable، پرداخت، گزارش، تغییر، risk و closeout.', 'ps' => 'د فرصتونو، غوښتنلیکونو، award، بودیجې، deliverable، تادیاتو، راپورونو، بدلون، خطر او closeout لپاره grant management.'],
             primaryQuery: ['en' => 'grant management system Afghanistan', 'fa' => 'سیستم مدیریت کمک مالی افغانستان', 'ps' => 'د مرستو مدیریت سیسټم افغانستان'],
             faqs: [
@@ -228,7 +228,7 @@ HTML,
 <h2>عملیاتي مراجع</h2><p>طرح د USAID public oversight له indicator، baseline، target او data-quality assessment اصولو او د <a href="https://centre.humdata.org/data-responsibility/">OCHA بشري معلوماتو مرکز</a> له خوندي او اخلاقي data مدیریت سره پرتله شوې. دا donor acceptance یا certification نه دی.</p>
 HTML,
             ],
-            metaTitle: ['en' => 'Monitoring, Evaluation & MEAL System Afghanistan | Fida', 'fa' => 'سیستم نظارت، ارزیابی و MEAL افغانستان | فیدا', 'ps' => 'د څارنې، ارزونې او MEAL سیسټم افغانستان | فیدا'],
+            metaTitle: ['en' => 'Monitoring, Evaluation & MEAL System Afghanistan | Fida', 'fa' => 'سیستم نظارت، ارزیابی و MEAL افغانستان | فدا', 'ps' => 'د څارنې، ارزونې او MEAL سیسټم افغانستان | فدا'],
             metaDescription: ['en' => 'M&E and MEAL software for results frameworks, indicators, baselines, targets, field evidence, data quality, reporting, evaluation and learning.', 'fa' => 'نرم‌افزار M&E و MEAL برای results framework، indicator، baseline، target، evidence ساحوی، data quality، reporting، evaluation و learning.', 'ps' => 'د results framework، indicator، baseline، target، ساحوي evidence، data quality، reporting، evaluation او learning لپاره M&E سیسټم.'],
             primaryQuery: ['en' => 'monitoring evaluation software Afghanistan', 'fa' => 'سیستم نظارت و ارزیابی افغانستان', 'ps' => 'د څارنې او ارزونې سیسټم افغانستان'],
             faqs: [
@@ -295,7 +295,7 @@ HTML,
 <h2>د data responsibility مرجع</h2><p>لار د <a href="https://centre.humdata.org/revised-ocha-data-responsibility-guidelines/">OCHA نوي Data Responsibility لارښود</a> سره د خوندي، اخلاقي او اغېزمن data مدیریت په برخه کې پرتله شوې. دا endorsement یا certification نه دی.</p>
 HTML,
             ],
-            metaTitle: ['en' => 'Beneficiary & Case Management Afghanistan | Fida', 'fa' => 'مدیریت مستفیدشونده و قضیه افغانستان | فیدا', 'ps' => 'د ګټه اخیستونکو او قضیو مدیریت افغانستان | فیدا'],
+            metaTitle: ['en' => 'Beneficiary & Case Management Afghanistan | Fida', 'fa' => 'مدیریت مستفیدشونده و قضیه افغانستان | فدا', 'ps' => 'د ګټه اخیستونکو او قضیو مدیریت افغانستان | فدا'],
             metaDescription: ['en' => 'Beneficiary and case management for registration, eligibility, assistance, referrals, follow-up, feedback, safeguarding and responsible reporting.', 'fa' => 'مدیریت مستفیدشونده و case برای registration، eligibility، assistance، referral، follow-up، feedback، safeguarding و reporting.', 'ps' => 'د registration، eligibility، assistance، referral، follow-up، feedback، safeguarding او reporting لپاره beneficiary او case management.'],
             primaryQuery: ['en' => 'beneficiary management system Afghanistan', 'fa' => 'سیستم مدیریت مستفیدشونده افغانستان', 'ps' => 'د ګټه اخیستونکو مدیریت سیسټم افغانستان'],
             faqs: [

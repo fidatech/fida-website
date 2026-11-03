@@ -16,7 +16,7 @@
             <dl class="mx-contact-direct">
                 <div><dt>{{ __('modern.contact.email') }}</dt><dd><a href="mailto:{{ config('website.email') }}" data-track-event="contact_click" data-track-label="email">{{ config('website.email') }}</a></dd></div>
                 <div><dt>{{ __('modern.contact.whatsapp') }}</dt><dd><a href="https://wa.me/{{ config('website.whatsapp') }}" rel="noopener" dir="ltr" data-track-event="contact_click" data-track-label="whatsapp">{{ config('website.phone') }}</a></dd></div>
-                <div><dt>{{ __('modern.contact.office') }}</dt><dd>{{ config('website.address.line') }}, {{ config('website.address.city') }}</dd></div>
+                <div><dt>{{ __('modern.contact.office') }}</dt><dd>{{ \App\Support\ModernNav::address() }}</dd></div>
             </dl>
         </div>
 

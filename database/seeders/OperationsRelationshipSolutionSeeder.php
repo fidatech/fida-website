@@ -59,7 +59,7 @@ HTML,
 <h2>د پلان مراجع</h2><p>workflow د Microsoft له عمومي <a href="https://learn.microsoft.com/en-us/dynamics365/sales/nurture-sales-from-lead-order-sales">lead-to-order</a> او <a href="https://learn.microsoft.com/en-us/dynamics365/customer-service/administer/overview-cases">customer-service case</a> لارښود سره پرتله شوی. دا د محصول اړیکه یا certification نه دی.</p>
 HTML,
             ],
-            metaTitle: ['en' => 'CRM & Customer Service Software Afghanistan | Fida', 'fa' => 'نرم‌افزار CRM و خدمات مشتری افغانستان | فیدا', 'ps' => 'د CRM او مشتری خدمت سافټویر افغانستان | فیدا'],
+            metaTitle: ['en' => 'CRM & Customer Service Software Afghanistan | Fida', 'fa' => 'نرم‌افزار CRM و خدمات مشتری افغانستان | فدا', 'ps' => 'د CRM او مشتری خدمت سافټویر افغانستان | فدا'],
             metaDescription: ['en' => 'CRM and customer service software for customer records, leads, opportunities, quotations, cases, queues, service commitments and reporting.', 'fa' => 'CRM و خدمات مشتری برای customer record، lead، opportunity، quotation، case، queue، service commitment و reporting.', 'ps' => 'د customer record، lead، opportunity، quotation، case، queue، service commitment او reporting لپاره CRM.'],
             primaryQuery: ['en' => 'CRM software Afghanistan', 'fa' => 'نرم‌افزار CRM افغانستان', 'ps' => 'د CRM سافټویر افغانستان'],
             faqs: [
@@ -132,7 +132,7 @@ HTML,
 <h2>د پلان مرجع</h2><p>workflow د Microsoft له <a href="https://learn.microsoft.com/en-us/dynamics365/supply-chain/asset-management/overview/objects-and-work-orders">asset او work order کتنې</a> سره د asset structure، functional location او maintenance job په برخه کې پرتله شوی. دا د محصول اړیکه یا certification نه دی.</p>
 HTML,
             ],
-            metaTitle: ['en' => 'Asset & Maintenance Software Afghanistan | Fida', 'fa' => 'نرم‌افزار مدیریت دارایی و نگهداری افغانستان | فیدا', 'ps' => 'د شتمنیو او ساتنې سافټویر افغانستان | فیدا'],
+            metaTitle: ['en' => 'Asset & Maintenance Software Afghanistan | Fida', 'fa' => 'نرم‌افزار مدیریت دارایی و نگهداری افغانستان | فدا', 'ps' => 'د شتمنیو او ساتنې سافټویر افغانستان | فدا'],
             metaDescription: ['en' => 'Asset and maintenance management for registers, locations, custodians, work orders, schedules, spare parts, downtime, cost and retirement.', 'fa' => 'مدیریت asset و maintenance برای register، location، custodian، work order، schedule، spare part، downtime، cost و retirement.', 'ps' => 'د register، location، custodian، work order، schedule، spare part، downtime، cost او retirement لپاره asset management.'],
             primaryQuery: ['en' => 'asset management software Afghanistan', 'fa' => 'نرم‌افزار مدیریت دارایی افغانستان', 'ps' => 'د شتمنیو مدیریت سافټویر افغانستان'],
             faqs: [
@@ -205,7 +205,7 @@ HTML,
 <h2>د پروژې مدیریت مرجع</h2><p>ماډل د <a href="https://www.iso.org/news/ref2645.html">ISO 21502 عمومي لارښود</a> له lifecycle، planning/control، risk، issue، change، benefit او information سره پرتله شوی. دا د ISO certification ادعا نه ده.</p>
 HTML,
             ],
-            metaTitle: ['en' => 'Project Management Software Afghanistan | Fida', 'fa' => 'نرم‌افزار مدیریت پروژه افغانستان | فیدا', 'ps' => 'د پروژې مدیریت سافټویر افغانستان | فیدا'],
+            metaTitle: ['en' => 'Project Management Software Afghanistan | Fida', 'fa' => 'نرم‌افزار مدیریت پروژه افغانستان | فدا', 'ps' => 'د پروژې مدیریت سافټویر افغانستان | فدا'],
             metaDescription: ['en' => 'Project management software for governance, scope, schedules, resources, budgets, procurement, risks, changes, documents, reporting and acceptance.', 'fa' => 'نرم‌افزار project management برای governance، scope، schedule، resource، budget، procurement، risk، change، document، reporting و acceptance.', 'ps' => 'د governance، scope، schedule، resource، budget، procurement، risk، change، document، reporting او acceptance لپاره project software.'],
             primaryQuery: ['en' => 'project management software Afghanistan', 'fa' => 'نرم‌افزار مدیریت پروژه افغانستان', 'ps' => 'د پروژې مدیریت سافټویر افغانستان'],
             faqs: [

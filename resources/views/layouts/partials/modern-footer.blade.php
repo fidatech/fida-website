@@ -53,7 +53,7 @@
                 <ul>
                     <li><a href="mailto:{{ config('website.email') }}">{{ config('website.email') }}</a></li>
                     <li><a href="tel:{{ config('website.phone') }}" dir="ltr">{{ config('website.phone') }}</a></li>
-                    <li><a href="{{ $mapUrl }}" target="_blank" rel="noopener noreferrer">{{ config('website.address.line') }}, {{ config('website.address.city') }}</a></li>
+                    <li><a href="{{ $mapUrl }}" target="_blank" rel="noopener noreferrer">{{ \App\Support\ModernNav::address() }}</a></li>
                 </ul>
                 @if(config('website.official_profiles'))
                     <p class="mx-footer-heading mx-footer-subheading">{{ __('modern.footer.profiles') }}</p>

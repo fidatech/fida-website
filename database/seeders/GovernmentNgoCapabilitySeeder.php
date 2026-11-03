@@ -28,18 +28,18 @@ class GovernmentNgoCapabilitySeeder extends Seeder
             ],
             'summary' => [
                 'en' => 'Explore Fida capabilities across enterprise software, web and mobile development, AI, IoT, data centers, networks, cloud, cybersecurity, hardware supply, systems integration and managed IT services.',
-                'fa' => 'توانایی‌های فیدا در نرم‌افزار سازمانی، توسعه وب و موبایل، AI، IoT، دیتاسنتر، شبکه، کلود، امنیت سایبری، تجهیزات، یکپارچه‌سازی و خدمات مدیریت‌شده IT را بررسی کنید.',
-                'ps' => 'د فیدا وړتیاوې په سازماني سافټویر، وېب او موبایل، AI، IoT، ډیټا سنټر، شبکو، کلاوډ، سایبري امنیت، تجهیزاتو، ادغام او مدیریت شوو IT خدمتونو کې وګورئ.',
+                'fa' => 'توانایی‌های فدا در نرم‌افزار سازمانی، توسعه وب و موبایل، AI، IoT، دیتاسنتر، شبکه، کلود، امنیت سایبری، تجهیزات، یکپارچه‌سازی و خدمات مدیریت‌شده IT را بررسی کنید.',
+                'ps' => 'د فدا وړتیاوې په سازماني سافټویر، وېب او موبایل، AI، IoT، ډیټا سنټر، شبکو، کلاوډ، سایبري امنیت، تجهیزاتو، ادغام او مدیریت شوو IT خدمتونو کې وګورئ.',
             ],
             'body' => [
                 'en' => '<h2>One technology partner across software and infrastructure</h2><p>Fida Technologies supports organizations that need more than a standalone application. We can combine software engineering, infrastructure, networks, servers, security, hardware supply, deployment, documentation, training and support into one accountable scope.</p><h2>Built for institutional procurement</h2><p>Government agencies, NGOs, INGOs, banks, telecoms and large organizations can engage Fida through an RFQ, RFP, tender or direct scope. A response can separate equipment, licenses, implementation, configuration, training, support, warranty assumptions and commercial terms so procurement teams can compare the offer clearly.</p><h2>From requirement to handover</h2><ul><li>Requirements and site assessment</li><li>Architecture and bill of quantities</li><li>Software development or configuration</li><li>Hardware and licensed technology supply where required</li><li>Installation, integration, testing and commissioning</li><li>Training, documentation and controlled handover</li><li>Support and maintenance under agreed service levels</li></ul>',
-                'fa' => '<h2>یک شریک تکنالوژی برای نرم‌افزار و زیربنا</h2><p>Fida Technologies برای سازمان‌هایی کار می‌کند که بیشتر از یک برنامه مستقل نیاز دارند. نرم‌افزار، زیربنا، شبکه، سرور، امنیت، تجهیزات، نصب، اسناد، آموزش و پشتیبانی می‌تواند در یک محدوده پاسخگو یکجا شود.</p><h2>مناسب برای تدارکات سازمانی</h2><p>ادارات دولتی، NGO، INGO، بانک‌ها، مخابرات و سازمان‌های بزرگ می‌توانند از طریق RFQ، RFP، tender یا محدوده مستقیم با فیدا کار کنند.</p>',
-                'ps' => '<h2>د سافټویر او زیربنا لپاره یو ټکنالوژۍ شریک</h2><p>Fida Technologies له هغو ادارو سره کار کوي چې یوازې یو اپلېکېشن نه، بلکې سافټویر، زیربنا، شبکه، سرور، امنیت، تجهیزات، نصب، اسناد، روزنه او ملاتړ په یوه مسؤل حدود کې غواړي.</p><h2>د سازماني تدارکاتو لپاره مناسب</h2><p>دولت، NGO، INGO، بانکونه، مخابرات او لوی سازمانونه کولای شي د RFQ، RFP، tender یا مستقیم scope له لارې له فیدا سره کار وکړي.</p>',
+                'fa' => '<h2>یک شریک تکنالوژی برای نرم‌افزار و زیربنا</h2><p>Fida Technologies برای سازمان‌هایی کار می‌کند که بیشتر از یک برنامه مستقل نیاز دارند. نرم‌افزار، زیربنا، شبکه، سرور، امنیت، تجهیزات، نصب، اسناد، آموزش و پشتیبانی می‌تواند در یک محدوده پاسخگو یکجا شود.</p><h2>مناسب برای تدارکات سازمانی</h2><p>ادارات دولتی، NGO، INGO، بانک‌ها، مخابرات و سازمان‌های بزرگ می‌توانند از طریق RFQ، RFP، tender یا محدوده مستقیم با فدا کار کنند.</p>',
+                'ps' => '<h2>د سافټویر او زیربنا لپاره یو ټکنالوژۍ شریک</h2><p>Fida Technologies له هغو ادارو سره کار کوي چې یوازې یو اپلېکېشن نه، بلکې سافټویر، زیربنا، شبکه، سرور، امنیت، تجهیزات، نصب، اسناد، روزنه او ملاتړ په یوه مسؤل حدود کې غواړي.</p><h2>د سازماني تدارکاتو لپاره مناسب</h2><p>دولت، NGO، INGO، بانکونه، مخابرات او لوی سازمانونه کولای شي د RFQ، RFP، tender یا مستقیم scope له لارې له فدا سره کار وکړي.</p>',
             ],
             'meta_title' => [
                 'en' => 'Enterprise Technology Solutions Afghanistan | Fida Technologies',
-                'fa' => 'راهکارهای تکنالوژی سازمانی افغانستان | فیدا',
-                'ps' => 'د سازماني ټکنالوژۍ حللارې افغانستان | فیدا',
+                'fa' => 'راهکارهای تکنالوژی سازمانی افغانستان | فدا',
+                'ps' => 'د سازماني ټکنالوژۍ حللارې افغانستان | فدا',
             ],
             'meta_description' => [
                 'en' => 'Enterprise technology partner in Afghanistan for ERP, web, mobile, AI, IoT, data centers, networks, cloud, cybersecurity, hardware supply and systems integration.',
@@ -96,12 +96,12 @@ class GovernmentNgoCapabilitySeeder extends Seeder
                 ],
                 'body' => [
                     'en' => '<h2>A procurement-ready intake channel</h2><p>Use this form to send a formal quotation request, RFP, tender invitation, bill of quantities, technical scope or statement of work. Fida reviews the requirement before confirming commercial terms.</p><h2>What to include</h2><ul><li>Organization and procurement reference</li><li>Required software, equipment or professional services</li><li>Technical specifications, quantities and delivery location</li><li>Submission deadline and expected implementation timeline</li><li>Mandatory compliance, warranty, training or support requirements</li></ul><p>For sensitive documents, provide only information you are authorized to share. Fida will use the submitted material to evaluate and respond to the request.</p>',
-                    'fa' => '<h2>کانال آماده برای تدارکات</h2><p>از این فورم برای ارسال RFQ، RFP، دعوت tender، BOQ، محدوده تخنیکی یا statement of work استفاده کنید. فیدا پیش از تأیید شرایط تجارتی نیازمندی را بررسی می‌کند.</p>',
-                    'ps' => '<h2>د تدارکاتو لپاره چمتو کانال</h2><p>دا فورم د RFQ، RFP، tender بلنې، BOQ، تخنیکي scope یا statement of work د استولو لپاره وکاروئ. فیدا د سوداګریزو شرایطو تر تایید مخکې اړتیا ارزوي.</p>',
+                    'fa' => '<h2>کانال آماده برای تدارکات</h2><p>از این فورم برای ارسال RFQ، RFP، دعوت tender، BOQ، محدوده تخنیکی یا statement of work استفاده کنید. فدا پیش از تأیید شرایط تجارتی نیازمندی را بررسی می‌کند.</p>',
+                    'ps' => '<h2>د تدارکاتو لپاره چمتو کانال</h2><p>دا فورم د RFQ، RFP، tender بلنې، BOQ، تخنیکي scope یا statement of work د استولو لپاره وکاروئ. فدا د سوداګریزو شرایطو تر تایید مخکې اړتیا ارزوي.</p>',
                 ],
                 'meta_title' => [
                     'en' => 'Submit RFQ / RFP / Tender to Fida Technologies Afghanistan',
-                    'fa' => 'ارسال RFQ / RFP / Tender به فیدا تکنالوژی افغانستان',
+                    'fa' => 'ارسال RFQ / RFP / Tender به فدا تکنالوژی افغانستان',
                     'ps' => 'Fida Technologies افغانستان ته RFQ / RFP / Tender وسپارئ',
                 ],
                 'meta_description' => [
@@ -127,7 +127,7 @@ class GovernmentNgoCapabilitySeeder extends Seeder
                         ],
                         [
                             'question' => ['en' => 'Where is the RFQ notification sent?', 'fa' => 'اطلاع RFQ به کجا ارسال می‌شود؟', 'ps' => 'د RFQ خبرتیا چیرته استول کېږي؟'],
-                            'answer' => ['en' => 'New RFQ submissions are recorded in the Fida administration system and a notification is sent to info@fida.af for review.', 'fa' => 'RFQ جدید در سیستم مدیریت فیدا ثبت می‌شود و اطلاع آن برای بررسی به info@fida.af ارسال می‌گردد.', 'ps' => 'نوی RFQ د فیدا په اډمین سیسټم کې ثبتېږي او د ارزونې خبرتیا info@fida.af ته استول کېږي.'],
+                            'answer' => ['en' => 'New RFQ submissions are recorded in the Fida administration system and a notification is sent to info@fida.af for review.', 'fa' => 'RFQ جدید در سیستم مدیریت فدا ثبت می‌شود و اطلاع آن برای بررسی به info@fida.af ارسال می‌گردد.', 'ps' => 'نوی RFQ د فدا په اډمین سیسټم کې ثبتېږي او د ارزونې خبرتیا info@fida.af ته استول کېږي.'],
                         ],
                     ],
                 ],
@@ -164,13 +164,13 @@ class GovernmentNgoCapabilitySeeder extends Seeder
             ],
             'body' => [
                 'en' => '<h2>Technology delivery that procurement teams can evaluate</h2><p>Government and development-sector projects often combine software, equipment, configuration, installation, documentation, training and support. Fida Technologies structures these components clearly so technical teams and procurement teams can review the same scope without mixing product supply with professional services.</p><h2>What Fida can deliver</h2><ul><li>Custom ERP, MIS, finance, HR, workflow and reporting platforms</li><li>Government, NGO and programme web portals and mobile applications</li><li>AI assistants, document workflows and controlled automation</li><li>IoT, monitoring and smart infrastructure integrations</li><li>Data-center, server-room, compute, storage, backup and virtualization projects</li><li>LAN/WAN, routing, switching, Wi-Fi and structured network infrastructure</li><li>Cybersecurity controls, firewalls, hardening and infrastructure protection</li><li>Enterprise hardware and technology supply against an approved BOQ</li><li>Systems integration, migration, testing, commissioning and handover</li><li>Training, documentation, maintenance and managed support</li></ul><h2>Procurement-ready project structure</h2><p>Where required, a technical and commercial response can separate equipment, licenses, implementation, installation, configuration, testing, training, warranty assumptions, support and optional services. Brands, quantities, delivery locations and acceptance requirements are confirmed against the approved RFQ, RFP, tender, BOQ or statement of work.</p><h2>Controlled implementation and handover</h2><p>Projects can be organized around discovery or site assessment, architecture and BOQ, implementation, testing, acceptance, documentation, training and support. The exact deliverables depend on the approved scope; Fida does not imply certifications, warranties or vendor authorizations that are not explicitly confirmed for the project.</p><h2>Start with the formal requirement</h2><p>Procurement and technical teams can send the RFQ, RFP, tender document, BOQ or scope through the Fida RFQ channel. The request receives a reference number, is stored in the administration system and is sent to the Fida procurement inbox for review.</p>',
-                'fa' => '<h2>تحویل تکنالوژی قابل ارزیابی برای تدارکات</h2><p>پروژه‌های دولت و سکتور انکشافی معمولاً نرم‌افزار، تجهیزات، تنظیم، نصب، اسناد، آموزش و پشتیبانی را یکجا نیاز دارند. فیدا این بخش‌ها را واضح تفکیک می‌کند تا تیم تخنیکی و تدارکات یک محدوده مشترک را بررسی کنند.</p><h2>قابلیت‌های پروژه</h2><ul><li>ERP، MIS، مالی، HR و workflow سفارشی</li><li>پورتال‌های دولت و NGO و اپلیکیشن‌های موبایل</li><li>AI، اتوماسیون و پردازش اسناد</li><li>IoT و monitoring</li><li>دیتاسنتر، سرور، storage، backup و virtualization</li><li>شبکه، Wi-Fi و structured cabling</li><li>امنیت سایبری و firewall</li><li>تجهیزات سازمانی مطابق BOQ</li><li>integration، testing، commissioning و handover</li><li>آموزش، اسناد و پشتیبانی</li></ul><h2>ساختار آماده تدارکات</h2><p>پاسخ تخنیکی و تجارتی می‌تواند تجهیزات، لایسنس، تطبیق، نصب، تنظیم، testing، training، warranty assumptions و support را جداگانه نشان دهد.</p>',
-                'ps' => '<h2>د تدارکاتو لپاره د ارزونې وړ ټکنالوژۍ سپارنه</h2><p>د دولت او پراختیايي سکتور پروژې اکثره سافټویر، تجهیزات، تنظیم، نصب، اسناد، روزنه او ملاتړ یوځای غواړي. فیدا دا برخې روښانه جلا کوي څو تخنیکي او تدارکاتي ټیمونه یو واحد scope وارزوي.</p><h2>د پروژې وړتیاوې</h2><ul><li>Custom ERP، MIS، مالي، HR او workflow</li><li>دولت او NGO پورټلونه او موبایل اپلېکېشنونه</li><li>AI، اتومات او د اسنادو پروسس</li><li>IoT او monitoring</li><li>ډیټا سنټر، سرور، storage، backup او virtualization</li><li>شبکه، Wi-Fi او structured cabling</li><li>سایبري امنیت او firewall</li><li>د BOQ مطابق سازماني تجهیزات</li><li>integration، testing، commissioning او handover</li><li>روزنه، اسناد او ملاتړ</li></ul><h2>د تدارکاتو لپاره چمتو جوړښت</h2><p>تخنیکي او سوداګریز ځواب کې تجهیزات، لایسنس، پلي کول، نصب، تنظیم، testing، training، warranty assumptions او support جلا ښودل کېدای شي.</p>',
+                'fa' => '<h2>تحویل تکنالوژی قابل ارزیابی برای تدارکات</h2><p>پروژه‌های دولت و سکتور انکشافی معمولاً نرم‌افزار، تجهیزات، تنظیم، نصب، اسناد، آموزش و پشتیبانی را یکجا نیاز دارند. فدا این بخش‌ها را واضح تفکیک می‌کند تا تیم تخنیکی و تدارکات یک محدوده مشترک را بررسی کنند.</p><h2>قابلیت‌های پروژه</h2><ul><li>ERP، MIS، مالی، HR و workflow سفارشی</li><li>پورتال‌های دولت و NGO و اپلیکیشن‌های موبایل</li><li>AI، اتوماسیون و پردازش اسناد</li><li>IoT و monitoring</li><li>دیتاسنتر، سرور، storage، backup و virtualization</li><li>شبکه، Wi-Fi و structured cabling</li><li>امنیت سایبری و firewall</li><li>تجهیزات سازمانی مطابق BOQ</li><li>integration، testing، commissioning و handover</li><li>آموزش، اسناد و پشتیبانی</li></ul><h2>ساختار آماده تدارکات</h2><p>پاسخ تخنیکی و تجارتی می‌تواند تجهیزات، لایسنس، تطبیق، نصب، تنظیم، testing، training، warranty assumptions و support را جداگانه نشان دهد.</p>',
+                'ps' => '<h2>د تدارکاتو لپاره د ارزونې وړ ټکنالوژۍ سپارنه</h2><p>د دولت او پراختیايي سکتور پروژې اکثره سافټویر، تجهیزات، تنظیم، نصب، اسناد، روزنه او ملاتړ یوځای غواړي. فدا دا برخې روښانه جلا کوي څو تخنیکي او تدارکاتي ټیمونه یو واحد scope وارزوي.</p><h2>د پروژې وړتیاوې</h2><ul><li>Custom ERP، MIS، مالي، HR او workflow</li><li>دولت او NGO پورټلونه او موبایل اپلېکېشنونه</li><li>AI، اتومات او د اسنادو پروسس</li><li>IoT او monitoring</li><li>ډیټا سنټر، سرور، storage، backup او virtualization</li><li>شبکه، Wi-Fi او structured cabling</li><li>سایبري امنیت او firewall</li><li>د BOQ مطابق سازماني تجهیزات</li><li>integration، testing، commissioning او handover</li><li>روزنه، اسناد او ملاتړ</li></ul><h2>د تدارکاتو لپاره چمتو جوړښت</h2><p>تخنیکي او سوداګریز ځواب کې تجهیزات، لایسنس، پلي کول، نصب، تنظیم، testing، training، warranty assumptions او support جلا ښودل کېدای شي.</p>',
             ],
             'meta_title' => [
                 'en' => 'Government & NGO IT Solutions Afghanistan | Fida Technologies',
-                'fa' => 'راهکارهای IT دولت و NGO افغانستان | فیدا تکنالوژی',
-                'ps' => 'د دولت او NGO IT حللارې افغانستان | فیدا',
+                'fa' => 'راهکارهای IT دولت و NGO افغانستان | فدا تکنالوژی',
+                'ps' => 'د دولت او NGO IT حللارې افغانستان | فدا',
             ],
             'meta_description' => [
                 'en' => 'Technology partner for government and NGO projects in Afghanistan: ERP, web, mobile, AI, data centers, networks, servers, cybersecurity, hardware supply and implementation.',
@@ -215,24 +215,24 @@ class GovernmentNgoCapabilitySeeder extends Seeder
                 ],
                 'faqs' => [
                     [
-                        'question' => ['en' => 'Can Fida respond to government or NGO RFQs and tenders?', 'fa' => 'آیا فیدا به RFQ و tender دولت یا NGO پاسخ می‌دهد؟', 'ps' => 'ایا فیدا د دولت یا NGO RFQ او tender ته ځواب ورکوي؟'],
-                        'answer' => ['en' => 'Yes. Fida can review a formal RFQ, RFP, tender, BOQ or statement of work and prepare a scope-based technical and commercial response where the requirement fits Fida capabilities.', 'fa' => 'بله. فیدا می‌تواند RFQ، RFP، tender، BOQ یا statement of work را بررسی و در صورت مطابقت با توانایی‌ها پاسخ تخنیکی و تجارتی مبتنی بر scope آماده کند.', 'ps' => 'هو. فیدا RFQ، RFP، tender، BOQ یا statement of work ارزولای شي او د وړتیاوو سره د مطابقت په صورت کې scope-based تخنیکي او سوداګریز ځواب برابرولای شي.'],
+                        'question' => ['en' => 'Can Fida respond to government or NGO RFQs and tenders?', 'fa' => 'آیا فدا به RFQ و tender دولت یا NGO پاسخ می‌دهد؟', 'ps' => 'ایا فدا د دولت یا NGO RFQ او tender ته ځواب ورکوي؟'],
+                        'answer' => ['en' => 'Yes. Fida can review a formal RFQ, RFP, tender, BOQ or statement of work and prepare a scope-based technical and commercial response where the requirement fits Fida capabilities.', 'fa' => 'بله. فدا می‌تواند RFQ، RFP، tender، BOQ یا statement of work را بررسی و در صورت مطابقت با توانایی‌ها پاسخ تخنیکی و تجارتی مبتنی بر scope آماده کند.', 'ps' => 'هو. فدا RFQ، RFP، tender، BOQ یا statement of work ارزولای شي او د وړتیاوو سره د مطابقت په صورت کې scope-based تخنیکي او سوداګریز ځواب برابرولای شي.'],
                     ],
                     [
                         'question' => ['en' => 'Can one project include both hardware and software?', 'fa' => 'آیا یک پروژه می‌تواند hardware و software را یکجا شامل کند؟', 'ps' => 'ایا یوه پروژه hardware او software دواړه شاملولای شي؟'],
                         'answer' => ['en' => 'Yes. A combined scope can cover software, equipment, licenses, networking, servers, installation, configuration, integration, testing, training and support, with each component separated in the response.', 'fa' => 'بله. scope ترکیبی می‌تواند software، تجهیزات، لایسنس، شبکه، سرور، نصب، تنظیم، integration، testing، training و support را شامل کند و هر بخش جدا نشان داده شود.', 'ps' => 'هو. ګډ scope کې software، تجهیزات، لایسنس، شبکه، سرور، نصب، تنظیم، integration، testing، training او support شاملېدای شي او هره برخه جلا ښودل کېږي.'],
                     ],
                     [
-                        'question' => ['en' => 'Does Fida supply specific brands or guarantee vendor authorization?', 'fa' => 'آیا فیدا برند مشخص یا vendor authorization را تضمین می‌کند؟', 'ps' => 'ایا فیدا ځانګړی brand یا vendor authorization تضمینوي؟'],
-                        'answer' => ['en' => 'Brands, availability, warranty and any vendor authorization are confirmed per project and quotation. Fida does not claim an authorization or certification unless it can be documented for that requirement.', 'fa' => 'برند، موجودی، warranty و هر vendor authorization برای هر پروژه و quotation جداگانه تأیید می‌شود. فیدا بدون سند، authorization یا certification را ادعا نمی‌کند.', 'ps' => 'brand، availability، warranty او vendor authorization د هرې پروژې او quotation لپاره جلا تاییدېږي. فیدا بې اسناده authorization یا certification نه ادعا کوي.'],
+                        'question' => ['en' => 'Does Fida supply specific brands or guarantee vendor authorization?', 'fa' => 'آیا فدا برند مشخص یا vendor authorization را تضمین می‌کند؟', 'ps' => 'ایا فدا ځانګړی brand یا vendor authorization تضمینوي؟'],
+                        'answer' => ['en' => 'Brands, availability, warranty and any vendor authorization are confirmed per project and quotation. Fida does not claim an authorization or certification unless it can be documented for that requirement.', 'fa' => 'برند، موجودی، warranty و هر vendor authorization برای هر پروژه و quotation جداگانه تأیید می‌شود. فدا بدون سند، authorization یا certification را ادعا نمی‌کند.', 'ps' => 'brand، availability، warranty او vendor authorization د هرې پروژې او quotation لپاره جلا تاییدېږي. فدا بې اسناده authorization یا certification نه ادعا کوي.'],
                     ],
                     [
                         'question' => ['en' => 'How should a procurement team start?', 'fa' => 'تیم تدارکات چگونه شروع کند؟', 'ps' => 'تدارکاتي ټیم څنګه پیل وکړي؟'],
-                        'answer' => ['en' => 'Submit the RFQ, RFP, tender, BOQ or technical scope through the Fida RFQ page. Include the procurement reference, deadline, delivery location and mandatory technical or compliance requirements.', 'fa' => 'RFQ، RFP، tender، BOQ یا scope تخنیکی را از صفحه RFQ فیدا ارسال کنید و reference، deadline، محل تحویل و شرایط اجباری را شامل سازید.', 'ps' => 'RFQ، RFP، tender، BOQ یا تخنیکي scope د فیدا RFQ پاڼې له لارې واستوئ او reference، deadline، delivery location او اجباري شرایط شامل کړئ.'],
+                        'answer' => ['en' => 'Submit the RFQ, RFP, tender, BOQ or technical scope through the Fida RFQ page. Include the procurement reference, deadline, delivery location and mandatory technical or compliance requirements.', 'fa' => 'RFQ، RFP، tender، BOQ یا scope تخنیکی را از صفحه RFQ فدا ارسال کنید و reference، deadline، محل تحویل و شرایط اجباری را شامل سازید.', 'ps' => 'RFQ، RFP، tender، BOQ یا تخنیکي scope د فدا RFQ پاڼې له لارې واستوئ او reference، deadline، delivery location او اجباري شرایط شامل کړئ.'],
                     ],
                 ],
                 'cta' => [
-                    'heading' => ['en' => 'Send your institutional requirement to Fida', 'fa' => 'نیازمندی سازمانی خود را به فیدا ارسال کنید', 'ps' => 'خپله سازماني اړتیا فیدا ته واستوئ'],
+                    'heading' => ['en' => 'Send your institutional requirement to Fida', 'fa' => 'نیازمندی سازمانی خود را به فدا ارسال کنید', 'ps' => 'خپله سازماني اړتیا فدا ته واستوئ'],
                     'description' => ['en' => 'Submit an RFQ, RFP, tender, BOQ or combined software-and-infrastructure requirement for review.', 'fa' => 'RFQ، RFP، tender، BOQ یا نیازمندی ترکیبی software و infrastructure را برای بررسی ارسال کنید.', 'ps' => 'RFQ، RFP، tender، BOQ یا ګډ software او infrastructure اړتیا د ارزونې لپاره وسپارئ.'],
                     'primary_label' => ['en' => 'Submit formal RFQ', 'fa' => 'ارسال RFQ رسمی', 'ps' => 'رسمي RFQ وسپارئ'],
                     'primary_intent' => 'tender',
@@ -358,8 +358,8 @@ class GovernmentNgoCapabilitySeeder extends Seeder
                     'managed-it-services-afghanistan' => 'Managed IT Services Afghanistan | Fida Technologies',
                     default => $title['en'].' Afghanistan | Fida Technologies',
                 },
-                'fa' => $title['fa'].' افغانستان | فیدا',
-                'ps' => $title['ps'].' افغانستان | فیدا',
+                'fa' => $title['fa'].' افغانستان | فدا',
+                'ps' => $title['ps'].' افغانستان | فدا',
             ],
             'meta_description' => $summary,
             'primary_query' => $definition['query'],
@@ -374,15 +374,15 @@ class GovernmentNgoCapabilitySeeder extends Seeder
                 'faqs' => [
                     [
                         'question' => ['en' => 'Can this capability be included in a government or NGO RFQ?', 'fa' => 'آیا این توانایی در RFQ دولت یا NGO شامل می‌شود؟', 'ps' => 'ایا دا وړتیا د دولت یا NGO په RFQ کې شاملېدای شي؟'],
-                        'answer' => ['en' => 'Yes. Fida can respond to a defined RFQ, RFP, tender or statement of work and separate supply, implementation, configuration, training, support and other commercial components as required.', 'fa' => 'بله. فیدا می‌تواند به RFQ، RFP، tender یا statement of work مشخص پاسخ دهد و بخش‌های supply، تطبیق، تنظیم، آموزش و پشتیبانی را جدا کند.', 'ps' => 'هو. فیدا مشخص RFQ، RFP، tender یا statement of work ته ځواب ورکولای شي او عرضه، پلي کول، تنظیم، روزنه او ملاتړ جلا ښودلای شي.'],
+                        'answer' => ['en' => 'Yes. Fida can respond to a defined RFQ, RFP, tender or statement of work and separate supply, implementation, configuration, training, support and other commercial components as required.', 'fa' => 'بله. فدا می‌تواند به RFQ، RFP، tender یا statement of work مشخص پاسخ دهد و بخش‌های supply، تطبیق، تنظیم، آموزش و پشتیبانی را جدا کند.', 'ps' => 'هو. فدا مشخص RFQ، RFP، tender یا statement of work ته ځواب ورکولای شي او عرضه، پلي کول، تنظیم، روزنه او ملاتړ جلا ښودلای شي.'],
                     ],
                     [
-                        'question' => ['en' => 'Does Fida provide installation and documentation?', 'fa' => 'آیا فیدا نصب و اسناد را ارائه می‌کند؟', 'ps' => 'ایا فیدا نصب او اسناد برابروي؟'],
+                        'question' => ['en' => 'Does Fida provide installation and documentation?', 'fa' => 'آیا فدا نصب و اسناد را ارائه می‌کند؟', 'ps' => 'ایا فدا نصب او اسناد برابروي؟'],
                         'answer' => ['en' => 'Installation, configuration, testing, commissioning, documentation and training can be included when they are part of the approved project scope.', 'fa' => 'نصب، تنظیم، آزمایش، commissioning، اسناد و آموزش در صورت شمول در محدوده تأییدشده قابل ارائه است.', 'ps' => 'نصب، تنظیم، ازموینه، commissioning، اسناد او روزنه د تایید شوو حدودو په صورت کې شاملېدای شي.'],
                     ],
                 ],
                 'cta' => [
-                    'heading' => ['en' => 'Send the technical requirement to Fida', 'fa' => 'نیازمندی تخنیکی را به فیدا ارسال کنید', 'ps' => 'تخنیکي اړتیا فیدا ته واستوئ'],
+                    'heading' => ['en' => 'Send the technical requirement to Fida', 'fa' => 'نیازمندی تخنیکی را به فدا ارسال کنید', 'ps' => 'تخنیکي اړتیا فدا ته واستوئ'],
                     'description' => ['en' => 'Use the RFQ channel for a BOQ, RFP, tender, infrastructure scope or combined technology requirement.', 'fa' => 'برای BOQ، RFP، tender، محدوده زیربنا یا نیازمندی ترکیبی از کانال RFQ استفاده کنید.', 'ps' => 'د BOQ، RFP، tender، زیربنا scope یا ګډې ټکنالوژۍ اړتیا لپاره RFQ وکاروئ.'],
                     'primary_label' => ['en' => 'Submit RFQ', 'fa' => 'ارسال RFQ', 'ps' => 'RFQ وسپارئ'],
                     'primary_intent' => 'tender',

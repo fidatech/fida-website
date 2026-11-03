@@ -118,6 +118,16 @@ return [
         'office' => 'Office',
         'send' => 'Send request',
     ],
+    'rfq' => [
+        'org_types' => ['government' => 'Government / public institution', 'ngo' => 'NGO', 'ingo' => 'INGO', 'un' => 'UN / international organization', 'donor' => 'Donor / development programme', 'bank' => 'Bank / financial institution', 'telecom' => 'Telecom', 'private' => 'Private company', 'other' => 'Other'],
+        'methods' => ['rfq' => 'RFQ', 'rfp' => 'RFP', 'tender' => 'Tender', 'eoi' => 'EOI', 'direct' => 'Direct procurement'],
+        'currency' => 'currency',
+        'min' => 'minimum',
+        'max' => 'maximum',
+        'timeline_placeholder' => 'For example, 60 days',
+        'file_hint' => 'PDF, DOCX, XLSX or ZIP, up to 15 MB',
+        'faq_title' => 'Procurement questions',
+    ],
     'footer' => [
         'description' => 'Software, infrastructure and training company in Kabul, working in English, Dari and Pashto.',
         'company' => 'Company',

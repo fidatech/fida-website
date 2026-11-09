@@ -84,7 +84,7 @@
                     @foreach($products as $product)
                         <li><a href="{{ LocalizedUrl::path($product['url']) }}" data-track-event="product_view" data-track-label="{{ $product['key'] }}"><b aria-hidden="true">{{ mb_strtoupper(mb_substr($product['key'], 0, 1)) }}</b>{{ ModernNav::productShortName(__("website.products.{$product['key']}.name")) }}</a></li>
                     @endforeach
-                    @foreach(array_slice($systems, 0, 2) as $system)
+                    @foreach(array_slice($systems, 0, 6) as $system)
                         <li><a href="{{ LocalizedUrl::path('/products') }}#system-{{ $system['slug'] }}"><b aria-hidden="true">{{ mb_strtoupper(mb_substr($system['name'], 0, 1)) }}</b>{{ ModernNav::systemName($system) }}</a></li>
                     @endforeach
                 </ul>
@@ -127,6 +127,11 @@
                     <span class="mx-course-bar" aria-hidden="true"><i></i></span>
                     <span class="mx-course-foot"><small>{{ __('modern.bento.course_progress') }}</small><strong>{{ __('modern.bento.certificate') }}</strong></span>
                 </a>
+                <ul class="mx-chips mx-chips-tracks">
+                    @foreach(array_diff($tracks, ['linux']) as $track)
+                        <li><a href="{{ $trainingUrl('academy-'.$track) }}">{{ __("modern.academy.tracks.{$track}.title") }}</a></li>
+                    @endforeach
+                </ul>
                 <a class="mx-tile-cta" href="#academy">{{ __('modern.bento.academy_cta') }}</a>
             </article>
         </div>

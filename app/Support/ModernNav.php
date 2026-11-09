@@ -6,7 +6,7 @@ use App\Models\ContentPage;
 use Illuminate\Support\Collection;
 
 /**
- * Navigation helpers for the Lapis 2026 template.
+ * Navigation helpers for the Fida 2026 template.
  *
  * Page titles keep their search phrasing ("... in Afghanistan"); menus show the short name.
  */
@@ -94,6 +94,39 @@ final class ModernNav
         }
 
         return (string) ($system['name'] ?? '');
+    }
+
+    private const GENERIC_EYEBROWS = [
+        'Enterprise capability for institutional delivery',
+        'Industry workflow guide',
+    ];
+
+    private const MENU_DESCRIPTION_KEYS = [
+        'data-center' => 'data-center', 'network-infrastructure' => 'network', 'cloud-server' => 'cloud',
+        'cybersecurity' => 'cybersecurity', 'hardware' => 'hardware', 'systems-integration' => 'integration',
+        'managed-it' => 'managed-it', 'iot-' => 'iot',
+    ];
+
+    /**
+     * One-line description for a mega-menu item: a written menu line when there is one,
+     * otherwise the page's tagline unless it is a generic placeholder.
+     */
+    public static function menuDescription(ContentPage $page): string
+    {
+        foreach (self::MENU_DESCRIPTION_KEYS as $keyword => $key) {
+            if (str_contains($page->slug, $keyword) && trans()->has("modern.menu.desc.{$key}")) {
+                return (string) __("modern.menu.desc.{$key}");
+            }
+        }
+
+        $eyebrow = trim((string) $page->translation('eyebrow'));
+        $english = trim((string) $page->translation('eyebrow', config('website.default_locale')));
+
+        if ($eyebrow === '' || in_array($english, self::GENERIC_EYEBROWS, true) || str_contains($eyebrow, '·')) {
+            return '';
+        }
+
+        return $eyebrow;
     }
 
     /**

@@ -1,12 +1,21 @@
 @php
     use App\Support\LocalizedUrl;
+    use App\Support\ModernIcons;
     use App\Support\ModernNav;
 
     $split = ModernNav::splitSolutions($navSolutions);
+    $coreSlugs = config('website.modern.core_solution_slugs', []);
+    $coreSolutions = $split['software']->filter(fn ($page) => in_array($page->slug, $coreSlugs, true))
+        ->sortBy(fn ($page) => array_search($page->slug, $coreSlugs, true))->values();
+    $moreSolutions = $split['software']->reject(fn ($page) => in_array($page->slug, $coreSlugs, true))->values();
+    $infrastructureSlugs = config('website.modern.infrastructure_slugs', []);
+    $onInfrastructure = in_array($currentSlug, $infrastructureSlugs, true);
     $locales = config('website.locales');
     $currentLocale = app()->getLocale();
     $productConfig = config('website.products', []);
     $systems = config('website.portfolio_systems', []);
+    $academyIcons = config('website.modern.academy_icons', []);
+    $trainingUrl = LocalizedUrl::path('/contact').'?request=training';
 @endphp
 <header class="mx-header">
     <div class="mx-header-bar">
@@ -21,102 +30,178 @@
         </label>
 
         <nav class="mx-nav" id="mx-nav" aria-label="{{ __('modern.nav.primary') }}">
-            <details class="mx-menu" @if($solutionsActive || $servicesActive) data-active @endif>
+            {{-- Software --}}
+            <details class="mx-menu mx-mega-menu" @if(($solutionsActive && ! $onInfrastructure) || $servicesActive) data-active @endif>
                 <summary>{{ __('modern.nav.software') }}</summary>
-                <div class="mx-panel mx-panel-wide">
-                    <div>
-                        <p class="mx-panel-heading">{{ __('modern.nav.solutions') }}</p>
-                        <ul class="mx-links mx-links-columns">
-                            @foreach($split['software'] as $navPage)
-                                <li><a href="{{ LocalizedUrl::path('/'.$navPage->slug) }}">{{ ModernNav::label($navPage->translation('title')) }}</a></li>
-                            @endforeach
-                        </ul>
-                        <a class="mx-panel-all" href="{{ LocalizedUrl::path('/solutions') }}">{{ __('modern.nav.all_solutions') }}</a>
+                <div class="mx-mega">
+                    <div class="mx-mega-body">
+                        @include('layouts.partials.modern-mega-intro', ['key' => 'software', 'href' => LocalizedUrl::path('/solutions')])
+                        <div class="mx-mega-main mx-mega-software">
+                            <section class="mx-mega-group mx-mega-full">
+                                <p class="mx-mega-heading">{{ __('modern.menu.core') }}</p>
+                                <ul class="mx-grid mx-grid-3">
+                                    @foreach($coreSolutions as $navPage)
+                                        @include('layouts.partials.modern-mega-item', ['href' => LocalizedUrl::path('/'.$navPage->slug), 'title' => ModernNav::label($navPage->translation('title')), 'description' => ModernNav::menuDescription($navPage), 'icon' => ModernIcons::forSlug($navPage->slug), 'current' => $currentSlug === $navPage->slug, 'variant' => 'rich'])
+                                    @endforeach
+                                </ul>
+                            </section>
+                            <section class="mx-mega-group">
+                                <p class="mx-mega-heading">{{ __('modern.menu.more_solutions') }}</p>
+                                <ul class="mx-grid mx-grid-2 mx-grid-tight mx-grid-dots">
+                                    @foreach($moreSolutions as $navPage)
+                                        @include('layouts.partials.modern-mega-item', ['href' => LocalizedUrl::path('/'.$navPage->slug), 'title' => ModernNav::label($navPage->translation('title')), 'current' => $currentSlug === $navPage->slug, 'variant' => 'compact'])
+                                    @endforeach
+                                </ul>
+                            </section>
+                            <section class="mx-mega-group mx-mega-side">
+                                <p class="mx-mega-heading">{{ __('modern.menu.services') }}</p>
+                                <ul class="mx-grid mx-grid-tight mx-grid-dots">
+                                    @foreach($navServices as $navPage)
+                                        @include('layouts.partials.modern-mega-item', ['href' => LocalizedUrl::path('/'.$navPage->slug), 'title' => ModernNav::label($navPage->translation('title')), 'current' => $currentSlug === $navPage->slug, 'variant' => 'compact'])
+                                    @endforeach
+                                </ul>
+                            </section>
+                        </div>
                     </div>
-                    <div>
-                        <p class="mx-panel-heading">{{ __('modern.nav.services') }}</p>
-                        <ul class="mx-links">
-                            @foreach($navServices as $navPage)
-                                <li><a href="{{ LocalizedUrl::path('/'.$navPage->slug) }}">{{ ModernNav::label($navPage->translation('title')) }}</a></li>
-                            @endforeach
-                        </ul>
-                        <a class="mx-panel-all" href="{{ LocalizedUrl::path('/services') }}">{{ __('modern.nav.all_services') }}</a>
-                    </div>
+                    @include('layouts.partials.modern-mega-foot', ['allHref' => LocalizedUrl::path('/services'), 'allLabel' => __('modern.nav.all_services')])
                 </div>
             </details>
 
-            <details class="mx-menu" @if($productsActive) data-active @endif>
+            {{-- Products --}}
+            <details class="mx-menu mx-mega-menu" @if($productsActive) data-active @endif>
                 <summary>{{ __('modern.nav.products') }}</summary>
-                <div class="mx-panel mx-panel-wide">
-                    <div>
-                        <p class="mx-panel-heading">{{ __('modern.nav.flagship') }}</p>
-                        <ul class="mx-links">
-                            @foreach($productConfig as $product)
-                                <li><a href="{{ LocalizedUrl::path($product['url']) }}">{{ __("website.products.{$product['key']}.name") }}</a></li>
-                            @endforeach
-                        </ul>
-                        <a class="mx-panel-all" href="{{ LocalizedUrl::path('/products') }}">{{ __('modern.nav.all_products') }}</a>
+                <div class="mx-mega">
+                    <div class="mx-mega-body">
+                        @include('layouts.partials.modern-mega-intro', ['key' => 'products', 'href' => LocalizedUrl::path('/products')])
+                        <div class="mx-mega-main mx-mega-products">
+                            <section class="mx-mega-group">
+                                <p class="mx-mega-heading">{{ __('modern.menu.flagship') }}</p>
+                                <ul class="mx-grid">
+                                    @foreach($productConfig as $product)
+                                        @php($productName = __("website.products.{$product['key']}.name"))
+                                        <li>
+                                            <a class="mx-item mx-item-rich mx-item-product" href="{{ LocalizedUrl::path($product['url']) }}" @if($currentSlug === ltrim($product['url'], '/')) aria-current="page" @endif>
+                                                <span class="mx-item-mono" aria-hidden="true">{{ mb_substr(ModernNav::productShortName($productName), 0, 1) }}</span>
+                                                <span class="mx-item-text">
+                                                    <span class="mx-item-title">{{ ModernNav::productShortName($productName) }}</span>
+                                                    <span class="mx-item-desc">{{ __("website.products.{$product['key']}.description") }}</span>
+                                                </span>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </section>
+                            <section class="mx-mega-group mx-mega-side">
+                                <p class="mx-mega-heading">{{ __('modern.menu.systems') }}</p>
+                                <ul class="mx-grid mx-grid-2 mx-grid-tight mx-grid-dots">
+                                    @foreach($systems as $system)
+                                        @include('layouts.partials.modern-mega-item', ['href' => LocalizedUrl::path('/products').'#system-'.$system['slug'], 'title' => ModernNav::systemName($system), 'variant' => 'compact'])
+                                    @endforeach
+                                </ul>
+                            </section>
+                        </div>
                     </div>
-                    <div>
-                        <p class="mx-panel-heading">{{ __('modern.nav.more_products') }}</p>
-                        <ul class="mx-links mx-links-columns">
-                            @foreach($systems as $system)
-                                <li><a href="{{ LocalizedUrl::path('/products') }}#system-{{ $system['slug'] }}">{{ ModernNav::systemName($system) }}</a></li>
-                            @endforeach
-                        </ul>
-                    </div>
+                    @include('layouts.partials.modern-mega-foot', ['allHref' => LocalizedUrl::path('/products'), 'allLabel' => __('modern.nav.all_products')])
                 </div>
             </details>
 
-            <details class="mx-menu" @if($solutionsActive && $routePage instanceof \App\Models\ContentPage && in_array($routePage->slug, config('website.modern.infrastructure_slugs', []), true)) data-active @endif>
+            {{-- Infrastructure --}}
+            <details class="mx-menu mx-mega-menu" @if($onInfrastructure) data-active @endif>
                 <summary>{{ __('modern.nav.infrastructure') }}</summary>
-                <div class="mx-panel">
-                    <ul class="mx-links">
-                        @foreach($split['infrastructure'] as $navPage)
-                            <li><a href="{{ LocalizedUrl::path('/'.$navPage->slug) }}">{{ ModernNav::label($navPage->translation('title')) }}</a></li>
-                        @endforeach
-                    </ul>
+                <div class="mx-mega">
+                    <div class="mx-mega-body">
+                        @include('layouts.partials.modern-mega-intro', ['key' => 'infrastructure', 'href' => LocalizedUrl::path('/contact').'?interest=infrastructure#contact'])
+                        <div class="mx-mega-main">
+                            <section class="mx-mega-group">
+                                <p class="mx-mega-heading mx-mega-heading-solo">{{ __('modern.nav.infrastructure') }}</p>
+                                <ul class="mx-grid mx-grid-2">
+                                    @foreach($split['infrastructure'] as $navPage)
+                                        @include('layouts.partials.modern-mega-item', ['href' => LocalizedUrl::path('/'.$navPage->slug), 'title' => ModernNav::label($navPage->translation('title')), 'description' => ModernNav::menuDescription($navPage), 'icon' => ModernIcons::forSlug($navPage->slug), 'current' => $currentSlug === $navPage->slug, 'variant' => 'rich'])
+                                    @endforeach
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                    @include('layouts.partials.modern-mega-foot', [])
                 </div>
             </details>
 
-            <details class="mx-menu" @if($industriesActive) data-active @endif>
+            {{-- Industries --}}
+            <details class="mx-menu mx-mega-menu" @if($industriesActive) data-active @endif>
                 <summary>{{ __('modern.nav.industries') }}</summary>
-                <div class="mx-panel mx-panel-wide">
-                    <ul class="mx-links mx-links-columns">
-                        @foreach($navIndustries as $navPage)
-                            <li><a href="{{ LocalizedUrl::path('/'.$navPage->slug) }}">{{ ModernNav::label($navPage->translation('title')) }}</a></li>
-                        @endforeach
-                    </ul>
-                    <a class="mx-panel-all" href="{{ LocalizedUrl::path('/industries') }}">{{ __('modern.nav.all_industries') }}</a>
+                <div class="mx-mega">
+                    <div class="mx-mega-body">
+                        @include('layouts.partials.modern-mega-intro', ['key' => 'industries', 'href' => LocalizedUrl::path('/industries')])
+                        <div class="mx-mega-main">
+                            <section class="mx-mega-group">
+                                <p class="mx-mega-heading mx-mega-heading-solo">{{ __('modern.nav.industries') }}</p>
+                                <ul class="mx-grid mx-grid-3 mx-grid-tiles">
+                                    @foreach($navIndustries as $navPage)
+                                        @include('layouts.partials.modern-mega-item', ['href' => LocalizedUrl::path('/'.$navPage->slug), 'title' => ModernNav::industryShortName($navPage->translation('title')), 'icon' => ModernIcons::forSlug($navPage->slug), 'current' => $currentSlug === $navPage->slug, 'variant' => 'compact'])
+                                    @endforeach
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                    @include('layouts.partials.modern-mega-foot', ['allHref' => LocalizedUrl::path('/industries'), 'allLabel' => __('modern.nav.all_industries')])
                 </div>
             </details>
 
-            <details class="mx-menu">
+            {{-- Academy --}}
+            <details class="mx-menu mx-mega-menu">
                 <summary>{{ __('modern.nav.academy') }}</summary>
-                <div class="mx-panel">
-                    <p class="mx-panel-heading">{{ __('modern.nav.academy_courses') }}</p>
-                    <ul class="mx-links">
-                        @foreach(config('website.modern.academy_tracks', []) as $track)
-                            <li><a href="{{ LocalizedUrl::path('/contact') }}?request=training&amp;interest=academy-{{ $track }}#contact">{{ __("modern.academy.tracks.{$track}.title") }}</a></li>
-                        @endforeach
-                    </ul>
-                    <a class="mx-panel-all" href="{{ LocalizedUrl::path('/contact') }}?request=training&amp;interest=academy-organizations#contact">{{ __('modern.nav.academy_teams') }}</a>
+                <div class="mx-mega">
+                    <div class="mx-mega-body">
+                        @include('layouts.partials.modern-mega-intro', ['key' => 'academy', 'href' => $trainingUrl.'#contact'])
+                        <div class="mx-mega-main mx-mega-academy">
+                            <section class="mx-mega-group">
+                                <p class="mx-mega-heading">{{ __('modern.menu.tracks') }}</p>
+                                <ul class="mx-grid mx-grid-2">
+                                    @foreach(config('website.modern.academy_tracks', []) as $track)
+                                        @include('layouts.partials.modern-mega-item', ['href' => $trainingUrl.'&interest=academy-'.$track.'#contact', 'title' => __("modern.academy.tracks.{$track}.title"), 'description' => __("modern.academy.tracks.{$track}.description"), 'icon' => $academyIcons[$track] ?? 'cap', 'variant' => 'rich', 'track' => 'academy_'.$track])
+                                    @endforeach
+                                </ul>
+                            </section>
+                            <section class="mx-mega-group mx-mega-side">
+                                <p class="mx-mega-heading">{{ __('modern.nav.academy') }}</p>
+                                <ul class="mx-grid mx-mega-cards">
+                                    @include('layouts.partials.modern-mega-item', ['href' => $trainingUrl.'&interest=academy-organizations#contact', 'title' => __('modern.menu.for_teams'), 'description' => __('modern.menu.for_teams_text'), 'icon' => 'users', 'variant' => 'rich'])
+                                    @include('layouts.partials.modern-mega-item', ['href' => $trainingUrl.'&interest=academy-teach#contact', 'title' => __('modern.menu.teach'), 'description' => __('modern.menu.teach_text'), 'icon' => 'cap', 'variant' => 'rich'])
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                    @include('layouts.partials.modern-mega-foot', [])
                 </div>
             </details>
 
-            <details class="mx-menu" @if($companyActive || $pricingActive || $projectsActive) data-active @endif>
+            {{-- Company --}}
+            <details class="mx-menu mx-mega-menu" @if($companyActive || $pricingActive || $projectsActive) data-active @endif>
                 <summary>{{ __('modern.nav.company') }}</summary>
-                <div class="mx-panel">
-                    <ul class="mx-links">
-                        <li><a href="{{ LocalizedUrl::path('/about') }}">{{ __('modern.nav.about') }}</a></li>
-                        <li><a href="{{ LocalizedUrl::path('/projects') }}">{{ __('modern.nav.projects') }}</a></li>
-                        <li><a href="{{ LocalizedUrl::path('/pricing') }}">{{ __('modern.nav.pricing') }}</a></li>
-                        <li><a href="{{ LocalizedUrl::path('/articles') }}">{{ __('modern.nav.articles') }}</a></li>
-                        <li><a href="{{ LocalizedUrl::path('/company-facts') }}">{{ __('modern.nav.facts') }}</a></li>
-                        <li><a href="{{ LocalizedUrl::path('/software-answers-afghanistan') }}">{{ __('modern.nav.answers') }}</a></li>
-                        <li><a href="{{ LocalizedUrl::path('/request-for-quotation') }}">{{ __('modern.nav.rfq') }}</a></li>
-                        <li><a href="{{ LocalizedUrl::path('/contact') }}">{{ __('modern.nav.contact') }}</a></li>
-                    </ul>
+                <div class="mx-mega">
+                    <div class="mx-mega-body">
+                        @include('layouts.partials.modern-mega-intro', ['key' => 'company', 'href' => LocalizedUrl::path('/about')])
+                        <div class="mx-mega-main">
+                            <section class="mx-mega-group">
+                                <p class="mx-mega-heading mx-mega-heading-solo">{{ __('modern.nav.company') }}</p>
+                                <ul class="mx-grid mx-grid-2">
+                                    @foreach([
+                                        ['/about', 'about', 'info'],
+                                        ['/projects', 'projects', 'folder'],
+                                        ['/pricing', 'pricing', 'tag'],
+                                        ['/articles', 'articles', 'news'],
+                                        ['/company-facts', 'facts', 'chart'],
+                                        ['/software-answers-afghanistan', 'answers', 'help'],
+                                        ['/request-for-quotation', 'rfq', 'clipboard'],
+                                        ['/contact', 'contact', 'mail'],
+                                    ] as [$path, $key, $icon])
+                                        @include('layouts.partials.modern-mega-item', ['href' => LocalizedUrl::path($path), 'title' => __("modern.nav.{$key}"), 'description' => __("modern.menu.desc.{$key}"), 'icon' => $icon, 'current' => $currentSlug === ltrim($path, '/'), 'variant' => 'rich'])
+                                    @endforeach
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                    @include('layouts.partials.modern-mega-foot', [])
                 </div>
             </details>
 
@@ -140,22 +225,48 @@
     </div>
 </header>
 <script>
-    // Keep one menu open at a time and close menus on outside click or Escape. Menus still work without this.
+    // Mega-menu behaviour. Menus are <details> elements, so they still open and close without this script.
+    // Adds: one menu open at a time, close on outside click or Escape, and open on hover for mouse users on wide screens.
     (() => {
         const menus = () => document.querySelectorAll('.mx-menu');
+        const hoverQuery = window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 1181px)');
+        let closeTimer;
+        let openedByHoverAt = 0;
+
         document.addEventListener('toggle', (event) => {
             const menu = event.target;
             if (!(menu instanceof HTMLDetailsElement) || !menu.classList.contains('mx-menu') || !menu.open) return;
             menus().forEach((other) => { if (other !== menu && !other.contains(menu)) other.open = false; });
         }, true);
+
         document.addEventListener('click', (event) => {
+            const summary = event.target.closest('.mx-mega-menu > summary');
+            // A click right after hover-opening would otherwise close the menu the visitor is reaching for.
+            if (summary && summary.parentElement.open && Date.now() - openedByHoverAt < 500) {
+                event.preventDefault();
+                return;
+            }
             if (event.target.closest('.mx-menu')) return;
             menus().forEach((menu) => { menu.open = false; });
         });
+
         document.addEventListener('keydown', (event) => {
             if (event.key !== 'Escape') return;
             menus().forEach((menu) => {
                 if (menu.open) { menu.open = false; menu.querySelector('summary')?.focus(); }
+            });
+        });
+
+        document.querySelectorAll('.mx-mega-menu').forEach((menu) => {
+            menu.addEventListener('mouseenter', () => {
+                if (!hoverQuery.matches) return;
+                clearTimeout(closeTimer);
+                if (!menu.open) { menu.open = true; openedByHoverAt = Date.now(); }
+            });
+            menu.addEventListener('mouseleave', () => {
+                if (!hoverQuery.matches) return;
+                clearTimeout(closeTimer);
+                closeTimer = setTimeout(() => { menu.open = false; }, 180);
             });
         });
     })();

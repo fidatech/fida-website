@@ -6,7 +6,7 @@ const manifest = JSON.parse(readFileSync(new URL('manifest.json', buildRoot), 'u
 const budgets = [
     ['Marketing CSS', 'resources/css/app.css', 25],
     ['Marketing JavaScript', 'resources/js/app.js', 10],
-    ['Lapis 2026 CSS', 'resources/css/modern.css', 10],
+    ['Fida 2026 CSS', 'resources/css/modern.css', 14],
     ['Admin CSS', 'resources/css/admin.css', 18],
     ['Admin JavaScript', 'resources/js/admin.js', 8],
 ];

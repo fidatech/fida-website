@@ -127,4 +127,22 @@ class ModernTemplateTest extends TestCase
             ->assertSee('product-profile-section', false)
             ->assertDontSee('class="mx-page-hero"', false);
     }
+
+    public function test_the_mega_menu_shows_descriptions_icons_and_marks_the_current_page(): void
+    {
+        $html = $this->get('/data-center-it-infrastructure-afghanistan')->assertOk()->getContent();
+
+        $this->assertStringContainsString('class="mx-mega-intro"', $html);
+        $this->assertStringContainsString('Connected finance, operations and decisions', $html);
+        $this->assertStringContainsString('Server rooms, racks, power and cooling', $html);
+        $this->assertStringNotContainsString('<span class="mx-item-desc">Enterprise capability for institutional delivery</span>', $html);
+        $this->assertMatchesRegularExpression('/<a class="mx-item mx-item-rich" href="[^"]*data-center-it-infrastructure-afghanistan"\s+aria-current="page"/', $html);
+        $this->assertStringContainsString('class="mx-ico"', $html);
+
+        $this->get('/fa')
+            ->assertOk()
+            ->assertSee('اتاق سرور، رک، برق و سردسازی')
+            ->assertSee('بیش از ۴۰ سیستم آماده')
+            ->assertDontSee('Server rooms, racks, power and cooling');
+    }
 }

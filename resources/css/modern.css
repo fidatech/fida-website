@@ -26,6 +26,9 @@
     --mx-lattice-light: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'><path d='M25 25h22v22h-22zM36 20.44L51.56 36L36 51.56L20.44 36zM-11 -11h22v22h-22zM0 -15.56L15.56 0L0 15.56L-15.56 0zM61 -11h22v22h-22zM72 -15.56L87.56 0L72 15.56L56.44 0zM-11 61h22v22h-22zM0 56.44L15.56 72L0 87.56L-15.56 72zM61 61h22v22h-22zM72 56.44L87.56 72L72 87.56L56.44 72zM47 47L61 61M25 25L11 11M47 25L61 11M25 47L11 61M36 20.44V0M36 51.56V72M20.44 36H0M51.56 36H72' fill='none' stroke='%23ff961e' stroke-opacity='0.28' stroke-width='1'/></svg>");
     --mx-star: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'><path d='M42.2 42.2h155.6v155.6h-155.6z M120 10L230 120L120 230L10 120z M71.8 71.8h96.4v96.4h-96.4z M120 51.8L188.2 120L120 188.2L51.8 120z' fill='none' stroke='%23ff7312' stroke-opacity='0.35' stroke-width='1.2'/><circle cx='120' cy='120' r='30.8' fill='none' stroke='%23173244' stroke-opacity='0.18'/></svg>");
     --mx-circuit: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='160' viewBox='0 0 220 160'><g fill='none' stroke='%23173244' stroke-opacity='0.16' stroke-width='1.2'><path d='M0 30h60l20 20h60M0 70h40l20 20h100l20-20h40M0 110h80l20 20h60M120 0v30l20 20M180 160v-40l20-20h20'/></g><g fill='%23ff7312' fill-opacity='0.45'><circle cx='140' cy='50' r='3'/><circle cx='160' cy='90' r='3'/><circle cx='160' cy='130' r='3'/><circle cx='140' cy='50' r='3'/><circle cx='200' cy='100' r='3'/></g></svg>");
+    --mx-lattice-strong: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'><path d='M25 25h22v22h-22zM36 20.44L51.56 36L36 51.56L20.44 36zM-11 -11h22v22h-22zM0 -15.56L15.56 0L0 15.56L-15.56 0zM61 -11h22v22h-22zM72 -15.56L87.56 0L72 15.56L56.44 0zM-11 61h22v22h-22zM0 56.44L15.56 72L0 87.56L-15.56 72zM61 61h22v22h-22zM72 56.44L87.56 72L72 87.56L56.44 72zM47 47L61 61M25 25L11 11M47 25L61 11M25 47L11 61M36 20.44V0M36 51.56V72M20.44 36H0M51.56 36H72' fill='none' stroke='%23173244' stroke-opacity='0.16' stroke-width='1'/></svg>");
+    --mx-ornament: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='232' height='28' viewBox='0 0 232 28'><defs><linearGradient id='g' x1='0' x2='1'><stop offset='0' stop-color='%23ff7312' stop-opacity='.15'/><stop offset='.5' stop-color='%23ff7312' stop-opacity='.9'/><stop offset='1' stop-color='%23ff7312' stop-opacity='.15'/></linearGradient></defs><path d='M0 14H232' stroke='url%28%23g%29' stroke-width='1'/><path d='M11.5 9.5h9.0v9.0h-9.0zM16 7.6L22.4 14L16 20.4L9.6 14zM47.5 9.5h9.0v9.0h-9.0zM52 7.6L58.4 14L52 20.4L45.6 14zM82 8h12v12h-12zM88 5.5L96.5 14L88 22.5L79.5 14zM108 6h16v16h-16zM116 2.7L127.3 14L116 25.3L104.7 14zM138 8h12v12h-12zM144 5.5L152.5 14L144 22.5L135.5 14zM175.5 9.5h9.0v9.0h-9.0zM180 7.6L186.4 14L180 20.4L173.6 14zM211.5 9.5h9.0v9.0h-9.0zM216 7.6L222.4 14L216 20.4L209.6 14z' fill='%23fff7ef' stroke='url%28%23g%29' stroke-width='1.3'/></svg>");
+    --mx-medallion: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'><circle cx='150' cy='150' r='129.6' fill='none' stroke='%23173244' stroke-opacity='.12'/><circle cx='150' cy='150' r='38.4' fill='%23ff961e' fill-opacity='.08' stroke='%23ff7312' stroke-opacity='.4'/><path d='M65.1 65.1h169.7v169.7h-169.7zM150 30L270 150L150 270L30 150zM99.1 99.1h101.8v101.8h-101.8zM150 78.0L222.0 150L150 222.0L78.0 150zM272.6 143.0h14v14h-14zM279.6 140.1L289.5 150.0L279.6 159.9L269.7 150.0zM234.6 234.6h14v14h-14zM241.6 231.7L251.5 241.6L241.6 251.5L231.7 241.6zM143.0 272.6h14v14h-14zM150.0 269.7L159.9 279.6L150.0 289.5L140.1 279.6zM51.4 234.6h14v14h-14zM58.4 231.7L68.3 241.6L58.4 251.5L48.5 241.6zM13.4 143.0h14v14h-14zM20.4 140.1L30.3 150.0L20.4 159.9L10.5 150.0zM51.4 51.4h14v14h-14zM58.4 48.5L68.3 58.4L58.4 68.3L48.5 58.4zM143.0 13.4h14v14h-14zM150.0 10.5L159.9 20.4L150.0 30.3L140.1 20.4zM234.6 51.4h14v14h-14zM241.6 48.5L251.5 58.4L241.6 68.3L231.7 58.4z' fill='none' stroke='%23ff7312' stroke-opacity='.45' stroke-width='1.3'/></svg>");
 
     --mx-font: "Inter", "Noto Sans Arabic", system-ui, -apple-system, "Segoe UI", sans-serif;
     --mx-wrap: 1180px;
@@ -64,7 +67,8 @@ body.site-template-modern::before {
     background:
         radial-gradient(560px 360px at 14% 26%, rgba(255, 150, 30, 0.28), transparent 70%),
         radial-gradient(520px 360px at 86% 14%, rgba(23, 50, 68, 0.2), transparent 70%),
-        radial-gradient(680px 420px at 55% 72%, rgba(251, 64, 8, 0.12), transparent 70%);
+        radial-gradient(680px 420px at 55% 72%, rgba(251, 64, 8, 0.12), transparent 70%),
+        linear-gradient(180deg, #fff3e8 0%, #fff8f2 45%, rgba(255, 255, 255, 0) 100%);
     pointer-events: none;
 }
 
@@ -74,11 +78,14 @@ body.site-template-modern::after {
     inset: 0 0 auto;
     z-index: 0;
     height: 900px;
-    background-image: var(--mx-lattice);
+    background-image: var(--mx-lattice-strong);
     background-size: 72px 72px;
     background-position: center top;
-    -webkit-mask-image: radial-gradient(760px 480px at 50% 18%, #000, transparent 75%);
-    mask-image: radial-gradient(760px 480px at 50% 18%, #000, transparent 75%);
+    /* Lattice stays in the side margins; the text column in the middle stays clean. */
+    -webkit-mask-image: linear-gradient(90deg, #000 0%, rgba(0, 0, 0, 0.6) 9%, transparent 17%, transparent 83%, rgba(0, 0, 0, 0.6) 91%, #000 100%), linear-gradient(180deg, #000 55%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(90deg, #000 0%, rgba(0, 0, 0, 0.6) 9%, transparent 17%, transparent 83%, rgba(0, 0, 0, 0.6) 91%, #000 100%), linear-gradient(180deg, #000 55%, transparent 100%);
+    mask-composite: intersect;
     pointer-events: none;
 }
 
@@ -3596,274 +3603,183 @@ html[dir="rtl"] .mx-page-hero h1 {
 }
 
 
-/* ---------- Background art (2026-11) ----------
-   One motif: the eight-point star lattice. Faint on light sections, orange line-work on navy panels.
-   Never placed behind long text, forms or tables: it sits in corners and fades out. */
+/* ---------- Background art (2026-11, revised) ----------
+   One motif: the eight-point star lattice. Rule: art never sits under content.
+   It lives in the side margins, in dedicated bands and in ornaments between blocks. */
 
+/* Shared: lattice in the side margins of a full-width section, fading towards the content. */
+.mx-art-margins,
+#what-we-do,
+#academy,
 .mx-section-soft,
 .mx-contact {
     position: relative;
     isolation: isolate;
-    overflow: hidden;
 }
 
-.mx-section-soft {
-    background: linear-gradient(180deg, #fbf8f5, #f6f3ef);
-}
-
+.mx-art-margins::before,
+#what-we-do::before,
+#academy::before,
 .mx-section-soft::before,
 .mx-contact::before {
     content: "";
     position: absolute;
-    top: 0;
-    inset-inline-end: 0;
+    inset: 0;
     z-index: -1;
-    width: min(620px, 70vw);
-    height: 520px;
-    background-image: var(--mx-lattice);
-    background-size: 72px 72px;
-    -webkit-mask-image: radial-gradient(75% 75% at 100% 0%, #000 0%, transparent 75%);
-    mask-image: radial-gradient(75% 75% at 100% 0%, #000 0%, transparent 75%);
+    background: var(--mx-lattice-strong) center 0 / 72px 72px;
+    -webkit-mask-image: linear-gradient(90deg, #000 0, rgba(0, 0, 0, 0.5) calc((100% - var(--mx-wrap)) / 2 - 60px), transparent calc((100% - var(--mx-wrap)) / 2), transparent calc((100% + var(--mx-wrap)) / 2), rgba(0, 0, 0, 0.5) calc((100% + var(--mx-wrap)) / 2 + 60px), #000 100%);
+    mask-image: linear-gradient(90deg, #000 0, rgba(0, 0, 0, 0.5) calc((100% - var(--mx-wrap)) / 2 - 60px), transparent calc((100% - var(--mx-wrap)) / 2), transparent calc((100% + var(--mx-wrap)) / 2), rgba(0, 0, 0, 0.5) calc((100% + var(--mx-wrap)) / 2 + 60px), #000 100%);
     pointer-events: none;
 }
 
-[dir="rtl"] .mx-section-soft::before,
-[dir="rtl"] .mx-contact::before {
-    -webkit-mask-image: radial-gradient(75% 75% at 0% 0%, #000 0%, transparent 75%);
-    mask-image: radial-gradient(75% 75% at 0% 0%, #000 0%, transparent 75%);
-}
-
-.mx-section-soft:nth-of-type(even)::before {
-    top: auto;
-    bottom: 0;
-    inset-inline: 0 auto;
-    -webkit-mask-image: radial-gradient(75% 75% at 0% 100%, #000 0%, transparent 75%);
-    mask-image: radial-gradient(75% 75% at 0% 100%, #000 0%, transparent 75%);
-}
-
-[dir="rtl"] .mx-section-soft:nth-of-type(even)::before {
-    -webkit-mask-image: radial-gradient(75% 75% at 100% 100%, #000 0%, transparent 75%);
-    mask-image: radial-gradient(75% 75% at 100% 100%, #000 0%, transparent 75%);
-}
-
-/* Contact: warm glow and lattice behind the introduction side, the form card stays clean. */
-.mx-contact::before {
-    top: auto;
-    bottom: -40px;
-    inset-inline: -80px auto;
-    width: min(680px, 80vw);
-    -webkit-mask-image: radial-gradient(closest-side at 40% 60%, #000, transparent);
-    mask-image: radial-gradient(closest-side at 40% 60%, #000, transparent);
-}
-
-.mx-contact::after {
+/* Ornament: a short row of stars above each section heading. */
+.mx-section-head::before {
     content: "";
     position: absolute;
-    bottom: -120px;
-    inset-inline-start: -120px;
-    z-index: -1;
-    width: 520px;
-    height: 420px;
-    background: radial-gradient(closest-side, rgba(255, 150, 30, 0.16), transparent);
+    top: -44px;
+    inset-inline-start: 0;
+    width: 232px;
+    height: 28px;
+    background: var(--mx-ornament) 0 50% / 232px 28px no-repeat;
     pointer-events: none;
 }
 
-/* Navy panels: orange lattice in the lower corner, faded out before it reaches the text, with a soft ember glow. */
+.mx-section-head {
+    position: relative;
+}
+
+/* Soft sections: warm paper with the lattice in the side margins. */
+.mx-section-soft {
+    background: linear-gradient(180deg, #fbf7f3, #f6f1ec);
+}
+
+/* ----- Hero ----- */
+
+.mx-hero {
+    position: relative;
+    isolation: isolate;
+    padding-bottom: clamp(48px, 6vw, 80px);
+}
+
+/* Two star medallions in the margins beside the headline. */
+.mx-hero-copy {
+    position: relative;
+}
+
+.mx-hero-copy::before,
+.mx-hero-copy::after {
+    content: "";
+    position: absolute;
+    top: 40px;
+    z-index: -1;
+    width: 280px;
+    height: 280px;
+    background: var(--mx-medallion) center / contain no-repeat;
+    pointer-events: none;
+}
+
+.mx-hero-copy::before {
+    left: calc(50% - 720px);
+}
+
+.mx-hero-copy::after {
+    right: calc(50% - 720px);
+    top: 200px;
+    width: 220px;
+    height: 220px;
+}
+
+/* Navy stage band behind the lower half of the product illustration and the figures. */
+.mx-hero > .mx-wrap:last-child {
+    position: relative;
+}
+
+.mx-hero > .mx-wrap:last-child::before {
+    content: "";
+    position: absolute;
+    top: clamp(180px, 22vw, 320px);
+    bottom: calc(-1 * clamp(48px, 6vw, 80px));
+    left: 50%;
+    z-index: -1;
+    width: 100vw;
+    transform: translateX(-50%);
+    background:
+        radial-gradient(700px 260px at 50% 100%, rgba(255, 115, 18, 0.22), transparent 70%),
+        var(--mx-gradient-navy);
+    pointer-events: none;
+}
+
+.mx-hero > .mx-wrap:last-child::after {
+    content: "";
+    position: absolute;
+    top: clamp(180px, 22vw, 320px);
+    bottom: calc(-1 * clamp(48px, 6vw, 80px));
+    left: 50%;
+    z-index: -1;
+    width: 100vw;
+    transform: translateX(-50%);
+    background: var(--mx-lattice-light) center 0 / 72px 72px;
+    /* Orange lattice only at the outer ends of the band, away from the illustration and figures. */
+    -webkit-mask-image: linear-gradient(90deg, #000 0, rgba(0, 0, 0, 0.4) calc(50% - 600px), transparent calc(50% - 540px), transparent calc(50% + 540px), rgba(0, 0, 0, 0.4) calc(50% + 600px), #000 100%);
+    mask-image: linear-gradient(90deg, #000 0, rgba(0, 0, 0, 0.4) calc(50% - 600px), transparent calc(50% - 540px), transparent calc(50% + 540px), rgba(0, 0, 0, 0.4) calc(50% + 600px), #000 100%);
+    pointer-events: none;
+}
+
+.fx-stage figcaption {
+    color: #9fb2bf;
+}
+
+.mx-figures {
+    border: 0;
+    border-radius: var(--mx-radius);
+    background: #fff;
+    box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.5);
+}
+
+/* ----- Navy panels: a soft ember glow only; text stays on a clean background. ----- */
 .mx-academy-panel,
 .mx-tile-software,
-.mx-cta-card,
+.mx-cta-card {
+    background:
+        radial-gradient(380px 260px at 100% 100%, rgba(255, 115, 18, 0.24), transparent 70%),
+        var(--mx-gradient-navy);
+}
+
+[dir="rtl"] .mx-academy-panel,
+[dir="rtl"] .mx-tile-software,
+[dir="rtl"] .mx-cta-card {
+    background:
+        radial-gradient(380px 260px at 0% 100%, rgba(255, 115, 18, 0.24), transparent 70%),
+        var(--mx-gradient-navy);
+}
+
+/* Footer: lattice confined to the empty space under the brand block, above the bottom line. */
 .mx-footer {
     position: relative;
     isolation: isolate;
     overflow: hidden;
+    background:
+        radial-gradient(560px 300px at 100% 0%, rgba(255, 115, 18, 0.16), transparent 70%),
+        var(--mx-gradient-navy);
 }
 
-.mx-cta-card {
-    position: sticky;
-}
-
-.mx-academy-panel::before,
-.mx-tile-software::before,
-.mx-cta-card::before,
 .mx-footer::before {
     content: "";
     position: absolute;
-    inset: 0;
-    z-index: -1;
-    background:
-        radial-gradient(380px 260px at 100% 100%, rgba(255, 115, 18, 0.3), transparent 70%),
-        var(--mx-lattice-light) 0 0 / 72px 72px;
-    -webkit-mask-image: radial-gradient(70% 60% at 100% 100%, #000 10%, transparent 75%);
-    mask-image: radial-gradient(70% 60% at 100% 100%, #000 10%, transparent 75%);
-    pointer-events: none;
-}
-
-[dir="rtl"] .mx-academy-panel::before,
-[dir="rtl"] .mx-tile-software::before,
-[dir="rtl"] .mx-cta-card::before,
-[dir="rtl"] .mx-footer::before {
-    background:
-        radial-gradient(380px 260px at 0% 100%, rgba(255, 115, 18, 0.3), transparent 70%),
-        var(--mx-lattice-light) 0 0 / 72px 72px;
-    -webkit-mask-image: radial-gradient(70% 60% at 0% 100%, #000 10%, transparent 75%);
-    mask-image: radial-gradient(70% 60% at 0% 100%, #000 10%, transparent 75%);
-}
-
-/* The footer columns are text: the lattice fills the empty space under the brand and language links. */
-.mx-footer::before {
-    background:
-        radial-gradient(420px 260px at 0% 100%, rgba(255, 115, 18, 0.22), transparent 70%),
-        var(--mx-lattice-light) 0 0 / 72px 72px;
-    -webkit-mask-image: radial-gradient(28% 48% at 0% 100%, #000 10%, transparent 85%);
-    mask-image: radial-gradient(28% 48% at 0% 100%, #000 10%, transparent 85%);
-}
-
-[dir="rtl"] .mx-footer::before {
-    background:
-        radial-gradient(420px 260px at 100% 100%, rgba(255, 115, 18, 0.22), transparent 70%),
-        var(--mx-lattice-light) 0 0 / 72px 72px;
-    -webkit-mask-image: radial-gradient(28% 48% at 100% 100%, #000 10%, transparent 85%);
-    mask-image: radial-gradient(28% 48% at 100% 100%, #000 10%, transparent 85%);
-}
-
-/* Section-specific touches on the homepage tiles. */
-.mx-tile-infra {
-    background: #fff var(--mx-circuit) no-repeat right -60px bottom -44px;
-}
-
-[dir="rtl"] .mx-tile-infra {
-    background-position: left -60px bottom -44px;
-}
-
-.mx-tile-academy {
-    background:
-        linear-gradient(200deg, #fff 35%, rgba(255, 255, 255, 0.4)),
-        radial-gradient(rgba(23, 50, 68, 0.2) 1px, transparent 1.2px) 0 0 / 14px 14px,
-        #fff;
-}
-
-/* Inner pages: one large star in the corner of the page header. */
-.mx-page-hero {
-    position: relative;
-    isolation: isolate;
-}
-
-.mx-page-hero::after {
-    content: "";
-    position: absolute;
-    top: 24px;
-    inset-inline-end: max(16px, calc(50% - 640px));
-    z-index: -1;
-    width: 300px;
-    height: 300px;
-    background: var(--mx-star) center / contain no-repeat;
-    opacity: 0.9;
-    pointer-events: none;
-}
-
-@media (max-width: 900px) {
-    .mx-page-hero::after {
-        top: 8px;
-        width: 180px;
-        height: 180px;
-        opacity: 0.5;
-    }
-}
-
-/* ---------- Home page: no empty white areas (2026-11) ---------- */
-
-/* Figures become a card on a faint lattice, instead of two thin rules on white. */
-.mx-figures {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-    border: 1px solid #ece4dc;
-    border-radius: var(--mx-radius);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 250, 246, 0.95));
-    box-shadow: 0 24px 50px -36px rgba(7, 24, 35, 0.35);
-}
-
-.mx-figures::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: var(--mx-lattice) 0 0 / 72px 72px;
-    -webkit-mask-image: linear-gradient(90deg, #000, transparent 30%, transparent 70%, #000);
-    mask-image: linear-gradient(90deg, #000, transparent 30%, transparent 70%, #000);
-    opacity: 0.9;
-}
-
-/* White homepage sections carry the lattice on both sides, fading towards the middle; the white cards sit on top. */
-#what-we-do,
-#academy {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-}
-
-#what-we-do::before,
-#academy::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background:
-        radial-gradient(480px 360px at 0% 30%, rgba(255, 150, 30, 0.12), transparent 70%),
-        radial-gradient(520px 380px at 100% 75%, rgba(23, 50, 68, 0.08), transparent 70%),
-        var(--mx-lattice) 0 0 / 72px 72px;
-    -webkit-mask-image: linear-gradient(90deg, #000 0%, rgba(0, 0, 0, 0.25) 22%, transparent 40%, transparent 60%, rgba(0, 0, 0, 0.25) 78%, #000 100%);
-    mask-image: linear-gradient(90deg, #000 0%, rgba(0, 0, 0, 0.25) 22%, transparent 40%, transparent 60%, rgba(0, 0, 0, 0.25) 78%, #000 100%);
-    pointer-events: none;
-}
-
-/* The section intro on the right of each heading: the lattice shows through behind it at low strength. */
-#what-we-do::after,
-#academy::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    inset-inline-end: 0;
-    z-index: -1;
-    width: 46%;
-    height: 340px;
-    background: var(--mx-lattice) 0 0 / 72px 72px;
-    -webkit-mask-image: radial-gradient(80% 90% at 100% 0%, rgba(0, 0, 0, 0.8), transparent 70%);
-    mask-image: radial-gradient(80% 90% at 100% 0%, rgba(0, 0, 0, 0.8), transparent 70%);
-    pointer-events: none;
-}
-
-[dir="rtl"] #what-we-do::after,
-[dir="rtl"] #academy::after {
-    -webkit-mask-image: radial-gradient(80% 90% at 0% 0%, rgba(0, 0, 0, 0.8), transparent 70%);
-    mask-image: radial-gradient(80% 90% at 0% 0%, rgba(0, 0, 0, 0.8), transparent 70%);
-}
-
-#academy::after {
-    top: auto;
-    bottom: 0;
-}
-
-/* Soft sections: lattice in the opposite corner as well, so their lower half is not bare. */
-.mx-section-soft::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
+    bottom: 84px;
     inset-inline-start: 0;
     z-index: -1;
-    width: min(560px, 60vw);
-    height: 420px;
-    background:
-        radial-gradient(closest-side at 20% 80%, rgba(255, 150, 30, 0.14), transparent),
-        var(--mx-lattice) 0 0 / 72px 72px;
-    -webkit-mask-image: radial-gradient(75% 75% at 0% 100%, #000 0%, transparent 75%);
-    mask-image: radial-gradient(75% 75% at 0% 100%, #000 0%, transparent 75%);
+    width: min(440px, 32%);
+    height: 170px;
+    background: var(--mx-lattice-light) 0 0 / 72px 72px;
+    -webkit-mask-image: radial-gradient(75% 85% at 0% 100%, #000 10%, transparent 72%);
+    mask-image: radial-gradient(75% 85% at 0% 100%, #000 10%, transparent 72%);
     pointer-events: none;
 }
 
-[dir="rtl"] .mx-section-soft::after {
-    -webkit-mask-image: radial-gradient(75% 75% at 100% 100%, #000 0%, transparent 75%);
-    mask-image: radial-gradient(75% 75% at 100% 100%, #000 0%, transparent 75%);
+[dir="rtl"] .mx-footer::before {
+    -webkit-mask-image: radial-gradient(75% 85% at 100% 100%, #000 10%, transparent 72%);
+    mask-image: radial-gradient(75% 85% at 100% 100%, #000 10%, transparent 72%);
 }
 
 /* Process: a dashed orange path links the three steps. */
@@ -3887,35 +3803,43 @@ html[dir="rtl"] .mx-page-hero h1 {
     box-shadow: 0 0 0 6px #fff;
 }
 
-/* Contact: second glow on the form side so the area under the form is not flat white. */
-.mx-contact {
-    background: linear-gradient(180deg, #fff 0%, #fffaf6 100%);
-}
-
-.mx-contact-grid::after {
-    content: "";
-    position: absolute;
-    bottom: -80px;
-    inset-inline-end: -60px;
-    z-index: -1;
-    width: 560px;
-    height: 360px;
-    background:
-        radial-gradient(closest-side, rgba(23, 50, 68, 0.07), transparent),
-        var(--mx-lattice) 0 0 / 72px 72px;
-    -webkit-mask-image: radial-gradient(closest-side, #000 20%, transparent);
-    mask-image: radial-gradient(closest-side, #000 20%, transparent);
-    pointer-events: none;
-}
-
-/* Tiles that had empty space at the bottom. */
-.mx-chips-tracks {
-    margin-top: 2px;
-}
-
 .mx-chips-tracks a {
     border: 1px solid #f1e3d6;
     background: #fff;
+}
+
+/* Inner pages: one large medallion in the margin of the page header. */
+.mx-page-hero {
+    position: relative;
+    isolation: isolate;
+}
+
+.mx-page-hero::after {
+    content: "";
+    position: absolute;
+    top: 24px;
+    inset-inline-end: max(16px, calc(50% - 650px));
+    z-index: -1;
+    width: 280px;
+    height: 280px;
+    background: var(--mx-medallion) center / contain no-repeat;
+    pointer-events: none;
+}
+
+@media (max-width: 1200px) {
+    .mx-hero-copy::before,
+    .mx-hero-copy::after {
+        display: none;
+    }
+}
+
+@media (max-width: 1100px) {
+    .mx-page-hero::after {
+        top: 8px;
+        width: 160px;
+        height: 160px;
+        opacity: 0.45;
+    }
 }
 
 @media (max-width: 900px) {
@@ -3923,8 +3847,16 @@ html[dir="rtl"] .mx-page-hero h1 {
         display: none;
     }
 
-    #what-we-do::after,
-    #academy::after {
-        width: 80%;
+    .mx-section-head::before {
+        top: -36px;
+    }
+}
+
+
+/* Small screens have no side margins to hold the lattice: keep the text area clean. */
+@media (max-width: 900px) {
+    body.site-template-modern::after {
+        -webkit-mask-image: linear-gradient(90deg, #000 0%, transparent 7%, transparent 93%, #000 100%), linear-gradient(180deg, #000 55%, transparent 100%);
+        mask-image: linear-gradient(90deg, #000 0%, transparent 7%, transparent 93%, #000 100%), linear-gradient(180deg, #000 55%, transparent 100%);
     }
 }

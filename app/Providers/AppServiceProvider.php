@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
     {
         View::composer('layouts.marketing', function (ViewContract $view): void {
             $navigationPages = ContentPage::query()
-                ->select(['id', 'type', 'slug', 'title', 'status', 'published_at', 'featured', 'sort_order'])
+                ->select(['id', 'type', 'slug', 'title', 'eyebrow', 'status', 'published_at', 'featured', 'sort_order'])
                 ->published()
                 ->whereIn('type', ['service', 'solution', 'product', 'industry', 'case-study', 'article'])
                 ->orderByDesc('featured')

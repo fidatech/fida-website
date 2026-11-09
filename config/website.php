@@ -351,6 +351,16 @@ return [
             'managed-it-services-afghanistan',
             'iot-smart-infrastructure-afghanistan',
         ],
+        // Software solutions shown with a description at the top of the Software menu.
+        'core_solution_slugs' => [
+            'erp-systems-afghanistan',
+            'accounting-software-afghanistan',
+            'hrmis-payroll-software-afghanistan',
+            'pos-software-afghanistan',
+            'custom-software-development-afghanistan',
+            'mobile-app-development-afghanistan',
+        ],
+        'academy_icons' => ['cybersecurity' => 'shield', 'linux' => 'terminal', 'programming' => 'code', 'networking' => 'network', 'capacity' => 'growth', 'industry' => 'briefcase'],
         'academy_tracks' => ['cybersecurity', 'linux', 'programming', 'networking', 'capacity', 'industry'],
         'process_steps' => 4,
     ],

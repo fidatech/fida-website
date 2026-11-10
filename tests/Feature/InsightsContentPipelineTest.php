@@ -123,6 +123,29 @@ class InsightsContentPipelineTest extends TestCase
         $this->assertNull($page->published_at);
     }
 
+    public function test_cleanup_migration_deletes_only_unreviewed_generated_drafts(): void
+    {
+        $make = fn (string $slug, string $status, ?array $automation) => ContentPage::query()->create([
+            'type' => 'article',
+            'slug' => $slug,
+            'title' => ['en' => $slug],
+            'status' => $status,
+            'metadata' => $automation === null ? [] : ['automation' => $automation],
+        ]);
+
+        $make('generated-draft', 'review', ['generated' => true, 'editorial_reviewed' => false]);
+        $make('reviewed-generated-draft', 'review', ['generated' => true, 'editorial_reviewed' => true]);
+        $make('hand-written-draft', 'review', null);
+        $make('generated-but-published', 'published', ['generated' => true, 'editorial_reviewed' => false]);
+
+        (require database_path('migrations/2026_11_10_000001_delete_unreviewed_auto_article_drafts.php'))->up();
+
+        $this->assertFalse(ContentPage::query()->where('slug', 'generated-draft')->exists());
+        $this->assertTrue(ContentPage::query()->where('slug', 'reviewed-generated-draft')->exists());
+        $this->assertTrue(ContentPage::query()->where('slug', 'hand-written-draft')->exists());
+        $this->assertTrue(ContentPage::query()->where('slug', 'generated-but-published')->exists());
+    }
+
     private function writeArticle(string $slug, array $overrides = []): void
     {
         File::put(

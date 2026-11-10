@@ -1,0 +1,83 @@
+name: Ops - delete unreviewed auto-article drafts
+
+on:
+  push:
+    branches: ['ops/delete-auto-drafts']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fida-production
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    env:
+      PROD_SSH_HOST: ${{ secrets.PROD_SSH_HOST }}
+      PROD_SSH_PORT: ${{ secrets.PROD_SSH_PORT }}
+      PROD_SSH_USER: ${{ secrets.PROD_SSH_USER }}
+      PROD_SSH_PRIVATE_KEY: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
+      PROD_REPO_PATH: ${{ secrets.PROD_REPO_PATH }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Validate production connection settings
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          php -l scripts/ops/delete-unreviewed-auto-drafts.php
+          [[ -n "$PROD_SSH_HOST" ]]
+          [[ -n "$PROD_SSH_PORT" ]]
+          [[ -n "$PROD_SSH_USER" ]]
+          [[ -n "$PROD_SSH_PRIVATE_KEY" ]]
+          [[ "$PROD_REPO_PATH" == "/home/fida/repositories/fida-website-production" ]]
+
+      - name: Configure SSH
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          install -d -m 700 "$HOME/.ssh"
+          printf '%s\n' "$PROD_SSH_PRIVATE_KEY" > "$HOME/.ssh/fida-production"
+          chmod 600 "$HOME/.ssh/fida-production"
+
+          keyscan_ok=0
+          for attempt in 1 2 3 4 5; do
+            if ssh-keyscan -T 10 -t ed25519 -p "$PROD_SSH_PORT" -H "$PROD_SSH_HOST" > "$HOME/.ssh/known_hosts"; then
+              keyscan_ok=1
+              break
+            fi
+            sleep $((attempt * 3))
+          done
+          [[ "$keyscan_ok" -eq 1 ]]
+          chmod 600 "$HOME/.ssh/known_hosts"
+
+          cat > "$HOME/.ssh/config" <<EOF
+          Host fida-production
+            HostName $PROD_SSH_HOST
+            Port $PROD_SSH_PORT
+            User $PROD_SSH_USER
+            IdentityFile $HOME/.ssh/fida-production
+            BatchMode yes
+            IdentitiesOnly yes
+            ConnectTimeout 15
+            ConnectionAttempts 3
+            ServerAliveInterval 30
+            ServerAliveCountMax 3
+          EOF
+          chmod 600 "$HOME/.ssh/config"
+
+      - name: Delete unreviewed generated drafts
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ssh fida-production \
+            "cd '$PROD_REPO_PATH' && test \"\$(id -un)\" = 'fida' && php" \
+            < scripts/ops/delete-unreviewed-auto-drafts.php

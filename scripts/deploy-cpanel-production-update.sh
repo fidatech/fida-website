@@ -170,6 +170,7 @@ MIGRATIONS_STARTED=true
     php artisan migrate --force
     php artisan db:seed --class='Database\Seeders\GovernmentNgoCapabilitySeeder' --force
     php artisan db:seed --class='Database\Seeders\ErpNextAfghanistanSeeder' --force
+    php artisan website:import-insights
     php artisan website:release-audit --production --show-warnings
     php artisan optimize
 )

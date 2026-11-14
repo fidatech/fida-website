@@ -91,13 +91,17 @@ class AutoArticleService
             ->get(['dimension','clicks','impressions','ctr','position'])
             ->toArray();
 
-        $existing = ContentPage::published()
+        // Drafts awaiting review are included so the AI does not pick a topic or slug that an
+        // earlier unpublished draft already uses.
+        $existing = ContentPage::query()
             ->whereIn('type', ['article','service','solution','industry','page','product'])
+            ->where(fn ($query) => $query->where('status', 'published')->orWhere('type', 'article'))
             ->orderByDesc('updated_at')
-            ->get(['slug','type','title','primary_query'])
+            ->get(['slug','type','status','title','primary_query'])
             ->map(fn (ContentPage $page) => [
                 'slug' => $page->slug,
                 'type' => $page->type,
+                'status' => $page->status,
                 'title' => (array) $page->title,
                 'primary_query' => (array) $page->primary_query,
             ])->values()->all();
@@ -112,10 +116,7 @@ class AutoArticleService
 
             $this->validateGeneratedArticle($generated, $existing);
 
-            $slug = Str::slug((string) ($generated['slug'] ?? ''));
-            if ($slug === '' || ContentPage::query()->where('slug', $slug)->exists()) {
-                throw new RuntimeException('AI selected an invalid or duplicate article slug. Generate again.');
-            }
+            $slug = $this->uniqueSlug($generated);
 
             $categoryId = $settings['category_id'];
             if ($categoryId && ! ArticleCategory::query()->whereKey($categoryId)->where('active', true)->exists()) {
@@ -218,6 +219,24 @@ class AutoArticleService
                 throw new RuntimeException('The AI selected a primary search topic already covered by existing website content.');
             }
         }
+    }
+
+    private function uniqueSlug(array $generated): string
+    {
+        $candidates = [
+            Str::slug((string) ($generated['slug'] ?? '')),
+            Str::limit(Str::slug((string) data_get($generated, 'title.en', '')), 110, ''),
+            Str::limit(Str::slug((string) data_get($generated, 'primary_query.en', '')), 110, ''),
+        ];
+
+        foreach ($candidates as $candidate) {
+            $candidate = trim($candidate, '-');
+            if ($candidate !== '' && ! ContentPage::query()->where('slug', $candidate)->exists()) {
+                return $candidate;
+            }
+        }
+
+        throw new RuntimeException('AI selected an invalid or duplicate article slug. Generate again.');
     }
 
     private function normalizeTopic(string $value): string

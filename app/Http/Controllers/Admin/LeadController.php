@@ -44,6 +44,15 @@ class LeadController extends Controller
         return view('admin.leads.show', compact('lead', 'assignees'));
     }
 
+    public function destroy(Request $request, Lead $lead): RedirectResponse
+    {
+        abort_unless($request->user()?->role === 'super_admin', 403);
+
+        $lead->delete();
+
+        return redirect()->route('admin.leads.index')->with('success', 'Lead permanently deleted.');
+    }
+
     public function update(UpdateLeadRequest $request, Lead $lead): RedirectResponse
     {
         $data = $request->validated();

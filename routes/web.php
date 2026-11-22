@@ -147,7 +147,7 @@ Route::prefix('admin')->name('admin.')->group(function (): void {
             ->middleware('capability:content.manage');
 
         Route::resource('leads', AdminLeadController::class)
-            ->only(['index', 'show', 'update'])
+            ->only(['index', 'show', 'update', 'destroy'])
             ->middleware('capability:leads.manage');
 
         Route::get('/rfqs', [AdminRfqController::class, 'index'])

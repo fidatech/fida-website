@@ -179,6 +179,8 @@ svg { display: block; fill: none; stroke: currentColor; stroke-linecap: round; s
 .language-pills { display: flex; gap: 4px; }.language-pills i { width: 24px; height: 20px; display: grid; place-items: center; border: 1px solid var(--admin-line); border-radius: 6px; color: #585d66; font: 7px ui-monospace, monospace; font-style: normal; }.language-pills i.complete { color: var(--admin-lime); border-color: rgba(var(--admin-accent-rgb),.18); background: rgba(var(--admin-accent-rgb),.04); }
 .console-table time { color: #666b74; white-space: nowrap; }
 .row-action { width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid var(--admin-line); border-radius: 9px; color: var(--admin-lime); background: rgba(255,255,255,.02); transition: .2s; }.row-action:hover { border-color: rgba(var(--admin-accent-rgb),.25); background: rgba(var(--admin-accent-rgb),.06); transform: translateY(-1px); }
+.lead-row-actions { display: flex; align-items: center; justify-content: flex-end; gap: 8px; white-space: nowrap; }
+.lead-row-actions form { display: inline-flex; margin: 0; }
 .lead-cell { min-width: 180px; display: flex; align-items: center; gap: 10px; }.lead-cell .lead-avatar { flex: 0 0 34px; }
 .permission-copy { color: #878c96; font-size: 9px; white-space: nowrap; }
 .console-pagination { min-height: 62px; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 0 18px; border-top: 1px solid var(--admin-line); color: #6e737c; font-size: 8px; }

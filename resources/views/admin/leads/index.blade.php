@@ -27,7 +27,23 @@
                             <td>{{ $lead->assignee?->name ?: 'Unassigned' }}</td>
                             <td><span class="status status-{{ $lead->status }}">{{ $lead->status }}</span></td>
                             <td><time>{{ $lead->created_at->diffForHumans() }}</time></td>
-                            <td><a class="row-action" href="{{ route('admin.leads.show', $lead) }}">↗</a></td>
+                            <td>
+                                <div class="lead-row-actions">
+                                    <a class="row-action" href="{{ route('admin.leads.show', $lead) }}" title="View lead" aria-label="View lead">↗</a>
+                                    @if(auth()->user()->role === 'super_admin')
+                                        <form method="POST" action="{{ route('admin.leads.destroy', $lead) }}"
+                                              onsubmit="return confirm('Permanently delete this lead? This action cannot be undone.')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="row-action row-action-danger" type="submit" title="Delete lead" aria-label="Delete lead">
+                                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                    <path d="M4 7h16M10 11v6m4-6v6M6 7l1 13h10l1-13M9 7V4h6v3"/>
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    @endif
+                                </div>
+                            </td>
                         </tr>
                     @empty
                         <tr><td colspan="7"><div class="empty-state"><i>◎</i><strong>No opportunities match</strong><p>New project requests from the website will appear here.</p></div></td></tr>

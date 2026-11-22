@@ -11,6 +11,13 @@ class AdminLeadDeletionTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->withoutVite();
+    }
+
     public function test_super_administrator_can_delete_a_lead_from_the_index(): void
     {
         $admin = User::factory()->admin()->create();

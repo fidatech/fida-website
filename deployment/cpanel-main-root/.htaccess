@@ -8,6 +8,12 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
+    # Redirect explicit front-controller URLs, not internal rewrites.
+    RewriteCond %{REQUEST_METHOD} ^(?:GET|HEAD)$
+    RewriteCond %{HTTP_HOST} ^fida\.af$ [NC]
+    RewriteCond %{THE_REQUEST} "\s/+index\.php(?:[/?\s])" [NC]
+    RewriteRule ^index\.php(?:/((?!/).*))?$ https://fida.af/$1 [R=301,L]
+
     # Consolidate only the Fida website's www hostname. Client subdomains do
     # not match this condition and are never redirected by this file.
     RewriteCond %{HTTP_HOST} ^www\.fida\.af$ [NC]

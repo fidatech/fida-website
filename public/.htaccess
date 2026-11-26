@@ -5,6 +5,12 @@
 
     RewriteEngine On
 
+    # Redirect explicit front-controller URLs, not internal rewrites.
+    RewriteCond %{REQUEST_METHOD} ^(?:GET|HEAD)$
+    RewriteCond %{HTTP_HOST} ^fida\.af$ [NC]
+    RewriteCond %{THE_REQUEST} "\s/+index\.php(?:[/?\s])" [NC]
+    RewriteRule ^index\.php(?:/((?!/).*))?$ https://fida.af/$1 [R=301,L]
+
     # Preserve the indexed www homepage while consolidating authority on fida.af.
     RewriteCond %{HTTP_HOST} ^www\.fida\.af$ [NC]
     RewriteRule ^ https://fida.af%{REQUEST_URI} [R=301,L]
